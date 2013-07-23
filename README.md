@@ -5,7 +5,6 @@
  * npm install -g coffee-script
  * npm install -g brunch
  * cd hoopla-io-web
- * bower install
  * npm install
  * You'll need 2 terminal windows
  * In one, run 'brunch watch' - This will recompile the code on the fly

@@ -11,6 +11,7 @@
   "scripts": {
     "start": "coffee app.coffee",
     "test": "brunch test",
+    "postinstall" : "bower install",
     "postinstall" : "brunch build -o"
   },
   "dependencies": {
