@@ -1,5 +1,5 @@
 exports.config =
-  path: 'app.coffee', port: 3333, base: '/', run: yes
+  path: 'app.coffee', port: 3333, base: '/client', run: yes
   
   files:
     javascripts:

@@ -6,11 +6,3 @@ module.exports = class HomePageView extends View
   autoRender: true
   className: 'home-page'
   template: template
-
-  initialize: () ->
-    @collection = new Users()
-    @collection.fetch
-      success: ->
-        console.log 'success'
-      error: ->
-        console.log 'fail'
