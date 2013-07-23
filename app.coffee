@@ -1,7 +1,6 @@
 express = require("express")
 app = express()
 
-
 app.get "/", (req, res) ->
   data =
     name: "Ford Prefect"
