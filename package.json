@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "coffee app.coffee",
-    "test": "brunch test"
+    "test": "brunch test",
     "postinstall" : "brunch build -o"
   },
   "dependencies": {
