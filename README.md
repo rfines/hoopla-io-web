@@ -3,7 +3,7 @@
 ## To Run for Development
 
  * npm install -g coffee-script
- * npm install -g brunch/brunch
+ * npm install -g brunch
  * cd hoopla-io-web
  * bower install
  * npm install
