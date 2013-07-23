@@ -1,5 +1,5 @@
 # Hoopla.io Website
-To run
+
  * npm install -g coffee-script
  * npm install -g brunch/brunch
  * cd hoopla-io-web
