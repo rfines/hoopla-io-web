@@ -16,8 +16,11 @@
   {{#if development}}
   <script>
     window.brunch = window.brunch || {};
-    window.brunch['auto-reload'] = {disabled: true};
+    window.brunch['auto-reload'] = "{disabled: true}";
   </script>
   {{/if}}
+  <script>
+    window.apiUrl = "{{apiUrl}}"
+  </script>
 </body>
 </html>

@@ -6,6 +6,7 @@ port = process.env.PORT || 3000
 app.get "/", (req, res) ->
   data =
     development: CONFIG.development
+    apiUrl : CONFIG.apiUrl
   res.render "index.hbs", data
 
 app.configure ->

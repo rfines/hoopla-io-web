@@ -10,7 +10,7 @@ module.exports = class HomePageView extends View
   initialize: () ->
     @collection = new Users()
     @collection.fetch
-      onSuccess: ->
+      success: ->
         console.log 'success'
-      onFailure: ->
+      error: ->
         console.log 'fail'
