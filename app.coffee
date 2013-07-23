@@ -1,5 +1,6 @@
 express = require("express")
 app = express()
+port = process.env.PORT || 3000
 
 app.get "/", (req, res) ->
   data =
@@ -13,5 +14,5 @@ app.configure ->
   app.use(express.static(__dirname+'/public'));
 
 
-app.listen(3000, "127.0.0.1");
+app.listen(port);
 
