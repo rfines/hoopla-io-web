@@ -10,6 +10,4 @@ module.exports = class UsersListView extends CollectionView
   itemView: UserView
 
   initialize: ->
-    console.log 'collection'
-    console.log @collection
     super

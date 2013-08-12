@@ -10,4 +10,7 @@
  * In one, run 'brunch watch' - This will recompile the code on the fly
  * In the other run 'coffee app.coffee' - This will run the node.js server
 
+
+## Running the tests
+ Go here http://localhost:3000/client/test/  Pretty easy, huh?
 ## To deploy to stage

@@ -4,3 +4,17 @@ template = require 'views/templates/users/user-item'
 module.exports = class HeaderView extends View
   autoRender: true
   template: template
+
+  events: 
+    "click a": "removeUser"
+
+  removeUser: (e)->
+    console.log 'remove model'
+    console.log @model
+    @model.destroy
+      success: =>
+        @dispose()
+      error: =>
+        console.log 'error'
+    
+

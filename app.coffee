@@ -15,4 +15,4 @@ app.get "/*", (req, res) ->
   res.render "index.hbs", data
 
 app.listen(port);
-
+console.log "Started Hoopla.io - http://localhost:#{port}"
