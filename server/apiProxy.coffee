@@ -24,16 +24,24 @@ handler = (req, res, method) ->
 
 handleGet = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  res.end "Test Get"
+  client = getClient()
+  client.headers = req.headers
+  client.get "/#{newUrl}", (err, req, response, obj) ->
+    if err
+      console.log err
+    else
+      res.headers = response.headers
+      res.header('content-type', 'application/json')
+      res.end JSON.stringify(obj)
+
 handlePost = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   client = getClient()
   client.post "/#{newUrl}", req.body, (err, req, response, obj) ->
     if err
       console.log err
+      console.log err.code
     else
-      console.log response.body
-      console.log obj
       res.headers = response.headers
       res.header('content-type', 'application/json')
       res.end JSON.stringify(obj)
@@ -46,11 +54,16 @@ handleDelete = (req, res) ->
 
 rewriteUrl = (oldUrl) ->
   if oldUrl
-    u = oldUrl
+    parts = require("url").parse(oldUrl)
+    u = parts.path
     t = u.split('/')
     wo = _.without(t,'api', '')
-    result = wo.join('/')
-    return "#{result}"
+    if not parts.search
+      result = wo.join('/')
+      return result
+    else 
+      result = "#{wo.join('/')}#{parts.search}"
+      return result
 
 module.exports = 
   handler: handler
