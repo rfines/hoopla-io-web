@@ -7,6 +7,5 @@ module.exports = class Collection extends Chaplin.Collection
     options.beforeSend = (xhr) ->
       if $.cookie('token')
         xhr.setRequestHeader('X-AuthToken', $.cookie('token'))
-      
     super(options)
   
