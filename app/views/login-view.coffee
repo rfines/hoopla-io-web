@@ -21,8 +21,8 @@ module.exports = class LoginView extends View
         url:  '/api/tokenRequest',
         data: data,
         success: (body,response, xHr)->
-          console.log body
           $.cookie('token', body.authToken, path: '/')
+          $.cookie('user', body.user, path: '/')
 
       
     else
