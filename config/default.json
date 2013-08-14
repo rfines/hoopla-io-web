@@ -1,4 +1,6 @@
 {
   "development" : true,
-  "apiUrl" : "http://METkwI15Bg0heuRNaru6:6n0pRhok4WR8yx8VudUD7XshboNCz51oFXJvZA2y@localhost:8080/"
+  "apiUrl" : "http://localhost:8080/",
+  "apiKey" :"METkwI15Bg0heuRNaru6",
+  "apiSecret": "6n0pRhok4WR8yx8VudUD7XshboNCz51oFXJvZA2y"
 }
