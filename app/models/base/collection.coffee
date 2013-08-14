@@ -5,8 +5,8 @@ module.exports = class Collection extends Chaplin.Collection
 
   fetch: (options) ->
     options.beforeSend = (xhr) ->
-      if($.coookie('token')){
+      if $.coookie('token')
         xhr.setRequestHeader('X-AuthToken', $.cookie('token'))
-      }
+      
     super(options)
   
