@@ -25,7 +25,6 @@ handler = (req, res, method) ->
 handleGet = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   client = getClient()
-  client.headers = req.headers
   client.get "/#{newUrl}", (err, req, response, obj) ->
     if err
       console.log err
