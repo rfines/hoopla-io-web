@@ -9,7 +9,6 @@ module.exports = class LoginView extends View
   container: "page-container"
   events:
     "submit form": 'login'
-    "click a.logout":'logout'
 
   login: (e)->
     e.preventDefault()
@@ -33,11 +32,7 @@ module.exports = class LoginView extends View
           console.log 'could not authenticate'
     else
       @$el.find('.errors').append("<span class='error'>A username and password is required</span>")
-  logout:(e)->
-    e.preventDefault()
-    $.cookie('token', null)
-    $.cookie('user', null)
-    window.location = '/'
+  
 
   loginSuccess: (user) =>
     Chaplin.mediator.user = user

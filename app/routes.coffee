@@ -6,7 +6,7 @@ module.exports = (match) ->
 
   # login/logout
   match 'login', 'login#login', name: 'auth_login'
-  match 'logout', 'login#logout',name: 'auth_logout'
+  match 'logout', 'home#logout',name: 'auth_logout'
 
 
   # demo routes for Dev Teams Proof Of Concepts

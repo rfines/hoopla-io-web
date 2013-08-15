@@ -3,15 +3,6 @@ restify = require 'restify'
 _request = require 'request'
 _ = require 'lodash'
 
-getClient = ->
-  client = restify.createJsonClient({
-      url: CONFIG.apiUrl,
-      version: '*',
-      headers: {"content-type": "application/json"}
-    });
-
-  client.basicAuth(CONFIG.apiKey, CONFIG.apiSecret)
-
 handler = (req, res, method) ->
   switch method
     when "GET" then handleGet req, res
@@ -36,7 +27,6 @@ handleGet = (req, res)->
       res.end err.toString()
     else if clientResponse.statusCode is 200
       res.header("content-type", "application/json")
-      console.log  "Status code 200: #{ body.toString()}"
       res.statusCode = clientResponse.statusCode
       res.end body.toString()
     else
@@ -58,7 +48,6 @@ handlePost = (req, res)->
       res.end err.toString()
     else if clientResponse.statusCode is 200
       res.header("content-type", "application/json")
-      console.log  "Status code 200: #{body.toString()}"
       res.statusCode = clientResponse.statusCode
       res.end body.toString()
     else
@@ -70,17 +59,46 @@ handlePost = (req, res)->
 
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'PUT', newUrl.query)
+  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'PUT', newUrl.query, req.body)
+  options.headers = req.headers
+  _request(options,(err,clientResponse,body)->
+    if err
+      console.log err
+      res.header("content-type", "application/json")
+      res.statusCode = clientResponse.statusCode
+      res.end err.toString()
+    else if clientResponse.statusCode is 200
+      res.header("content-type", "application/json")
+      res.statusCode = clientResponse.statusCode
+      res.end body.toString()
+    else
+      res.statusCode = clientResponse.statusCode
+      console.log 'error: '+ clientResponse.statusCode
+      console.log body.toString()
+      res.end body.toString()
+  )
 
-  client = getClient()
-  client.put "#{newUrl.url}", req.body, (err,request,response,obj) ->
-  
 handleDelete = (req, res) ->
   newUrl = rewriteUrl req.originalUrl
-  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'DELETE', newUrl.query)
 
-  client = getClient()
-  client.delete "#{newUrl}", req.body, (err,request,response,obj) ->
+  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'DELETE', newUrl.query, req.body)
+  options.headers = req.headers
+  _request(options,(err,clientResponse,body)->
+    if err
+      console.log err
+      res.header("content-type", "application/json")
+      res.statusCode = clientResponse.statusCode
+      res.end err.toString()
+    else if clientResponse.statusCode is 200
+      res.header("content-type", "application/json")
+      res.statusCode = clientResponse.statusCode
+      res.end body.toString()
+    else
+      res.statusCode = clientResponse.statusCode
+      console.log 'error: '+ clientResponse.statusCode
+      console.log body.toString()
+      res.end body.toString()
+  )
     
 
 rewriteUrl = (oldUrl) ->
@@ -98,7 +116,6 @@ rewriteUrl = (oldUrl) ->
 
 
 buildOptions = (url, user,pass,method,query, body) ->
-  console.log url
   return options = {
     'auth':
       'user': user
