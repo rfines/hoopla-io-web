@@ -9,7 +9,8 @@ module.exports = class AuthController extends Chaplin.Controller
           user.id = $.cookie('user')
           user.fetch
             success: ->
-              Chaplin.mediator.user = user
+              console.log 'successful fetch of user'
+              #Chaplin.mediator.user = user
       else
         @goToLogin()
     else

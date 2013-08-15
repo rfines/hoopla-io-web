@@ -61,15 +61,16 @@ rewriteUrl = (oldUrl) ->
       return result
 
 handleResponse = (err,request,oRes,response,obj)->
+  console.log request.originalUrl
   if err
-      console.log err
-      oRes.headers = response.headers
-      oRes.header('content-type', 'application/json')
-      oRes.end err
-    else
-      oRes.headers = response.headers
-      oRes.header('content-type','application/json')
-      oRes.end JSON.stringify(obj)
+    console.log err
+    oRes.headers = response.headers
+    oRes.header('content-type', 'application/json')
+    oRes.end JSON.stringify(err)
+  else
+    oRes.headers = response.headers
+    oRes.header('content-type','application/json')
+    oRes.end JSON.stringify(obj)
       
 module.exports = 
   handler: handler
