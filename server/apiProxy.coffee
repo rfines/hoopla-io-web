@@ -1,15 +1,15 @@
 CONFIG = require('config')
 restify = require 'restify'
+_request = require 'request'
 _ = require 'lodash'
 
-getClient = (req) ->
-  client = restify.createJSONClient({
+getClient = ->
+  client = restify.createJsonClient({
       url: CONFIG.apiUrl,
       version: '*',
       headers: {"content-type": "application/json"}
     });
-  if req.headers['x-authtoken']
-    client.headers['x-authtoken'] = req.headers['x-authtoken']    
+
   client.basicAuth(CONFIG.apiKey, CONFIG.apiSecret)
 
 handler = (req, res, method) ->
@@ -25,27 +25,63 @@ handler = (req, res, method) ->
 
 handleGet = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient(req)
-  client.get "/#{newUrl}", (err, request, response, obj) ->
-    handleResponse err, req, res, response, obj
+  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'GET', newUrl.query)
+  options.headers = {}
+  options.headers = req.headers
+  _request(options, (err, clientResponse, body)->
+    if err
+      console.log err
+      res.header("content-type", "application/json")
+      res.statusCode = clientResponse.statusCode
+      res.end err.toString()
+    else if clientResponse.statusCode is 200
+      res.header("content-type", "application/json")
+      console.log  "Status code 200: #{ body.toString()}"
+      res.statusCode = clientResponse.statusCode
+      res.end body.toString()
+    else
+      res.statusCode = clientResponse.statusCode
+      console.log 'error: '+ clientResponse.statusCode
+      console.log body.toString()
+      res.end body.toString()
+  )
 
 handlePost = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient(req)
-  client.post "/#{newUrl}", req.body, (err, request, response, obj) ->
-    handleResponse err, req, res, response, obj
+  console.log req.body
+  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'POST', newUrl.query, req.body)
+  _request(options,(err,clientResponse,body)->
+    if err
+      console.log err
+      res.header("content-type", "application/json")
+      res.statusCode = clientResponse.statusCode
+      res.end err.toString()
+    else if clientResponse.statusCode is 200
+      res.header("content-type", "application/json")
+      console.log  "Status code 200: #{body.toString()}"
+      res.statusCode = clientResponse.statusCode
+      res.end body.toString()
+    else
+      res.statusCode = clientResponse.statusCode
+      console.log 'error: '+ clientResponse.statusCode
+      console.log body.toString()
+      res.end body.toString()
+  )
 
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient(req)
-  client.put "#{newUrl}", req.body, (err,request,response,obj) ->
-    handleResponse err, req, res, response, obj
+  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'PUT', newUrl.query)
+
+  client = getClient()
+  client.put "#{newUrl.url}", req.body, (err,request,response,obj) ->
   
 handleDelete = (req, res) ->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient(req)
+  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'DELETE', newUrl.query)
+
+  client = getClient()
   client.delete "#{newUrl}", req.body, (err,request,response,obj) ->
-    handleResponse err,req,res,response,obj
+    
 
 rewriteUrl = (oldUrl) ->
   if oldUrl
@@ -54,23 +90,24 @@ rewriteUrl = (oldUrl) ->
     t = u.split('/')
     wo = _.without(t,'api', '')
     if not parts.search
-      result = wo.join('/')
+      result = {url:wo.join('/')}
       return result
     else 
-      result = "#{wo.join('/')}#{parts.search}"
+      result = {url:"#{wo.join('/')}", query:"#{parts.search}"}
       return result
 
-handleResponse = (err,request,oRes,response,obj)->
-  console.log request.originalUrl
-  if err
-    console.log err
-    oRes.headers = response.headers
-    oRes.header('content-type', 'application/json')
-    oRes.end JSON.stringify(err)
-  else
-    oRes.headers = response.headers
-    oRes.header('content-type','application/json')
-    oRes.end JSON.stringify(obj)
-      
+
+buildOptions = (url, user,pass,method,query, body) ->
+  console.log url
+  return options = {
+    'auth':
+      'user': user
+      'pass': pass
+      'sendImmediately': true
+    'qs':query
+    'method':method
+    'uri':url
+    'body': JSON.stringify(body)
+  }
 module.exports = 
   handler: handler
