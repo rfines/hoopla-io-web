@@ -19,37 +19,32 @@ handler = (req, res, method) ->
     when "DELETE" then handleDelete req, res
     else 
       res.status = 400
-      res.body = "Bad Request Method"
+      res.body = "Illegal Request Method"
       res.send
 
 handleGet = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   client = getClient()
-  client.get "/#{newUrl}", (err, req, response, obj) ->
-    if err
-      console.log err
-    else
-      res.headers = response.headers
-      res.header('content-type', 'application/json')
-      res.end JSON.stringify(obj)
+  client.get "/#{newUrl}", (err, request, response, obj) ->
+    handleResponse err, req, res, response, obj
 
 handlePost = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   client = getClient()
-  client.post "/#{newUrl}", req.body, (err, req, response, obj) ->
-    if err
-      console.log err
-      console.log err.code
-    else
-      res.headers = response.headers
-      res.header('content-type', 'application/json')
-      res.end JSON.stringify(obj)
+  client.post "/#{newUrl}", req.body, (err, request, response, obj) ->
+    handleResponse err, req, res, response, obj
+
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  res.end "Test Put"
+  client = getClient()
+  client.put "#{newUrl}", req.body, (err,request,response,obj) ->
+    handleResponse err, req, res, response, obj
+  
 handleDelete = (req, res) ->
   newUrl = rewriteUrl req.originalUrl
-  res.end "Test Delete"
+  client = getClient()
+  client.delete "#{newUrl}", req.body, (err,request,response,obj) ->
+    handleResponse err,req,res,response,obj
 
 rewriteUrl = (oldUrl) ->
   if oldUrl
@@ -64,5 +59,16 @@ rewriteUrl = (oldUrl) ->
       result = "#{wo.join('/')}#{parts.search}"
       return result
 
+handleResponse = (err,request,oRes,response,obj)->
+  if err
+      console.log err
+      oRes.headers = response.headers
+      oRes.header('content-type', 'application/json')
+      oRes.end err
+    else
+      oRes.headers = response.headers
+      oRes.header('content-type','application/json')
+      oRes.end JSON.stringify(obj)
+      
 module.exports = 
   handler: handler
