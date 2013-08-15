@@ -11,3 +11,4 @@ module.exports = (match) ->
 
   # demo routes for Dev Teams Proof Of Concepts
   match 'demo/promotionTargets', 'demo#promotionTargets'
+  match 'demo/business', 'demo#createBusiness'

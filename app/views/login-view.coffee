@@ -1,5 +1,5 @@
 View = require 'views/base/view'
-template = require 'views/templates/login'
+template = require 'templates/login'
 User = require 'models/user'
 
 # Site view is a top-level view which is bound to body.

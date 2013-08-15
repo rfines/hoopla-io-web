@@ -1,4 +1,4 @@
-template = require 'views/templates/users/list'
+template = require 'templates/users/list'
 CollectionView = require 'views/base/collection-view'
 UserView = require 'views/user-view'
 

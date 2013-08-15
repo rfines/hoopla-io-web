@@ -1,4 +1,4 @@
-template = require 'views/templates/home'
+template = require 'templates/home'
 View = require 'views/base/view'
 Users = require 'models/users'
 

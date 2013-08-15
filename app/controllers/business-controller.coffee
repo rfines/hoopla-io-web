@@ -4,7 +4,6 @@ Businesses = require 'models/businesses'
 
 module.exports = class BusinessController extends Controller
   list: ->
-    console.log 'list businesses'
     @collection = new Businesses()
     @collection.fetch
       success: =>
@@ -17,4 +16,3 @@ module.exports = class BusinessController extends Controller
       error: (model, response) =>
         console.log 'error'
         console.log response
-    

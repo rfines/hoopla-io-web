@@ -1,8 +1,15 @@
 'use strict'
 User = require 'models/user'
+Controller = 'controllers/base/controller'
+
+SiteView = require 'views/site-view'
+HeaderView = require 'views/header-view'
+
 module.exports = class AuthController extends Chaplin.Controller
 
   beforeAction: ->
+    @compose 'site', SiteView
+    @compose 'header', HeaderView    
     if not Chaplin.mediator.user
       if $.cookie('token') and $.cookie('user')
           user = new User()
