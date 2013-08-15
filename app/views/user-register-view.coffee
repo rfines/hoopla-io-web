@@ -7,7 +7,6 @@ module.exports = class UserRegisterView extends View
   initialize: ->
     super
     @model = new User()
-  
   events: 
     "submit form": "register"
 
