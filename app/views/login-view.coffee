@@ -25,11 +25,8 @@ module.exports = class LoginView extends View
           $.cookie('user', body.user, path: '/')
           user = new User()
           user.id = body.user
-          console.log 'ready to fetch'
-          console.log user.url()
           user.fetch
-            success: ->
-              console.log 'success!!'
+            success: =>
               @loginSuccess(user)
         error: 
           console.log 'could not authenticate'
@@ -37,11 +34,11 @@ module.exports = class LoginView extends View
       @$el.find('.errors').append("<span class='error'>A username and password is required</span>")
 
   loginSuccess: (user) =>
-    mediator.user = user
-    if mediator.redirectUrl == null
+    Chaplin.mediator.user = user
+    if not Chaplin.mediator.redirectUrl
       @publishEvent '!router:route', 'dashboard'
     else
-      @publishEvent '!router:route', mediator.redirectUrl
+      @publishEvent '!router:route', Chaplin.mediator.redirectUrl
     @publishEvent 'loginStatus', true      
 
     e.preventDefault()

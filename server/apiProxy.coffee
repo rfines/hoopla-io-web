@@ -2,13 +2,14 @@ CONFIG = require('config')
 restify = require 'restify'
 _ = require 'lodash'
 
-getClient = ->
-  client = restify.createJsonClient({
+getClient = (req) ->
+  client = restify.createJSONClient({
       url: CONFIG.apiUrl,
       version: '*',
       headers: {"content-type": "application/json"}
     });
-
+  if req.headers['x-authtoken']
+    client.headers['x-authtoken'] = req.headers['x-authtoken']    
   client.basicAuth(CONFIG.apiKey, CONFIG.apiSecret)
 
 handler = (req, res, method) ->
@@ -24,25 +25,25 @@ handler = (req, res, method) ->
 
 handleGet = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient()
+  client = getClient(req)
   client.get "/#{newUrl}", (err, request, response, obj) ->
     handleResponse err, req, res, response, obj
 
 handlePost = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient()
+  client = getClient(req)
   client.post "/#{newUrl}", req.body, (err, request, response, obj) ->
     handleResponse err, req, res, response, obj
 
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient()
+  client = getClient(req)
   client.put "#{newUrl}", req.body, (err,request,response,obj) ->
     handleResponse err, req, res, response, obj
   
 handleDelete = (req, res) ->
   newUrl = rewriteUrl req.originalUrl
-  client = getClient()
+  client = getClient(req)
   client.delete "#{newUrl}", req.body, (err,request,response,obj) ->
     handleResponse err,req,res,response,obj
 

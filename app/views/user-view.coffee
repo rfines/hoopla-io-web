@@ -9,8 +9,6 @@ module.exports = class HeaderView extends View
     "click a": "removeUser"
 
   removeUser: (e)->
-    console.log 'remove model'
-    console.log @model
     @model.destroy
       success: =>
         @dispose()

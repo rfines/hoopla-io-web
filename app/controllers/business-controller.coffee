@@ -8,8 +8,6 @@ module.exports = class BusinessController extends Controller
     @collection = new Businesses()
     @collection.fetch
       success: =>
-        console.log 'hi'
-        console.log @collection.models
         ###
         @view = new BusinessList(
           region: 'main'
