@@ -1,16 +1,20 @@
-<form role="form">
-  <fieldset>
-    <legend>Create Business</legend>
-    <div class="form-group">
-      <label for="exampleInputEmail1">Name</label>
-      <input type="text" class="form-control name" placeholder="Business Name">
+<div class="row">
+  <form role="form">
+    <div class="col-md-8 col-lg-8 col-sm-8">
+      <fieldset>
+        <legend>Create Business</legend>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name</label>
+          <input type="text" class="form-control name" placeholder="Business Name">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control description" placeholder="Description">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </fieldset>
     </div>
-    <div class="form-group">
-      <label>Description</label>
-      <input type="text" class="form-control description" placeholder="Description">
+    <div class="col-md-4 col-lg-4 col-sm-4 geoLocation">
     </div>
-    <div class="geoLocation">
-    </div>              
-    <button type="submit" class="btn btn-default">Submit</button>
-  </fieldset>
-</form>
+  </form>
+</div>
