@@ -21,19 +21,11 @@ handleGet = (req, res)->
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options, (err, clientResponse, body)->
+    res.header("content-type", "application/json")
+    res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
     if err
-      console.log err
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
       res.end err.toString()
-    else if clientResponse.statusCode is 200
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
-      res.end body.toString()
     else
-      res.statusCode = clientResponse.statusCode
-      console.log 'error: '+ clientResponse.statusCode
-      console.log body.toString()
       res.end body.toString()
   )
 
@@ -44,19 +36,11 @@ handlePost = (req, res)->
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options,(err,clientResponse,body)->
+    res.header("content-type", "application/json")
+    res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
     if err
-      console.log err
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
       res.end err.toString()
-    else if clientResponse.statusCode is 200
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
-      res.end body.toString()
     else
-      res.statusCode = clientResponse.statusCode
-      console.log 'error: '+ clientResponse.statusCode
-      console.log body.toString()
       res.end body.toString()
   )
 
@@ -67,19 +51,11 @@ handlePut = (req, res)->
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options,(err,clientResponse,body)->
+    res.header("content-type", "application/json")
+    res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
     if err
-      console.log err
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
       res.end err.toString()
-    else if clientResponse.statusCode is 200
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
-      res.end body.toString()
     else
-      res.statusCode = clientResponse.statusCode
-      console.log 'error: '+ clientResponse.statusCode
-      console.log body.toString()
       res.end body.toString()
   )
 
@@ -90,19 +66,11 @@ handleDelete = (req, res) ->
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options,(err,clientResponse,body)->
+    res.header("content-type", "application/json")
+    res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
     if err
-      console.log err
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
       res.end err.toString()
-    else if clientResponse.statusCode is 200
-      res.header("content-type", "application/json")
-      res.statusCode = clientResponse.statusCode
-      res.end body.toString()
     else
-      res.statusCode = clientResponse.statusCode
-      console.log 'error: '+ clientResponse.statusCode
-      console.log body.toString()
       res.end body.toString()
   )
     
