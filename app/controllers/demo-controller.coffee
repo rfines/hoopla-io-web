@@ -3,10 +3,8 @@ PromotionTargetsList = require 'views/users-list-view'
 PromotionTargets = require 'models/promotionTargets'
 Businesses = require 'models/businesses'
 BusinessEdit = require 'views/business-edit'
-<<<<<<< HEAD
 RegisterUserView = require 'views/user-register-view'
 ChangePasswordView = require 'views/change-password-view'
-=======
 User = require 'models/user'
 RegisterUser = require 'views/user-register'
 
