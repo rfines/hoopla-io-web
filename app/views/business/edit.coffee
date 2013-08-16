@@ -27,5 +27,7 @@ module.exports = class BusinessEditView extends View
       name : @$el.find('.name').val()
       description : @$el.find('.description').val()
       location : @subview('geoLocation').getLocation()
-    console.log @model.attributes
-    @model.save()
+    @model.save {}, {
+      success: =>
+        @publishEvent '!router:route', 'demo/business/list'
+    }
