@@ -17,8 +17,9 @@ handler = (req, res, method) ->
 handleGet = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'GET', newUrl.query)
-  options.headers = {}
-  options.headers = req.headers
+  options.headers = options.headers || {}
+  for x in _.keys(req.headers)
+    options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options, (err, clientResponse, body)->
     if err
       console.log err
@@ -38,8 +39,10 @@ handleGet = (req, res)->
 
 handlePost = (req, res)->
   newUrl = rewriteUrl req.originalUrl
-  console.log req.body
   options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'POST', newUrl.query, req.body)
+  options.headers = options.headers || {}
+  for x in _.keys(req.headers)
+    options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options,(err,clientResponse,body)->
     if err
       console.log err
@@ -60,7 +63,9 @@ handlePost = (req, res)->
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'PUT', newUrl.query, req.body)
-  options.headers = req.headers
+  options.headers = options.headers || {}
+  for x in _.keys(req.headers)
+    options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options,(err,clientResponse,body)->
     if err
       console.log err
@@ -80,9 +85,10 @@ handlePut = (req, res)->
 
 handleDelete = (req, res) ->
   newUrl = rewriteUrl req.originalUrl
-
   options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'DELETE', newUrl.query, req.body)
-  options.headers = req.headers
+  options.headers = options.headers || {}
+  for x in _.keys(req.headers)
+    options.headers[x] = req.headers[x] if not options.headers[x]
   _request(options,(err,clientResponse,body)->
     if err
       console.log err
