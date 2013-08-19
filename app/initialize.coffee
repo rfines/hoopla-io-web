@@ -7,3 +7,4 @@ $ ->
     controllerSuffix: '-controller',
     routes
   }
+  Chaplin.datastore = {}

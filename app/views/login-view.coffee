@@ -10,35 +10,17 @@ module.exports = class LoginView extends View
   events:
     "submit form": 'login'
 
+  initialize: ->
+    super
+    @model = new User()
+
   login: (e)->
     e.preventDefault()
     uname = @$el.find('.username').val()
     pword = @$el.find('.password').val()
     if uname and pword
-      $.ajax
-        type: 'POST',
-        contentType: 'application/json',
-        url:  '/api/tokenRequest',
-        data: JSON.stringify({password : pword,email : uname}),
-        success: (body,response, xHr) =>
-          $.cookie('token', body.authToken, path: '/')
-          $.cookie('user', body.user, path: '/')
-          user = new User()
-          user.id = body.user
-          user.fetch
-            success: =>
-              @loginSuccess(user)
-        error: (body,response, xHr) =>
-          console.log 'could not authenticate'
+      @model.getToken uname, pword
     else
       @$el.find('.errors').append("<span class='error'>A username and password is required</span>")
   
-
-  loginSuccess: (user) =>
-    Chaplin.mediator.user = user
-    if not Chaplin.mediator.redirectUrl
-      @publishEvent '!router:route', 'dashboard'
-    else
-      @publishEvent '!router:route', Chaplin.mediator.redirectUrl
-    @publishEvent 'loginStatus', true      
 

@@ -11,6 +11,6 @@ module.exports = class HeaderView extends View
 
   logout:(e)->
     e.preventDefault()
-    $.cookie('token', null)
-    $.cookie('user', null)
+    $.removeCookie('token')
+    $.removeCookie('user')
     window.location = '/'

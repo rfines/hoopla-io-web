@@ -3,8 +3,10 @@ PromotionTargetsList = require 'views/users-list-view'
 PromotionTargets = require 'models/promotionTargets'
 Businesses = require 'models/businesses'
 BusinessEdit = require 'views/business-edit'
+RegisterUserView = require 'views/user-register-view'
+ChangePasswordView = require 'views/change-password-view'
 
-module.exports = class BusinessController extends Controller
+module.exports = class DemoController extends Controller
   promotionTargets: ->
     @collection = new PromotionTargets()
     @collection.fetch
@@ -25,3 +27,8 @@ module.exports = class BusinessController extends Controller
       error: (model, response) =>
         console.log 'error'
         console.log response
+
+  registerUser: ->
+    @view = new RegisterUserView  region:'main'
+  changePassword: ->
+    @view = new ChangePasswordView region:'main'
