@@ -23,9 +23,9 @@ module.exports = class User extends Model
             success: =>
               @loginSuccess(user)
         error: (body,response, xHr) =>
+          $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
           console.log 'could not authenticate'
           
-
   loginSuccess : (user) =>
     Chaplin.datastore.user = user
     if not Chaplin.mediator.redirectUrl
@@ -57,8 +57,4 @@ module.exports = class User extends Model
             error: (body, response, xHr) =>
               console.log "Error changing password"
       error: (body, response, xHr) =>
-        console.log body
-        console.log response
-        console.log xHr
-        console.log "error changing password"
-
+        $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message</span>")

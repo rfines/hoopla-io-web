@@ -19,7 +19,8 @@ module.exports = class AuthController extends Chaplin.Controller
             user.fetch
               success: ->
                 console.log 'successful fetch of user'
-                #Chaplin.mediator.user = user
+                Chaplin.mediator.user = {}
+                Chaplin.mediator.user = user
         else
           @goToLogin()
       else

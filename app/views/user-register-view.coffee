@@ -32,8 +32,7 @@ module.exports = class UserRegisterView extends View
           email: uname
           password: pword
         @model.save  {}, {
-          success: (model, response, options)-> model.getToken uname, pword
-          
+          success: (model, response, options)-> model.getToken uname, pword     
           error: (model, xhr, options)-> @$el.find('.errors').append("<span class='error'>#{model}</span>")
         }
     else

@@ -2,12 +2,11 @@ Controller = require 'controllers/base/AuthenticatedController'
 PromotionTargetsList = require 'views/users-list-view'
 PromotionTargets = require 'models/promotionTargets'
 Businesses = require 'models/businesses'
-BusinessEdit = require 'views/business-edit'
+BusinessEdit = require 'views/business/edit'
 RegisterUserView = require 'views/user-register-view'
 ChangePasswordView = require 'views/change-password-view'
 User = require 'models/user'
-RegisterUser = require 'views/user-register'
-
+BusinessEvents = require 'views/business/events'
 module.exports = class DemoController extends Controller
   promotionTargets: ->
     @collection = new PromotionTargets()
@@ -47,3 +46,17 @@ module.exports = class DemoController extends Controller
       error: (model, response) =>
         console.log 'error'
         console.log response
+        
+  businessEvents: ->
+    EventList = require 'views/business/events'
+    console.log "event dashboard"
+    @collection = new Events()
+    @collection.fetch
+      success: =>
+        @view = new EventList
+          region: 'main'
+          collection : @collection
+      error: (model, response) =>
+        console.log 'error'
+        console.log response
+
