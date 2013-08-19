@@ -17,6 +17,7 @@ module.exports = class DemoController extends Controller
         console.log response
     
   createBusiness: ->
+    BusinessEdit = require 'views/business/edit'
     console.log 'create business'
     @collection = new Businesses()
     @collection.fetch
@@ -32,3 +33,15 @@ module.exports = class DemoController extends Controller
     @view = new RegisterUserView  region:'main'
   changePassword: ->
     @view = new ChangePasswordView region:'main'
+  businessDashboard: ->
+    BusinessList = require 'views/business/list'
+    console.log 'business dashboard'
+    @collection = new Businesses()
+    @collection.fetch
+      success: =>
+        @view = new BusinessList
+          region: 'main'
+          collection : @collection
+      error: (model, response) =>
+        console.log 'error'
+        console.log response

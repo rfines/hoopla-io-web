@@ -31,7 +31,20 @@ module.exports = class AddressView extends View
             position: results[0].geometry.location
           )
           google.maps.event.trigger(map, 'resize')
-          @model.set 'geo', {type: "Point", coordinates : [results[0].geometry.location.lng(), results[0].geometry.location.lat()]}
-          console.log @model.get('geo')
+          @location =
+            geo : {type: "Point", coordinates : [results[0].geometry.location.lng(), results[0].geometry.location.lat()]}
+            address : results[0].formatted_address
+          n = @getNeighborhood(results)
+          @location.neighborhood = n if n
         else
           console.log "Geocode was not successful for the following reason: " + status
+
+  getNeighborhood: (results) ->
+    ac = results[0].address_components
+    match = _.find ac, (item) ->
+      item.types.indexOf('neighborhood') > -1
+    if match
+      return match.long_name
+
+  getLocation: ->
+    @location

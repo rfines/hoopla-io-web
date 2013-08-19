@@ -26,13 +26,8 @@ module.exports = class BusinessEditView extends View
     @model.set
       name : @$el.find('.name').val()
       description : @$el.find('.description').val()
-      address: 
-        line1: @$el.find('.address1').val()
-        line2: @$el.find('.address2').val()
-        city: @$el.find('.city').val()
-        state_province: @$el.find('.state').val()
-        postal_code: @$el.find('.postalCode').val()
-      geo :
-        "type" : "Point"
-        "coordinates" : [-94.58267601970849,39.11036]        
-    @model.save()
+      location : @subview('geoLocation').getLocation()
+    @model.save {}, {
+      success: =>
+        @publishEvent '!router:route', 'demo/business/list'
+    }
