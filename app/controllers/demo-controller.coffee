@@ -30,6 +30,22 @@ module.exports = class DemoController extends Controller
         console.log 'error'
         console.log response
 
+  createEvent: ->
+    EventEdit = require 'views/event/edit'
+    Events = require 'models/events'
+    Chaplin.datastore.businesses = new Businesses()
+    Chaplin.datastore.businesses.fetch
+      success: =>
+        @collection = new Events()    
+        @collection.fetch
+          success: =>
+            @view = new EventEdit
+              region: 'main'
+              collection : @collection
+          error: (model, response) =>
+            console.log 'error'
+            console.log response        
+
   registerUser: ->
     @view = new RegisterUserView  region:'main'
   changePassword: ->

@@ -1,32 +1,40 @@
-template = require 'templates/business/edit'
+template = require 'templates/event/edit'
 View = require 'views/base/view'
-Business = require 'models/business'
+Event = require 'models/event'
 AddressView = require 'views/address'
 
-module.exports = class BusinessEditView extends View
+module.exports = class EventEditView extends View
   autoRender: true
-  className: 'users-list'
+  className: 'event-edit'
   template: template
 
   initialize: ->
     super
-    @model = new Business()
+    @model = new Event()
 
   attach: ->
     super
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
+    $(".select-chosen").chosen()
+    $('.business').on 'change', (evt, params) =>
+      @model.set 'business', params.selected
+      console.log @model
 
   events:
     'submit form' : 'save'
 
+  getTemplateData: ->
+    td = super()
+    td.businesses = Chaplin.datastore.businesses.models
+    td    
+
   save: (e) ->
     e.preventDefault()
-    console.log 'save'
     @model.set
       name : @$el.find('.name').val()
       description : @$el.find('.description').val()
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>
-        @publishEvent '!router:route', 'demo/business/list'
+        @publishEvent '!router:route', 'demo/event/list'
     }
