@@ -6,7 +6,7 @@ BusinessEdit = require 'views/business/edit'
 RegisterUserView = require 'views/user-register-view'
 ChangePasswordView = require 'views/change-password-view'
 User = require 'models/user'
-BusinessEvents = require 'views/business/events'
+
 module.exports = class DemoController extends Controller
   promotionTargets: ->
     @collection = new PromotionTargets()
@@ -34,9 +34,9 @@ module.exports = class DemoController extends Controller
     @view = new RegisterUserView  region:'main'
   changePassword: ->
     @view = new ChangePasswordView region:'main'
+  
   businessDashboard: ->
     BusinessList = require 'views/business/list'
-    console.log 'business dashboard'
     @collection = new Businesses()
     @collection.fetch
       success: =>
@@ -46,10 +46,10 @@ module.exports = class DemoController extends Controller
       error: (model, response) =>
         console.log 'error'
         console.log response
-        
-  businessEvents: ->
-    EventList = require 'views/business/events'
-    console.log "event dashboard"
+
+  eventDashboard: ->
+    EventList = require 'views/event/list'
+    Events = require 'models/events'
     @collection = new Events()
     @collection.fetch
       success: =>
@@ -59,4 +59,3 @@ module.exports = class DemoController extends Controller
       error: (model, response) =>
         console.log 'error'
         console.log response
-

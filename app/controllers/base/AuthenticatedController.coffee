@@ -12,15 +12,13 @@ module.exports = class AuthController extends Chaplin.Controller
     @compose 'header', HeaderView
     url = window.location.href
     if url.indexOf('register') < 0    
-      if not Chaplin.mediator.user
+      if not Chaplin.datastore?.user
         if $.cookie('token') and $.cookie('user')
             user = new User()
             user.id = $.cookie('user')
             user.fetch
               success: ->
-                console.log 'successful fetch of user'
-                Chaplin.mediator.user = {}
-                Chaplin.mediator.user = user
+                Chaplin.datastore.user = user
         else
           @goToLogin()
       else

@@ -35,7 +35,6 @@ module.exports = class User extends Model
     @publishEvent 'loginStatus', true
   
   changePassword :(id, password, currentPassword)=>
-    console.log "Changing password"
     $.ajax
       type: 'PUT'
       contentType:'application/json'
@@ -57,4 +56,4 @@ module.exports = class User extends Model
             error: (body, response, xHr) =>
               console.log "Error changing password"
       error: (body, response, xHr) =>
-        $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message</span>")
+        $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
