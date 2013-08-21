@@ -14,6 +14,7 @@ module.exports = class BusinessEditView extends View
 
   attach: ->
     super
+    @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
 
   events:
@@ -21,10 +22,7 @@ module.exports = class BusinessEditView extends View
 
   save: (e) ->
     e.preventDefault()
-    console.log 'save'
     @model.set
-      name : @$el.find('.name').val()
-      description : @$el.find('.description').val()
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>

@@ -14,6 +14,7 @@ module.exports = class EventEditView extends View
 
   attach: ->
     super
+    @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     $(".select-chosen").chosen()
     $('.business').on 'change', (evt, params) =>
@@ -31,8 +32,6 @@ module.exports = class EventEditView extends View
   save: (e) ->
     e.preventDefault()
     @model.set
-      name : @$el.find('.name').val()
-      description : @$el.find('.description').val()
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>
