@@ -20,6 +20,7 @@ handleGet = (req, res)->
   options.headers = options.headers || {}
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
+  delete options.headers.host if options.headers.host
   _request(options, (err, clientResponse, body)->
     res.header("content-type", "application/json")
     res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
@@ -35,14 +36,14 @@ handlePost = (req, res)->
   options.headers = options.headers || {}
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
-  _request(options,(err,clientResponse,body)->
+  delete options.headers.host if options.headers.host
+  _request options, (err,clientResponse,body)->
     res.header("content-type", "application/json")
     res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
     if err
       res.end err.toString()
     else
       res.end body.toString()
-  )
 
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
@@ -50,6 +51,7 @@ handlePut = (req, res)->
   options.headers = options.headers || {}
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
+  delete options.headers.host if options.headers.host
   _request(options,(err,clientResponse,body)->
     res.header("content-type", "application/json")
     res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
@@ -65,6 +67,7 @@ handleDelete = (req, res) ->
   options.headers = options.headers || {}
   for x in _.keys(req.headers)
     options.headers[x] = req.headers[x] if not options.headers[x]
+  delete options.headers.host if options.headers.host
   _request(options,(err,clientResponse,body)->
     res.header("content-type", "application/json")
     res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
