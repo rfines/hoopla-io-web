@@ -17,3 +17,4 @@ module.exports = (match) ->
   match 'demo/changePassword', 'demo#changePassword'
   match 'demo/myBusinesses', 'demo#businessDashboard'
   match 'demo/event/list', 'demo#eventDashboard'
+  match 'demo/myEvents', 'demo#eventDashboard'
