@@ -6,3 +6,6 @@ module.exports = class Businesses extends Collection
   url: ->
     "/api/user/#{$.cookie('user')}/businesses"
   
+  dispose: ->
+    console.log 'dispose'
+    super

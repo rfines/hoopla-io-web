@@ -22,46 +22,46 @@ module.exports = class DemoController extends Controller
   createBusiness: ->
     BusinessEdit = require 'views/business/edit'
     console.log 'create business'
-    @collection = new Businesses()
-    @collection.fetch
+    Chaplin.datastore.load 
+      name : 'business'
       success: =>
         @view = new BusinessEdit
           region: 'main'
-          collection : @collection
+          collection : Chaplin.datastore.business
       error: (model, response) =>
         console.log 'error'
         console.log response
 
+
   editBusiness: (params) ->
     console.log 'edit business'
     BusinessEdit = require 'views/business/edit'
-    console.log 'create business'
-    @collection = new Businesses()
-    @collection.fetch
+    Chaplin.datastore.load 
+      name : 'business'
       success: =>
         @view = new BusinessEdit
           region: 'main'
-          collection : @collection
-          model : @collection.get(params.id)
+          collection : Chaplin.datastore.business
+          model : Chaplin.datastore.business.get(params.id)
       error: (model, response) =>
         console.log 'error'
         console.log response        
 
   createEvent: ->
     EventEdit = require 'views/event/edit'
-    Events = require 'models/events'
-    Chaplin.datastore.businesses = new Businesses()
-    Chaplin.datastore.businesses.fetch
+    Chaplin.datastore.load 
+      name : 'business'
       success: =>
-        @collection = new Events()    
-        @collection.fetch
+        Chaplin.datastore.load 
+          name : 'event'
           success: =>
-            @view = new EventEdit
-              region: 'main'
-              collection : @collection
-          error: (model, response) =>
-            console.log 'error'
-            console.log response        
+            success: =>
+              @view = new EventEdit
+                region: 'main'
+                collection : Chaplin.datastore.event
+            error: (model, response) =>
+              console.log 'error'
+              console.log response        
 
   registerUser: ->
     @view = new RegisterUserView  region:'main'
@@ -70,25 +70,24 @@ module.exports = class DemoController extends Controller
   
   businessDashboard: ->
     BusinessList = require 'views/business/list'
-    @collection = new Businesses()
-    @collection.fetch
+    Chaplin.datastore.load 
+      name : 'business'
       success: =>
         @view = new BusinessList
           region: 'main'
-          collection : @collection
+          collection : Chaplin.datastore.business
       error: (model, response) =>
         console.log 'error'
         console.log response
 
   eventDashboard: ->
     EventList = require 'views/event/list'
-    Events = require 'models/events'
-    @collection = new Events()
-    @collection.fetch
+    Chaplin.datastore.load 
+      name : 'event'
       success: =>
         @view = new EventList
           region: 'main'
-          collection : @collection
+          collection : Chaplin.datastore.event
       error: (model, response) =>
         console.log 'error'
         console.log response
