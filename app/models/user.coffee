@@ -57,3 +57,33 @@ module.exports = class User extends Model
               console.log "Error changing password"
       error: (body, response, xHr) =>
         $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
+  resetPassword:(email)=>
+    console.log "Reset password email request"
+    $.ajax
+      type:'POST'
+      contentType:'application/json'
+      url: "/api/passwordReset/emailRequest"
+      data: JSON.stringify({email:email})
+      success: (body, response, xHr)=>
+        console.log body
+        console.log response
+      error:(body, response, xHr) =>
+        $('.errors').append("<span class='error'>Email sent.</span>")
+  newPassword:(email,newPassword, token)=>
+    console.log "Sending new password"
+    $.ajax
+      type:'POST'
+      contentType:'application/json'
+      url: "/api/passwordReset"
+      data: JSON.stringify({email:email, password:newPassword, token:token})
+      success: (body, response, xHr)=>
+        $.removeCookie('token')
+        $.removeCookie('user')
+        window.location = "/login"
+      error:(body, response, xHr) =>
+        console.log "error case"
+        if body.status is 403
+          $('.errors').append("<span class='error'>Your email address was not found. Please register or try to log in using a different account.</span>")
+        else
+          $('.errors').append("<span class='error'>Something went wrong.</span>")
+

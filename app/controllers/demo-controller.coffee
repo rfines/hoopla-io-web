@@ -6,6 +6,8 @@ BusinessEdit = require 'views/business/edit'
 RegisterUserView = require 'views/user-register-view'
 ChangePasswordView = require 'views/change-password-view'
 User = require 'models/user'
+ResetPasswordRequestView = require 'views/reset-password-request'
+ResetPasswordView = require 'views/reset-password'
 
 module.exports = class DemoController extends Controller
   promotionTargets: ->
@@ -90,3 +92,11 @@ module.exports = class DemoController extends Controller
       error: (model, response) =>
         console.log 'error'
         console.log response
+
+  businessEvents: ->
+    console.log "event dashboard"
+  resetPassword: ->
+    @view = new ResetPasswordRequestView region: 'main'
+  newPassword: ->
+    @view = new ResetPasswordView region: 'main'
+

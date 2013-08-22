@@ -19,6 +19,7 @@ module.exports = class AuthController extends Chaplin.Controller
             user.fetch
               success: ->
                 Chaplin.datastore.user = user
+                console.log 'successful fetch of user'
         else
           @goToLogin()
 

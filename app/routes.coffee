@@ -15,6 +15,13 @@ module.exports = (match) ->
   match 'demo/event', 'demo#createEvent'
   match 'demo/register', 'demo#registerUser'
   match 'demo/changePassword', 'demo#changePassword'
+<<<<<<< HEAD
   match 'demo/myBusinesses', 'demo#businessDashboard'
   match 'demo/event/list', 'demo#eventDashboard'
   match 'demo/myEvents', 'demo#eventDashboard'
+=======
+  match 'demo/business/list', 'demo#businessDashboard'
+  match 'demo/business/events', 'demo#businessEvents'
+  match 'demo/forgot-password', 'demo#resetPassword'
+  match 'password/reset', 'demo#newPassword'
+>>>>>>> added forgot password functionality
