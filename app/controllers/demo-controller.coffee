@@ -30,6 +30,21 @@ module.exports = class DemoController extends Controller
         console.log 'error'
         console.log response
 
+  editBusiness: (params) ->
+    console.log 'edit business'
+    BusinessEdit = require 'views/business/edit'
+    console.log 'create business'
+    @collection = new Businesses()
+    @collection.fetch
+      success: =>
+        @view = new BusinessEdit
+          region: 'main'
+          collection : @collection
+          model : @collection.get(params.id)
+      error: (model, response) =>
+        console.log 'error'
+        console.log response        
+
   createEvent: ->
     EventEdit = require 'views/event/edit'
     Events = require 'models/events'

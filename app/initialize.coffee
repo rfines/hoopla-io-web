@@ -3,7 +3,7 @@ routes = require 'routes'
 
 $ ->
   new Application {
-    title: 'Brunch example application',
+    title: 'Hoopla.io',
     controllerSuffix: '-controller',
     routes
   }

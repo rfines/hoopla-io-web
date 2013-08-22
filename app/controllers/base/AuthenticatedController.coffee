@@ -7,7 +7,7 @@ HeaderView = require 'views/header-view'
 
 module.exports = class AuthController extends Chaplin.Controller
 
-  beforeAction: ->
+  beforeAction: (params, route) ->
     @compose 'site', SiteView
     @compose 'header', HeaderView
     url = window.location.href
@@ -21,8 +21,6 @@ module.exports = class AuthController extends Chaplin.Controller
                 Chaplin.datastore.user = user
         else
           @goToLogin()
-      else
-        @goToLogin()
 
   goToLogin: ->
     @publishEvent '!router:route', 'login'

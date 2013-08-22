@@ -10,7 +10,7 @@ module.exports = class BusinessEditView extends View
 
   initialize: ->
     super
-    @model = new Business()
+    @model = @model || new Business()
 
   attach: ->
     super
@@ -26,5 +26,5 @@ module.exports = class BusinessEditView extends View
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>
-        @publishEvent '!router:route', 'demo/business/list'
+        @publishEvent '!router:route', 'demo/myBusinesses'
     }
