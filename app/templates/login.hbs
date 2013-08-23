@@ -1,9 +1,8 @@
 <div class="errors"></div>
-<form name="loginForm" method="POST" action="/api/tokenRequest">
-  <label for="username">User Name</label>
-  <input type="text" name="username" class="username"/>
-  <label for="password">Password</label>
-  <input type="password" name="password" class="password"/>
-  <button type="submit">Login</button>
+<form class="form-signin" style="max-width:330px" name="loginForm" method="POST" action="/api/tokenRequest">
+  <h2 class="form-signin-heading">Please sign in</h2>
+   <input type="text" name="username" class="form-control username" placeholder="Email address" autofocus=""/>
+   <input type="password" name="password" class="form-control password"/>
+   <br />
+   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>
-  
