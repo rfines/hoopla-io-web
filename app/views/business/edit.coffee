@@ -3,6 +3,7 @@ View = require 'views/base/view'
 Business = require 'models/business'
 AddressView = require 'views/address'
 
+
 module.exports = class BusinessEditView extends View
   autoRender: true
   className: 'users-list'
