@@ -1,5 +1,5 @@
 View = require 'views/base/view'
-template = require 'templates/postLoginHeader'
+template = require 'templates/preLoginHeader'
 
 module.exports = class HeaderView extends View
   autoRender: true
