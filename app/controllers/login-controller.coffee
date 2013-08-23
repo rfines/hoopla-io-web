@@ -1,4 +1,4 @@
-Controller = require 'controllers/base/controller'
+Controller = require 'controllers/base/preLoginController'
 LoginView = require 'views/login-view'
 
 module.exports = class HomeController extends Controller

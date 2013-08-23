@@ -1,4 +1,4 @@
-Controller = require 'controllers/base/controller'
+Controller = require 'controllers/base/preLoginController'
 HomePageView = require 'views/home-page-view'
 LoginView = require 'views/login-view'
 

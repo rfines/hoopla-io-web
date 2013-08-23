@@ -29,7 +29,7 @@ module.exports = class User extends Model
   loginSuccess : (user) =>
     Chaplin.datastore.user = user
     if not Chaplin.mediator.redirectUrl
-      @publishEvent '!router:route', 'dashboard'
+      @publishEvent '!router:route', 'myBusinesses'
     else
       @publishEvent '!router:route', Chaplin.mediator.redirectUrl
     @publishEvent 'loginStatus', true

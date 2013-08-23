@@ -1,4 +1,4 @@
-Controller = require 'controllers/base/AuthenticatedController'
+Controller = require 'controllers/base/postLoginController'
 
 module.exports = class DemoController extends Controller
   create: ->

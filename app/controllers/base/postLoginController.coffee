@@ -1,11 +1,10 @@
 'use strict'
 User = require 'models/user'
-Controller = 'controllers/base/controller'
 
 SiteView = require 'views/site-view'
-HeaderView = require 'views/header-view'
+HeaderView = require 'views/postLoginHeader'
 
-module.exports = class AuthController extends Chaplin.Controller
+module.exports = class PostLoginController extends Chaplin.Controller
 
   beforeAction: (params, route) ->
     @compose 'site', SiteView

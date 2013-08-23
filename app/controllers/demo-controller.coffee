@@ -1,4 +1,4 @@
-Controller = require 'controllers/base/AuthenticatedController'
+Controller = require 'controllers/base/postLoginController'
 PromotionTargetsList = require 'views/users-list-view'
 PromotionTargets = require 'models/promotionTargets'
 Businesses = require 'models/businesses'
