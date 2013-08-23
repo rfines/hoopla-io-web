@@ -17,35 +17,7 @@ module.exports = class DemoController extends Controller
         console.log @collection.models
       error: (model, response) =>
         console.log 'error'
-        console.log response
-    
-  createBusiness: ->
-    BusinessEdit = require 'views/business/edit'
-    console.log 'create business'
-    Chaplin.datastore.load 
-      name : 'business'
-      success: =>
-        @view = new BusinessEdit
-          region: 'main'
-          collection : Chaplin.datastore.business
-      error: (model, response) =>
-        console.log 'error'
-        console.log response
-
-
-  editBusiness: (params) ->
-    console.log 'edit business'
-    BusinessEdit = require 'views/business/edit'
-    Chaplin.datastore.load 
-      name : 'business'
-      success: =>
-        @view = new BusinessEdit
-          region: 'main'
-          collection : Chaplin.datastore.business
-          model : Chaplin.datastore.business.get(params.id)
-      error: (model, response) =>
-        console.log 'error'
-        console.log response        
+        console.log response     
 
   createEvent: ->
     EventEdit = require 'views/event/edit'
@@ -67,18 +39,6 @@ module.exports = class DemoController extends Controller
     @view = new RegisterUserView  region:'main'
   changePassword: ->
     @view = new ChangePasswordView region:'main'
-  
-  businessDashboard: ->
-    BusinessList = require 'views/business/list'
-    Chaplin.datastore.load 
-      name : 'business'
-      success: =>
-        @view = new BusinessList
-          region: 'main'
-          collection : Chaplin.datastore.business
-      error: (model, response) =>
-        console.log 'error'
-        console.log response
 
   eventDashboard: ->
     EventList = require 'views/event/list'

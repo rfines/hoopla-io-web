@@ -16,4 +16,4 @@ module.exports = class List extends CollectionView
     "click button" : "create"
 
   create: =>
-    @publishEvent '!router:route', 'demo/business'
+    @publishEvent '!router:route', 'business'

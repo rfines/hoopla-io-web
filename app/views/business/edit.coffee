@@ -26,5 +26,5 @@ module.exports = class BusinessEditView extends View
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>
-        @publishEvent '!router:route', 'demo/myBusinesses'
+        @publishEvent '!router:route', 'myBusinesses'
     }

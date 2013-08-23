@@ -11,7 +11,4 @@ module.exports = class ListItem extends View
 
   edit: (e) =>
     e.preventDefault()
-    console.log "demo/business/#{@model.id}"
-    console.log @publishEvent
-    console.log @redirectToRoute
-    @publishEvent '!router:route', "/demo/business/#{@model.id}"
+    @publishEvent '!router:route', "business/#{@model.id}"

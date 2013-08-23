@@ -18,7 +18,7 @@ module.exports = class HeaderView extends View
     window.location = '/'
 
   redirectToEvents: (e) ->
-    @publishEvent '!router:route', 'demo/myEvents'
+    @publishEvent '!router:route', 'myEvents'
 
   redirectToBusinesses: (e) ->
-    @publishEvent '!router:route', 'demo/myBusinesses'    
+    @publishEvent '!router:route', 'myBusinesses'    

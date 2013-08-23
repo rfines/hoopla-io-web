@@ -9,11 +9,14 @@ module.exports = class EventEditView extends View
   template: template
 
   initialize: ->
+    console.log 'init'
+    console.log @collection
     super
-    @model = new Event()
+    @model = @model || new Event()
 
   attach: ->
     super
+    console.log 'attach'
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     $(".select-chosen").chosen()
@@ -26,7 +29,7 @@ module.exports = class EventEditView extends View
 
   getTemplateData: ->
     td = super()
-    td.businesses = Chaplin.datastore.businesses.models
+    td.businesses = Chaplin.datastore.business.models
     td    
 
   save: (e) ->
@@ -35,5 +38,5 @@ module.exports = class EventEditView extends View
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>
-        @publishEvent '!router:route', 'demo/event/list'
+        @publishEvent '!router:route', 'myEvents'
     }
