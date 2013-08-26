@@ -2,6 +2,8 @@ module.exports = (match) ->
   match '', 'event#list'
 
   # Marketing/Pre-Login Routes
+  match 'about', 'marketing#about'
+  match 'signUp', 'registration#registerUser'
 
   # Post-Login Routes
   match 'myBusinesses', 'business#list'
@@ -19,7 +21,6 @@ module.exports = (match) ->
   match 'logout', 'home#logout',name: 'auth_logout'
 
   # demo routes for Dev Teams Proof Of Concepts
-  match 'demo/promotionTargets', 'demo#promotionTargets'
   match 'demo/register', 'demo#registerUser'
   match 'demo/changePassword', 'demo#changePassword' 
   match 'demo/forgot-password', 'demo#resetPassword'

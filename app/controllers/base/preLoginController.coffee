@@ -4,5 +4,8 @@ PreLoginHeaderView = require 'views/preLoginHeader'
 module.exports = class Controller extends Chaplin.Controller
   
   beforeAction: ->
+    @compositions()
+
+  compositions: =>
     @compose 'site', SiteView
-    @compose 'preLoginHeader', PreLoginHeaderView, {region:'header'}
+    @compose 'preLoginHeader', PreLoginHeaderView, {region:'header'}  
