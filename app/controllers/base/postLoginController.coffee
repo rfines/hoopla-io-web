@@ -2,13 +2,14 @@
 User = require 'models/user'
 
 SiteView = require 'views/site-view'
-HeaderView = require 'views/postLoginHeader'
+PostLoginHeaderView = require 'views/postLoginHeader'
 
 module.exports = class PostLoginController extends Chaplin.Controller
 
   beforeAction: (params, route) ->
     @compose 'site', SiteView
-    @compose 'header', HeaderView
+    @compose 'postLoginHeader', PostLoginHeaderView, {region:'header'}
+
     url = window.location.href
     if url.indexOf('register') < 0    
       if not Chaplin.datastore?.user
