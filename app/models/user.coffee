@@ -23,7 +23,8 @@ module.exports = class User extends Model
             success: =>
               @loginSuccess(user)
         error: (body,response, xHr) =>
-          $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
+          errorResponse = JSON.parse(body.responseText)
+          $('.errors').append("<span class='error'>#{errorResponse.message}</span>")
           console.log 'could not authenticate'
           
   loginSuccess : (user) =>
