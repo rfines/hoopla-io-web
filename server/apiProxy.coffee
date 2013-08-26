@@ -46,22 +46,38 @@ handleGet = (req, res)->
   creq.end()
 
 handlePost = (req, res)->
-  console.log req
-  newUrl = rewriteUrl req.originalUrl
-  options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'POST', newUrl.query, req.body)
-  options.headers = options.headers || {}
-  for x in _.keys(req.headers)
-    options.headers[x] = req.headers[x] if not options.headers[x]
-  delete options.headers.host if options.headers.host
-  delete options.headers['accept-encoding'] if options.headers['accept-encoding']
-  _request options, (err,clientResponse,body)->
-    res.header("content-type", "application/json")
-    res.statusCode = clientResponse.statusCode if clientResponse?.statusCode
-    if err
-      res.end err.toString()
-    else
-      res.end body.toString()
+  newUrl = rewriteUrl(req.originalUrl)
+  url = url.parse("#{CONFIG.apiUrl}/#{newUrl.url}")
+  auth = new Buffer("#{CONFIG.apiKey}:#{CONFIG.apiSecret}").toString('base64')
+  o = 
+    hostname: url.hostname
+    port: url.port
+    path: url.path
+    method: "POST"
+    headers: req.headers
+  o.headers.authorization = "Basic #{auth}"
+  delete o.headers.host if o.headers.host
 
+  creq = http.request(o, (cres) ->
+    res.writeHead cres.statusCode, cres.headers
+    cres.on "data", (chunk) ->
+      res.write chunk
+    cres.on "close", ->
+      res.writeHead cres.statusCode, cres.headers
+      res.end()
+    cres.on 'end', (x) ->
+      res.end()
+  ).on("error", (e) ->
+    res.writeHead 500
+    res.end()
+  )
+  req.on "data", (chunk) ->
+    console.log 'write chunk'
+    creq.write chunk
+  req.on "end", ->
+    console.log 'end request'
+    creq.end()
+    
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl
   options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'PUT', newUrl.query, req.body)

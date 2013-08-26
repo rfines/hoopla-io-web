@@ -5,38 +5,32 @@ module.exports = class ImageChooser extends View
   autoRender: true
   className: 'users-list'
   template: template
-
+  media  = undefined
   initialize: ->
     super
 
   attach: ->
     super()
-    console.log @$el.find('#uploadContainer')
-    console.log 'upload?'
     uploader = new plupload.Uploader(
       multipart : false
       runtimes: "html5"
       browse_button: "adam1"
       container: "uploadContainer"
       max_file_size: "10mb"
-      url: "/api/media"
+      url: "/api/media/upload"
       flash_swf_url: "/plupload/js/plupload.flash.swf"
       silverlight_xap_url: "/plupload/js/plupload.silverlight.xap"
       filters: [
         title: "Image files"
-        extensions: "jpg,gif,png"
+        extensions: "jpg,jpeg,gif,png"
       ]
     )
-    console.log '1'
     uploader.bind "Init", (up, params) ->
       $("#filelist").html "<div>Current runtime: " + params.runtime + "</div>"
-    console.log '2'
     $("#uploadfiles").click (e) ->
       uploader.start()
       e.preventDefault()
-    console.log '3'
     uploader.init()
-    console.log '4'
     uploader.bind "FilesAdded", (up, files) ->
       $.each files, (i, file) ->
         $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <b></b>" + "</div>"
@@ -51,5 +45,8 @@ module.exports = class ImageChooser extends View
       up.refresh() # Reposition Flash/Silverlight
 
     uploader.bind "FileUploaded", (up, file) ->
+      media = file
       $("#" + file.id + " b").html "100%"
 
+  getMedia : ->
+    @media
