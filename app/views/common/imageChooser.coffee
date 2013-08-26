@@ -13,8 +13,8 @@ module.exports = class ImageChooser extends View
     super()
     uploader = new plupload.Uploader(
       multipart : false
-      runtimes: "html5"
-      browse_button: "adam1"
+      runtimes: "html5,flash,silverlight,html4"
+      browse_button: "imageChooser"
       container: "uploadContainer"
       max_file_size: "10mb"
       url: "/api/media/upload"
