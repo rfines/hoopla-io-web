@@ -10,5 +10,4 @@ module.exports = class RegistrationController extends Controller
     @view = new RegisterUserView  region:'main'    
 
   compositions: =>
-    console.log 'override'
     @compose 'site', SiteView

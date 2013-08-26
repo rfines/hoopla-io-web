@@ -1,5 +1,5 @@
 module.exports = (match) ->
-  match '', 'event#list'
+  match '', 'business#list'
 
   # Marketing/Pre-Login Routes
   match 'about', 'marketing#about'
