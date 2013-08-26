@@ -3,13 +3,12 @@ User = require 'models/user'
 
 SiteView = require 'views/site-view'
 PostLoginHeaderView = require 'views/postLoginHeader'
+TopNav = require 'views/topNav'
 
 module.exports = class PostLoginController extends Chaplin.Controller
 
   beforeAction: (params, route) ->
-    @compose 'site', SiteView
-    @compose 'postLoginHeader', PostLoginHeaderView, {region:'header'}
-
+    @compositions()
     url = window.location.href
     if url.indexOf('register') < 0    
       if not Chaplin.datastore?.user
@@ -22,6 +21,11 @@ module.exports = class PostLoginController extends Chaplin.Controller
                 console.log 'successful fetch of user'
         else
           @goToLogin()
+
+  compositions: =>
+    @compose 'site', SiteView
+    @compose 'topNav', TopNav, {region: 'topNav'}
+    @compose 'preLoginHeader', PostLoginHeaderView, {region:'header'}  
 
   goToLogin: ->
     @publishEvent '!router:route', 'login'
