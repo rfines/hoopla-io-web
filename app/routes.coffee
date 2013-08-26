@@ -24,3 +24,4 @@ module.exports = (match) ->
   match 'demo/changePassword', 'demo#changePassword' 
   match 'demo/forgot-password', 'demo#resetPassword'
   match 'password/reset', 'demo#newPassword'
+  match 'image', 'home#index'

@@ -46,6 +46,7 @@ handleGet = (req, res)->
   creq.end()
 
 handlePost = (req, res)->
+  console.log req
   newUrl = rewriteUrl req.originalUrl
   options = buildOptions("#{CONFIG.apiUrl}/#{newUrl.url}",CONFIG.apiKey, CONFIG.apiSecret,'POST', newUrl.query, req.body)
   options.headers = options.headers || {}
