@@ -12,7 +12,9 @@ module.exports = (match) ->
   match 'myEvents', 'event#list'
   match 'event', 'event#create'
   match 'event/:id', 'event#edit'  
-
+  match 'account/change-password', 'account#changePassword' 
+  match 'account/forgot-password', 'account#resetPassword'
+  match 'password/reset', 'demo#newPassword'
 
 
 
@@ -20,9 +22,4 @@ module.exports = (match) ->
   match 'login', 'login#login', name: 'auth_login'
   match 'logout', 'home#logout',name: 'auth_logout'
 
-  # demo routes for Dev Teams Proof Of Concepts
-  match 'demo/register', 'demo#registerUser'
-  match 'demo/changePassword', 'demo#changePassword' 
-  match 'demo/forgot-password', 'demo#resetPassword'
-  match 'password/reset', 'demo#newPassword'
   match 'image', 'home#index'

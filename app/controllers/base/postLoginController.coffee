@@ -4,6 +4,7 @@ User = require 'models/user'
 SiteView = require 'views/site-view'
 PostLoginHeaderView = require 'views/postLoginHeader'
 TopNav = require 'views/topNav'
+Footer = require 'views/footer'
 
 module.exports = class PostLoginController extends Chaplin.Controller
 
@@ -26,6 +27,7 @@ module.exports = class PostLoginController extends Chaplin.Controller
     @compose 'site', SiteView
     @compose 'topNav', TopNav, {region: 'topNav'}
     @compose 'preLoginHeader', PostLoginHeaderView, {region:'header'}  
+    @compose 'footer', Footer
 
   goToLogin: ->
     @publishEvent '!router:route', 'login'
