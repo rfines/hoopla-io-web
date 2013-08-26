@@ -17,11 +17,7 @@
     "jquery.cookie": "~1.3.1",
     "backbone.basicauth": "git://github.com/adamnengland/backbone.basicauth.git#master",
     "bootstrap": "~3.0.0",
-<<<<<<< HEAD
-    "Backbone.ModelBinder" : "*"
-=======
     "Backbone.ModelBinder": "*"
->>>>>>> adding jquery file upload
   },
   "overrides": {
     "backbone": {
@@ -44,6 +40,5 @@
     "moment": {
       "main": "moment.js"
     }
-   
   }
 }

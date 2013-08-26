@@ -22,12 +22,5 @@ module.exports = (match) ->
   match 'login', 'login#login', name: 'auth_login'
   match 'logout', 'home#logout',name: 'auth_logout'
 
-  # demo routes for Dev Teams Proof Of Concepts
-  match 'demo/register', 'demo#registerUser'
-  match 'demo/changePassword', 'demo#changePassword'
-  match 'demo/myBusinesses', 'demo#businessDashboard'
-  match 'demo/event/list', 'demo#eventDashboard'
-  match 'demo/myEvents', 'demo#eventDashboard'
-  match 'demo/business/list', 'demo#businessDashboard'
-  match 'demo/business/events', 'demo#businessEvents'
+  #demo route
   match 'image', 'home#index'
