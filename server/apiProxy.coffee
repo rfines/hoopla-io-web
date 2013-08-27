@@ -115,7 +115,7 @@ rewriteUrl = (oldUrl) ->
 
 getOptions = (method, req) ->
   newUrl = rewriteUrl(req.originalUrl)
-  url = url.parse("#{CONFIG.apiUrl}/#{newUrl.url}")
+  url = require('url').parse("#{CONFIG.apiUrl}/#{newUrl.url}")
   auth = new Buffer("#{CONFIG.apiKey}:#{CONFIG.apiSecret}").toString('base64')
   o = 
     hostname: url.hostname
