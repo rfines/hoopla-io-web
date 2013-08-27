@@ -18,7 +18,7 @@ module.exports = class EventEditView extends View
     super
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
-    $(".select-chosen").chosen()
+    @$el.find(".select-chosen").chosen()
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
       console.log @model

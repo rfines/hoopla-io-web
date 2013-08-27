@@ -1,27 +1,109 @@
 <div class="row">
-  <form role="form">
-    <div class="col-8">
-      <fieldset>
+  <form class="form-inline" role="form">
+    <div class="row">
+      <div class="col-8">
         <legend>Create Event</legend>
         <div class="form-group">
-          <select name="business" class="business select-chosen">
+          <select name="business" class="form-control business select-chosen">
             {{#each businesses}}
               <option value="{{id}}">{{attributes.name}}</option>
             {{/each}}
           </select>
-        </div>        
-        <div class="form-group">
-          <label for="exampleInputEmail1">Name</label>
-          <input type="text" class="form-control name" name="name" placeholder="Name">
         </div>
-        <div class="form-group">
-          <label>Description</label>
-          <input type="text" class="form-control description" name="description" placeholder="Description">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </fieldset>
+      </div>   
     </div>
-    <div class="col-4 geoLocation">
+
+    <div class="row">
+      <div class="col-md-4">
+        <label for="name">Name</label>
+        <input type="text" class="form-control name" name="name" placeholder="Name">
+      </div>
+      <div class="col-md-2">
+        <label for="start">When</label>
+        <input type="text" class="form-control" name="start">
+      </div>
+      <div class="col-md-2">
+        <label for="startTime">Start Time</label>
+        <input type="text" class="form-control" name="startTime">
+      </div>
+      <div class="col-md-2">
+        <label for="endTime">End Time</label>
+        <input type="text" class="form-control" name="endTime">
+      </div>            
+      <div class="col-md-2">
+        <label for="repeats">Repeats</label>
+        <select name="repeats" class="form-control">
+          <option>Daily</option>
+          <option>Weekly</option>
+        </select>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <label for="eventType">Event Type</label>
+        <select class="form-control select-chosen" multiple="true">
+          <option>Food</option>
+          <option>Arts</option>
+          <option>Family</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="venue">Venue</label>  
+        <select name="venue" class="form-control venue select-chosen">
+          {{#each businesses}}
+            <option value="{{id}}">{{attributes.name}}</option>
+          {{/each}}
+        </select>        
+      </div>
+      <div class="col-md-2">
+        <label for="cost">Cost</label>
+        <input type="text" name="cost" value="0"/>
+      </div>
+      <div class="col-md-2">
+        <label for="ticketing">Ticket/RSVP Link</label>
+        <input type="text" name="ticketing"/>        
+      </div>            
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="description">Description</label>
+        <textarea class="form-control description" name="description" placeholder="Description"></textarea>
+      </div>
+      <div class="col-md-4">
+        <h2>Image Here</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="website">Event Website</label>
+        <input type="url" class="form-control" name="website" />
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="contact">Event Contact</label>
+        <input type="url" class="form-control" name="contact" />
+      </div>
+      <div class="col-md-4">
+        <label for="phone">Event Phone</label>
+        <input type="phone" class="form-control" name="phone" />        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="website">Event Tags</label>
+          <select class="form-control select-chosen" multiple="true">
+            <option>Food</option>
+            <option>Arts</option>
+            <option>Family</option>
+          </select>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-default pull-right">Submit</button>
+      </div>
+    </div>        
   </form>
 </div>
