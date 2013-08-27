@@ -13,6 +13,7 @@ module.exports = class BusinessEditView extends View
     @model = @model || new Business()
 
   attach: ->
+    @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
     super 
 
   events:
