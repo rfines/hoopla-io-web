@@ -11,8 +11,13 @@
           <label>Description</label>
           <textarea id="description-textarea"  name="description" class="form-control description" placeholder="Enter your description ..."></textarea> 
         </div>
+        <div class=form-group">
+          {{#if mediaUrl}}
+            <img src="{{mediaUrl}}" class="currentImage" alt="profile image"/>
+          {{/if}}
+        </div>
         <div class="form-group imageChooser">
-
+         
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </fieldset>

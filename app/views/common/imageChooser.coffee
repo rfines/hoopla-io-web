@@ -37,22 +37,24 @@ module.exports = class ImageChooser extends View
 
       up.refresh() # Reposition Flash/Silverlight
     
-    uploader.bind "UploadProgress", (up, file) ->
+    uploader.bind "UploadProgress", (up, file) =>
       $("#" + file.id + " b").html file.percent + "%"
 
-    uploader.bind "Error", (up, err) ->
+    uploader.bind "Error", (up, err) =>
       $("#filelist").append "<div>Error: " + err.code + ", Message: " + err.message + ((if err.file then ", File: " + err.file.name else "")) + "</div>"
       up.refresh() # Reposition Flash/Silverlight
 
-    uploader.bind "FileUploaded", (up, file, response) ->
+    uploader.bind "FileUploaded", (up, file, response) =>
       console.log "chunk uploaded"
       response = JSON.parse(response.response)
       console.log response
       if response.success is true
         $("#" + file.id + " b").html "100%"
         file.status = plupload.DONE
+        console.log response.media
         @media = response.media
       else
+        console.log "else"
         $("#" + file.id + " b").html "0%"
         file.status = plupload.FAILED
         @media = null

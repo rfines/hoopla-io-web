@@ -16,7 +16,6 @@ module.exports = class EventEditView extends View
 
   attach: ->
     super
-    console.log 'attach'
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     $(".select-chosen").chosen()
