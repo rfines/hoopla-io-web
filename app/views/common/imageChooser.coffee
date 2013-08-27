@@ -27,9 +27,9 @@ module.exports = class ImageChooser extends View
     )
     uploader.bind "Init", (up, params) ->
       $("#filelist").html "<div>Current runtime: " + params.runtime + "</div>"
-    $("#uploadfiles").click (e) ->
-      uploader.start()
-      e.preventDefault()
+      $("#uploadfiles").click (e) ->
+        uploader.start()
+        e.preventDefault()
     uploader.init()
     uploader.bind "FilesAdded", (up, files) ->
       $.each files, (i, file) ->
@@ -44,9 +44,18 @@ module.exports = class ImageChooser extends View
       $("#filelist").append "<div>Error: " + err.code + ", Message: " + err.message + ((if err.file then ", File: " + err.file.name else "")) + "</div>"
       up.refresh() # Reposition Flash/Silverlight
 
-    uploader.bind "FileUploaded", (up, file) ->
-      media = file
-      $("#" + file.id + " b").html "100%"
+    uploader.bind "FileUploaded", (up, file, response) ->
+      console.log "chunk uploaded"
+      response = JSON.parse(response.response)
+      console.log response
+      if response.success is true
+        $("#" + file.id + " b").html "100%"
+        file.status = plupload.DONE
+        @media = response.media
+      else
+        $("#" + file.id + " b").html "0%"
+        file.status = plupload.FAILED
+        @media = null
 
   getMedia : ->
     @media
