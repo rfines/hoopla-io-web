@@ -58,8 +58,8 @@ module.exports = class User extends Model
               console.log "Error changing password"
       error: (body, response, xHr) =>
         $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
+
   resetPassword:(email)=>
-    console.log "Reset password email request"
     $.ajax
       type:'POST'
       contentType:'application/json'
@@ -70,6 +70,7 @@ module.exports = class User extends Model
         console.log response
       error:(body, response, xHr) =>
         $('.errors').append("<span class='error'>Email sent.</span>")
+
   newPassword:(email,newPassword, token)=>
     console.log "Sending new password"
     $.ajax

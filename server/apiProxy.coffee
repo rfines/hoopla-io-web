@@ -71,12 +71,15 @@ handlePost = (req, res)->
     res.writeHead 500
     res.end()
   )
-  req.on "data", (chunk) ->
-    console.log 'write chunk'
-    creq.write chunk
-  req.on "end", ->
-    console.log 'end request'
+  if req.headers['content-type'] is 'application/json'
+    creq.write JSON.stringify(req.body)
     creq.end()
+  else
+    req.on "data", (chunk) ->
+      creq.write chunk
+    req.on "end", ->
+      creq.end()
+
     
 handlePut = (req, res)->
   newUrl = rewriteUrl req.originalUrl

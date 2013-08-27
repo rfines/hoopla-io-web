@@ -22,7 +22,7 @@ module.exports = class ImageChooser extends View
       silverlight_xap_url: "/plupload/js/plupload.silverlight.xap"
       filters: [
         title: "Image files"
-        extensions: "jpg,jpeg,gif,png"
+        extensions: "jpg,jpeg,gif,png,pdf"
       ]
     )
     uploader.bind "Init", (up, params) ->
