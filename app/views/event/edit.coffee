@@ -13,18 +13,21 @@ module.exports = class EventEditView extends View
 
   attach: =>
     super
-    @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     @$el.find(".select-chosen").chosen()
+    @$el.find('.timepicker').timepicker
+      scrollDefaultTime : "12:00"
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
-      @model.set 'host', params.selected      
+      @model.set 
+      'host' : params.selected
+      'location' : Chaplin.datastore.business.get(params.selected).get('location')
+
     @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
-    if @model.get('location')?.address
-      @$el.find('.address').val(@model.get('location').address)
-      @subview("geoLocation").showGeo(@model.get('location').geo)
+    console.log @startDate
     @attachAddressFinder()
+    @modelBinder.bind @model, @$el
 
   attachAddressFinder: =>
     @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')
@@ -45,23 +48,21 @@ module.exports = class EventEditView extends View
   save: (e) ->
     e.preventDefault()
     @model.set
-      location : @subview('geoLocation').getLocation()
       fixedOccurrences : @getFixedOccurrences()
     console.log @model
     @model.save {}, {
       success: =>
+        Chaplin.datastore.event.add @model
         @publishEvent '!router:route', 'myEvents'
     }
 
-  getFixedOccurrences: ->
+  getFixedOccurrences: =>
     sd = @startDate.getMoment()
-    sd.add('hours', @model.get('startTime').split(':')[0])
-    sd.add('minutes', @model.get('startTime').split(':')[1])
-
+    console.log @startDate
+    console.log sd
+    sd.add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
     ed = @startDate.getMoment()
-    ed.add('hours', @model.get('endTime').split(':')[0])
-    ed.add('minutes', @model.get('endTime').split(':')[1])    
-
+    ed.add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))
     return [{
       start : sd.toDate().toISOString()
       end : ed.toDate().toISOString()
