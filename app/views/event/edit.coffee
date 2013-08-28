@@ -10,22 +10,29 @@ module.exports = class EventEditView extends View
 
   initialize: ->
     super
-    @model = @model || new Event()
-    console.log @model
 
   attach: =>
     super
-    console.log @model
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     @$el.find(".select-chosen").chosen()
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
-    console.log @$el.find('.datePicker')[0]
+    $('.host').on 'change', (evt, params) =>
+      @model.set 'host', params.selected      
     @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
     if @model.get('location')?.address
       @$el.find('.address').val(@model.get('location').address)
       @subview("geoLocation").showGeo(@model.get('location').geo)
+    @attachAddressFinder()
+
+  attachAddressFinder: =>
+    @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')
+    @$el.find('.addressButton').on 'shown.bs.popover', =>
+      @$el.find('.popover-content').html("<div class='addressPopover'></div>")
+      @removeSubview('addressPopover') if @subview('addressPopover')
+      @subview('addressPopover', new AddressView({container : @$el.find('.addressPopover')}))  
+
 
   events:
     'submit form' : 'save'

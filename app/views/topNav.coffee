@@ -10,7 +10,6 @@ module.exports = class TopNav extends View
 
   attach: ->
     super()
-    console.log 'go'
     @$el.find('.signInButton').popover({placement: 'bottom', content : "<div class='loginPopover'>Hello</div>", html: true}).popover('show').popover('hide')
     @$el.find('.signInButton').on 'shown.bs.popover', =>
       @$el.find('.popover-content').html("<div class='loginPopover'></div>")

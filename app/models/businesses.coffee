@@ -9,3 +9,6 @@ module.exports = class Businesses extends Collection
   dispose: ->
     console.log 'dispose'
     super
+
+  hasOne: ->
+    @length is 1
