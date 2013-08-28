@@ -19,7 +19,6 @@ module.exports = class BusinessController extends Controller
 
 
   edit: (params) ->
-    console.log 'edit business'
     BusinessEdit = require 'views/business/edit'
     Chaplin.datastore.load 
       name : 'business'

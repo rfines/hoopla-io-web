@@ -1,8 +1,8 @@
 Collection = require 'models/base/collection'
-Business = require('models/business')
+Event = require('models/event')
 
 module.exports = class Events extends Collection
-  Model : Business
+  model : Events
   url: ->
     "/api/user/#{$.cookie('user')}/events"
   

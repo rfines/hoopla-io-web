@@ -1,4 +1,5 @@
 Businesses = require 'models/businesses'
+Business = require 'models/business'
 Events = require 'models/events'
 Event = require 'models/event'
 

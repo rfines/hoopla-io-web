@@ -1,28 +1,49 @@
-<div class="row">
-  <form role="form">
-    <div class="col-md-8 col-lg-8 col-sm-8">
-      <fieldset>
-        <legend>Create Business</legend>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Name</label>
+
+  <form role="form" class="form-inline">
+    <div class="row">
+      <div class="col-md-6 col-sm-4 col-lg-6">
+      <legend>Create Business</legend>
+          <label for="name">Business Name</label>
           <input type="text" class="form-control name" name="name" placeholder="Business Name">
+          <div class="geoLocation">
+          </div>
+          <label>Business Description</label>
+          <textarea id="description-textarea"  name="description" class="form-control description" placeholder="Enter your description ..."></textarea>     
+          <label class="sr-only">Website</label>
+          <input type="url" class="form-control" name="website" placeholder="Website" />
+          <h4>Business Contact Info</h4>
+          <label class="sr-only">Contact Name</label>
+          <input type="text" class="form-control" name="contactName" placeholder="Name" />
+          <label class="sr-only">Contact Email</label>
+          <input type="email" class="form-control email" name="contactEmail" placeholder="Email" />
+          <label class="sr-only">Contact Phone</label>
+          <input type="phone" class="form-control phone" name="contactPhone" placeholder = "Phone"/>
+        </div>        
+          <div class="col-md-6 col-sm-4 col-lg-6">
+            <div class="well">
+            <h4>Profile Image</h4>        
+            <div class="imageChooser">
+              {{#if imageUrl}}
+                <img src="{{imageUrl}}" class="currentImage"/>
+              {{/if}}
+            </div>
+            </div>
+            <h4>Social Media</h4>
+            <label class="sr-only">Facebook Profile URL</label>
+            <input type="url" name="facebookUrl" class="form-control" placeholder="Facebook Profile URL"/>
+            <button type="button" class="btn btn-success facebook">Connect</button>
+            <label class="sr-only">Twitter Profile URL</label>
+            <input type="url" class="form-control twitter" name="twitterUrl" placeholder="Twitter Profile URL"/>
+            <button type="button" class="btn btn-success">Connect</button>
+            <label class="sr-only">Foursquare Profile URL</label>
+            <input type="url" class="form-control foursquare" name="foursquareUrl" placeholder="Foursquare Profile URL"/>
+            <button type="button" class="btn btn-success">Connect</button>
+            <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea id="description-textarea"  name="description" class="form-control description" placeholder="Enter your description ..."></textarea> 
-        </div>
-        <div class=form-group">
-          {{#if mediaUrl}}
-            <img src="{{mediaUrl}}" class="currentImage" alt="profile image"/>
-          {{/if}}
-        </div>
-        <div class="form-group imageChooser">
-         
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </fieldset>
-    </div>
-    <div class="col-md-4 col-lg-4 col-sm-4 geoLocation">
-    </div>
+      
+    
+   
   </form>
-</div>

@@ -11,6 +11,8 @@ module.exports = class AddressView extends View
 
   attach: ->
     super
+    if @model.has 'address'
+      @$el.find('.address').val(@model.address)
 
   events:
     'change input' : 'mapLocation'

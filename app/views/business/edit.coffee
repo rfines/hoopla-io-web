@@ -11,6 +11,7 @@ module.exports = class BusinessEditView extends View
   initialize: ->
     super
     @model = @model || new Business()
+    console.log @model
 
   attach: ->
     super
@@ -24,25 +25,51 @@ module.exports = class BusinessEditView extends View
 
   getTemplateData: ->
     td = super()
-    console.log @model.get('media')
-    td.mediaUrl = @model.get('media')[0].url
+    media = @model.get('media')
+    if media?.length > 0
+      td.mediaUrl = media[0].url
     td    
 
   save: (e) ->
     e.preventDefault()
-    console.log @subview('imageChooser').getMedia()._id
     @model.set
       location : @subview('geoLocation').getLocation()
-    if @model.get('media')
-      @model.get('media').push @subview('imageChooser').getMedia()._id
+
+    if @model.get('media') and @subview('imageChooser').getMedia()
+      @model.get('media').push @subview('imageChooser').getMedia()
+    else if @subview('imageChooser').getMedia()
+      @model.set 'media',[@subview('imageChooser').getMedia()]
+
+    console.log @model.get 'media'
+    if @model.get('contacts') and (@$el.find('.email') or @$el.find('.phone'))
+      @model.get('contacts').push {email:@$el.find('.email').val(), phone:@$el.find('.phone').val()}
     else
-      @model.set 'media',[@subview('imageChooser').getMedia()._id]
+      @model.set 'contacts', [{email:@$el.find('.email').val(), phone:@$el.find('.phone').val()}]
+    
+    fb = @$el.find('facebook').val()
+    tw = @$el.find('twitter').val()
+    fq = @$el.find('foursquare').val()
+    if @model.get('socialMediaLinks')
+      if fb
+        @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
+      if tw
+        @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
+      if fq
+        @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
+    else
+      if fb
+        @model.set 'socialMediaLinks', {target:'Facebook', url:fb}
+      if tw
+        @model.set 'socialMediaLinks', {target:'Twitter', url:tw}
+      if fq
+        @model.set 'socialMediaLinks', {target:'Foursquare', url:fq}
 
     @model.save {}, {
       success: =>
-        console.log "Saving business"
         Chaplin.datastore.business.add @model
         @publishEvent '!router:route', 'myBusinesses'
-      error: ->
+      error: (model, response) ->
+        console.log model
+        console.log response
         console.log "Error saving"
     }

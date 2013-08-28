@@ -26,7 +26,6 @@ module.exports = class ImageChooser extends View
       ]
     )
     uploader.bind "Init", (up, params) ->
-      $("#filelist").html "<div>Current runtime: " + params.runtime + "</div>"
       $("#uploadfiles").click (e) ->
         uploader.start()
         e.preventDefault()
