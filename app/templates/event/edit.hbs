@@ -48,14 +48,17 @@
           <option>Family</option>
         </select>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="host">Venue</label>  
         <select name="host" class="form-control select-chosen">
           {{#each businesses}}
             <option value="{{id}}">{{attributes.name}}</option>
           {{/each}}
-        </select>        
+        </select>
       </div>
+      <div class="col-md-1">
+        <a class="addressButton">+</a>        
+      </div>      
       <div class="col-md-2">
         <label for="cost">Cost</label>
         <input type="text" name="cost" value="0"/>
