@@ -46,11 +46,14 @@ module.exports = class DemoController extends Controller
   list: ->
     EventList = require 'views/event/list'
     Chaplin.datastore.load 
-      name : 'event'
+      name : 'business'
       success: =>
-        @view = new EventList
-          region: 'main'
-          collection : Chaplin.datastore.event
-      error: (model, response) =>
-        console.log 'error'
-        console.log response
+        Chaplin.datastore.load 
+          name : 'event'
+          success: =>
+            @view = new EventList
+              region: 'main'
+              collection : Chaplin.datastore.event
+          error: (model, response) =>
+            console.log 'error'
+            console.log response

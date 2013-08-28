@@ -19,3 +19,7 @@ module.exports = class ListItem extends View
     Chaplin.datastore.event.remove(@model)
     @dispose()
     
+  getTemplateData: =>
+    td = super()
+    td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
+    td

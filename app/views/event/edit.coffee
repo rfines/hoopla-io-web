@@ -70,8 +70,6 @@ module.exports = class EventEditView extends View
 
   getFixedOccurrences: =>
     sd = @startDate.getMoment()
-    console.log @startDate
-    console.log sd
     sd.add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
     ed = @startDate.getMoment()
     ed.add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))
