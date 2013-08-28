@@ -13,22 +13,23 @@ module.exports = class EventEditView extends View
 
   attach: =>
     super
-    @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
+    @initTimePickers()
+    @initDatePickers()
+    @attachAddressFinder()    
     @$el.find(".select-chosen").chosen()
-    @$el.find('.timepicker').timepicker
-      scrollDefaultTime : "12:00"
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
       @model.set 
       'host' : params.selected
       'location' : Chaplin.datastore.business.get(params.selected).get('location')
-
-    @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
-    console.log @startDate
-    @attachAddressFinder()
     @modelBinder.bind @model, @$el
 
+  initDatePickers: =>
+    @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
+  initTimePickers: =>
+    @$el.find('.timepicker').timepicker
+      scrollDefaultTime : "12:00"
   attachAddressFinder: =>
     @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')
     @$el.find('.addressButton').on 'shown.bs.popover', =>
