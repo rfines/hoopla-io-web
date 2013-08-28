@@ -14,6 +14,7 @@ module.exports = class EventEditView extends View
     
   initialize: ->
     super
+    console.log @model
 
   attach: =>
     super
