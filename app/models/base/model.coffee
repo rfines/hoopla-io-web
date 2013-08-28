@@ -18,4 +18,11 @@ module.exports = class Model extends Chaplin.Model
       if $.cookie('token')
         console.log 'add token'
         xhr.setRequestHeader('X-AuthToken', $.cookie('token'))
-    super(fields, options)      
+    super(fields, options)  
+
+  destroy: (options) ->
+    options = options || {}
+    options.beforeSend = (xhr) ->
+      if $.cookie('token')
+        xhr.setRequestHeader('X-AuthToken', $.cookie('token'))
+    super(options)          

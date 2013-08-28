@@ -5,10 +5,6 @@ module.exports = class Businesses extends Collection
   model : Business
   url: ->
     "/api/user/#{$.cookie('user')}/businesses"
-  
-  dispose: ->
-    console.log 'dispose'
-    super
 
   hasOne: ->
     @length is 1
