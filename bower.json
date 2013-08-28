@@ -18,7 +18,7 @@
     "bootstrap": "~3.0.0",
     "Backbone.ModelBinder": "*",
     "pikaday" : "*",
-    "jquery-timepicker-jt" : "1.2.4"
+    "jquery-timepicker-jt" : "~1.2.4"
   },
   "overrides": {
     "backbone": {
@@ -37,6 +37,11 @@
     },
     "Backbone.ModelBinder": {
       "main": "Backbone.ModelBinder.js"
+    },
+    "pikaday" : {
+      "dependencies" : {
+        "moment" : "~2.0.0"
+      }
     },
     "moment": {
       "main": "moment.js"

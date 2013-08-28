@@ -2,17 +2,21 @@ template = require 'templates/event/edit'
 View = require 'views/base/view'
 Event = require 'models/event'
 AddressView = require 'views/address'
+ImageChooser = require 'views/common/imageChooser'
 
 module.exports = class EventEditView extends View
   autoRender: true
   className: 'event-edit'
   template: template
-
+  events:
+    'submit form' : 'save'
+    
   initialize: ->
     super
 
   attach: =>
     super
+    @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
     @initTimePickers()
     @initDatePickers()
     @attachAddressFinder()    
@@ -27,9 +31,12 @@ module.exports = class EventEditView extends View
 
   initDatePickers: =>
     @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
+
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : "12:00"
+      step : 15
+
   attachAddressFinder: =>
     @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')
     @$el.find('.addressButton').on 'shown.bs.popover', =>
@@ -37,20 +44,23 @@ module.exports = class EventEditView extends View
       @removeSubview('addressPopover') if @subview('addressPopover')
       @subview('addressPopover', new AddressView({container : @$el.find('.addressPopover')}))  
 
-
-  events:
-    'submit form' : 'save'
-
   getTemplateData: ->
     td = super()
     td.businesses = Chaplin.datastore.business.models
+    media = @model.get('media')
+    if media?.length > 0
+      td.imageUrl = media[0].url
     td    
+
 
   save: (e) ->
     e.preventDefault()
+    if @model.get('media') and @subview('imageChooser').getMedia()
+      @model.get('media').push @subview('imageChooser').getMedia()
+    else if @subview('imageChooser').getMedia()
+      @model.set 'media',[@subview('imageChooser').getMedia()]    
     @model.set
       fixedOccurrences : @getFixedOccurrences()
-    console.log @model
     @model.save {}, {
       success: =>
         Chaplin.datastore.event.add @model
