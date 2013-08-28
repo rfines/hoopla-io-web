@@ -23,6 +23,9 @@ module.exports = class EventEditView extends View
       @model.set 'business', params.selected
     console.log @$el.find('.datePicker')[0]
     @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
+    if @model.get('location')?.address
+      @$el.find('.address').val(@model.get('location').address)
+      @subview("geoLocation").showGeo(@model.get('location').geo)
 
   events:
     'submit form' : 'save'
