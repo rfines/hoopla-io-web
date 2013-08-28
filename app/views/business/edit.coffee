@@ -18,52 +18,63 @@ module.exports = class BusinessEditView extends View
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
+    if @model.get('location')?.address
+      @$el.find('.address').val(@model.get('location').address)
+      @subview("geoLocation").showGeo(@model.get('location'))
+    links = @model.get('socialMediaLinks')
+    console.log links
+    if links?.length > 0
+      @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"}).url)
+      @$el.find('.twitter').val( _.findWhere(links, {target:"Twitter"}).url)
+      @$el.find('.foursquare').val(_.findWhere(links, {target:"Foursquare"}).url)
+
      
 
   events:
     'submit form' : 'save'
+    'click button.cancel':'cancel'
 
   getTemplateData: ->
     td = super()
     media = @model.get('media')
     if media?.length > 0
-      td.mediaUrl = media[0].url
+      td.imageUrl = media[0].url
     td    
 
   save: (e) ->
     e.preventDefault()
-    @model.set
-      location : @subview('geoLocation').getLocation()
-
     if @model.get('media') and @subview('imageChooser').getMedia()
       @model.get('media').push @subview('imageChooser').getMedia()
     else if @subview('imageChooser').getMedia()
       @model.set 'media',[@subview('imageChooser').getMedia()]
-
-    console.log @model.get 'media'
-    if @model.get('contacts') and (@$el.find('.email') or @$el.find('.phone'))
-      @model.get('contacts').push {email:@$el.find('.email').val(), phone:@$el.find('.phone').val()}
-    else
-      @model.set 'contacts', [{email:@$el.find('.email').val(), phone:@$el.find('.phone').val()}]
-    
-    fb = @$el.find('facebook').val()
-    tw = @$el.find('twitter').val()
-    fq = @$el.find('foursquare').val()
+    fb = @$el.find('.facebook').val()
+    tw = @$el.find('.twitter').val()
+    fq = @$el.find('.foursquare').val()
     if @model.get('socialMediaLinks')
+      links = @model.get('socialMediaLinks')
       if fb
-        @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
+        f = _.findWhere(links, {url:fb})
+        if not f
+          @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
       if tw
-        @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
+        t= _.findWhere(links, {url:tw})
+        if not t
+          @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
       if fq
-        @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
+        q = _.findWhere(links, {url:fq})
+        if not q
+          @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
     else
+      console.log "Social media links else"
+      @model.set 'socialMediaLinks', []
       if fb
-        @model.set 'socialMediaLinks', {target:'Facebook', url:fb}
+        @model.get 'socialMediaLinks'.push {target:'Facebook', url:fb}
       if tw
-        @model.set 'socialMediaLinks', {target:'Twitter', url:tw}
+        @model.get 'socialMediaLinks'.push {target:'Twitter', url:tw}
       if fq
-        @model.set 'socialMediaLinks', {target:'Foursquare', url:fq}
-
+        @model.get 'socialMediaLinks'.push {target:'Foursquare', url:fq}
+    @model.set
+      location : @subview('geoLocation').getLocation()
     @model.save {}, {
       success: =>
         Chaplin.datastore.business.add @model
@@ -73,3 +84,5 @@ module.exports = class BusinessEditView extends View
         console.log response
         console.log "Error saving"
     }
+  cancel:()->
+    window.location = '/myBusinesses'

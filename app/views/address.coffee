@@ -41,18 +41,21 @@ module.exports = class AddressView extends View
         else
           console.log "Geocode was not successful for the following reason: " + status
 
-  showGeo: (geo) =>
-    p = new google.maps.LatLng(geo.coordinates[1], geo.coordinates[0])
-    mapOptions = 
+  showGeo: (location) =>
+    p = new google.maps.LatLng(location.geo.coordinates[1], location.geo.coordinates[0])
+    mapOptions =
       zoom: 16
       center: p
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);        
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     marker = new google.maps.Marker(
       map: map
       position: p
     )
     google.maps.event.trigger(map, 'resize')
+    @location = location
+
+
 
   getNeighborhood: (results) ->
     ac = results[0].address_components
@@ -62,4 +65,5 @@ module.exports = class AddressView extends View
       return match.long_name
 
   getLocation: ->
+    console.log @location
     @location
