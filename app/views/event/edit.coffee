@@ -3,6 +3,7 @@ View = require 'views/base/view'
 Event = require 'models/event'
 AddressView = require 'views/address'
 ImageChooser = require 'views/common/imageChooser'
+ImageUtils = require 'utils/imageUtils'
 
 module.exports = class EventEditView extends View
   autoRender: true
@@ -49,7 +50,10 @@ module.exports = class EventEditView extends View
     td.businesses = Chaplin.datastore.business.models
     media = @model.get('media')
     if media?.length > 0
-      td.imageUrl = media[0].url
+      #td.imageUrl = media[0].url
+      td.imageUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: 163, width: 266})
+      console.log media[0].url
+      console.log td.imageUrl
     td    
 
 

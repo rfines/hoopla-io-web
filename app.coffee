@@ -23,6 +23,7 @@ app.get "/*", (req, res) ->
   data =
     development: CONFIG.development
     apiUrl : CONFIG.apiUrl
+    cloudinary : CONFIG.cloudinary
   res.render "index.hbs", data
 
 app.listen(port);

@@ -6,7 +6,7 @@ class AddressTest
 
 describe 'Address Finder View', ->
   beforeEach ->
-    @view = new Address()
+    @view = new Address({autoRender:false})
 
   afterEach ->
     @view.dispose()
