@@ -68,11 +68,11 @@ module.exports = class BusinessEditView extends View
       console.log "Social media links else"
       @model.set 'socialMediaLinks', []
       if fb
-        @model.get 'socialMediaLinks'.push {target:'Facebook', url:fb}
+        @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
       if tw
-        @model.get 'socialMediaLinks'.push {target:'Twitter', url:tw}
+        @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
       if fq
-        @model.get 'socialMediaLinks'.push {target:'Foursquare', url:fq}
+        @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
     @model.set
       location : @subview('geoLocation').getLocation()
     @model.save {}, {
