@@ -28,8 +28,6 @@ module.exports = class BusinessEditView extends View
       @$el.find('.twitter').val( _.findWhere(links, {target:"Twitter"}).url)
       @$el.find('.foursquare').val(_.findWhere(links, {target:"Foursquare"}).url)
 
-     
-
   events:
     'submit form' : 'save'
     'click button.cancel':'cancel'
@@ -38,7 +36,7 @@ module.exports = class BusinessEditView extends View
     td = super()
     media = @model.get('media')
     if media?.length > 0
-      td.imageUrl = media[0].url
+      td.imageUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: 163, width: 266})
     td    
 
   save: (e) ->
@@ -65,7 +63,6 @@ module.exports = class BusinessEditView extends View
         if not q
           @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
     else
-      console.log "Social media links else"
       @model.set 'socialMediaLinks', []
       if fb
         @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
