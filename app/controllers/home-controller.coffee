@@ -7,7 +7,7 @@ Footer = require 'views/footerHome'
 
 module.exports = class HomeController extends Controller
   home: ->
-    aboutTemplate = require('templates/marketing/about')
+    aboutTemplate = require('templates/home')
     @view = new MarketingView({region:'main', template : aboutTemplate});
   compositions: =>
     @compose 'site', SiteView
