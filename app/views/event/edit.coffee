@@ -42,6 +42,9 @@ module.exports = class EventEditView extends View
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : "12:00"
       step : 15
+    if not @model.isNew()
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   attachAddressFinder: =>
     @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')

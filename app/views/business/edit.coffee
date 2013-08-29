@@ -18,11 +18,7 @@ module.exports = class BusinessEditView extends View
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
-    if @model.get('location')?.address
-      @$el.find('.address').val(@model.get('location').address)
-      @subview("geoLocation").showGeo(@model.get('location'))
     links = @model.get('socialMediaLinks')
-    console.log links
     if links?.length > 0
       @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"}).url)
       @$el.find('.twitter').val( _.findWhere(links, {target:"Twitter"}).url)

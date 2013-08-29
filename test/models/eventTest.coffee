@@ -34,3 +34,9 @@ describe 'Event Model', ->
     @model.set 'fixedOccurrences', [{start : start.toDate().toISOString()}]
     @model.getStartDate().toDate().should.be.eql start.toDate()
     done()
+
+  it 'should get the end date from fixed occurrences if available', (done) ->
+    end = moment().add('days',3)
+    @model.set 'fixedOccurrences', [{end : end.toDate().toISOString()}]
+    @model.getEndDate().toDate().should.be.eql end.toDate()
+    done()    
