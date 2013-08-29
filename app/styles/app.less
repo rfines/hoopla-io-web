@@ -1,7 +1,60 @@
+@import "variables.less";
+
+body {
+	font-family:'quicksandbook';
+	}
 .loginPopover {
-  width: 300px;
+	width: 300px;
+	}
+.topNav {
+	img.logo {
+		margin:12px 0px 12px 60px;
+		}
+	a {color:rgb(10,171, 185);
+		font-size:1.1em;
+		margin: 0px 10px 0px 0px;
+		}
+	.top-nav-links {position:relative;top:10px;}
 }
-.addressPopover {
+.header {
+	.navbar {border-radius:0px;}
+.navbar-inverse {
+	padding:0px 28px;
+	.navbar-nav > li > a {
+		color:#c5d645!important;
+		font-family:'quicksandbold';
+		font-size:1.2em;
+	}
+	.navbar-nav > li > a.active {
+		color:rgb(10,171, 185)!important;
+	}
+	background-color:@gray-dark;
+	}
+}
+
+#footer {
+	
+	position:absolute;
+	width:100%;
+	line-height:47px;
+	bottom:-20px;
+		.navbar {border-radius:0px;}
+		.navbar-inverse 
+		{
+		padding:0px 60px;
+			.navbar-nav > li 
+			{
+				float:left;
+			}
+		.navbar-nav > li > a.active 
+		{
+		color:rgb(10,171, 185)!important;
+	   }
+	background-color:@gray-dark;
+	}
+	ul.copyright-social li {margin-right:20px}
+	
+}.addressPopover {
   width: 300px;
   input {
     max-width:250px;
