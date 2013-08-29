@@ -18,6 +18,7 @@ module.exports = class EventEditView extends View
 
   attach: =>
     super
+    @modelBinder.bind @model, @$el
     @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
     @initTimePickers()
     @initDatePickers()
@@ -29,22 +30,28 @@ module.exports = class EventEditView extends View
       @model.set 
       'host' : params.selected
       'location' : Chaplin.datastore.business.get(params.selected).get('location')
-    @modelBinder.bind @model, @$el
 
   initDatePickers: =>
-    @startDate = new Pikaday({ field: @$el.find('.datePicker')[0] })  
+    @startDate = new Pikaday
+      field: @$el.find('.startDate')[0]
+    if not @model.isNew()
+      @startDate.setMoment @model.getStartDate()
+      $('.startDate').val(@model.getStartDate().format('YYYY-MM-DD'))
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : "12:00"
       step : 15
+    if not @model.isNew()
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   attachAddressFinder: =>
     @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       @$el.find('.popover-content').html("<div class='addressPopover'></div>")
       @removeSubview('addressPopover') if @subview('addressPopover')
-      @subview('addressPopover', new AddressView({container : @$el.find('.addressPopover')}))  
+      @subview('addressPopover', new AddressView({container : @$el.find('.addressPopover'), model : @model}))  
 
   getTemplateData: ->
     td = super()

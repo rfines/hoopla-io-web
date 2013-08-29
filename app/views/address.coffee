@@ -9,10 +9,11 @@ module.exports = class AddressView extends View
   initialize: ->
     super
 
-  attach: ->
+  attach: =>
     super
-    if @model.has 'address'
-      @$el.find('.address').val(@model.address)
+    if @model.has 'location'
+      @$el.find('.address').val(@model.get('location').address)
+      @showGeo(@model.get('location'))
 
   events:
     'change input' : 'mapLocation'

@@ -13,7 +13,7 @@ module.exports = (match) ->
   match 'event', 'event#create'
   match 'event/:id', 'event#edit'  
   match 'account/change-password', 'account#changePassword' 
-  match 'account/forgot-password', 'account#resetPassword'
+  
   match 'password/reset', 'demo#newPassword'
 
 
@@ -21,6 +21,7 @@ module.exports = (match) ->
   # login/logout
   match 'login', 'login#login', name: 'auth_login'
   match 'logout', 'home#logout',name: 'auth_logout'
+  match 'login/forgot-password', 'login#resetPassword'
 
   #demo route
   match 'image', 'home#index'
