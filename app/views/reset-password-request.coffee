@@ -14,10 +14,12 @@ module.exports = class ResetPasswordRequestView extends View
     super
     @model = new User()
 
-  resetPassword: (e)->
+  resetPassword: (e) =>
     e.preventDefault()
     email = @$el.find('.email').val()
     if email
       @model.resetPassword email
+      @$el.find('.alert-success').removeClass('hide')
     else
-      @$el.find('.errors').append("<span class='error'>A valid email address is required.</span>")
+      @$el.find('.alert-danger').removeClass('hide')
+      @$el.find('.alert-danger').append("<span class='error'>A valid email address is required.</span>")
