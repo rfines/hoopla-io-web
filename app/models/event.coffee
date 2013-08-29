@@ -20,3 +20,6 @@ module.exports = class Event extends Model
         return 'Today'
       else
         return 'Tomorrow'
+
+  getStartDate: ->
+    return moment(_.first(@get('fixedOccurrences')).start)

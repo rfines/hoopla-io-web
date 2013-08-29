@@ -28,3 +28,9 @@ describe 'Event Model', ->
     @model.set 'occurrences', [next.toDate().toISOString()]
     @model.nextOccurrenceText().should.be.equal next.format('MM/DD/YYYY')
     done()        
+
+  it 'should get the start date from fixed occurrences if available', (done) ->
+    start = moment().add('days',3)
+    @model.set 'fixedOccurrences', [{start : start.toDate().toISOString()}]
+    @model.getStartDate().toDate().should.be.eql start.toDate()
+    done()
