@@ -1,0 +1,9 @@
+{
+  "development" : true,
+  "apiUrl" : "http://hoopla-io-api-stage.herokuapp.com",
+  "apiKey" :"METkwI15Bg0heuRNaru6",
+  "apiSecret": "6n0pRhok4WR8yx8VudUD7XshboNCz51oFXJvZA2y",
+ "cloudinary" : {
+    "cloudName" : "hu9ncnicw"
+  }
+}
