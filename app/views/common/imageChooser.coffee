@@ -16,6 +16,7 @@ module.exports = class ImageChooser extends View
       runtimes: "html5,flash,silverlight,html4"
       browse_button: "imageChooser"
       container: "uploadContainer"
+      headers: {'X-AuthToken': $.cookie('token')}
       max_file_size: "10mb"
       url: "/api/media/upload"
       flash_swf_url: "/plupload/js/plupload.flash.swf"
