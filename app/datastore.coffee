@@ -35,5 +35,11 @@ module.exports = exports = class DataStore
             Chaplin.datastore.load 
               name : 'media'
               success: =>
-                options.success()
                 Chaplin.mediator.publish 'stopWaiting'
+                options.success()
+              error: =>
+                options.error() if options.error
+          error: =>
+            options.error() if options.error
+      error: =>
+        options.error() if options.error                            
