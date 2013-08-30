@@ -10,6 +10,7 @@ module.exports = class mediaLibraryListItem extends View
   initialize: ->
     super
     console.log @model
+
   events:
     "click .trash" : "destroy"
 
@@ -21,3 +22,7 @@ module.exports = class mediaLibraryListItem extends View
       error: =>
         console.log 'error'
     
+  getTemplateData: ->
+    td = super
+    td.mediaUrl = td.url
+    td
