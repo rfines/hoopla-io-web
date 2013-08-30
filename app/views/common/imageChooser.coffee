@@ -45,17 +45,13 @@ module.exports = class ImageChooser extends View
       up.refresh() # Reposition Flash/Silverlight
 
     uploader.bind "FileUploaded", (up, file, response) =>
-      console.log "chunk uploaded"
       response = JSON.parse(response.response)
-      console.log response
       if response.success is true
         $("#" + file.id + " b").html "100%"
         file.status = plupload.DONE
-        console.log response.media
         @media = response.media
         Chaplin.datastore.media.add(@media)
       else
-        console.log "else"
         $("#" + file.id + " b").html "0%"
         file.status = plupload.FAILED
         @media = null

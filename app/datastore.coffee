@@ -21,10 +21,8 @@ module.exports = exports = class DataStore
       @media.model= Media
       @media.fetch
         success: =>
-          console.log @media
           options.success()
     else
       @["#{options.name}"].fetch
         success: =>
-          console.log @business
           options.success()

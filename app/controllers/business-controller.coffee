@@ -6,7 +6,6 @@ module.exports = class BusinessController extends Controller
 
   create: ->
     BusinessEdit = require 'views/business/edit'
-    console.log 'create business'
     Chaplin.datastore.load 
       name : 'business'
       success: =>

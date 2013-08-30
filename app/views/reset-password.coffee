@@ -15,7 +15,6 @@ module.exports = class ResetPasswordView extends View
     @model = new User()
 
   resetPassword: (e)->
-    console.log window.location
     e.preventDefault()
     email = @$el.find('.email').val()
     password = @$el.find('.password').val()

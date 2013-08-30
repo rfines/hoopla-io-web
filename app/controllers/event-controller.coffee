@@ -7,14 +7,12 @@ module.exports = class DemoController extends Controller
     Chaplin.datastore.load 
       name : 'business'
       success: =>
-        console.log Chaplin.datastore.business.first().attributes
         newEvent = new Event()
         if Chaplin.datastore.business.hasOne()
           newEvent.set 
             'business' : Chaplin.datastore.business.first().id
             'host' : Chaplin.datastore.business.first().id
             'location' : Chaplin.datastore.business.first().get('location')
-          console.log newEvent
         Chaplin.datastore.load 
           name : 'event'
           success: =>
@@ -34,7 +32,6 @@ module.exports = class DemoController extends Controller
         Chaplin.datastore.load 
           name : 'event'
           success: =>
-            console.log 'event success'
             @view = new EventEdit
               region: 'main'
               collection : Chaplin.datastore.event

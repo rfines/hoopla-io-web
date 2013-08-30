@@ -66,5 +66,4 @@ module.exports = class AddressView extends View
       return match.long_name
 
   getLocation: ->
-    console.log @location
     @location

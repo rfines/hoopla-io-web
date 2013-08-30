@@ -72,7 +72,6 @@ module.exports = class User extends Model
         $('.errors').append("<span class='error'>Email sent.</span>")
 
   newPassword:(email,newPassword, token)=>
-    console.log "Sending new password"
     $.ajax
       type:'POST'
       contentType:'application/json'
