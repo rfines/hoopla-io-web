@@ -3,6 +3,8 @@ module.exports = (match) ->
 
   # Marketing/Pre-Login Routes
   match 'about', 'marketing#about'
+  match 'localBusinesses', 'marketing#localBusinesses'
+  match 'publishers', 'marketing#publishers'
   match 'signUp', 'registration#registerUser'
 
   # Post-Login Routes
@@ -12,6 +14,7 @@ module.exports = (match) ->
   match 'myEvents', 'event#list'
   match 'event', 'event#create'
   match 'event/:id', 'event#edit'  
+  #match 'myApps',  'app#list'
   match 'account/change-password', 'account#changePassword' 
   match 'account/forgot-password', 'account#resetPassword'
   match 'password/reset', 'account#newPassword'

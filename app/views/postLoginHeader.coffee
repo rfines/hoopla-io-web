@@ -11,6 +11,7 @@ module.exports = class HeaderView extends View
     "click a.myEvents" : "redirectToEvents"
     "click a.myBusinesses" : "redirectToBusinesses"
     "click a.media" : "redirectToMedia"
+    "click a.myApps" : "redirectToApps"
 
   logout:(e)->
     e.preventDefault()
@@ -26,3 +27,6 @@ module.exports = class HeaderView extends View
 
   redirectToMedia: (e) ->
     @publishEvent '!router:route', 'media'
+
+  redirectToApps: (e) ->
+    @publishEvent '!router:route', 'myApps'
