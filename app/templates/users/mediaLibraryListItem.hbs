@@ -1,0 +1,38 @@
+
+  <div class="col-sm-6 col-md-5 col-lg-4">
+    <div class="well">
+        <p>{{user}}</p>
+        <p>{{_id}}</p>
+        <p>{{{url}}}</p>
+        <a href="#" class="thumbnail" data-toggle="modal" data-target="#media-modal">
+          <img data-src={{{url}}} src={{url}} class="media-item" alt="media image" />
+        </a>
+        <div class="caption" style="margin-top:4%">
+          <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <h5>Image name</h5>
+            </div>
+
+            <div class="pull-right buttons"><button data-toggle="modal" data-target="#media-modal" class="btn btn-primary">Enlarge</button>   <a href="#" class="btn btn-warning trash">Delete</a>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+<div class="modal fade" id="media-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Image name here</h4>
+        </div>
+        <div class="modal-body">
+          <img data-src={{{url}}} src={{url}} class="media-item" alt="media image" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

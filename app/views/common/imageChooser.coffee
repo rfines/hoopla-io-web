@@ -3,7 +3,7 @@ View = require 'views/base/view'
 
 module.exports = class ImageChooser extends View
   autoRender: true
-  className: 'users-list'
+  className: 'image-chooser'
   template: template
   media  = undefined
   initialize: ->
@@ -53,6 +53,7 @@ module.exports = class ImageChooser extends View
         file.status = plupload.DONE
         console.log response.media
         @media = response.media
+        Chaplin.datastore.media.add(@media)
       else
         console.log "else"
         $("#" + file.id + " b").html "0%"
