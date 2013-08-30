@@ -14,9 +14,9 @@ module.exports = class EventController extends Controller
         @view = new EventEdit
           region: 'main'
           collection : Chaplin.datastore.event
-          model : newEvent
+        @stopWaiting()
 
-  edit: (params) ->  
+  edit: (params) ->
     EventEdit = require 'views/event/edit'
     Chaplin.datastore.loadEssential 
       success: =>

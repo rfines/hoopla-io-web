@@ -7,14 +7,16 @@ Medias = require 'models/medias'
 
 module.exports = exports = class DataStore
 
-  constructor: (@name) ->
-
   business : new Businesses()
   event : new Events()
   media : new Medias()
 
-  load: (options) ->
+  constructor: (@name) ->
     @event.model = Event
+    @business.model = Business
+    @media.model = Media
+
+  load: (options) ->
     if @["#{options.name}"].length > 0
       options.success()
     else
@@ -23,7 +25,7 @@ module.exports = exports = class DataStore
           options.success()
 
   loadEssential: (options) ->
-    EventList = require 'views/event/list'
+    Chaplin.mediator.publish 'startWaiting'
     Chaplin.datastore.load 
       name : 'business'
       success: =>
@@ -34,3 +36,4 @@ module.exports = exports = class DataStore
               name : 'media'
               success: =>
                 options.success()
+                Chaplin.mediator.publish 'stopWaiting'
