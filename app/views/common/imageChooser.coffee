@@ -18,7 +18,7 @@ module.exports = class ImageChooser extends View
       container: "uploadContainer"
       headers: {'X-AuthToken': $.cookie('token')}
       max_file_size: "10mb"
-      url: "/api/media/upload"
+      url: "/api/media"
       flash_swf_url: "/plupload/js/plupload.flash.swf"
       silverlight_xap_url: "/plupload/js/plupload.silverlight.xap"
       filters: [

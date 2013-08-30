@@ -3,6 +3,8 @@ View = require 'views/base/view'
 Business = require 'models/business'
 AddressView = require 'views/address'
 ImageChooser = require 'views/common/imageChooser'
+ImageUtils = require 'utils/imageUtils'
+
 module.exports = class BusinessEditView extends View
   autoRender: true
   className: 'users-list'

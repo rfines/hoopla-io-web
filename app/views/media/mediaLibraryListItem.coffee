@@ -1,8 +1,11 @@
 template = require 'templates/users/mediaLibraryListItem'
 View = require 'views/base/view'
 Media = require 'models/media'
+ImageUtils = require 'utils/imageUtils'
+
 
 module.exports = class mediaLibraryListItem extends View
+  model : Media
   autoRender: true
   className: 'media-library'
   template: template
@@ -24,5 +27,6 @@ module.exports = class mediaLibraryListItem extends View
     
   getTemplateData: ->
     td = super
-    td.mediaUrl = td.url
+    td.thumbUrl = $.cloudinary.url(ImageUtils.getId(td.url), {crop: 'fill', height: 163, width: 266})
+    td.fullUrl = td.url
     td

@@ -7,7 +7,6 @@ module.exports = class MediaController extends Controller
       name : 'media'
       user : $.cookie('user')
       success:()=>
-        console.log Chaplin.datastore.media
         @view = new MediaLibraryView
           region: 'main'
           collection : Chaplin.datastore.media
