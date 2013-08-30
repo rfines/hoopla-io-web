@@ -17,12 +17,20 @@ module.exports = exports = class DataStore
     @event.model = Event
     if @["#{options.name}"].length > 0
       options.success()
-    else if options.user
-      @media.model= Media
-      @media.fetch
-        success: =>
-          options.success()
     else
       @["#{options.name}"].fetch
         success: =>
           options.success()
+
+  loadEssential: (options) ->
+    EventList = require 'views/event/list'
+    Chaplin.datastore.load 
+      name : 'business'
+      success: =>
+        Chaplin.datastore.load 
+          name : 'event'
+          success: =>
+            Chaplin.datastore.load 
+              name : 'media'
+              success: =>
+                options.success()
