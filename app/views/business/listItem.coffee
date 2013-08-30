@@ -1,14 +1,6 @@
-View = require 'views/base/view'
+ListItemView = require 'views/base/listItem'
 template = require 'templates/business/listItem'
 
-module.exports = class ListItem extends View
-  autoRender: true
+module.exports = class ListItem extends ListItemView
   template: template
-  className: 'row'
-
-  events:
-    "click .edit" : "edit"
-
-  edit: (e) =>
-    e.preventDefault()
-    @publishEvent '!router:route', "business/#{@model.id}"
+  noun : "business"

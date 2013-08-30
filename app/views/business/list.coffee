@@ -1,19 +1,9 @@
+ListView = require 'views/base/list'
 template = require 'templates/business/list'
-CollectionView = require 'views/base/collection-view'
-BusinessListItem = require 'views/business/listItem'
+ListItem = require 'views/business/listItem'
 
-module.exports = class List extends CollectionView
-  autoRender: true
-  renderItems: true
+module.exports = class List extends ListView
   className: 'business-list'
   template: template
-  itemView: BusinessListItem
-
-  initialize: ->
-    super
-
-  events:
-    "click button" : "create"
-
-  create: =>
-    @publishEvent '!router:route', 'business'
+  itemView: ListItem
+  noun : 'business'
