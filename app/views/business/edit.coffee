@@ -13,7 +13,6 @@ module.exports = class BusinessEditView extends View
   initialize: ->
     super
     @model = @model || new Business()
-    console.log @model
 
   attach: ->
     super
@@ -75,9 +74,7 @@ module.exports = class BusinessEditView extends View
         Chaplin.datastore.business.add @model
         @publishEvent '!router:route', 'myBusinesses'
       error: (model, response) ->
-        console.log model
         console.log response
-        console.log "Error saving"
     }
   cancel:()->
     window.location = '/myBusinesses'

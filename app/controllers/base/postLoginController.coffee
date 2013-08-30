@@ -8,6 +8,10 @@ Footer = require 'views/footer'
 
 module.exports = class PostLoginController extends Chaplin.Controller
 
+  initialize: =>
+    Chaplin.mediator.subscribe 'startWaiting', @startWaiting
+    Chaplin.mediator.subscribe 'stopWaiting', @stopWaiting
+
   beforeAction: (params, route) ->
     @compositions()
     url = window.location.href
@@ -19,7 +23,6 @@ module.exports = class PostLoginController extends Chaplin.Controller
             user.fetch
               success: ->
                 Chaplin.datastore.user = user
-                console.log 'successful fetch of user'
         else
           @goToLogin()
 
@@ -31,3 +34,10 @@ module.exports = class PostLoginController extends Chaplin.Controller
 
   goToLogin: ->
     @publishEvent '!router:route', 'login'
+
+  startWaiting: ->
+    console.log 'start Waiting'
+
+  stopWaiting: ->
+    console.log 'stop Waiting'    
+

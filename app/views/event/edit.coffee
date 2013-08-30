@@ -14,7 +14,6 @@ module.exports = class EventEditView extends View
     
   initialize: ->
     super
-    console.log @model
 
   attach: =>
     super
@@ -53,7 +52,7 @@ module.exports = class EventEditView extends View
       @removeSubview('addressPopover') if @subview('addressPopover')
       @subview('addressPopover', new AddressView({container : @$el.find('.addressPopover'), model : @model}))  
 
-  getTemplateData: ->
+  getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
     media = @model.get('media')

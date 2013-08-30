@@ -1,59 +1,36 @@
 Controller = require 'controllers/base/postLoginController'
 Event = require 'models/event'
 
-module.exports = class DemoController extends Controller
+module.exports = class EventController extends Controller
   create: ->
     EventEdit = require 'views/event/edit'
-    Chaplin.datastore.load 
-      name : 'business'
-      success: =>
-        console.log Chaplin.datastore.business.first().attributes
+    Chaplin.datastore.loadEssential 
+      success: =>    
         newEvent = new Event()
         if Chaplin.datastore.business.hasOne()
           newEvent.set 
             'business' : Chaplin.datastore.business.first().id
             'host' : Chaplin.datastore.business.first().id
-            'location' : Chaplin.datastore.business.first().get('location')
-          console.log newEvent
-        Chaplin.datastore.load 
-          name : 'event'
-          success: =>
-            @view = new EventEdit
-              region: 'main'
-              collection : Chaplin.datastore.event
-              model : newEvent
-          error: (model, response) =>
-            console.log 'error'
-            console.log response        
+            'location' : Chaplin.datastore.business.first().get('location')          
+        @view = new EventEdit
+          region: 'main'
+          collection : Chaplin.datastore.event
+          model : newEvent
+        @stopWaiting()
 
-  edit: (params) ->  
+  edit: (params) ->
     EventEdit = require 'views/event/edit'
-    Chaplin.datastore.load 
-      name : 'business'
+    Chaplin.datastore.loadEssential 
       success: =>
-        Chaplin.datastore.load 
-          name : 'event'
-          success: =>
-            console.log 'event success'
-            @view = new EventEdit
-              region: 'main'
-              collection : Chaplin.datastore.event
-              model : Chaplin.datastore.event.get(params.id)
-          error: (model, response) =>
-            console.log 'error'
-            console.log response 
+        @view = new EventEdit
+          region: 'main'
+          collection : Chaplin.datastore.event
+          model : Chaplin.datastore.event.get(params.id)
 
   list: ->
     EventList = require 'views/event/list'
-    Chaplin.datastore.load 
-      name : 'business'
+    Chaplin.datastore.loadEssential 
       success: =>
-        Chaplin.datastore.load 
-          name : 'event'
-          success: =>
-            @view = new EventList
-              region: 'main'
-              collection : Chaplin.datastore.event
-          error: (model, response) =>
-            console.log 'error'
-            console.log response
+        @view = new EventList
+          region: 'main'
+          collection : Chaplin.datastore.event

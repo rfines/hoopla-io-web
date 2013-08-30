@@ -6,9 +6,7 @@ module.exports = class BusinessController extends Controller
 
   create: ->
     BusinessEdit = require 'views/business/edit'
-    console.log 'create business'
-    Chaplin.datastore.load 
-      name : 'business'
+    Chaplin.datastore.loadEssential 
       success: =>
         @view = new BusinessEdit
           region: 'main'
@@ -20,8 +18,7 @@ module.exports = class BusinessController extends Controller
 
   edit: (params) ->
     BusinessEdit = require 'views/business/edit'
-    Chaplin.datastore.load 
-      name : 'business'
+    Chaplin.datastore.loadEssential 
       success: =>
         @view = new BusinessEdit
           region: 'main'
@@ -33,8 +30,7 @@ module.exports = class BusinessController extends Controller
 
   list: ->
     BusinessList = require 'views/business/list'
-    Chaplin.datastore.load 
-      name : 'business'
+    Chaplin.datastore.loadEssential 
       success: =>
         @view = new BusinessList
           region: 'main'
