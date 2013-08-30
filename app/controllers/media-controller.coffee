@@ -1,12 +1,12 @@
 Controller = require 'controllers/base/postLoginController'
 Medias = require 'models/medias'
-MediaLibraryView = require 'views/media/mediaLibraryList'
+List = require 'views/media/list'
 
 module.exports = class MediaController extends Controller
   index: ->
     Chaplin.datastore.loadEssential 
       success: =>
-        @view = new MediaLibraryView
+        @view = new List
           region: 'main'
           collection : Chaplin.datastore.media
       error: (model, response) =>
