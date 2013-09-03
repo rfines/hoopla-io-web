@@ -11,3 +11,10 @@ module.exports = class List extends ListView
   
   initialize: (options) ->
     super(options)
+
+  attach: ->
+    super()
+    @delegate('click', '.showMoreButton', @showMore)
+
+  showMore: =>
+    @publishEvent '!router:route', '/myEvents/more'
