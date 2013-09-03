@@ -5,11 +5,14 @@ module.exports = class ImageChooser extends View
   autoRender: true
   className: 'image-chooser'
   template: template
-  media  = undefined
+  media= undefined
+  file={}
   uploader = {}
   initialize: ->
     super
 
+  events:
+    'click .remove-button': 'removeFile'
   attach: ->
     super()
     @uploader = new plupload.Uploader(
@@ -31,9 +34,12 @@ module.exports = class ImageChooser extends View
     )
     
     @uploader.init()
-    @uploader.bind "FilesAdded", (up, files) ->
-      $.each files, (i, file) ->
-        $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <b></b>" + "</div>"
+    @uploader.bind "FilesAdded", (up, files) =>
+      $('#choose-image').attr('disabled', true)
+      $.each files, (i, file) =>
+        @file = file
+        console.log @file
+        $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <b></b><button type='button' class='btn btn-success remove-button'>Remove</button>" + "</div>"
       up.refresh() # Reposition Flash/Silverlight
     
     @uploader.bind "UploadProgress", (up, file) =>
@@ -54,6 +60,12 @@ module.exports = class ImageChooser extends View
         $("#" + file.id + " b").html "0%"
         file.status = plupload.FAILED
         @media = null
+
+  removeFile:(e)=>
+    console.log @file
+    @uploader.removeFile(@file)
+    $('#'+@file.id).remove()
+    $('#choose-image').attr('disabled', false)
 
   uploadQueue: (cb)->
     @uploader.bind "UploadComplete", (up, files)=>
