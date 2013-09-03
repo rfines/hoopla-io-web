@@ -34,3 +34,11 @@ module.exports = class EventController extends Controller
         @view = new EventList
           region: 'main'
           collection : Chaplin.datastore.event.upcomingEvents()
+
+  past: ->
+    EventList = require 'views/event/list'
+    Chaplin.datastore.loadEssential 
+      success: =>
+        @view = new EventList
+          region: 'main'
+          collection : Chaplin.datastore.event.pastEvents()          

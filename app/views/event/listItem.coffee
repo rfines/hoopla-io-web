@@ -6,6 +6,6 @@ module.exports = class ListItem extends ListItemView
 
   getTemplateData: =>
     td = super()
-    td.dateText = @model.nextOccurrenceText()
+    td.dateText = @model.dateDisplayText()
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
     td  

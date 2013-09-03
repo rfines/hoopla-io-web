@@ -12,6 +12,7 @@ module.exports = (match) ->
   match 'business', 'business#create'
   match 'business/:id', 'business#edit'  
   match 'myEvents', 'event#list'
+  match 'myEvents/past', 'event#past'
   match 'event', 'event#create'
   match 'event/:id', 'event#edit'  
   match 'myWidgets',  'widget#list'

@@ -8,6 +8,6 @@ module.exports = class List extends ListView
   itemView: ListItem
   noun : 'event'
   listSelector : '#accordion'
-
+  
   initialize: (options) ->
     super(options)

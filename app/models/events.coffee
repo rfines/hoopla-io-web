@@ -8,7 +8,11 @@ module.exports = class Events extends Collection
   
   upcomingEvents: ->
     c = @filter (item) ->
-      item.nextOccurrence().isAfter(moment())
-    
+      item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
     return new Events(c)
+
+  pastEvents: ->
+    c = @filter (item) ->
+      not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())
+    return new Events(c)    
     
