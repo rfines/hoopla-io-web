@@ -3,6 +3,7 @@ View = require 'views/base/view'
 Business = require 'models/business'
 AddressView = require 'views/address'
 ImageChooser = require 'views/common/imageChooser'
+MediaList = require 'views/media/mediaLibraryPopover'
 ImageUtils = require 'utils/imageUtils'
 
 module.exports = class BusinessEditView extends View
@@ -19,6 +20,7 @@ module.exports = class BusinessEditView extends View
     @modelBinder.bind @model, @$el
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
+    @attachMediaLibrary()
     links = @model.get('socialMediaLinks')
     if links?.length > 0
       @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"}).url)
@@ -78,3 +80,7 @@ module.exports = class BusinessEditView extends View
     }
   cancel:()->
     window.location = '/myBusinesses'
+
+  attachMediaLibrary: ()->
+    @removeSubview('mediaPopover') if @subview('mediaPopover')
+    @subview('mediaPopover', new MediaList({container : @$el.find('.library-contents')}))  
