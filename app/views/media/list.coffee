@@ -11,6 +11,6 @@ module.exports = class List extends ListView
 
   attach: ->
     super
-    @subview('imageChooser', new ImageChooser({container: @$el.find('.add-media')}))  
+    
 
   

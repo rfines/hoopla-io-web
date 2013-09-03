@@ -6,15 +6,16 @@ module.exports = class ImageChooser extends View
   className: 'image-chooser'
   template: template
   media  = undefined
+  uploader = {}
   initialize: ->
     super
 
   attach: ->
     super()
-    uploader = new plupload.Uploader(
+    @uploader = new plupload.Uploader(
       multipart : false
       runtimes: "html5,flash,silverlight,html4"
-      browse_button: "imageChooser"
+      browse_button: "choose-image"
       container: "uploadContainer"
       headers: {'X-AuthToken': $.cookie('token')}
       max_file_size: "10mb"
@@ -24,27 +25,25 @@ module.exports = class ImageChooser extends View
       filters: [
         title: "Image files"
         extensions: "jpg,jpeg,gif,png,pdf"
-      ]
+      ],
+      drop_element: 'drop-target'
+
     )
-    uploader.bind "Init", (up, params) ->
-      $("#uploadfiles").click (e) ->
-        uploader.start()
-        e.preventDefault()
-    uploader.init()
-    uploader.bind "FilesAdded", (up, files) ->
+    
+    @uploader.init()
+    @uploader.bind "FilesAdded", (up, files) ->
       $.each files, (i, file) ->
         $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <b></b>" + "</div>"
-
       up.refresh() # Reposition Flash/Silverlight
     
-    uploader.bind "UploadProgress", (up, file) =>
+    @uploader.bind "UploadProgress", (up, file) =>
       $("#" + file.id + " b").html file.percent + "%"
 
-    uploader.bind "Error", (up, err) =>
+    @uploader.bind "Error", (up, err) =>
       $("#filelist").append "<div>Error: " + err.code + ", Message: " + err.message + ((if err.file then ", File: " + err.file.name else "")) + "</div>"
       up.refresh() # Reposition Flash/Silverlight
 
-    uploader.bind "FileUploaded", (up, file, response) =>
+    @uploader.bind "FileUploaded", (up, file, response) =>
       response = JSON.parse(response.response)
       if response.success is true
         $("#" + file.id + " b").html "100%"
@@ -56,5 +55,7 @@ module.exports = class ImageChooser extends View
         file.status = plupload.FAILED
         @media = null
 
-  getMedia : ->
-    @media
+  uploadQueue: (cb)->
+    @uploader.bind "UploadComplete", (up, files)=>
+      cb @media
+    @uploader.start()

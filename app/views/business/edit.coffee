@@ -26,10 +26,20 @@ module.exports = class BusinessEditView extends View
       @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"}).url)
       @$el.find('.twitter').val( _.findWhere(links, {target:"Twitter"}).url)
       @$el.find('.foursquare').val(_.findWhere(links, {target:"Foursquare"}).url)
+    @subscribeEvent 'selectedMedia', (e)=>
+      if e
+        @model.set 'media', [e.toJSON()]
+        @$el.find('.modal').modal('hide')
+        @$el.find('.currentImage')[0].attributes.src = e.attributes.url
+        @$el.find('.currentImage')[0].remove()
+        newUrl = $.cloudinary.url(ImageUtils.getId(e.attributes.url), {crop: 'fill', height: 250, width: 350})
+        @$el.find('.profileImage').append("<img src=#{newUrl} class='currentImage' />")
+        @$el.find('.imageChooser').hide()      
 
   events:
     'submit form' : 'save'
     'click button.cancel':'cancel'
+
 
   getTemplateData: ->
     td = super()
@@ -40,10 +50,41 @@ module.exports = class BusinessEditView extends View
 
   save: (e) ->
     e.preventDefault()
-    if @model.get('media') and @subview('imageChooser').getMedia()
-      @model.get('media').push @subview('imageChooser').getMedia()
-    else if @subview('imageChooser').getMedia()
-      @model.set 'media',[@subview('imageChooser').getMedia()]
+    @setSmLinks()
+    @setLocation()
+    if $("#filelist div").length > 0
+      console.log "Here I am"
+      @subview('imageChooser').uploadQueue (media) =>
+        @model.set 'media',[media]
+        @model.save {}, {
+          success: =>
+            Chaplin.datastore.business.add @model
+            @publishEvent '!router:route', 'myBusinesses'
+          error: (model, response) ->
+            console.log response
+        }
+    else
+      @model.save {}, {
+          success: =>
+            Chaplin.datastore.business.add @model
+            @publishEvent '!router:route', 'myBusinesses'
+          error: (model, response) ->
+            console.log response
+      }
+  cancel:()->
+    window.location = '/myBusinesses'
+
+  attachMediaLibrary: ()->
+    @removeSubview('mediaPopover') if @subview('mediaPopover')
+    @subview('mediaPopover', new MediaList({container : @$el.find('.library-contents'), collection: Chaplin.datastore.media}))
+
+  uploadFiles: (cb)=>
+
+  setLocation: ()->
+    @model.set
+        location : @subview('geoLocation').getLocation()
+
+  setSmLinks: ()->
     fb = @$el.find('.facebook').val()
     tw = @$el.find('.twitter').val()
     fq = @$el.find('.foursquare').val()
@@ -69,18 +110,3 @@ module.exports = class BusinessEditView extends View
         @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
       if fq
         @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
-    @model.set
-      location : @subview('geoLocation').getLocation()
-    @model.save {}, {
-      success: =>
-        Chaplin.datastore.business.add @model
-        @publishEvent '!router:route', 'myBusinesses'
-      error: (model, response) ->
-        console.log response
-    }
-  cancel:()->
-    window.location = '/myBusinesses'
-
-  attachMediaLibrary: ()->
-    @removeSubview('mediaPopover') if @subview('mediaPopover')
-    @subview('mediaPopover', new MediaList({container : @$el.find('.library-contents')}))  
