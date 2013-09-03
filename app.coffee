@@ -19,6 +19,11 @@ app.put "/api/*", (req,res) ->
 app.delete "/api/*", (req,res) ->
   require('./server/apiProxy').handler(req,res,'DELETE')
 
+app.get "/robots.txt", (req, res) ->
+  res.set
+    'Content-Type': 'text/plain'
+  res.render CONFIG.robotsFile
+
 app.get "/*", (req, res) ->
   data =
     development: CONFIG.development
