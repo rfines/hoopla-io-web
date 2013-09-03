@@ -14,7 +14,7 @@ module.exports = (match) ->
   match 'myEvents', 'event#list'
   match 'event', 'event#create'
   match 'event/:id', 'event#edit'  
-  #match 'myApps',  'app#list'
+  match 'myWidgets',  'widget#list'
   match 'account/change-password', 'account#changePassword' 
   match 'account/forgot-password', 'account#resetPassword'
   match 'password/reset', 'account#newPassword'
