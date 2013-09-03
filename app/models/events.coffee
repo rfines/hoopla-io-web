@@ -6,3 +6,9 @@ module.exports = class Events extends Collection
   url: ->
     "/api/user/#{$.cookie('user')}/events"
   
+  upcomingEvents: ->
+    c = @filter (item) ->
+      item.nextOccurrence().isAfter(moment())
+    
+    return new Events(c)
+    

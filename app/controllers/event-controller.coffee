@@ -33,4 +33,4 @@ module.exports = class EventController extends Controller
       success: =>
         @view = new EventList
           region: 'main'
-          collection : Chaplin.datastore.event
+          collection : Chaplin.datastore.event.upcomingEvents()
