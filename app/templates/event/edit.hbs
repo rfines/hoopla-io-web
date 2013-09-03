@@ -1,8 +1,9 @@
 <div class="row">
+<h2>My Events</h2>
   <form class="form-inline" role="form">
     <div class="row">
       <div class="col-8">
-        <legend>Create Event</legend>
+        <legend><h3><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event</h3></legend>
         <div class="form-group">
           <select name="business" class="form-control business select-chosen">
             {{#each businesses}}
@@ -15,23 +16,23 @@
 
     <div class="row">
       <div class="col-md-4">
-        <label for="name">Name</label>
-        <input type="text" class="form-control name" name="name" placeholder="Name">
+        <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name</label>
+        <input type="text" class="form-control name" name="name" placeholder="Event Name">
       </div>
       <div class="col-md-2">
-        <label for="start">When</label>
+        <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
         <input type="text" class="form-control datePicker startDate" name="start">
       </div>
       <div class="col-md-2">
-        <label for="startTime">Start Time</label>
+        <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
         <input type="text" class="form-control timepicker startTime" name="startTime">
       </div>
       <div class="col-md-2">
-        <label for="endTime">End Time</label>
+        <label for="endTime"><i class="glyphicon glyphicon-time"></i>End Time</label>
         <input type="text" class="form-control timepicker endTime" name="endTime">
       </div>            
       <div class="col-md-2">
-        <label for="repeats">Repeats</label>
+        <label for="repeats"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
         <select name="repeats" class="form-control">
           <option>Daily</option>
           <option>Weekly</option>
@@ -41,7 +42,7 @@
 
     <div class="row">
       <div class="col-md-4">
-        <label for="eventType">Event Type</label>
+        <label for="eventType"><i class="glyphicon glyphicon-bullhorn"></i>Event Type</label>
         <select class="form-control select-chosen" multiple="true">
           <option>Food</option>
           <option>Arts</option>
@@ -49,33 +50,33 @@
         </select>
       </div>
       <div class="col-md-3">
-        <label for="host">Venue</label>  
-        <select name="host" class="form-control select-chosen">
+        <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue</label>  
+        <select type="text/input" name="host" class="form-control select-chosen">
           {{#each businesses}}
             <option value="{{id}}">{{attributes.name}}</option>
           {{/each}}
         </select>
       </div>
       <div class="col-md-1">
-        <a class="addressButton">+</a>        
+        <a class="addressButton"><i class="glyphicon glyphicon-plus-sign"></i></a>        
       </div>      
       <div class="col-md-2">
-        <label for="cost">Cost</label>
+        <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost</label>
         <input type="text" name="cost" value="0"/>
       </div>
       <div class="col-md-2">
-        <label for="ticketUrl">Ticket/RSVP Link</label>
+        <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket/RSVP Link</label>
         <input type="text" name="ticketUrl"/>        
       </div>            
     </div>
     <div class="row">
       <div class="col-md-8">
-        <label for="description">Description</label>
+        <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description</label>
         <textarea class="form-control description" name="description" placeholder="Description"></textarea>
       </div>
       <div class="col-md-4">
-        <div class="well">
-          <h4>Profile Image</h4>        
+ <label for="description"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
+        <div class="well">      
           <div class="imageChooser">
             {{#if imageUrl}}
               <img src="{{imageUrl}}" class="currentImage"/>
@@ -86,7 +87,7 @@
     </div>
     <div class="row">
       <div class="col-md-8">
-        <label for="website">Event Website</label>
+        <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
         <input type="url" class="form-control" name="website" />
       </div>
       <div class="col-md-4">
@@ -94,17 +95,17 @@
     </div>
     <div class="row contactFields">
       <div class="col-md-4">
-        <label for="contact">Event Contact</label>
+        <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
         <input type="text" class="form-control" name="contactName" />
       </div>
       <div class="col-md-4">
-        <label for="phone">Event Phone</label>
+        <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
         <input type="phone" class="form-control" name="contactPhone" />        
       </div>
     </div>
     <div class="row">
       <div class="col-md-8">
-        <label for="website">Event Tags</label>
+        <label for="website"><i class="glyphicon glyphicon-tags"></i>Event Tags</label>
           <select class="form-control select-chosen" multiple="true">
             <option>Food</option>
             <option>Arts</option>

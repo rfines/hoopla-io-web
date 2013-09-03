@@ -1,20 +1,20 @@
-  <div class="panel panel-default">
+   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="row panel-title">
-        <div class="col-md-3">
+        <div class="col-md-3 date">
           {{dateText}}
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">
             <i class="glyphicon glyphicon-circle-arrow-down"></i>
           </a>
         </div>
-        <div class="col-md-3">
-          {{name}}
+        <div class="col-md-3 event-title">
+          <a class="edit">{{name}}</a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 business-name">
           {{businessName}}
         </div>
         <div class="col-md-3">
-          <a class="btn edit">Edit Me</a><a class="btn deleteButton">Delete Me</a>
+          <a class="deleteButton"><i class="glyphicon glyphicon-trash"></i></a>
         </div>                 
       </div>
     </div>
@@ -22,7 +22,7 @@
       <div class="panel-body">
         {{#each occurrences}}
           <div class="row">
-            <div class="col-md-3 col-md-offset-1">{{dateFormat this format="MM/DD/YYYY"}}</div>
+            <div class="col-md-3 col-md-offset-1 recurring-date">{{dateFormat this format="MM/DD/YYYY"}}</div>
           </div>
         {{/each}}
       </div>
