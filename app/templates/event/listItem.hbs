@@ -1,12 +1,30 @@
-<div class="col-md-3">
-  {{dateText}}
-</div>
-<div class="col-md-3">
-  {{name}}
-</div>
-<div class="col-md-3">
-  {{businessName}}
-</div>
-<div class="col-md-3">
-  <a class="btn edit">Edit Me</a><a class="btn deleteButton">Delete Me</a>
-</div>      
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row panel-title">
+        <div class="col-md-3">
+          {{dateText}}
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}">
+            <i class="glyphicon glyphicon-circle-arrow-down"></i>
+          </a>
+        </div>
+        <div class="col-md-3">
+          {{name}}
+        </div>
+        <div class="col-md-3">
+          {{businessName}}
+        </div>
+        <div class="col-md-3">
+          <a class="btn edit">Edit Me</a><a class="btn deleteButton">Delete Me</a>
+        </div>                 
+      </div>
+    </div>
+    <div id="collapse{{_id}}" class="panel-collapse collapse">
+      <div class="panel-body">
+        {{#each occurrences}}
+          <div class="row">
+            <div class="col-md-3 col-md-offset-1">{{dateFormat this format="MM/DD/YYYY"}}</div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>   

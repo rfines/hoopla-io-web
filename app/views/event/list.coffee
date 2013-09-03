@@ -7,3 +7,4 @@ module.exports = class List extends ListView
   template: template
   itemView: ListItem
   noun : 'event'
+  listSelector : '#accordion'
