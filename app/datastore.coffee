@@ -12,12 +12,13 @@ module.exports = exports = class DataStore
   business : new Businesses()
   event : new Events()
   media : new Medias()
-  widgets : new Widgets()
+  widget : new Widgets()
 
   constructor: (@name) ->
     @event.model = Event
     @business.model = Business
     @media.model = Media
+    @widget.model = Widget
 
   load: (options) ->
     if @["#{options.name}"].length > 0
@@ -39,7 +40,7 @@ module.exports = exports = class DataStore
               name : 'media'
               success: =>
                 Chaplin.datastore.load
-                  name : 'widgets'
+                  name : 'widget'
                   success: =>
                     Chaplin.mediator.publish 'stopWaiting'
                     options.success()
