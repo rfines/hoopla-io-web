@@ -10,5 +10,4 @@ module.exports = class MediaController extends Controller
           region: 'main'
           collection : Chaplin.datastore.media
       error: (model, response) =>
-        console.log response
-    
+        console.log response   
