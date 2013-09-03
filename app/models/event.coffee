@@ -32,11 +32,11 @@ module.exports = class Event extends Model
     ne = @nextOccurrence()
     if ne
       next = ne
-      days = ne.diff(now, 'days', true)
-      if days >  2
-        return next.format('MM/DD/YYYY')
+      days = ne.startOf('day').diff(now.startOf('day'), 'days', true)
+      if days > 1
+        return next.format('MM/DD/YYYY')        
       else
-        if now.days() is next.days()
+        if days is 0
           return 'Today'
         else
           return 'Tomorrow'

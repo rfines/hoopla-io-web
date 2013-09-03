@@ -33,7 +33,7 @@ module.exports = class EventController extends Controller
       success: =>
         @view = new EventList
           region: 'main'
-          collection : Chaplin.datastore.event.upcomingEvents()
+          collection : Chaplin.datastore.event.upcomingEvents(10)
 
   past: ->
     EventList = require 'views/event/list'
@@ -41,4 +41,4 @@ module.exports = class EventController extends Controller
       success: =>
         @view = new EventList
           region: 'main'
-          collection : Chaplin.datastore.event.pastEvents()          
+          collection : Chaplin.datastore.event.pastEvents(10)
