@@ -3,7 +3,8 @@ tests = [
   './views/addressTest'
   './utils/imageUtilsTest'
   './models/eventTest'
-  './models/eventsTest'  
+  './models/eventsTest'
+  './models/businessTest'  
 ]
 
 for test in tests

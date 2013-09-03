@@ -23,9 +23,9 @@ module.exports = class BusinessEditView extends View
     @attachMediaLibrary()
     links = @model.get('socialMediaLinks')
     if links?.length > 0
-      @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"}).url)
-      @$el.find('.twitter').val( _.findWhere(links, {target:"Twitter"}).url)
-      @$el.find('.foursquare').val(_.findWhere(links, {target:"Foursquare"}).url)
+      @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"})?.url)
+      @$el.find('.twitter').val( _.findWhere(links, {target:"Twitter"})?.url)
+      @$el.find('.foursquare').val(_.findWhere(links, {target:"Foursquare"})?.url)
     @subscribeEvent 'selectedMedia', (e)=>
       if e
         @model.set 'media', [e.toJSON()]
@@ -51,6 +51,7 @@ module.exports = class BusinessEditView extends View
   save: (e) ->
     e.preventDefault()
     @setSmLinks()
+    console.log @model.get('socialMediaLinks')
     @setLocation()
     if $("#filelist div").length > 0
       console.log "Here I am"
@@ -78,8 +79,6 @@ module.exports = class BusinessEditView extends View
     @removeSubview('mediaPopover') if @subview('mediaPopover')
     @subview('mediaPopover', new MediaList({container : @$el.find('.library-contents'), collection: Chaplin.datastore.media}))
 
-  uploadFiles: (cb)=>
-
   setLocation: ()->
     @model.set
         location : @subview('geoLocation').getLocation()
@@ -88,25 +87,6 @@ module.exports = class BusinessEditView extends View
     fb = @$el.find('.facebook').val()
     tw = @$el.find('.twitter').val()
     fq = @$el.find('.foursquare').val()
-    if @model.get('socialMediaLinks')
-      links = @model.get('socialMediaLinks')
-      if fb
-        f = _.findWhere(links, {url:fb})
-        if not f
-          @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
-      if tw
-        t= _.findWhere(links, {url:tw})
-        if not t
-          @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
-      if fq
-        q = _.findWhere(links, {url:fq})
-        if not q
-          @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
-    else
-      @model.set 'socialMediaLinks', []
-      if fb
-        @model.get('socialMediaLinks').push {target:'Facebook', url:fb}
-      if tw
-        @model.get('socialMediaLinks').push {target:'Twitter', url:tw}
-      if fq
-        @model.get('socialMediaLinks').push {target:'Foursquare', url:fq}
+    @model.addFacebookLink(fb)
+    @model.addTwitterLink(tw)
+    @model.addFoursquareLink(fq)
