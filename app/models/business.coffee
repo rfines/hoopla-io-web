@@ -12,6 +12,8 @@ module.exports = class Business extends Model
       if @get('socialMediaLinks')
         f = _.findWhere(@get('socialMediaLinks'), {target:'Facebook'})
         if not f
+          if @get('socialMediaLinks')?.length <= 0
+            @set 'socialMediaLinks', []
           @get('socialMediaLinks').push {target:'Facebook', url:_url}
         else
           links = _.filter(@get('socialMediaLinks'), (item)=>
@@ -28,6 +30,9 @@ module.exports = class Business extends Model
       if @get('socialMediaLinks')
         f = _.findWhere(@get('socialMediaLinks'), {target:'Twitter'})
         if not f
+          if @get('socialMediaLinks')?.length <= 0
+            @set 'socialMediaLinks', []
+
           @get('socialMediaLinks').push {target:'Twitter', url:_url}
         else
           links = _.filter(@get('socialMediaLinks'), (item)=>
@@ -44,6 +49,8 @@ module.exports = class Business extends Model
       if @get('socialMediaLinks')
         f = _.findWhere(@get('socialMediaLinks'), {target:'Foursquare'})
         if not f
+          if @get('socialMediaLinks')?.length <= 0
+            @set 'socialMediaLinks', []
           @get('socialMediaLinks').push {target:'Foursquare', url:_url}
         else
           links = _.filter(@get('socialMediaLinks'), (item)=>
