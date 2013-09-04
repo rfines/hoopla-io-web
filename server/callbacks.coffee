@@ -18,7 +18,7 @@ module.exports.facebook = (req, res) ->
       method:'POST'
       json: promoTarget
     request options, (err, response, body)=>
-      res.end()
+      res.redirect("#{CONFIG.baseUrl}myBusinesses")
         
   #3 create promotion target
   #4 update business to ref new promotion target

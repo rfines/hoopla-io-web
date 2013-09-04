@@ -11,7 +11,19 @@
   <div class="col-md-3">
     {{location.address}}
   </div>
-  <div class="col-md-3">
+  <div class="col-md-1">
     <a class="btn edit">Edit Me</a>
   </div>      
+  <div class="col-md-2 promotionTargets">
+    {{#if facebookConnected}}
+      <a class="facebook connected">f</a>
+    {{else}}
+      <a class="facebook" href="{{facebookConnectUrl}}">f</a>
+    {{/if}}
+    {{#if twitterConnected}}
+      <a class="twitter connected">t</a>
+    {{else}}
+      <a class="twitter" href="">t</a>
+    {{/if}}    
+  </div>        
 </div>
