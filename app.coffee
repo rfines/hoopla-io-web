@@ -24,6 +24,9 @@ app.get "/robots.txt", (req, res) ->
     'Content-Type': 'text/plain'
   res.render CONFIG.robotsFile
 
+app.get "/callbacks/facebook", (req, res) ->
+  require('./server/callbacks').facebook(req, res)
+
 app.get "/*", (req, res) ->
   data =
     development: CONFIG.development
