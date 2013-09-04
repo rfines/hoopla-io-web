@@ -39,7 +39,7 @@ module.exports = class ImageChooser extends View
       $.each files, (i, file) =>
         @file = file
         console.log @file
-        $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <b></b><button type='button' class='btn btn-success remove-button'>Remove</button>" + "</div>"
+        $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <a class='remove-button'>Remove</a>" + "</div>"
       up.refresh() # Reposition Flash/Silverlight
     
     @uploader.bind "UploadProgress", (up, file) =>

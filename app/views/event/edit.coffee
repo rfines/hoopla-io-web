@@ -10,7 +10,7 @@ module.exports = class EventEditView extends View
   className: 'event-edit'
   template: template
   events:
-    'submit form' : 'save'
+    'click .event-submit' : 'save'
     
   initialize: ->
     super
@@ -46,7 +46,7 @@ module.exports = class EventEditView extends View
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   attachAddressFinder: =>
-    @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", html: true}).popover('show').popover('hide')
+    @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", container: 'div.address-finder', html: true}).popover('show').popover('hide')
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       @$el.find('.popover-content').html("<div class='addressPopover'></div>")
       @removeSubview('addressPopover') if @subview('addressPopover')
