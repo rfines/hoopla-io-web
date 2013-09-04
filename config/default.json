@@ -11,5 +11,15 @@
   "facebook":{
     "key":"338061672996288",
     "secret":"141b9d5a0fc697f4232aa57721139075"
+  },
+  "twitter":{
+    "consumer_key":"iKn7zB6daKb1B4OxaursvA",
+    "consumer_secret":"tuNDBsO5fwGHNpey6TlfEGNebJrznu2I7GcfaQu9xE",
+    "request_token_url":"https://api.twitter.com/oauth/request_token",
+    "authorize_url": "https://api.twitter.com/oauth/authorize",
+    "access_token_url":"https://api.twitter.com/oauth/access_token",
+    "my_access_token":"463149108-uXwvgcMuMY3AvMR7ReWZUJONmEv81w1tHTJXZK8k",
+    "my_access_token_secret":"xVxbh681oP3KhmSx5XssTG1qNk9XN6nbJ1l3UPOio8g",
+    "callback_url": "http://localhost:3000/callbacks/oauthTwitterCallback"
   }
 }

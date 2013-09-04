@@ -4,10 +4,12 @@ app = express()
 port = process.env.PORT || 3000
 
 app.configure ->
-  app.set('view engine', 'hbs');
-  app.set('views', __dirname + '/server/views');
-  app.use('/client', express.static(__dirname+'/public'));
-  app.use(express.bodyParser());
+  app.set('view engine', 'hbs')
+  app.set('views', __dirname + '/server/views')
+  app.use('/client', express.static(__dirname+'/public'))
+  app.use(express.bodyParser())
+  app.use(express.cookieParser())
+  app.use(express.cookieSession({secret:'secret_heh'}))
   
 #api urls use proxy to set headers
 app.get "/api/*", (req, res) ->
@@ -26,6 +28,11 @@ app.get "/robots.txt", (req, res) ->
 
 app.get "/callbacks/facebook", (req, res) ->
   require('./server/callbacks').facebook(req, res)
+
+app.get "/oauth/twitter", (req, res) ->
+  require('./server/callbacks').oauthTwitter(req, res)
+app.get "/callbacks/oauthTwitterCallback", (req, res) ->
+  require('./server/callbacks').oauthTwitterCallback(req, res)
 
 app.get "/*", (req, res) ->
   data =
