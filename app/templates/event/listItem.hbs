@@ -5,7 +5,9 @@
   
           {{dateText}}
           <a class="accordion-toggle">
+            {{#if isRecurring}}
             <a class="showOccurrences" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}"><i class="glyphicon glyphicon-circle-arrow-up showOccurrences"></i></a>
+            {{/if}}
           </a>
         </div>
         <div class="col-md-3 event-title">

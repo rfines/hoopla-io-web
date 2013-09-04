@@ -18,7 +18,7 @@ module.exports = class List extends CollectionView
 
   attach: ->
     super()
-    if @params.error
+    if @params?.error
       @$el.find('.listAlert').removeClass('hide')
       @$el.find('.listAlert').text @params.error
 

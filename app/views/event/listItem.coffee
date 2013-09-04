@@ -10,6 +10,7 @@ module.exports = class ListItem extends ListItemView
     td = super()
     td.dateText = @model.dateDisplayText()
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
+    td.isRecurring = @model.get('schedules')?.length > 0
     td  
 
   attach: =>

@@ -47,7 +47,7 @@ module.exports = class Event extends Model
         return ''
 
   getStartDate: ->
-    return moment(_.first(@get('fixedOccurrences')).start)
+    return moment(_.first(@get('occurrences')).start)
 
   getEndDate: ->
-    return moment(_.first(@get('fixedOccurrences')).end)    
+    return moment(_.first(@get('occurrences')).end)    
