@@ -2,9 +2,11 @@
   <form class="form-inline" role="form">
     <div class="row">
       <div class="col-8">
+        {{#if isNew}}
         <legend><h3><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event</h3></legend>
+        {{/if}}
         <div class="col-md-4">
-		<label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
+  		    <label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
           <select name="business" class="business select-chosen form-control">
             {{#each businesses}}
               <option value="{{id}}">{{attributes.name}}</option>

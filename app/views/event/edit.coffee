@@ -22,7 +22,7 @@ module.exports = class EventEditView extends View
     @initTimePickers()
     @initDatePickers()
     @attachAddressFinder()    
-    @$el.find(".select-chosen").chosen()
+    @$el.find(".select-chosen").chosen({width:'100%'})
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
@@ -55,6 +55,7 @@ module.exports = class EventEditView extends View
   getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
+    td.isNew = @model.isNew()
     media = @model.get('media')
     if media?.length > 0
       td.imageUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: 163, width: 266})
