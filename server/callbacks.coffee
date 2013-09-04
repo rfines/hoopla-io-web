@@ -38,8 +38,8 @@ module.exports.facebook = (req, res) ->
         
 
 module.exports.oauthTwitter = (req,res)->
+  console.log req.query
   oAuth = new oauth.OAuth(CONFIG.twitter.request_token_url, CONFIG.twitter.access_token_url, CONFIG.twitter.consumer_key, CONFIG.twitter.consumer_secret, "1.0A", "#{CONFIG.twitter.callback_url}?businessId=#{req.query.businessId}", "HMAC-SHA1")
-
   oAuth.getOAuthRequestToken (error, oauth_token, oauth_token_secret, results) =>
     if error
       console.log error
@@ -52,18 +52,25 @@ module.exports.oauthTwitter = (req,res)->
       res.redirect "https://twitter.com/oauth/authenticate?oauth_token=#{oauth_token}"
 
 module.exports.oauthTwitterCallback = (req,res)->
+  oAuth = new oauth.OAuth(CONFIG.twitter.request_token_url, CONFIG.twitter.access_token_url, CONFIG.twitter.consumer_key, CONFIG.twitter.consumer_secret, "1.0A", "#{CONFIG.twitter.callback_url}?businessId=#{req.query.businessId}", "HMAC-SHA1")
   if req.session.oauth
     req.session.oauth.verifier = req.query.oauth_verifier
     oauth_data = req.session.oauth
-    oauth.getOAuthAccessToken oauth_data.token, oauth_data.token_secret, oauth_data.verifier, (error, oauth_access_token, oauth_access_token_secret, results) =>
+    oAuth.getOAuthAccessToken oauth_data.token, oauth_data.token_secret, oauth_data.verifier, (error, oauth_access_token, oauth_access_token_secret, results) =>
       if error
         console.log error
         res.send "Authentication Failure!"
       else
-        req.session.oauth.access_token = oauth_access_token
-        req.session.oauth.access_token_secret = oauth_access_token_secret
-        console.log results, req.session.oauth
-        res.send "Authentication Successful"
-        #res.redirect("#{CONFIG.baseUrl}myBusinesses"); 
+        promo = 
+          accessToken: oauth_access_token
+          accountType: 'TWITTER'
+          accessTokenSecret: oauth_access_token_secret
+        options=
+          uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
+          method:'POST'
+          json: promo
+        request options, (err, response, body)=>
+          res.redirect("#{CONFIG.baseUrl}myBusinesses")
+           
   else
     res.redirect "/login" 
