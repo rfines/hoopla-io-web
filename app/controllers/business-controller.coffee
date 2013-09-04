@@ -28,13 +28,14 @@ module.exports = class BusinessController extends Controller
         console.log 'error'
         console.log response   
 
-  list: ->
+  list: (params) ->
     BusinessList = require 'views/business/list'
     Chaplin.datastore.loadEssential 
       success: =>
         @view = new BusinessList
           region: 'main'
           collection : Chaplin.datastore.business
+          params : params
       error: (model, response) =>
         console.log 'error'
         console.log response        

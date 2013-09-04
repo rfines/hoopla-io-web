@@ -7,3 +7,4 @@ module.exports = class List extends ListView
   template: template
   itemView: ListItem
   noun : 'business'
+  listSelector: '.event-list-container'

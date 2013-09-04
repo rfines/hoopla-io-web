@@ -12,6 +12,16 @@ module.exports = class List extends CollectionView
   events:
     "click button" : "create"
 
+  initialize: (options) ->
+    super(options)
+    @params = options.params
+
+  attach: ->
+    super()
+    if @params.error
+      @$el.find('.listAlert').removeClass('hide')
+      @$el.find('.listAlert').text @params.error
+
   create: =>
     @publishEvent '!router:route', @noun
 
