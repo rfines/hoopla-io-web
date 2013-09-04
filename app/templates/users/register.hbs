@@ -1,32 +1,37 @@
-<div class="errors"></div>
-<div class="row-fluid register-div">
-  <form class="register-form form-horizontal" method="POST" action="/api/user/create">
+<div class="row">
+  <div class="alert alert-danger alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <span class="message"></span>
+  </div>
+</div>
+<form class="register-form form-horizontal">
+  <div class="row register-div">
     <div class="control-group">
       <label for="name" class="contorl-label">Name</label>
       <div class="controls">
-        <input type="text" name="name" id="name" class="name span3" />
+        <input type="text" name="name" class="name form-control" />
       </div>
     </div>
     <div class="control-group">
       <label for="username" class="control-label">Email</label>
       <div class="controls">
-        <input type="email" name="email" class="username span3"/>
+        <input type="email" name="email" class="username form-control"/>
       </div>
     </div>
     <div class="control-group">
       <label for="password" class="control-label">Password</label>
       <div class="controls">
-        <input type="password" name="password" class="password span3" id="password"/>
+        <input type="password" name="password" class="password form-control"/>
       </div>
     </div>
     <div class="control-group">
       <label for="password-confirm" class="control-label">Confirm Password</label>
       <div class="controls">
-        <input type="password" name="password-confirm" class="password-confirm span3" id="password-confirm"/>
+        <input type="password" name="password-confirm" class="password-confirm form-control" />
       </div>
     </div>
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Register</button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="row">
+    <button type="submit" class="btn btn-primary">Register</button>
+  </div>
+</form>
