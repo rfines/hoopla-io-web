@@ -1,25 +1,27 @@
-<div class="row">
+<div class="register"><h2>Create a User Account</h2><div class="row">
   <div class="alert alert-danger alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <span class="message"></span>
   </div>
 </div>
-<form class="register-form form-horizontal">
-  <div class="row register-div">
+
+<div class="col-md-6"><h3>Benefits of Joining and what to expect after signing up</h3></div>
+<form class="register-form form-horizontal col-md-6">
+  <div class="register-div">
     <div class="control-group">
-      <label for="name" class="contorl-label">Name</label>
+      <label for="name" class="control-label">Name<span class="required">*</span></label>
       <div class="controls">
         <input type="text" name="name" class="name form-control" />
       </div>
     </div>
     <div class="control-group">
-      <label for="username" class="control-label">Email</label>
+      <label for="username" class="control-label">Email<span class="required">*</span></label>
       <div class="controls">
         <input type="email" name="email" class="username form-control"/>
       </div>
     </div>
     <div class="control-group">
-      <label for="password" class="control-label">Password</label>
+      <label for="password" class="control-label">Password<span class="required">*</span></label>
       <div class="controls">
         <input type="password" name="password" class="password form-control"/>
       </div>
@@ -31,7 +33,9 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <button type="submit" class="btn btn-primary">Register</button>
-  </div>
+<div>&nbsp;</div>
+  <p>
+    <span class="required pull-left">*required</span><button type="submit" class="btn btn-info pull-right">Register</button>
+  </p>
 </form>
+</div>

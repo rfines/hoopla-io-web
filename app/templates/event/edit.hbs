@@ -1,9 +1,11 @@
+
 <div class="row">
   <form class="form-inline" role="form">
     <div class="row">
       <div class="col-8">
         {{#if isNew}}
-        <legend><h3><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event</h3></legend>
+<h2>My Events</h2>
+        <legend><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event <span class="required">*required</span></legend>
         {{/if}}
         {{#if isNew}}
         <div class="col-md-4">
@@ -20,15 +22,15 @@
 
     <div class="row">
       <div class="col-md-4">
-        <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name</label>
+        <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
         <input type="text" class="form-control name" name="name" placeholder="Event Name">
       </div>
       <div class="col-md-2">
-        <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
+        <label for="start"><i class="glyphicon glyphicon-calendar"></i>When<span class="required">*</span></label>
         <input type="text" class="form-control datePicker startDate" name="start">
       </div>
       <div class="col-md-2">
-        <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
+        <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time<span class="required">*</span></label>
         <input type="text" class="form-control timepicker startTime" name="startTime">
       </div>
       <div class="col-md-2">
@@ -46,7 +48,7 @@
 
     <div class="row">
       <div class="col-md-4 blue-tags">
-        <label for="eventType"><i class="glyphicon glyphicon-bullhorn"></i>Event Type</label>
+        <label for="eventType"><i class="glyphicon glyphicon-bullhorn"></i>Event Type<span class="required">*</span></label>
         <select class="form-control select-chosen" multiple="true">
           <option>Food</option>
           <option>Arts</option>
@@ -54,7 +56,7 @@
         </select>
       </div>
       <div class="col-md-4 address-finder">
-        <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue</label>  
+        <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
 		<a class="addressButton"><i class="glyphicon glyphicon-plus pull-right"></i></a>  
         <select type="text/input" name="host" class="form-control host select-chosen">
           {{#each businesses}}
@@ -83,8 +85,8 @@
         <div class="well">      
           <img src="{{imageUrl}}" class="currentImage" />
           <div class="imageChooser"></div>
-          <button type="button" class="btn btn-success showMediaLibrary" data-toggle="modal" data-target="#media-library-popover">Browse Library</button>
-        </div>
+          
+        </div><a class="showMediaLibrary pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Browse Library</a>
       </div>
     </div>
     <div class="row">
@@ -115,8 +117,13 @@
           </select>
       </div>
       <div class="col-md-4">
+<<<<<<< Updated upstream
          <a class="btn btn-default pull-right cancel">Cancel</a>&nbsp;
          <a type="submit" class="pull-right saveButton"></a>
+=======
+         <button type="cancel" class="btn btn-default pull-right">Cancel</button>&nbsp;<a type="submit" class="pull-right saveButton"></a>
+<br clear="all">
+>>>>>>> Stashed changes
       </div>
     </div>        
   </form>
