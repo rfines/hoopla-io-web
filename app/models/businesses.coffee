@@ -8,3 +8,6 @@ module.exports = class Businesses extends Collection
 
   hasOne: ->
     @length is 1
+
+  hasNone: ->
+    @length is 0

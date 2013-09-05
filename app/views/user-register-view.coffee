@@ -36,7 +36,7 @@ module.exports = class UserRegisterView extends View
           password: pword
         @model.save  {}, {
           success: (model, response, options)-> 
-            model.getToken uname, pword     
+            model.getToken uname, pword    
           error: (err, xhr, options) => 
             @showError xhr.responseJSON
         }

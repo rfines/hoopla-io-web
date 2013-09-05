@@ -12,6 +12,8 @@ module.exports = class EventController extends Controller
             'business' : Chaplin.datastore.business.first().id
             'host' : Chaplin.datastore.business.first().id
             'location' : Chaplin.datastore.business.first().get('location')          
+        if Chaplin.datastore.business.hasNone()
+          @publishEvent '!router:route', 'business'
         @view = new EventEdit
           region: 'main'
           collection : Chaplin.datastore.event

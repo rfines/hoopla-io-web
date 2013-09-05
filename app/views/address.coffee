@@ -14,6 +14,8 @@ module.exports = class AddressView extends View
     if @model.has 'location'
       @$el.find('.address').val(@model.get('location').address)
       @showGeo(@model.get('location'))
+    else
+      @$el.find('#map-canvas').hide()
 
   events:
     'change input' : 'mapLocation'
@@ -34,6 +36,7 @@ module.exports = class AddressView extends View
             position: results[0].geometry.location
           )
           google.maps.event.trigger(map, 'resize')
+          @$el.find('#map-canvas').show()
           @location =
             geo : {type: "Point", coordinates : [results[0].geometry.location.lng(), results[0].geometry.location.lat()]}
             address : results[0].formatted_address
