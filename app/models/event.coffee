@@ -5,6 +5,20 @@ module.exports = class Event extends Model
   
   urlRoot : "/api/event"
 
+  validate: ->
+    errors = []
+    if not (@has('name') and @get('name').trim().length > 0)
+      errors.push {p : 'name'}
+    console.log @attributes
+    if not (@has('location') and @get('location').address)
+      errors.push {p : 'address'}
+    if not (@has('description') and @get('description').trim().length > 0)
+      errors.push {p : 'description'}      
+    if errors.length is 0
+      return undefined
+    else
+      return errors  
+
   nextOccurrence: ->
     if @get('occurrences') and _.first(@get('occurrences'))
       m = moment(_.first(@get('occurrences')))
