@@ -20,10 +20,8 @@ module.exports = class EventEditView extends View
     @initDatePickers()
     @attachAddressFinder()    
     $('.business').on 'change', (evt, params) =>
-      console.log 'business change'
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
-      console.log 'host change'
       @model.set 
         'host' : params.selected
         'location' : Chaplin.datastore.business.get(params.selected).get('location')
@@ -52,6 +50,15 @@ module.exports = class EventEditView extends View
     if not @model.isNew()
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
+
+    @$el.find('.startTime').on 'changeTime', @predictEndTime
+
+
+  predictEndTime: =>
+    if not @$el.find('.endTime').val()
+      st = @$el.find('.startTime').timepicker('getSecondsFromMidnight')
+      @$el.find('.endTime').timepicker('setTime', st+(60*60))  
+
 
   attachAddressFinder: =>
     @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", container: 'div.address-finder', html: true}).popover('show').popover('hide')
