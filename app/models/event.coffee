@@ -1,4 +1,5 @@
 Model = require 'models/base/model'
+ImageUtils = require 'utils/imageUtils'
 
 module.exports = class Event extends Model
   
@@ -51,3 +52,10 @@ module.exports = class Event extends Model
 
   getEndDate: ->
     return moment(_.first(@get('occurrences')).end)    
+
+  imageUrl: (options) ->
+    media = @get('media')
+    if media?.length > 0
+      return $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: options.height, width: options.width})  
+    else
+      return undefined    

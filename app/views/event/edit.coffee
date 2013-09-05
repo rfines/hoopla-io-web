@@ -1,34 +1,26 @@
 template = require 'templates/event/edit'
-View = require 'views/base/view'
+View = require 'views/base/edit'
 Event = require 'models/event'
 AddressView = require 'views/address'
-ImageChooser = require 'views/common/imageChooser'
 ImageUtils = require 'utils/imageUtils'
 
 module.exports = class EventEditView extends View
   autoRender: true
   className: 'event-edit'
   template: template
-  events:
-    'click .event-submit' : 'save'
-    
-  initialize: ->
-    super
 
   attach: =>
     super
-    @modelBinder.bind @model, @$el
-    @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
     @initTimePickers()
     @initDatePickers()
     @attachAddressFinder()    
-    @$el.find(".select-chosen").chosen({width:'100%'})
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
       @model.set 
       'host' : params.selected
       'location' : Chaplin.datastore.business.get(params.selected).get('location')
+    @subscribeEvent 'selectedMedia', @updateImage         
 
   initDatePickers: =>
     @startDate = new Pikaday
@@ -56,11 +48,8 @@ module.exports = class EventEditView extends View
     td = super()
     td.businesses = Chaplin.datastore.business.models
     td.isNew = @model.isNew()
-    media = @model.get('media')
-    if media?.length > 0
-      td.imageUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: 163, width: 266})
+    td.imageUrl = @model.imageUrl({height: 163, width: 266})
     td    
-
 
   save: (e) ->
     e.preventDefault()
@@ -94,3 +83,6 @@ module.exports = class EventEditView extends View
       start : sd.toDate().toISOString()
       end : ed.toDate().toISOString()
     }]
+
+  cancel:()->
+    @publishEvent '!router:route', 'myEvents'
