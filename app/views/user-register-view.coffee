@@ -37,16 +37,19 @@ module.exports = class UserRegisterView extends View
         @model.save  {}, {
           success: (model, response, options)-> 
             model.getToken uname, pword     
-          error: (model, xhr, options) => 
-            console.log 'error'
-            @showError "#{model}"
+          error: (err, xhr, options) => 
+            @showError xhr.responseJSON
         }
     else
       @showError "All fields are required", ['name', 'email', 'password', 'password-confirm']
 
   showError: (msg, fields) =>    
     @$el.find('.alert').show()
-    @$el.find('.message').text(msg)    
+    console.log msg
+    if _.isObject(msg) and msg.message.indexOf('duplicate') > -1
+      @$el.find('.message').text("#{@$el.find('.username').val()} is already used on hoopla.io.");
+    else
+      @$el.find('.message').text(msg)    
     if fields
       for x in fields
         @$el.find("input[name='#{x}']").parent().addClass('has-error')
