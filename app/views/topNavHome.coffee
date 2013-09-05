@@ -17,3 +17,8 @@ module.exports = class TopNav extends View
         @removeSubview('loginPopover')
       @subview('loginPopover', new LoginPopover({container: @$el.find('.loginPopover')}))
     
+
+  getTemplateData: ->
+    td = super
+    td.showLogin = not Chaplin.datastore?.user?    
+    td

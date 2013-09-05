@@ -8,3 +8,4 @@ module.exports = class List extends ListView
   itemView: ListItem
   noun : 'business'
   listSelector: '.event-list-container'
+  listRoute : 'myBusinesses'

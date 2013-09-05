@@ -23,7 +23,7 @@ module.exports = (match) ->
 
   # login/logout
   match 'login', 'login#login', name: 'auth_login'
-  match 'logout', 'home#logout',name: 'auth_logout'
+  match 'logout', 'login#logout',name: 'auth_logout'
   match 'login/forgot-password', 'login#resetPassword'
 
   #demo route

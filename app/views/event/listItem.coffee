@@ -18,9 +18,12 @@ module.exports = class ListItem extends ListItemView
     @delegate 'show.bs.collapse', ->
       @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')
       @subview 'inlineEdit', new EventEdit({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
+    @delegate 'hide.bs.collapse', ->
+      @$el.find('.panel-heading').removeClass('expanded')
     @delegate 'click', '.showOccurrences', ->
       @$el.find('.recurrenceList').show()
       @$el.find('.inlineEdit').hide()
     @delegate 'click', '.inlineEditButton', ->
+      @$el.find('.panel-heading').addClass('expanded')
       @$el.find('.recurrenceList').hide()
       @$el.find('.inlineEdit').show()

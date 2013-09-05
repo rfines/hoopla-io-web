@@ -12,12 +12,19 @@ module.exports = class HeaderView extends View
     "click a.myBusinesses" : "redirectToBusinesses"
     "click a.media" : "redirectToMedia"
     "click a.myApps" : "redirectToApps"
+  listen:
+    '!router:route mediator': 'activateNav'
+    'activateNav mediator': 'activateNav'    
+
+  activateNav: (route) ->
+    @$el.find('.active').removeClass('active')
+    if route is 'myBusinesses'
+      @$el.find('.myBusinesses').addClass('active')
+    if route is 'myEvents'
+      @$el.find('.myEvents').addClass('active')      
 
   logout:(e)->
-    e.preventDefault()
-    $.removeCookie('token')
-    $.removeCookie('user')
-    window.location = '/'
+    @publishEvent '!router:route', 'logout'
 
   redirectToEvents: (e) ->
     @publishEvent '!router:route', 'myEvents'

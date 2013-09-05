@@ -15,6 +15,7 @@ module.exports = class List extends CollectionView
   initialize: (options) ->
     super(options)
     @params = options.params
+    @publishEvent 'activateNav', @listRoute
 
   attach: ->
     super()

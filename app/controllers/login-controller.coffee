@@ -16,3 +16,9 @@ module.exports = class HomeController extends Controller
   
   resetPassword: ->
     @view = new ResetPasswordRequestView region: 'main'  
+
+  logout: ->
+    $.removeCookie('token')
+    $.removeCookie('user')
+    delete Chaplin.datastore.user
+    window.location = '/'    

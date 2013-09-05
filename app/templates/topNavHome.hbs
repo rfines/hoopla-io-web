@@ -5,6 +5,8 @@
   <div class="col-md-5 col-md-offset-1 home-top-nav-links">
 	<a href="/localBusinesses">Local Businesses</a>
 	<a href="/publishers">Publishers</a>
-    <a class="signInButton btn btn-default">Sign In</a>
+  {{#if showLogin}}
+  <a class="signInButton btn btn-default pull-right">Sign In</a>
+  {{/if}}
   </div>
 </div>
