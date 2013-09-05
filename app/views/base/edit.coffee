@@ -20,13 +20,12 @@ module.exports = class Edit extends View
     @attachMediaLibrary()    
 
   updateImage: (e) =>
+    console.log 'updateImage'
+    console.log e
     if e
       @model.set 'media', [e.toJSON()]
       @$el.find('.modal').modal('hide')
-      @$el.find('.currentImage')[0].attributes.src = e.attributes.url
-      @$el.find('.currentImage')[0].remove()
-      newUrl = $.cloudinary.url(ImageUtils.getId(e.attributes.url), {crop: 'fill', height: 250, width: 350})
-      @$el.find('.profileImage').append("<img src=#{newUrl} class='currentImage' />")
+      @$el.find('.currentImage').attr('src', $.cloudinary.url(ImageUtils.getId(e.attributes.url), {crop: 'fill', height: 250, width: 350}))
       @$el.find('.imageChooser').hide()             
 
   attachMediaLibrary: ->

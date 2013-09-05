@@ -25,7 +25,10 @@ module.exports = class EventEditView extends View
     @delegate 'click', '.showMediaLibrary', (e) =>
       e.stopPropagation()
       console.log 'click happened'
-      $("#media-library-popover-#{@model.id}").modal()
+      if @model.isNew()
+        $("#media-library-popover-").modal()
+      else
+        $("#media-library-popover-#{@model.id}").modal()
 
 
   initDatePickers: =>
