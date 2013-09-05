@@ -28,11 +28,13 @@ module.exports = class User extends Model
           console.log 'could not authenticate'
           
   loginSuccess : (user) =>
-    Chaplin.datastore.user = user
-    if not Chaplin.mediator.redirectUrl
-      @publishEvent '!router:route', 'myEvents'
-    else
-      @publishEvent '!router:route', Chaplin.mediator.redirectUrl
+    console.log 'loginSuccess'
+    Chaplin.datastore.loadEssential
+      success: =>
+        if Chaplin.datastore.business.hasNone()
+          @publishEvent '!router:route', 'business'
+        else      
+          @publishEvent '!router:route', 'myEvents'
     @publishEvent 'loginStatus', true
   
   changePassword :(id, password, currentPassword)=>
