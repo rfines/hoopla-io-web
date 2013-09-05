@@ -49,8 +49,6 @@ module.exports = class UserRegisterView extends View
     @$el.find('.message').text(msg)    
     if fields
       for x in fields
-        console.log @$el.find("input[name='#{x}']")
-        console.log @$el.find("input[name='#{x}']").parent()
         @$el.find("input[name='#{x}']").parent().addClass('has-error')
   
   clearErrors: () ->
