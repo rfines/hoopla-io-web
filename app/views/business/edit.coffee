@@ -43,15 +43,12 @@ module.exports = class BusinessEditView extends View
 
   getTemplateData: ->
     td = super()
-    media = @model.get('media')
-    if media?.length > 0
-      td.imageUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: 163, width: 266})
+    td.imageUrl = @model.imageUrl({height: 163, width: 266})
     td    
 
   save: (e) ->
     e.preventDefault()
     @setSmLinks()
-    console.log @model.get('socialMediaLinks')
     @setLocation()
     if $("#filelist div").length > 0
       console.log "Here I am"
@@ -72,6 +69,7 @@ module.exports = class BusinessEditView extends View
           error: (model, response) ->
             console.log response
       }
+      
   cancel:()->
     window.location = '/myBusinesses'
 

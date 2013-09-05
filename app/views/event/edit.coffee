@@ -64,17 +64,26 @@ module.exports = class EventEditView extends View
 
   save: (e) ->
     e.preventDefault()
-    if @model.get('media') and @subview('imageChooser').getMedia()
-      @model.get('media').push @subview('imageChooser').getMedia()
-    else if @subview('imageChooser').getMedia()
-      @model.set 'media',[@subview('imageChooser').getMedia()]    
     @model.set
-      fixedOccurrences : @getFixedOccurrences()
-    @model.save {}, {
-      success: =>
-        Chaplin.datastore.event.add @model
-        @publishEvent '!router:route', 'myEvents'
-    }
+      fixedOccurrences : @getFixedOccurrences()    
+    if $("#filelist div").length > 0
+      @subview('imageChooser').uploadQueue (media) =>
+        @model.set 'media',[media]
+        @model.save {}, {
+          success: =>
+            @collection.add @model
+            @publishEvent '!router:route', 'myEvents'
+          error: (model, response) ->
+            console.log response
+        }
+    else
+      @model.save {}, {
+          success: =>
+            @collection.add @model
+            @publishEvent '!router:route', 'myEvents'
+          error: (model, response) ->
+            console.log response
+      }
 
   getFixedOccurrences: =>
     sd = @startDate.getMoment()

@@ -1,6 +1,7 @@
 SiteView = require 'views/site-view'
+TopNav = require 'views/topNavHome'
+Footer = require 'views/footerHome'
 Controller = require 'controllers/base/preLoginController'
-Users = require 'models/users'
 RegisterUserView = require 'views/user-register-view'
 
 module.exports = class RegistrationController extends Controller
@@ -10,3 +11,5 @@ module.exports = class RegistrationController extends Controller
 
   compositions: =>
     @compose 'site', SiteView
+    @compose 'topNav', TopNav  
+    @compose 'footer', Footer
