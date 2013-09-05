@@ -36,7 +36,6 @@ module.exports = class Edit extends View
     @publishEvent '!router:route', @listRoute
 
   save: (e) ->
-    console.log 'in save'
     e.preventDefault()  
     @updateModel()
     if $("#filelist div").length > 0
@@ -44,16 +43,18 @@ module.exports = class Edit extends View
         @model.set 'media',[media]
         @model.save {}, {
           success: =>
-            @collection.add @model
-            @publishEvent '!router:route', @listRoute
+            @postSave() if @postSave
           error: (model, response) ->
             console.log response
         }
     else
       @model.save {}, {
           success: =>
-            @collection.add @model
-            @publishEvent '!router:route', @listRoute
+            @postSave() if @postSave
           error: (model, response) ->
             console.log response
       }    
+
+  postSave: =>
+    @collection.add @model
+    @publishEvent '!router:route', @listRoute  

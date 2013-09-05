@@ -56,7 +56,7 @@
       <div class="col-md-4 address-finder">
         <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue</label>  
 		<a class="addressButton"><i class="glyphicon glyphicon-plus pull-right"></i></a>  
-        <select type="text/input" name="host" class="form-control select-chosen">
+        <select type="text/input" name="host" class="form-control host select-chosen">
           {{#each businesses}}
             <option value="{{id}}">{{attributes.name}}</option>
           {{/each}}
@@ -115,7 +115,8 @@
           </select>
       </div>
       <div class="col-md-4">
-         <button type="cancel" class="btn btn-default pull-right">Cancel</button>&nbsp;<a type="submit" class="pull-right saveButton"></a>
+         <a class="btn btn-default pull-right cancel">Cancel</a>&nbsp;
+         <a type="submit" class="pull-right saveButton"></a>
       </div>
     </div>        
   </form>

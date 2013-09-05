@@ -10,17 +10,24 @@ module.exports = class EventEditView extends View
   template: template
   listRoute: 'myEvents'
 
+  initialize: ->
+    super()
+    @isNew = @model.isNew()
+
   attach: =>
     super
     @initTimePickers()
     @initDatePickers()
     @attachAddressFinder()    
     $('.business').on 'change', (evt, params) =>
+      console.log 'business change'
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
+      console.log 'host change'
       @model.set 
         'host' : params.selected
         'location' : Chaplin.datastore.business.get(params.selected).get('location')
+      console.log @model.attributes
     @subscribeEvent 'selectedMedia', @updateImage   
     @delegate 'click', '.showMediaLibrary', (e) =>
       e.stopPropagation()
@@ -73,3 +80,18 @@ module.exports = class EventEditView extends View
       start : sd.toDate().toISOString()
       end : ed.toDate().toISOString()
     }]
+
+  cancel: (e) ->
+    if @model.isNew()
+      super()
+    else
+      e.stopPropagation() if e
+      @publishEvent "event:#{@model.id}:edit:close"
+
+  postSave: =>
+    console.log 'postSave'
+    console.log @model.isNew()
+    if @isNew
+      super()
+    else
+      @publishEvent "event:#{@model.id}:edit:close"

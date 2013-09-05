@@ -27,3 +27,9 @@ module.exports = class ListItem extends ListItemView
       @$el.find('.panel-heading').addClass('expanded')
       @$el.find('.recurrenceList').hide()
       @$el.find('.inlineEdit').show()
+    @subscribeEvent "event:#{@model.id}:edit:close", ->
+      console.log $("#collapse#{@model.id}")
+      $("#collapse#{@model.id}").collapse('hide')
+      @removeSubview 'recurrenceList'
+      @removeSubview 'inlineEdit'
+      
