@@ -19,9 +19,14 @@ module.exports = class EventEditView extends View
       @model.set 'business', params.selected
     $('.host').on 'change', (evt, params) =>
       @model.set 
-      'host' : params.selected
-      'location' : Chaplin.datastore.business.get(params.selected).get('location')
-    @subscribeEvent 'selectedMedia', @updateImage         
+        'host' : params.selected
+        'location' : Chaplin.datastore.business.get(params.selected).get('location')
+    @subscribeEvent 'selectedMedia', @updateImage   
+    @delegate 'click', '.showMediaLibrary', (e) =>
+      e.stopPropagation()
+      console.log 'click happened'
+      $("#media-library-popover-#{@model.id}").modal()
+
 
   initDatePickers: =>
     @startDate = new Pikaday

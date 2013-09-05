@@ -37,6 +37,7 @@ module.exports = class Edit extends View
     @publishEvent '!router:route', @listRoute
 
   save: (e) ->
+    console.log 'in save'
     e.preventDefault()  
     @updateModel()
     if $("#filelist div").length > 0
