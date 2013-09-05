@@ -14,7 +14,10 @@ module.exports = class ListItem extends View
     @publishEvent '!router:route', "#{@noun}/#{@model.id}"
 
   destroy: (e) =>
-    m = @model
-    @collection.remove(@model)
-    m.destroy()
-    @dispose()    
+    destroyConfirm = confirm("Delete this #{@noun}?")
+    if destroyConfirm
+      m = @model
+      @collection.remove(@model)
+      m.destroy()
+      @dispose()   
+ 
