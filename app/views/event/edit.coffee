@@ -8,6 +8,7 @@ module.exports = class EventEditView extends View
   autoRender: true
   className: 'event-edit'
   template: template
+  listRoute: 'myEvents'
 
   attach: =>
     super
@@ -51,28 +52,9 @@ module.exports = class EventEditView extends View
     td.imageUrl = @model.imageUrl({height: 163, width: 266})
     td    
 
-  save: (e) ->
-    e.preventDefault()
+  updateModel: ->
     @model.set
       fixedOccurrences : @getFixedOccurrences()    
-    if $("#filelist div").length > 0
-      @subview('imageChooser').uploadQueue (media) =>
-        @model.set 'media',[media]
-        @model.save {}, {
-          success: =>
-            @collection.add @model
-            @publishEvent '!router:route', 'myEvents'
-          error: (model, response) ->
-            console.log response
-        }
-    else
-      @model.save {}, {
-          success: =>
-            @collection.add @model
-            @publishEvent '!router:route', 'myEvents'
-          error: (model, response) ->
-            console.log response
-      }
 
   getFixedOccurrences: =>
     sd = @startDate.getMoment()
@@ -83,6 +65,3 @@ module.exports = class EventEditView extends View
       start : sd.toDate().toISOString()
       end : ed.toDate().toISOString()
     }]
-
-  cancel:()->
-    @publishEvent '!router:route', 'myEvents'

@@ -8,6 +8,7 @@ module.exports = class BusinessEditView extends View
   autoRender: true
   className: 'users-list'
   template: template
+  listRoute: 'myBusinesses'
 
   initialize: ->
     super
@@ -29,31 +30,9 @@ module.exports = class BusinessEditView extends View
     td.imageUrl = @model.imageUrl({height: 163, width: 266})
     td    
 
-  save: (e) ->
-    e.preventDefault()
+  updateModel: ->
     @setSmLinks()
     @setLocation()
-    if $("#filelist div").length > 0
-      @subview('imageChooser').uploadQueue (media) =>
-        @model.set 'media',[media]
-        @model.save {}, {
-          success: =>
-            Chaplin.datastore.business.add @model
-            @publishEvent '!router:route', 'myBusinesses'
-          error: (model, response) ->
-            console.log response
-        }
-    else
-      @model.save {}, {
-          success: =>
-            Chaplin.datastore.business.add @model
-            @publishEvent '!router:route', 'myBusinesses'
-          error: (model, response) ->
-            console.log response
-      }
-      
-  cancel:()->
-    @publishEvent '!router:route', 'myBusinesses'
 
   setLocation: ()->
     @model.set
