@@ -20,8 +20,6 @@ module.exports = class Edit extends View
     @attachMediaLibrary()    
 
   updateImage: (e) =>
-    console.log 'updateImage'
-    console.log e
     if e
       @model.set 'media', [e.toJSON()]
       @$el.find('.modal').modal('hide')
@@ -35,25 +33,36 @@ module.exports = class Edit extends View
   cancel:()->
     @publishEvent '!router:route', @listRoute
 
-  save: (e) ->
-    e.preventDefault()  
-    @updateModel()
-    if $("#filelist div").length > 0
-      @subview('imageChooser').uploadQueue (media) =>
-        @model.set 'media',[media]
-        @model.save {}, {
-          success: =>
-            @postSave() if @postSave
-          error: (model, response) ->
-            console.log response
-        }
+  validate: ->
+    @$el.find('.has-error').removeClass('has-error')
+    errors = @model.validate()
+    if errors
+      for x in errors
+        @$el.find("textarea[name='#{x.p}'], input[name='#{x.p}']").parent().addClass('has-error')
+      return false
     else
-      @model.save {}, {
-          success: =>
-            @postSave() if @postSave
-          error: (model, response) ->
-            console.log response
-      }    
+      return true
+
+  save: (e) ->
+    e.preventDefault() 
+    @updateModel()
+    if @validate()
+      if $("#filelist div").length > 0
+        @subview('imageChooser').uploadQueue (media) =>
+          @model.set 'media',[media]
+          @model.save {}, {
+            success: =>
+              @postSave() if @postSave
+            error: (model, response) ->
+              console.log response
+          }
+      else
+        @model.save {}, {
+            success: =>
+              @postSave() if @postSave
+            error: (model, response) ->
+              console.log response
+        }    
 
   postSave: =>
     @collection.add @model

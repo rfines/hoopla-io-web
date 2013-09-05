@@ -8,6 +8,20 @@ module.exports = class Business extends Model
     else
       return "/api/business/#{@id}"  
 
+  validate: ->
+    errors = []
+    if not (@has('name') and @get('name').trim().length > 0)
+      errors.push {p : 'name'}
+    console.log @attributes
+    if not (@has('location') and @get('location').address)
+      errors.push {p : 'address'}
+    if not (@has('description') and @get('description').trim().length > 0)
+      errors.push {p : 'description'}      
+    if errors.length is 0
+      return undefined
+    else
+      return errors
+
   addFacebookLink: (_url)->
     if _url.length >0
       if @get('socialMediaLinks')
