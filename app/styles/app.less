@@ -18,6 +18,7 @@ background: -moz-linear-gradient(top,  #d1e0e6 0%, #8aadf0 100%);
 
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1e0e6', endColorstr='#8aadf0',GradientType=0 );
 	}
+
 .loginPopover {
 	width: 200px;
 	}
@@ -106,24 +107,23 @@ border-color: rgb(62,63,66);
 font-family: quicksandbold;
 font-size: 1.1em;}
 
-.btn-default{color: #0aabb9;}
+.btn-default{color: #06A1AF;}
+.btn-info {background-color:#06A1AF;}
 
 a {
 	cursor: pointer;
 }
 
 .event-list {
-  h2 {font-family:'museo-300';color:@gray-dark;}
+  h2 {font-family:'museo';color:@gray-dark;}
   .event-title a {
     font-family:'quicksandbold';
     color:@brand-primary;
   }
   .panel-default > .panel-heading + .panel-collapse .panel-body {
     padding:25px;
-    background-color: #fff;
-    box-shadow: 0px 7px 20px #06A1AF!important;
-    width: 99%;
-    margin-left: 0.5%;
+    background-color: #06A1AF;
+    label {color: #fff;}
   }
   .panel-group {margin-top:20px;}
   .panel-group .panel {overflow:visible!important;background-color:transparent;}
@@ -131,7 +131,7 @@ a {
  
 }
 .business-list {
-  h2 {font-family:'museo-300';color:@gray-dark;}
+  h2 {font-family:'museo';color:@gray-dark;}
   .promotionTargets {
     font-size: 2em;
     font-weight: 700;
@@ -143,7 +143,7 @@ a {
 }
 
 .event-edit {
-  h2 {font-family:'museo-300';color:@gray-dark;}
+  h2 {font-family:'museo';color:@gray-dark;}
   h3 {font-family:'quicksandbold';color:@gray-dark;font-size:.8em;}
   form {
     .row {margin-bottom:15px;}
@@ -159,7 +159,7 @@ a {
   }
 }
 
-.btn {font-family:'museo-300';}
+.btn {font-family:'museo';}
 textarea.form-control.description {height: 145px!important;}
 
 ///Chosen Override styles ///
