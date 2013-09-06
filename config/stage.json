@@ -3,7 +3,20 @@
   "apiUrl" : "http://hoopla-io-api-stage.herokuapp.com",
   "apiKey" :"METkwI15Bg0heuRNaru6",
   "apiSecret": "6n0pRhok4WR8yx8VudUD7XshboNCz51oFXJvZA2y",
+  "baseUrl":"http://stage.hoopla.io/",
   "cloudinary" : {
     "cloudName" : "hu9ncnicw"
   }
+  "facebook":{
+    "key":"1433425413548423",
+    "secret":"507b5e780c1f5aad0eb938f532946d7b"
+  },
+  "twitter":{
+    "consumer_key":"qBBBqJXI1jO4tsUx2rOWtA",
+    "consumer_secret":"YylIK7m4z7ZsnyqphCK3kwBn2S3MO8GecT2Ijfghg",
+    "request_token_url":"https://api.twitter.com/oauth/request_token",
+    "authorize_url": "https://api.twitter.com/oauth/authorize",
+    "access_token_url":"https://api.twitter.com/oauth/access_token",
+    "callback_url": "http://stage.hoopla.io/callbacks/oauthTwitterCallback"
+  }  
 }

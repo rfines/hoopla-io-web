@@ -40,6 +40,7 @@ app.get "/*", (req, res) ->
     apiUrl : CONFIG.apiUrl
     cloudinary : CONFIG.cloudinary
     facebookClientId: CONFIG.facebook.key
+    baseUrl : CONFIG.baseUrl
   res.render "index.hbs", data
 
 app.listen(port);
