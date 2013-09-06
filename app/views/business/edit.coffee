@@ -6,7 +6,7 @@ ImageUtils = require 'utils/imageUtils'
 
 module.exports = class BusinessEditView extends View
   autoRender: true
-  className: 'users-list'
+  className: 'business-edit'
   template: template
   listRoute: 'myBusinesses'
 

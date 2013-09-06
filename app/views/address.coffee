@@ -3,7 +3,7 @@ View = require 'views/base/view'
 
 module.exports = class AddressView extends View
   autoRender: true
-  className: 'users-list'
+  className: 'address'
   template: template
 
   initialize: ->
@@ -35,8 +35,9 @@ module.exports = class AddressView extends View
             map: map
             position: results[0].geometry.location
           )
-          google.maps.event.trigger(map, 'resize')
           @$el.find('#map-canvas').show()
+          google.maps.event.trigger(map, 'visible_changed')
+          google.maps.event.trigger(map, 'resize')
           @location =
             geo : {type: "Point", coordinates : [results[0].geometry.location.lng(), results[0].geometry.location.lat()]}
             address : results[0].formatted_address
