@@ -27,7 +27,9 @@ module.exports = class EventController extends Controller
 =======
           collection : Chaplin.datastore.event.pastEvents(10)
 
-  promote: ->
+  promote: (params) ->
+    console.log Chaplin.datastore.event.get(params.id)
+    console.log params.id
     CreatePromotionRequest = require 'views/event/createPromotionRequest'
     Chaplin.datastore.loadEssential
       success: =>
@@ -35,6 +37,7 @@ module.exports = class EventController extends Controller
         @view = new CreatePromotionRequest
           region: 'main'
           model: prRequest
+          data: Chaplin.datastore.event.get(params.id.toString())
           
         
 >>>>>>> Promotion request continues

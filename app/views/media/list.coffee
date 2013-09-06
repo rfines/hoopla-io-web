@@ -8,9 +8,14 @@ module.exports = class List extends ListView
   template: template
   itemView: ListItem
   noun : 'media'
+  standAloneUpload :false
+  initialize: (options)->
+    super(options)
+    @standAloneUpload = options.standAloneUpload
 
   attach: ->
     super
-    
+    console.log @standAloneUpload
+    @subview('imageChooser', new ImageChooser({container: @$el.find('.well.add-media'), standAloneUpload:true}))
 
   

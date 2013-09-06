@@ -8,13 +8,17 @@ module.exports = class ImageChooser extends View
   media= undefined
   file={}
   uploader = {}
-  initialize: ->
-    super
+  standAloneUpload = false
+
+  initialize: (options)->
+    super(options)
+    @standAloneUpload = options.standAloneUpload
 
   events:
     'click .remove-button': 'removeFile'
   attach: ->
     super()
+
     @uploader = new plupload.Uploader(
       multipart : false
       runtimes: "html5,flash,silverlight,html4"
@@ -33,12 +37,17 @@ module.exports = class ImageChooser extends View
 
     )
     
-    @uploader.init()
+    
+    @uploader.bind "Init", (up, params) =>
+      if $('.uploadBtn').length >0
+        $(".uploadBtn").click (e) =>
+          @uploader.start()
+          e.preventDefault()
+
     @uploader.bind "FilesAdded", (up, files) =>
       $('#choose-image').attr('disabled', true)
       $.each files, (i, file) =>
         @file = file
-        console.log @file
         $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <a class='remove-button'>Remove</a>" + "</div>"
       up.refresh() # Reposition Flash/Silverlight
     
@@ -61,8 +70,9 @@ module.exports = class ImageChooser extends View
         file.status = plupload.FAILED
         @media = null
 
+    @uploader.init()
+
   removeFile:(e)=>
-    console.log @file
     @uploader.removeFile(@file)
     $('#'+@file.id).remove()
     $('#choose-image').attr('disabled', false)
@@ -71,3 +81,8 @@ module.exports = class ImageChooser extends View
     @uploader.bind "UploadComplete", (up, files)=>
       cb @media
     @uploader.start()
+
+  getTemplateData: ->
+    td = super()
+    td.standAloneUpload = @standAloneUpload
+    td  

@@ -9,5 +9,6 @@ module.exports = class MediaController extends Controller
         @view = new List
           region: 'main'
           collection : Chaplin.datastore.media
+          standAloneUpload: true
       error: (model, response) =>
         console.log response   
