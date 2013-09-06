@@ -179,10 +179,13 @@ a {
     .panel-default > .panel-heading + .panel-collapse .panel-body {
         padding: 25px;
         background-color: #06A1AF;
+        box-shadow: 0px -2px 13px #5D5F5F inset;
         label {
             color: #fff;
         }
     }
+    .expanded {box-shadow: 0px 4px 13px #A1A2A5 inset;
+    z-index: 999;}
     .row {
         margin-right: 0px!important;
         margin-left: 0px!important;
@@ -195,7 +198,7 @@ a {
         background-color: transparent;
     }
     textarea.description {
-        height: 145px!important;
+        height: 307px!important;
     }
     .showMoreButton {
         font-family: museoLight;
@@ -225,6 +228,8 @@ a {
             -o-transform: rotate(360deg);
         }
     }
+    .recurring-date {color: #fff;
+    font-family: 'quicksandbold';}
 }
 .register {
     h2 {
@@ -325,6 +330,7 @@ a {
         .well {
             border: 1px dashed #BEBDBD;
             margin-bottom: 3px;
+            height:307px!important;
         }
         a.showMediaLibrary {
             color: #fff;
@@ -364,7 +370,7 @@ a {
     font-family: 'museo';
 }
 textarea.form-control.description {
-    height: 165px!important;
+    height: 307px!important;
 }
 ///Chosen Override styles ///
 .gray-tags .chosen-container-multi .chosen-choices li.search-choice {
