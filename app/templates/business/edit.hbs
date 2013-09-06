@@ -1,8 +1,9 @@
-<div class="row"><h2>My Businesses</h2></div>
 <form role="form" class="form-inline">
   <div class="row">
     <div class="col-md-6 col-sm-4 col-lg-6">
-    <legend><img src="/client/images/icon-magic-wand.png">&nbsp;Create Business</legend>
+        {{#if isNew}}
+        <legend><img src="/client/images/icon-magic-wand.png">&nbsp;Create Business</legend>
+        {{/if}}
         <div>
           <label for="name"><i class="glyphicon glyphicon-star"></i>Business Name<span class="required">*</span></label>
           <input type="text" class="form-control name" name="name" placeholder="Business Name">

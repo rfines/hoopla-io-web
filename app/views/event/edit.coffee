@@ -70,8 +70,6 @@ module.exports = class EventEditView extends View
   getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
-    td.isNew = @model.isNew()
-    td.imageUrl = @model.imageUrl({height: 163, width: 266})
     td    
 
   updateModel: ->

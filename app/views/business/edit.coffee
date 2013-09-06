@@ -27,7 +27,6 @@ module.exports = class BusinessEditView extends View
 
   getTemplateData: ->
     td = super()
-    td.imageUrl = @model.imageUrl({height: 163, width: 266})
     td    
 
   updateModel: ->

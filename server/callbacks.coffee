@@ -38,7 +38,6 @@ module.exports.facebook = (req, res) ->
         
 
 module.exports.oauthTwitter = (req,res)->
-  console.log req.query
   oAuth = new oauth.OAuth(CONFIG.twitter.request_token_url, CONFIG.twitter.access_token_url, CONFIG.twitter.consumer_key, CONFIG.twitter.consumer_secret, "1.0A", "#{CONFIG.twitter.callback_url}?businessId=#{req.query.businessId}", "HMAC-SHA1")
   oAuth.getOAuthRequestToken (error, oauth_token, oauth_token_secret, results) =>
     if error
@@ -52,14 +51,14 @@ module.exports.oauthTwitter = (req,res)->
       res.redirect "https://twitter.com/oauth/authenticate?oauth_token=#{oauth_token}"
 
 module.exports.oauthTwitterCallback = (req,res)->
+  twitterConnectError = 'We were unable to connect your business to twitter.  Are you sure you approved the request?'
   oAuth = new oauth.OAuth(CONFIG.twitter.request_token_url, CONFIG.twitter.access_token_url, CONFIG.twitter.consumer_key, CONFIG.twitter.consumer_secret, "1.0A", "#{CONFIG.twitter.callback_url}?businessId=#{req.query.businessId}", "HMAC-SHA1")
   if req.session.oauth
     req.session.oauth.verifier = req.query.oauth_verifier
     oauth_data = req.session.oauth
     oAuth.getOAuthAccessToken oauth_data.token, oauth_data.token_secret, oauth_data.verifier, (error, oauth_access_token, oauth_access_token_secret, results) =>
       if error
-        console.log error
-        res.send "Authentication Failure!"
+        handleError(res, twitterConnectError)
       else
         promo = 
           accessToken: oauth_access_token
