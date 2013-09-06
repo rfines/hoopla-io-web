@@ -31,6 +31,7 @@ body {
     transition-property: transform;
     overflow: hidden;
 }
+h1, h2, h3, h4, h5 {font-family:'museo';}
 ///Forms////
 .topNav .form-signin a {font-size:.8em;position: relative;
 bottom: -6px;}
@@ -128,13 +129,20 @@ form .has-error .form-control {box-shadow: 0px 0px 18px #b94a48!important;}
 section.home {
     .navbar-inverse {
         border-radius: 0px;
+        margin-bottom:0px;
         h4 {
             text-align: center;
-            color: @gray-light;
-            font-family: 'museo';
+            color: @brand-success;
+            font-family: 'museoLight';
             line-height: 35px;
         }
     }
+    .primary-messaging article {
+      min-height: 400px;
+      background-color: #fff;
+      padding-top:50px;
+      p a {font-family:'quicksandbold'}
+      }
     .carousel-caption {
         right: 20%;
         left: 20%;
