@@ -1,5 +1,8 @@
 module.exports.getId = (url) ->
-  t = url.split('/')
-  final = t[t.length-1]
-  return final
+  if url
+    t = url.split('/')
+    final = t[t.length-1]
+    return final
+  else
+    return ''
   
