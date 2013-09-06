@@ -30,7 +30,7 @@ module.exports = class PostLoginController extends Chaplin.Controller
     @compose 'site', SiteView
     @compose 'topNav', TopNav, {region: 'topNav'}
     @compose 'preLoginHeader', PostLoginHeaderView, {region:'header'}  
-    #@compose 'footer', Footer
+    @compose 'footer', Footer
 
   goToLogin: ->
     @publishEvent '!router:route', 'login'
