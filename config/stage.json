@@ -6,7 +6,7 @@
   "baseUrl":"http://stage.hoopla.io/",
   "cloudinary" : {
     "cloudName" : "hu9ncnicw"
-  }
+  },
   "facebook":{
     "key":"1433425413548423",
     "secret":"507b5e780c1f5aad0eb938f532946d7b"

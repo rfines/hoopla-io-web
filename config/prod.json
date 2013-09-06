@@ -6,5 +6,19 @@
   //"cloudinary" : {
   //  "cloudName" : "hu9ncnicw"
   //}
-  "robotsFile" : "prod.robots.hbs"
+  "robotsFile" : "prod.robots.hbs",
+  "baseUrl":"http://www.hoopla.io/",
+  "facebook":{
+    "key":"1414344922112968",
+    "secret":"72123805ad815bfb5b34c3a2d608edd7"
+  },
+  "twitter":{
+    "consumer_key":"zKuhI99WGhLAHCRZQHO0cA",
+    "consumer_secret":"EV0nu4wnhCG26iveSG4vtHakV691XhejKHGDR30",
+    "request_token_url":"https://api.twitter.com/oauth/request_token",
+    "authorize_url": "https://api.twitter.com/oauth/authorize",
+    "access_token_url":"https://api.twitter.com/oauth/access_token",
+    "callback_url": "http://www.hoopla.io/callbacks/oauthTwitterCallback"
+  }  
+}  
 }
