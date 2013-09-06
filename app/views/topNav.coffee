@@ -8,6 +8,9 @@ module.exports = class TopNav extends View
   region: 'topNav'
   template: template
 
+  listen:
+    'navigation:loggedIn mediator' : 'loggedIn'
+
   attach: ->
     super()
     @$el.find('.signInButton').popover({placement: 'bottom', content : "<div class='loginPopover'>Hello</div>", html: true}).popover('show').popover('hide')
@@ -20,5 +23,7 @@ module.exports = class TopNav extends View
 
   getTemplateData: ->
     td = super
-    td.showLogin = not Chaplin.datastore?.user?
     td
+
+  loggedIn: ->
+    @$el.find('.signInButton').hide()

@@ -13,6 +13,7 @@ module.exports = exports = class DataStore
   event : new Events()
   media : new Medias()
   widget : new Widgets()
+  user: undefined
 
   constructor: (@name) ->
     @event.model = Event

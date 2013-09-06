@@ -21,8 +21,9 @@ module.exports = class PostLoginController extends Chaplin.Controller
             user = new User()
             user.id = $.cookie('user')
             user.fetch
-              success: ->
+              success: =>
                 Chaplin.datastore.user = user
+                @publishEvent 'navigation:loggedIn'
         else
           @goToLogin()
 
