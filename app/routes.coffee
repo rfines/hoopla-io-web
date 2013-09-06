@@ -22,7 +22,7 @@ module.exports = (match) ->
   match 'account/change-password', 'account#changePassword' 
   match 'account/forgot-password', 'account#resetPassword'
   match 'password/reset', 'account#newPassword'
-  match 'promotionRequest', 'promotionRequest#create'
+  match 'event/:id/promote', 'event#promote'
 
   # login/logout
   match 'login', 'login#login', name: 'auth_login'

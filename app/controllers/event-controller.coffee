@@ -1,6 +1,6 @@
 Controller = require 'controllers/base/postLoginController'
 Event = require 'models/event'
-
+PromoRequest = require 'models/promotionRequest'
 module.exports = class EventController extends Controller
   list: (params) ->
     EventList = require 'views/event/list'
@@ -20,6 +20,21 @@ module.exports = class EventController extends Controller
       success: =>
         @view = new EventList
           region: 'main'
+<<<<<<< HEAD
           collection : Chaplin.datastore.event
           filterer: (item, index) ->
             not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())      
+=======
+          collection : Chaplin.datastore.event.pastEvents(10)
+
+  promote: ->
+    CreatePromotionRequest = require 'views/event/createPromotionRequest'
+    Chaplin.datastore.loadEssential
+      success: =>
+        prRequest = new PromoRequest()
+        @view = new CreatePromotionRequest
+          region: 'main'
+          model: prRequest
+          
+        
+>>>>>>> Promotion request continues

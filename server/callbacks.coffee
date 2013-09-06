@@ -19,19 +19,27 @@ module.exports.facebook = (req, res) ->
       else
         slQstring = require('querystring').parse("#{body}")
         accessToken = slQstring.access_token
-        promoTarget = 
-          accountType: 'FACEBOOK'
-          accessToken: accessToken
-          expiration: moment().add('seconds',slQstring.expires).toDate().toISOString()
-        options=
-          uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
-          method:'POST'
-          json: promoTarget
-        request options, (err, response, body)=>
-          if err
-            handleError(res, facebookConnectError)
+        me = "https://graph.facebook.com/me?access_token=#{accessToken}"
+        request me, (errors, resp, bod)=>
+          if errors
+            handleError(res,facebookConnectError)
           else
-            res.redirect("#{CONFIG.baseUrl}myBusinesses")
+            b=JSON.parse(bod)
+            promoTarget = 
+              accountType: 'FACEBOOK'
+              accessToken: accessToken
+              expiration: moment().add('seconds',slQstring.expires).toDate().toISOString()
+              profileName: b.name
+              profileImageUrl: "https://graph.facebook.com/#{b.id}/picture?type=normal"
+            options=
+              uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
+              method:'POST'
+              json: promoTarget
+            request options, (err, response, body)=>
+              if err
+                handleError(res, facebookConnectError)
+              else
+                res.redirect("#{CONFIG.baseUrl}myBusinesses")
   else
     handleError(res, facebookConnectError)
         
@@ -62,19 +70,34 @@ module.exports.oauthTwitterCallback = (req,res)->
         if error
           handleError(res, twitterConnectError)
         else
-          promo = 
-            accessToken: oauth_access_token
-            accountType: 'TWITTER'
-            accessTokenSecret: oauth_access_token_secret
-          options=
-            uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
-            method:'POST'
-            json: promo
-          request options, (err, response, body)=>
-            if err
-              handleError(res, twitterConnectError)
+          oAuth.get "https://api.twitter.com/1.1/account/settings.json", oauth_access_token, oauth_access_token_secret, (e, data, result) =>
+            if e
+              console.error e
             else
-              res.redirect("#{CONFIG.baseUrl}myBusinesses")
+              console.log "Got the account settings"
+              d = JSON.parse(data)
+              console.log 
+              oAuth.get "https://api.twitter.com/1.1/users/show.json?screen_name=#{d.screen_name}", oauth_access_token, oauth_access_token_secret, (e, user, result) =>
+                if e
+                  console.log e
+                else
+                  console.log "Got the user"
+                  console.log user
+                  promo = 
+                    accessToken: oauth_access_token
+                    accountType: 'TWITTER'
+                    accessTokenSecret: oauth_access_token_secret
+                    profileName: d.screen_name
+                    profileImageUrl: JSON.parse(user).profile_image_url
+                  options=
+                    uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
+                    method:'POST'
+                    json: promo
+                  request options, (err, response, body)=>
+                    if err
+                      handleError(res, twitterConnectError)
+                    else
+                      res.redirect("#{CONFIG.baseUrl}myBusinesses")
              
     else
       handleError(res, twitterConnectError)

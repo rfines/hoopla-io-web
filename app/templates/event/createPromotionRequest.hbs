@@ -1,17 +1,62 @@
 <div class="row">
-  <div class="col-xs-6 col-lg-4">
-    <ul class="nav nav-pills nav-stacked nav-justified">
-      <li class="active"><a href="#facebook">Facebook</a></li>
-      <li><a href="#twitter">Twitter</a></li>
+  <div class="col-xs-5 col-lg-3">
+    <ul class="nav nav-pills nav-stacked">
+      <li class="active facebookTab"><a href="#">Facebook</a></li>
+      <li class="twitterTab"><a href="#">Twitter</a></li>
     </ul>
   </div>
-  <div class="col-xs-12 col-lg-8">
-    <form class="form-inline promoRequestForm">
-      <p>What do you want to say?</p>
-      <textarea class="form-control span3 message" name="message" placeholder="Status Message..."/>
-      <p>When do you want to say it?</p>
-      <input type="text" class="form-control datePicker promoDate" name="date">
-      <div class="image-selection"></div>
+  <div class="col-xs-12 col-lg-8" id="facebookPanel">
+    <div class="row">
+      <div class="col-xs-6 col-lg-6 facebook-preivew">
+          <img src="facebookProfileImageUrl" class="facebook" />
+      </div>
+    </row>
+    <form class="form-inline promoRequestFormFacebook">      
+      <div class="row">
+        <div class="col-md-8">
+          <label for="description"><i class="glyphicon glyphicon-pencil"></i>Status Message</label>
+          <textarea class="form-control span3 message" name="message" placeholder="Status Message..."/>
+        </div>
+        <div class="col-md-2">
+          <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
+          <input type="text" class="form-control datePicker promoDate" name="date">
+        </div>
+         <div class="col-md-2">
+          <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
+          <input type="text" class="form-control timepicker startTime" name="startTime">
+        </div>
+        
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-success" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-xs-12 col-lg-8" id="twitterPanel" style="display:none">
+    <div class="row">
+      <div class="col-xs-6 col-lg-6 twitter-preview">
+        <img src="{{twitterProfileImageUrl}}" alt="twitter profile image"/>
+      </div>
+    </div>
+     <form class="form-inline promoRequestFormTwitter">
+      <div class="row">
+        <div class="col-md-8">
+          <label for="description"><i class="glyphicon glyphicon-pencil"></i>Tweet</label>
+          <textarea class="form-control span3 message" name="message" placeholder="Tweet"/>
+        </div>
+        <div class="col-md-2">
+          <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
+          <input type="text" class="form-control datePicker promoDate" name="date">
+        </div>
+         <div class="col-md-2">
+          <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
+          <input type="text" class="form-control timepicker startTime" name="startTime">
+        </div>
+       
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-success" type="submit">Submit</button>
+      </div>
     </form>
   </div>
 </div>
