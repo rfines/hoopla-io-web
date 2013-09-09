@@ -27,7 +27,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 event-by-location">
       <label for="tags">Event Tags</label>
       <select class="form-control select-chosen" multiple="true" name="tags">
         {{#each eventTags}}
@@ -35,6 +35,14 @@
         {{/each}}
       </select>
     </div>
+    <div class="col-md-4 event-by-business">
+      <label for="tags">Businesses</label>
+      <select class="form-control select-chosen" multiple="true" name="businesses">
+        {{#each businesses}}
+          <option value="{{id}}">{{attributes.name}}</option>
+        {{/each}}
+      </select>
+    </div>    
     <div class="col-md-2">
       <label for="widgetStyle">Theme</label>
         <select name="widgetStyle" class="form-control widgetStyle select-chosen">
@@ -43,7 +51,7 @@
         </select>
     </div>            
   </div>
-  <div class="row">
+  <div class="row event-by-location">
     <div class="col-md-4 geoLocation"></div>
     <div class="col-md-2">
       <label for="radius">Radius</label>
@@ -55,14 +63,13 @@
         <option value="80467">50</option>
       </select>
     </div>
-    <div class="col-md-2">
-      Hello
-      <a class="btn btn-default saveButton">Save</a>
-      <a class="btn btn-default previewButton">Preview</a>
-    </div>
   </div>    
 </form>
 </div>
 <div class="col-md-4">
   <iframe src="" id="widgetPreview"></iframe>
+  <div class="row">
+      <a class="btn btn-default saveButton">Save</a>
+      <a class="btn btn-default previewButton">Preview</a>
+  </div>
 </div>

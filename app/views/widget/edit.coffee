@@ -14,20 +14,31 @@ module.exports = class WidgetEditView extends View
 
   attach: ->
     super
-    console.log @model
     @modelBinder.bind @model, @$el
     @$el.find(".select-chosen").chosen({width:'100%'})    
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
-    @updatePreview() if not @model.isNew()
+    $('.widgetType').on 'change', (evt, params) =>
+      if params.selected is 'event-by-location'
+        @byLocation()
+      else
+        @byBusiness()
+    if not @model.isNew()
+      @updatePreview()   
+      if @model.get('widgetType') is 'event-by-location'
+        @byLocation() 
+      else
+        @byBusiness()
 
 
   getTemplateData: ->
     td = super()
     td.eventTags = Chaplin.datastore.eventTag.models
+    td.businesses = Chaplin.datastore.business.models
     td    
 
   updateModel: ->
-    console.log 'update model'
+    @model.set
+      location : @subview('geoLocation').getLocation()
 
   events:
     'click .saveButton' : 'save'
@@ -38,13 +49,11 @@ module.exports = class WidgetEditView extends View
     @publishEvent '!router:route', @listRoute        
 
   save: () ->
-    @model.set
-      geo : @subview('geoLocation').getLocation().geo
+    @updateModel()
     @model.save()
 
   preview: () ->
-    @model.set
-      geo : @subview('geoLocation').getLocation().geo
+    @updateModel()
     @model.save {}, {
       success: (err, doc) =>
         @updatePreview()
@@ -53,3 +62,11 @@ module.exports = class WidgetEditView extends View
   updatePreview: () =>
     $('#widgetPreview').attr('src', "http://localhost:3000/integrate/widget/#{@model.id}")
 
+
+  byLocation: () =>
+    @$el.find('.event-by-business').hide()
+    @$el.find('.event-by-location').show()
+
+  byBusiness: () =>
+    @$el.find('.event-by-business').show()
+    @$el.find('.event-by-location').hide()
