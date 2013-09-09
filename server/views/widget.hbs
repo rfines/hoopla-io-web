@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+  <body>
+    {{#each events}}
+    <div class="eventRow">
+      {{name}}
+    </div>
+    {{/each}}
+    {{#if development}}
+    <script>
+      window.brunch = window.brunch || {};
+      window.brunch['auto-reload'] = "{disabled: true}";
+    </script>
+    {{/if}}
+  </body>
+</html>

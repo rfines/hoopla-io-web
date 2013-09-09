@@ -2,6 +2,7 @@ CONFIG = require('config')
 express = require("express")
 app = express()
 port = process.env.PORT || 3000
+widget = require('./server/widget')
 
 app.configure ->
   app.set('view engine', 'hbs')
@@ -33,6 +34,9 @@ app.get "/oauth/twitter", (req, res) ->
   require('./server/callbacks').oauthTwitter(req, res)
 app.get "/callbacks/oauthTwitterCallback", (req, res) ->
   require('./server/callbacks').oauthTwitterCallback(req, res)
+
+app.get "/widget/:id", (req, res) ->
+  widget.show(req, res)
 
 app.get "/*", (req, res) ->
   data =
