@@ -20,6 +20,11 @@ body {
 input.form-control:focus, textarea.form-control:focus {
     box-shadow: 0px 0px 18px #06A1AF!important;
 }
+.modal-body img {max-width: 538px;}
+.modal-header .deleteButton {position: relative;
+right: 11px;
+top: -22px;
+}
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
 ///CSS3 Animations///
@@ -55,6 +60,28 @@ label {
     font-weight: normal;
 }
 form .has-error .form-control {box-shadow: 0px 0px 18px #b94a48!important;border: 1px dashed #cccccc;}
+ i.deleteItem {
+    color: @gray-light;
+    position: relative;
+    top: 7px;
+    left: 20px;
+    font-size: 27px;
+}
+i.deleteItem:hover {color: @red;}
+  img.duplicateEvent { -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+    overflow: hidden;}
+.chooser .buttons {margin-right:30px;}
+.chooser .enlarge i {font-size: 1.7em;
+position: relative;
+top: 6px;}
+.chooser .thumbnail {padding: 23px 4px;border: 1px dashed #dddddd;background-color:transparent!important;}
 .topNav {
     background-color: #fff;
     img.logo {
@@ -178,6 +205,7 @@ a {
     .event-title a {
         font-family: 'quicksandbold';
         color: #06A1AF;
+        font-size: 1.2em;
     }
     .panel-default > .panel-heading + .panel-collapse .panel-body {
         padding: 25px;
@@ -192,6 +220,14 @@ a {
     .row {
         margin-right: 0px!important;
         margin-left: 0px!important;
+        line-height: 46px;
+    }
+    .eventListActions {
+      text-align:right;
+      
+        img.duplicateEvent:hover {  -webkit-transform: rotate(360deg);
+          -moz-transform: rotate(360deg);
+          -o-transform: rotate(360deg);}
     }
     .panel-group {
         margin-top: 20px;
