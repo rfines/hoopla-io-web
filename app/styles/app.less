@@ -61,7 +61,6 @@ form .has-error .form-control {box-shadow: 0px 0px 18px #b94a48!important;border
         margin: 12px 0px 12px 0px;
     }
     a {
-        color: rgb(10,171,185);
         font-size: 1.1em;
         margin: 0px 10px 0px 0px;
     }
@@ -143,7 +142,7 @@ section.home {
     .primary-messaging article {
       min-height: 400px;
       background-color: #fff;
-      padding-top:50px;
+      padding:50px;
       p a {font-family:'quicksandbold'}
       }
     .carousel-caption {
@@ -268,6 +267,10 @@ a {
 .business-list {
     .row {
         margin: 0px;
+        .image {
+          line-height: 166px;
+          img {width:100%;}
+          }
     }
     h2 {
         font-family: 'museo';
@@ -279,10 +282,11 @@ a {
             margin-right: 6px;
         }
         a.socialNotConnected {
-            color: #c0c0c0;
+            color: @gray-light;
         }
         a.socialConnected {
             color: @link-color;
+            font-family:'quicksandbold'
         }
     }
     h2.businessName {

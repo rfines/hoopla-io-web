@@ -14,5 +14,5 @@ module.exports = class ListItem extends ListItemView
       item.accountType is 'FACEBOOK'
     td.twitterConnected = _.some @model.get('promotionTargets'), (item) ->
       item.accountType is 'TWITTER'      
-    td.imageUrl = @model.imageUrl({height: 163, width: 266})      
+    td.imageUrl = @model.imageUrl({height: 163, width: 266, crop: 'fit'})      
     td

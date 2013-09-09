@@ -1,27 +1,27 @@
 <div class="row well well-sm">
-  <div class="col-md-3">
+  <div class="col-md-3 image">
     {{#if imageUrl}}
         <img src="{{imageUrl}}" class="currentImage"/>
     {{/if}}
   </div>
-  <div class="col-md-5">
+  <div class="col-md-6">
     <h2 class="businessName">{{name}}<a class="edit"><i class="glyphicon glyphicon-edit"></i></a></h2>
     <div class="businessLocation">{{location.address}}</div>
 
   </div>
-  <div class="col-md-2">
+  <!---<div class="col-md-1">
     <div class="collaborators"></div>
-  </div>   
-  <div class="col-md-2 promotionTargets">
+  </div>   --->
+  <div class="col-md-3 promotionTargets">
     {{#if facebookConnected}}
       <p class="social-connection"><a class="facebook connected socialConnected"><img src="/client/images/fb_connected.png">Connected</a></p>
     {{else}}
-      <p class="social-connection"><a class="facebook socialNotConnected" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Not Connected</a></p>
+      <p class="social-connection"><a class="facebook socialNotConnected" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Connect this channel</a></p>
     {{/if}}
     {{#if twitterConnected}}
       <p class="social-connection"><a class="twitter connected"><img class="socialConnected" src="/client/images/twitter-connected.png">Connected</a></p>
     {{else}}
-      <p class="social-connection"><a class="twitter socialNotConnected" href="{{twitterConnectUrl}}"><img class="socialNotConnected" src="/client/images/twitter-not-connected.png">Not Connected</a></p>
+      <p class="social-connection"><a class="twitter socialNotConnected" href="{{twitterConnectUrl}}"><img class="socialNotConnected" src="/client/images/twitter-not-connected.png">Connect this channel</a></p>
     {{/if}}    
   </div>        
 </div>
