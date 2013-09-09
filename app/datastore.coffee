@@ -6,6 +6,7 @@ Media = require 'models/media'
 Medias = require 'models/medias'
 Widgets = require 'models/widgets'
 Widget = require 'models/widget'
+EventTags = require 'models/eventTags'
 
 module.exports = exports = class DataStore
 
@@ -14,12 +15,14 @@ module.exports = exports = class DataStore
   media : new Medias()
   widget : new Widgets()
   user: undefined
+  eventTag: new EventTags()
 
   constructor: (@name) ->
     @event.model = Event
     @business.model = Business
     @media.model = Media
     @widget.model = Widget
+
 
   load: (options) ->
     if @["#{options.name}"].length > 0
@@ -43,8 +46,11 @@ module.exports = exports = class DataStore
                 Chaplin.datastore.load
                   name : 'widget'
                   success: =>
-                    Chaplin.mediator.publish 'stopWaiting'
-                    options.success()
+                    Chaplin.datastore.load
+                      name: 'eventTag'
+                      success: =>
+                        Chaplin.mediator.publish 'stopWaiting'
+                        options.success()
                   error: =>
                     options.error() if options.error                    
               error: =>

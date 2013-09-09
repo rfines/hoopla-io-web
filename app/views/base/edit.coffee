@@ -5,7 +5,6 @@ ImageChooser = require 'views/common/imageChooser'
 ImageUtils = require 'utils/imageUtils'
 
 module.exports = class Edit extends View
-  autoRender: true
   className: ''
 
   events:
@@ -15,7 +14,7 @@ module.exports = class Edit extends View
   getTemplateData: ->
     td = super()
     td.isNew = @model.isNew()
-    td.imageUrl = @model.imageUrl({height: 163, width: 266})
+    td.imageUrl = @model.imageUrl({height: 163, width: 266}) if @model.imageUrl
     td
 
   attach: ->
