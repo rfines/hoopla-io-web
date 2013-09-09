@@ -11,7 +11,7 @@
         <div class="geoLocation">
         </div>
         <div>
-          <label><i class="glyphicon glyphicon-pencil"></i>Business Description</label>
+          <label><i class="glyphicon glyphicon-pencil"></i>Business Description<span class="required">*</span></label>
           <textarea id="description-textarea"  name="description" class="form-control description" placeholder="Enter your description ..."></textarea>     
         </div>
         <div>
@@ -35,15 +35,15 @@
           <label class=""><i class="glyphicon glyphicon-phone"></i>Contact Phone</label>
           <input type="phone" class="form-control phone" name="contactPhone" placeholder = "Phone"/>
         </div>
-<label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
+<div>
+<label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Business Logo</label>
           <div class="well">    
             <div class="profileImage">
               <img src="{{imageUrl}}" class="currentImage"/>
             </div>
             <div class="imageChooser"></div>
-            <a class="pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Browse Library</a>
           </div>
-
+</div>
           <div>
             <label class=""><i class="glyphicon glyphicon-cog"></i>Facebook Profile URL</label>
             <input type="url" name="facebookUrl" class="form-control facebook" placeholder="Facebook Profile URL"/>

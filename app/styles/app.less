@@ -17,6 +17,9 @@ body {
     height: 100%;
     background-attachment: fixed;
 }
+input.form-control:focus, textarea.form-control:focus {
+    box-shadow: 0px 0px 18px #06A1AF!important;
+}
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
 ///CSS3 Animations///
@@ -51,7 +54,7 @@ legend {
 label {
     font-weight: normal;
 }
-form .has-error .form-control {box-shadow: 0px 0px 18px #b94a48!important;}
+form .has-error .form-control {box-shadow: 0px 0px 18px #b94a48!important;border: 1px dashed #cccccc;}
 .topNav {
     background-color: #fff;
     img.logo {
@@ -199,7 +202,6 @@ a {
         background-color: transparent;
     }
     textarea.description {
-        height: 307px!important;
     }
     .showMoreButton {
         font-family: museoLight;
@@ -255,12 +257,13 @@ a {
         div {
             margin-top: 15px;
         }
-    }
+   
     .address {
         div {
             margin:0px;
         }
     }
+     }
 }
 .business-list {
     .row {
@@ -319,8 +322,8 @@ a {
     }
     form {
         margin-left: 40px;
-        .row {
-            margin-bottom: 15px;
+        .row div {
+            margin-bottom: 23px;
         }
         i {
             margin-right: 10px;
@@ -330,16 +333,15 @@ a {
             opacity: 1.0;
             font-size: 1.2em;
         }
-        input.form-control:focus, textarea.form-control:focus {
-            box-shadow: 0px 0px 18px #06A1AF!important;
-        }
         .well {
             border: 1px dashed #BEBDBD;
             margin-bottom: 3px;
-            height:307px!important;
+            
         }
         a.showMediaLibrary {
-            color: #fff;
+          position: relative;
+          bottom: 6px;
+          font-style: italic;
         }
         .saveButton {
             position: relative;
@@ -355,6 +357,8 @@ a {
             height: 136px;
             background: url('/client/images/publish_howie.png') 0px 0px no-repeat transparent;
         }
+        .currentImage {max-width: 321px;
+        margin-bottom: 9px;}
         .popover {
             max-width: 476px;
         }
@@ -365,18 +369,28 @@ a {
         .address-finder .popover {
             top: -20px;
         }
+        
+       
+        .edit-actions{position:relative;top:72px;left:10px;}
     }
 }
+ .no-bottom-margin div {margin-bottom:8px!important;}
+#drop-target p span {font-size:2em;font-family:'museoLight'; color:@gray-light;}
+#drop-target p em {font-family:'museoLight'; color:@gray-light;}
 .business-edit {
     .form-group {
         width: 100%;
+    }
+    .well {
+        border: 1px dashed #BEBDBD;
+        margin-bottom: 3px;
+        margin-top: 0px;
     }
 }
 .btn {
     font-family: 'museo';
 }
 textarea.form-control.description {
-    height: 307px!important;
 }
 ///Chosen Override styles ///
 .gray-tags .chosen-container-multi .chosen-choices li.search-choice {
@@ -426,3 +440,4 @@ textarea.form-control.description {
 a {
     color: #06A1AF;
 }
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {width:100%;}

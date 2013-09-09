@@ -29,7 +29,7 @@ module.exports = class ImageChooser extends View
         title: "Image files"
         extensions: "jpg,jpeg,gif,png,pdf"
       ],
-      drop_element: 'drop-target'
+      drop_element: 'image-chooser-container'
 
     )
     

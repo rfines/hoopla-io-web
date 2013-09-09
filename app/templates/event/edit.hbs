@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row no-bottom-margin">
       <div class="col-md-4 blue-tags">
         <label for="eventType"><i class="glyphicon glyphicon-bullhorn"></i>Event Type<span class="required">*</span></label>
         <select class="form-control select-chosen" multiple="true">
@@ -79,50 +79,49 @@
     </div>
     <div class="row">
       <div class="col-md-8">
+<div>
         <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description</label>
         <textarea class="form-control description" name="description" placeholder="Description"></textarea>
-      </div>
-      <div class="col-md-4">
+</div>
+<div class="event-website">
+		<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+        <input type="url" class="form-control" name="website" />
+</div>
+<div>
+		 <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+	        <input type="text" class="form-control" name="contactName" />
+	</div>
+	<div>
+			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+		        <input type="phone" class="form-control" name="contactPhone" />
+		</div>
+				<div class="gray-tags">
+			        <label for="website"><i class="glyphicon glyphicon-tags"></i>Event Tags</label>
+			          <select class="form-control select-chosen" multiple="true">
+			            <option>Food</option>
+			            <option>Arts</option>
+			            <option>Family</option>
+			          </select>
+			      </div>
+			</div>
+      <div class="col-md-4" id="image-chooser-container">
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
         <div class="well">      
           <img src="{{imageUrl}}" class="currentImage" />
           <div class="imageChooser"></div>
-          
-        </div><a class="showMediaLibrary pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Browse Library</a>
+	<a class="showMediaLibrary pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Choose image from previous event</a>
+         </div>
+	
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8">
-        <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-        <input type="url" class="form-control" name="website" />
-      </div>
-      <div class="col-md-4">
-      </div>
-    </div>
-    <div class="row contactFields">
-      <div class="col-md-4">
-        <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-        <input type="text" class="form-control" name="contactName" />
-      </div>
-      <div class="col-md-4">
-        <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-        <input type="phone" class="form-control" name="contactPhone" />        
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 gray-tags">
-        <label for="website"><i class="glyphicon glyphicon-tags"></i>Event Tags</label>
-          <select class="form-control select-chosen" multiple="true">
-            <option>Food</option>
-            <option>Arts</option>
-            <option>Family</option>
-          </select>
-      </div>
-      <div class="col-md-4">
-         <button type="cancel" class="btn btn-default pull-right">Cancel</button>&nbsp;<a type="submit" class="pull-right saveButton"></a>
-<br clear="all">
+	<div class="col-md-4 edit-actions">
+         <div><button type="cancel" class="btn btn-default pull-right">Cancel</button>&nbsp;<a type="submit" class="pull-right saveButton"></a></div>
+
 
       </div>
+    </div>
+   
+      
+      
     </div>        
   </form>
 </div>
