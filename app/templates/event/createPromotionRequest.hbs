@@ -1,32 +1,56 @@
 <div class="row" style="min-height:200px;">
-  <div class="col-xs-5 col-lg-3">
+  <div class="col-xs-4 col-lg-2">
     <ul class="nav nav-pills nav-stacked">
-      <li class="active facebookTab"><a href="#">Facebook</a></li>
-      <li class="twitterTab"><a href="#">Twitter</a></li>
+      {{#if showFb}}
+        <li class="active facebookTab"><a href="#">Facebook<img src="/client/images/fb_connected.png"></a></li>
+      {{/if}}
+      {{#if showTwitter}}
+        <li class="twitterTab"><a href="#">Twitter<img class="socialConnected" src="/client/images/twitter-connected.png"></a></li>
+      {{/if}}
     </ul>
   </div>
   <div class="col-xs-12 col-lg-8" id="facebookPanel">
     <div class="row">
       <div class="col-xs-6 col-lg-6 facebook-preivew">
-          <img src="{{facebookProfileImageUrl}}" class="facebook" />
+        <div class="preview-content">
+          <div class="media">
+            <a class="pull-left" href="#">
+              <img class="media-object" src={{facebookProfileImageUrl}} alt="facebook profile picture">
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading">{{facebookProfileName}}</h4>
+              <div class="preview-message">{{previewText}}</div>
+            </div>
+          </div>
+          
+           
+        </div>
       </div>
     </div>
     <form class="form-inline promoRequestFormFacebook">      
       <div class="row">
         <div class="col-md-8">
           <label for="description"><i class="glyphicon glyphicon-pencil"></i>Status Message</label>
-          <textarea class="form-control span3 message" name="message" placeholder="Status Message..."/>
+          <textarea class="form-control span3 message" name="message" placeholder="Status Message...">{{previewText}}</textarea>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
+           <div class="checkbox">
+              <label for="immediate"><i class="glyphicon glyphicon-transfer"></i>Post immediately
+                <input type="checkbox" class="immediate-box" value="fbImmediate"> 
+              </label>
+            </div>
+        </div> </div>
+        <div class="row">
+        <div class="col-md-3">
           <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
           <input type="text" class="form-control datePicker promoDate" name="date">
+          
         </div>
-         <div class="col-md-2">
+        <div class="col-md-3">
           <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
-          <input type="text" class="form-control timepicker startTime" name="startTime">
+          <input type="text" class="form-control timepicker startTime" name="startTime"></div>
         </div>
-        
-      </div>
+     
       <div class="form-actions">
         <button class="btn btn-success" type="submit">Submit</button>
       </div>
@@ -35,25 +59,45 @@
   <div class="col-xs-12 col-lg-8" id="twitterPanel">
     <div class="row">
       <div class="col-xs-6 col-lg-6 twitter-preview">
-        <img src="{{twitterProfileImageUrl}}" alt="twitter profile image"/>
+         <div class="preview-content">
+          <div class="media">
+            <a class="pull-left" href="#">
+              <img class="media-object" src={{twitterProfileImageUrl}} alt="twitter profile picture">
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading">{{twitterHandle}}</h4>
+              <div class="preview-message">{{previewText}}</div>
+            </div>
+          </div>
+          
+           
+        </div>
       </div>
     </div>
      <form class="form-inline promoRequestFormTwitter">
-      <div class="row">
+     <div class="row">
         <div class="col-md-8">
           <label for="description"><i class="glyphicon glyphicon-pencil"></i>Tweet</label>
-          <textarea class="form-control span3 message" name="message" placeholder="Tweet"/>
+          <textarea class="form-control span3 tweetMessage" name="message" placeholder="Tweet">{{previewText}}</textarea>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
+           <div class="checkbox">
+              <label for="immediate"><i class="glyphicon glyphicon-transfer"></i>Post immediately
+                <input type="checkbox" class="tw-immediate-box" value="twImmediate"> 
+              </label>
+            </div>
+        </div> </div>
+        <div class="row">
+        <div class="col-md-3">
           <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
-          <input type="text" class="form-control datePicker promoDate" name="date">
+          <input type="text" class="form-control datePicker twPromoDate" name="date">
+          
         </div>
-         <div class="col-md-2">
-          <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
-          <input type="text" class="form-control timepicker startTime" name="startTime">
+        <div class="col-md-3">
+          <label for="startTime"><i class="glyphicon glyphicon-time"></i>Time</label>
+          <input type="text" class="form-control timepicker twStartTime" name="startTime"></div>
         </div>
-       
-      </div>
+     
       <div class="form-actions">
         <button class="btn btn-success" type="submit">Submit</button>
       </div>

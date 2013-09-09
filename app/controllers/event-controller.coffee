@@ -20,13 +20,9 @@ module.exports = class EventController extends Controller
       success: =>
         @view = new EventList
           region: 'main'
-<<<<<<< HEAD
           collection : Chaplin.datastore.event
           filterer: (item, index) ->
             not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())      
-=======
-          collection : Chaplin.datastore.event.pastEvents(10)
-
   promote: (params) ->
     console.log Chaplin.datastore.event.get(params.id)
     console.log params.id
@@ -38,6 +34,3 @@ module.exports = class EventController extends Controller
           region: 'main'
           model: prRequest
           data: Chaplin.datastore.event.get(params.id.toString())
-          
-        
->>>>>>> Promotion request continues
