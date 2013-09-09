@@ -18,6 +18,7 @@ module.exports = (match) ->
   match 'event/:id', 'event#edit'  
   match 'myWidgets',  'widget#list'
   match 'widget', 'widget#create'
+  match 'widget/:id', 'widget#edit'
   match 'account/change-password', 'account#changePassword' 
   match 'account/forgot-password', 'account#resetPassword'
   match 'password/reset', 'account#newPassword'

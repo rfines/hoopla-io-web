@@ -35,7 +35,7 @@ app.get "/oauth/twitter", (req, res) ->
 app.get "/callbacks/oauthTwitterCallback", (req, res) ->
   require('./server/callbacks').oauthTwitterCallback(req, res)
 
-app.get "/widget/:id", (req, res) ->
+app.get "/integrate/widget/:id", (req, res) ->
   widget.show(req, res)
 
 app.get "/*", (req, res) ->

@@ -14,9 +14,11 @@ module.exports = class WidgetEditView extends View
 
   attach: ->
     super
+    console.log @model
     @modelBinder.bind @model, @$el
     @$el.find(".select-chosen").chosen({width:'100%'})    
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
+    @updatePreview() if not @model.isNew()
 
 
   getTemplateData: ->
@@ -29,7 +31,8 @@ module.exports = class WidgetEditView extends View
 
   events:
     'click .saveButton' : 'save'
-    'click .cancel':'cancel'    
+    'click .cancel':'cancel' 
+    'click .previewButton' : 'preview'   
 
   cancel:()->
     @publishEvent '!router:route', @listRoute        
@@ -37,5 +40,16 @@ module.exports = class WidgetEditView extends View
   save: () ->
     @model.set
       geo : @subview('geoLocation').getLocation().geo
-    console.log @model
     @model.save()
+
+  preview: () ->
+    @model.set
+      geo : @subview('geoLocation').getLocation().geo
+    @model.save {}, {
+      success: (err, doc) =>
+        @updatePreview()
+    }
+
+  updatePreview: () =>
+    $('#widgetPreview').attr('src', "http://localhost:3000/integrate/widget/#{@model.id}")
+

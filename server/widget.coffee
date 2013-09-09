@@ -13,11 +13,14 @@ module.exports.show = (req, res) ->
     headers: 
       authorization : "Basic #{auth}"    
   request widgetRequest, (err, resp, body) ->
-    data =
-      development: CONFIG.development
-      apiUrl : CONFIG.apiUrl
-      cloudinary : CONFIG.cloudinary
-      facebookClientId: CONFIG.facebook.key
-      baseUrl : CONFIG.baseUrl
-      events: JSON.parse(body)
-    res.render "widget.hbs", data
+    if body
+      data =
+        development: CONFIG.development
+        apiUrl : CONFIG.apiUrl
+        cloudinary : CONFIG.cloudinary
+        facebookClientId: CONFIG.facebook.key
+        baseUrl : CONFIG.baseUrl
+        events: JSON.parse(body)
+      res.render "widget.hbs", data
+    else
+      res.end()

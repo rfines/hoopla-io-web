@@ -25,6 +25,7 @@ module.exports = class AppController extends Controller
     WidgetEdit = require 'views/widget/edit'
     Chaplin.datastore.loadEssential 
       success: =>
+        console.log Chaplin.datastore.widget
         @view = new WidgetEdit
           region: 'main'
           collection : Chaplin.datastore.widget
