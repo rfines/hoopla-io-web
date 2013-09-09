@@ -21,7 +21,7 @@ module.exports = class Event extends Model
 
   nextOccurrence: ->
     if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment(_.first(@get('occurrences')))
+      m = moment(_.first(@get('occurrences')).start)
       m.local()
       if m.isAfter(moment().startOf('day'))
         return m
@@ -29,7 +29,7 @@ module.exports = class Event extends Model
 
   lastOccurrence: ->
     if @get('occurrences') and _.last(@get('occurrences'))
-      m = moment(_.last(@get('occurrences')))
+      m = moment(_.last(@get('occurrences')).start)
       m.local()
       return m
     else if @get('fixedOccurrences') and _.last(@get('fixedOccurrences'))
