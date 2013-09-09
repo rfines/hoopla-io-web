@@ -11,6 +11,10 @@ app.configure ->
   app.use(express.bodyParser())
   app.use(express.cookieParser())
   app.use(express.cookieSession({secret:'secret_heh'}))
+  app.use (err, req, res, next) ->
+    console.error err.stack
+    res.send 500, "Something broke!"
+  
   
 #api urls use proxy to set headers
 app.get "/api/*", (req, res) ->
