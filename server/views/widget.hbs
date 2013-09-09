@@ -2,11 +2,27 @@
 <html>
   <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+      div.eventRow {
+        border: 1px solid black;
+      }
+      div.eventImage, div.eventName, div.eventDate {
+        display: inline-block;
+      }
+    </style>
   </head>
   <body>
     {{#each events}}
     <div class="eventRow">
-      {{name}}
+      <div class="eventImage"><img src="{{eventImage}}" /></div>
+      <div class="eventName">
+        {{name}}<br />
+        Venue
+      </div>
+      <div class="eventDate">
+          {{dateDisplay}}<br />
+          {{timeDisplay}}
+      </div>
     </div>
     {{/each}}
     {{#if development}}

@@ -1,5 +1,9 @@
 CONFIG = require('config')
 request = require('request')
+eventTransformer = require('./eventTransformer')
+_ = require('lodash')
+
+
 
 module.exports.show = (req, res) ->
   auth = new Buffer("#{CONFIG.apiKey}:#{CONFIG.apiSecret}").toString('base64')
@@ -14,13 +18,16 @@ module.exports.show = (req, res) ->
       authorization : "Basic #{auth}"    
   request widgetRequest, (err, resp, body) ->
     if body
+      events = JSON.parse(body)
+      events = _.map events, eventTransformer.transform
       data =
         development: CONFIG.development
         apiUrl : CONFIG.apiUrl
         cloudinary : CONFIG.cloudinary
         facebookClientId: CONFIG.facebook.key
         baseUrl : CONFIG.baseUrl
-        events: JSON.parse(body)
+        events: events
       res.render "widget.hbs", data
     else
       res.end()
+

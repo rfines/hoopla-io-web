@@ -94,8 +94,6 @@ module.exports = class EventEditView extends View
       @publishEvent "event:#{@model.id}:edit:close"
 
   postSave: =>
-    console.log 'postSave'
-    console.log @model.isNew()
     if @isNew
       super()
     else
