@@ -11,8 +11,10 @@ module.exports = class ListItem extends ListItemView
     td = super()
     td.dateText = @model.dateDisplayText()
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
-    if Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets').length < 0
+    if Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets').length <= 0
       td.showButton = false
+    else
+      td.showButton = true
     td.isRecurring = @model.get('schedules')?.length > 0
     td  
 

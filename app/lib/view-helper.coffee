@@ -22,3 +22,8 @@ Handlebars.registerHelper 'without', (context, options) ->
 # Get Chaplin-declared named routes. {{#url "like" "105"}}{{/url}}
 Handlebars.registerHelper 'url', (routeName, params..., options) ->
   Chaplin.helpers.reverse routeName, params
+
+Handlebars.registerHelper "select", (value, options) ->
+  @$el = $("<select />").html(options.fn(this))
+  @$el.find("[value=" + value + "]").attr selected: "selected"
+  @$el.html()

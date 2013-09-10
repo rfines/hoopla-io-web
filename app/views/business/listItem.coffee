@@ -10,7 +10,7 @@ module.exports = class ListItem extends EditableListItem
   getTemplateData: ->
     td = super
     callbackUrl = "#{window.baseUrl}callbacks/facebook?businessId=#{@model.id}"
-    td.facebookConnectUrl = "https://www.facebook.com/dialog/oauth?client_id=#{window.facebookClientId}&redirect_uri=#{encodeURIComponent(callbackUrl)}"
+    td.facebookConnectUrl = "https://www.facebook.com/dialog/oauth?client_id=#{window.facebookClientId}&scope=publish_actions,manage_pages,publish_stream,photo_upload,create_event&redirect_uri=#{encodeURIComponent(callbackUrl)}"
     td.twitterConnectUrl = "#{window.baseUrl}oauth/twitter?businessId=#{@model.id}"
     td.facebookConnected = _.some @model.get('promotionTargets'), (item) ->
       item.accountType is 'FACEBOOK'

@@ -19,7 +19,7 @@ module.exports.facebook = (req, res) ->
       else
         slQstring = require('querystring').parse("#{body}")
         accessToken = slQstring.access_token
-        me = "https://graph.facebook.com/me?access_token=#{accessToken}"
+        me = "https://graph.facebook.com/me?access_token=#{accessToken}&fields=cover,id,name,link,username"
         request me, (errors, resp, bod)=>
           if errors
             handleError(res,facebookConnectError)
@@ -30,7 +30,9 @@ module.exports.facebook = (req, res) ->
               accessToken: accessToken
               expiration: moment().add('seconds',slQstring.expires).toDate().toISOString()
               profileName: b.name
+              profileId: b.id
               profileImageUrl: "https://graph.facebook.com/#{b.id}/picture?type=normal"
+              profileCoverPhoto:b.cover
             options=
               uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
               method:'POST'
@@ -45,10 +47,7 @@ module.exports.facebook = (req, res) ->
         
 
 module.exports.oauthTwitter = (req,res)->
-<<<<<<< HEAD
-=======
   twitterConnectError = 'We were unable to connect your business to Twitter.  Are you sure you approved the request?'
->>>>>>> Began promotion request functionality
   oAuth = new oauth.OAuth(CONFIG.twitter.request_token_url, CONFIG.twitter.access_token_url, CONFIG.twitter.consumer_key, CONFIG.twitter.consumer_secret, "1.0A", "#{CONFIG.twitter.callback_url}?businessId=#{req.query.businessId}", "HMAC-SHA1")
   oAuth.getOAuthRequestToken (error, oauth_token, oauth_token_secret, results) =>
     if error
@@ -88,6 +87,7 @@ module.exports.oauthTwitterCallback = (req,res)->
                     accountType: 'TWITTER'
                     accessTokenSecret: oauth_access_token_secret
                     profileName: d.screen_name
+                    profileId: JSON.parse(user).id
                     profileImageUrl: JSON.parse(user).profile_image_url
                   options=
                     uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
