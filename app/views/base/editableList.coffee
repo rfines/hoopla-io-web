@@ -1,8 +1,4 @@
 ListView = require 'views/base/list'
-template = require 'templates/business/list'
-ListItem = require 'views/business/listItem'
-EditView = require 'views/business/edit'
-Model = require 'models/business'
 
 module.exports = class EditableList extends ListView
 
@@ -16,7 +12,7 @@ module.exports = class EditableList extends ListView
         @view = new @EditView
           container: @$el.find('.newItem')
           collection : @collection
-          model : new Model()              
+          model : new @Model()              
 
   showCreatedMessage: (data) =>
     @$el.find('.listAlert').show()

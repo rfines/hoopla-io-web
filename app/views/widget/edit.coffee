@@ -55,7 +55,12 @@ module.exports = class WidgetEditView extends View
     }
 
   updatePreview: () =>
-    $('#widgetPreview').attr('src', "http://localhost:3000/integrate/widget/#{@model.id}")
+    $('#widgetPreview').attr('src', @getIframeSrc())
+    $('#widgetPreview').attr('style', "height:#{@model.get('height')}px;width:#{@model.get('width')}px;")
+    $('.embedCodeHtml').text("<iframe src=\"#{@getIframeSrc()}\" style=\"height:#{@model.get('height')}px;width:#{@model.get('width')}px;\"></iframe>")
+
+  getIframeSrc: () =>
+    return "#{window.baseUrl}integrate/widget/#{@model.id}"
 
   byLocation: () =>
     @$el.find('.event-by-business').hide()

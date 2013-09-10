@@ -4,6 +4,10 @@ module.exports = class Widget extends Model
   
   urlRoot : "/api/widget"
 
+  defaults: 
+    height: 350
+    width: 350
+
   clone: ->
     json = @toJSON()
     delete json.id
