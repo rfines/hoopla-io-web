@@ -214,13 +214,35 @@ a {
 }
 .event-list {
    .panel-default > .panel-heading {line-height: 40px;}
-  .event-edit form {
-    .edit-actions{position:relative;top:108px;left:10px;}
+   .list-options a {padding: 9px 12px;
+   }
+   legend {
+       font-family: 'museoLight';
+       color: #c5d645;
+       font-size: 1.4em;
+       border-bottom: 0px solid #000;
+       position: relative;
+       top: 11px;
+       
+       i {color:#c5d645;opacity:1.0!important;}
+   }
+   .alert-container {padding-left: 0px!important;
+   padding-right: 34px;}
+   .alert.listAlert {padding: 7px;
+   background-color: #06A1AF;
+   color: #fff;
+   text-align: center;
+   font-size: 1.2em;}
    
+  .event-edit form {
+    .edit-actions{position:relative;top:90px;left:0px;}
+   textarea.description {height: 101px;}
     margin-left:0px!important;
+    padding:15px;
     .row div {
         margin-bottom: 10px!important;
     }
+    
     }
     h2 {
         font-family: 'museo';
@@ -233,11 +255,10 @@ a {
         font-size: 1.2em;
     }
      
-    .panel-default > .panel-heading + .panel-collapse .panel-body {
-        padding: 0px 25px 25px 25px;
+    .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
         background-color: #06A1AF;
         box-shadow: 0px -2px 13px #5D5F5F inset;
-        
+        padding:0px;
         label {
             color: #fff;
         }
@@ -263,7 +284,6 @@ a {
           -o-transform: rotate(360deg);}
     }
     .panel-group {
-        margin-top: 20px;
     }
     .panel-group .panel {
         overflow: visible!important;
