@@ -67,6 +67,9 @@ module.exports = class Event extends Model
   getEndDate: ->
     return moment(_.first(@get('occurrences')).end)    
 
+  getSortDate: ->
+    return @nextOccurrence() || @lastOccurrence()
+
   imageUrl: (options) ->
     media = @get('media')
     if media?.length > 0

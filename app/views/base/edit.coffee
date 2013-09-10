@@ -41,6 +41,7 @@ module.exports = class Edit extends View
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
     errors = @model.validate()
+    console.log errors
     if errors
       for x in errors
         @$el.find("textarea[name='#{x.p}'], input[name='#{x.p}']").parent().addClass('has-error')
@@ -51,7 +52,9 @@ module.exports = class Edit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
+    console.log @validate()
     if @validate()
+      console.log 'past validate'
       if $("#filelist div").length > 0
         @subview('imageChooser').uploadQueue (media) =>
           @model.set 'media',[media]
@@ -64,6 +67,8 @@ module.exports = class Edit extends View
       else
         @model.save {}, {
             success: =>
+              console.log 'model save success'
+              console.log @postSave
               @postSave() if @postSave
             error: (model, response) ->
               console.log response

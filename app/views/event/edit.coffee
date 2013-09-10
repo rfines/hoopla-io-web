@@ -21,15 +21,18 @@ module.exports = class EventEditView extends View
     @attachAddressFinder()    
     $('.business').on 'change', (evt, params) =>
       @model.set 'business', params.selected
+      if not @model.has('host')
+        @model.set 
+          'host': params.selected
+          'location' : Chaplin.datastore.business.get(params.selected).get('location')
+        $('.host').trigger("chosen:updated")
     $('.host').on 'change', (evt, params) =>
       @model.set 
         'host' : params.selected
         'location' : Chaplin.datastore.business.get(params.selected).get('location')
-      console.log @model.attributes
     @subscribeEvent 'selectedMedia', @updateImage   
     @delegate 'click', '.showMediaLibrary', (e) =>
       e.stopPropagation()
-      console.log 'click happened'
       if @model.isNew()
         $("#media-library-popover-").modal()
       else
@@ -94,7 +97,11 @@ module.exports = class EventEditView extends View
       @publishEvent "event:#{@model.id}:edit:close"
 
   postSave: =>
+    console.log 'postSave'
+    console.log @isNew
     if @isNew
-      super()
+      console.log 'add to collection'
+      @collection.add @model
+      @dispose()
     else
       @publishEvent "event:#{@model.id}:edit:close"

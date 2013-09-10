@@ -10,7 +10,7 @@ module.exports = class List extends CollectionView
   template: undefined
 
   events:
-    "click button" : "create"
+    "click .createButton" : "create"
 
   initialize: (options) ->
     super(options)
@@ -24,6 +24,7 @@ module.exports = class List extends CollectionView
       @$el.find('.listAlert').text @params.error
 
   create: =>
+    console.log 'create'
     @publishEvent '!router:route', @noun
 
   initItemView: (model) =>
