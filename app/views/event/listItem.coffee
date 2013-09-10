@@ -12,8 +12,12 @@ module.exports = class ListItem extends ListItemView
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
     td.isRecurring = @model.get('schedules')?.length > 0
     td  
+  initialize: =>
+    console.log "initializing #{@model.id}"
+    super
 
   attach: =>
+    #console.log "attaching #{@model.id}"
     super()
     @delegate 'show.bs.collapse', ->
       @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')
@@ -28,8 +32,8 @@ module.exports = class ListItem extends ListItemView
       @$el.find('.recurrenceList').hide()
       @$el.find('.inlineEdit').show()
     @subscribeEvent "event:#{@model.id}:edit:close", ->
-      console.log $("#collapse#{@model.id}")
       $("#collapse#{@model.id}").collapse('hide')
       @removeSubview 'recurrenceList'
       @removeSubview 'inlineEdit'
-      
+    @delegate "click", ".duplicateButton", ->
+      @publishEvent 'event:duplicate', @model
