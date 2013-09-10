@@ -1,10 +1,11 @@
 ListItemView = require 'views/base/listItem'
 RecurrenceList = require 'views/event/recurrenceList'
-EventEdit = require 'views/event/edit'
+EditView = require 'views/event/edit'
 
 module.exports = class ListItem extends ListItemView
   template: require 'templates/event/listItem'
   noun : "event"  
+  editView : EditView
 
   getTemplateData: =>
     td = super()
@@ -12,12 +13,8 @@ module.exports = class ListItem extends ListItemView
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
     td.isRecurring = @model.get('schedules')?.length > 0
     td  
-  initialize: =>
-    console.log "initializing #{@model.id}"
-    super
 
   attach: =>
-    #console.log "attaching #{@model.id}"
     super()
     @delegate 'show.bs.collapse', ->
       @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')

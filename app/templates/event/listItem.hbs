@@ -1,29 +1,29 @@
-   <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="row panel-title">
-        <div class="col-md-1 date">
-          {{dateText}}{{startTimeText}}
-          <a class="accordion-toggle">
-            {{#if isRecurring}}
-            <a class="showOccurrences" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}"><i class="glyphicon glyphicon-circle-arrow-up showOccurrences"></i></a>
-            {{/if}}
-          </a>
-        </div>
-        <div class="col-md-5 col-md-offset-1 event-title">
-          <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
-        </div>
-        <div class="col-md-3 business-name">
-          {{businessName}}
-        </div>
-        <div class="col-md-2 eventListActions">
-          <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a><a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
-        </div>                 
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row panel-title">
+      <div class="col-md-1 date">
+        {{dateText}}{{startTimeText}}
+        <a class="accordion-toggle">
+          {{#if isRecurring}}
+          <a class="showOccurrences" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}"><i class="glyphicon glyphicon-circle-arrow-up showOccurrences"></i></a>
+          {{/if}}
+        </a>
       </div>
-    </div>
-    <div id="collapse{{_id}}" class="panel-collapse collapse">
-      <div class="panel-body">
-        <div class="inlineEdit"></div>
-        <div class="recurrenceList"></div>
+      <div class="col-md-5 col-md-offset-1 event-title">
+        <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
       </div>
+      <div class="col-md-3 business-name">
+        {{businessName}}
+      </div>
+      <div class="col-md-2 eventListActions">
+        <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a><a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
+      </div>                 
     </div>
-  </div>   
+  </div>
+  <div id="collapse{{_id}}" class="panel-collapse collapse">
+    <div class="panel-body">
+      <div class="inlineEdit"></div>
+      <div class="recurrenceList"></div>
+    </div>
+  </div>
+</div>   

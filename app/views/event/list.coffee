@@ -10,21 +10,14 @@ module.exports = class List extends ListView
   noun : 'event'
   listSelector : '#accordion'
   listRoute : 'myEvents'
-
-  listen:
-    "event:created mediator" : 'showCreatedMessage'
-    "event:duplicate mediator" : "duplicate"
   
   initialize: (options) ->
     super(options)
 
   attach: ->
     super()
-    @delegate('click', '.showMoreButton', @showMore)
+    @$el.find('.listAlert').hide()
     @filter @filterer
-
-  showMore: =>
-    @publishEvent '!router:route', '/myEvents/more'
 
   create: (e) =>
     EventEdit = require 'views/event/edit'
@@ -40,6 +33,7 @@ module.exports = class List extends ListView
       model : newEvent   
 
   showCreatedMessage: (data) =>
+    @$el.find('.listAlert').show()
     @$el.find('.listAlert').html("Your event has been created. <a href='##{data.id}'>View</a>")
 
   duplicate: (data) =>

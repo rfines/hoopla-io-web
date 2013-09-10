@@ -1,5 +1,7 @@
-ListItemView = require 'views/base/listItem'
+EditableListItem = require 'views/base/editableListItem'
+EditView = require 'views/widget/edit'
 
-module.exports = class ListItem extends ListItemView
+module.exports = class ListItem extends EditableListItem
   template: require 'templates/widget/listItem'
   noun : "widget"    
+  editView : EditView

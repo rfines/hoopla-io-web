@@ -9,10 +9,7 @@ module.exports = class BusinessEditView extends View
   className: 'business-edit'
   template: template
   listRoute: 'myBusinesses'
-
-  initialize: ->
-    super
-    @model = @model || new Business()
+  noun : 'business'
 
   attach: ->
     super

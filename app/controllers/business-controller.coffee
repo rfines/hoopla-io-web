@@ -3,18 +3,6 @@ Businesses = require 'models/businesses'
 
 module.exports = class BusinessController extends Controller
 
-  create: ->
-    BusinessEdit = require 'views/business/edit'
-    Chaplin.datastore.loadEssential 
-      success: =>
-        @view = new BusinessEdit
-          region: 'main'
-          collection : Chaplin.datastore.business
-      error: (model, response) =>
-        console.log 'error'
-        console.log response
-
-
   edit: (params) ->
     BusinessEdit = require 'views/business/edit'
     Chaplin.datastore.loadEssential 

@@ -9,10 +9,7 @@ module.exports = class EventEditView extends View
   className: 'event-edit'
   template: template
   listRoute: 'myEvents'
-
-  initialize: ->
-    super()
-    @isNew = @model.isNew()
+  noun : 'event'
 
   attach: =>
     super
@@ -88,20 +85,3 @@ module.exports = class EventEditView extends View
       start : sd.toDate().toISOString()
       end : ed.toDate().toISOString()
     }]
-
-  cancel: (e) ->
-    if @model.isNew()
-      super()
-    else
-      e.stopPropagation() if e
-      @publishEvent "event:#{@model.id}:edit:close"
-
-  postSave: =>
-    console.log 'postSave'
-    console.log @isNew
-    if @isNew
-      @publishEvent 'event:created', @model
-      @collection.add @model
-      @dispose()
-    else
-      @publishEvent "event:#{@model.id}:edit:close"

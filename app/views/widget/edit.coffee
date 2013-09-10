@@ -1,21 +1,16 @@
 template = require 'templates/widget/edit'
-View = require 'views/base/view'
+View = require 'views/base/inlineEdit'
 AddressView = require 'views/address'
-Widget = require 'models/widget'
+Model = require 'models/widget'
 
 module.exports = class WidgetEditView extends View
   className: 'widget-edit'
   template: template
   listRoute: 'myWidgets'
-
-  initialize: ->
-    super
-    @model = @model || new Widget()
+  noun : 'widget'
 
   attach: ->
     super
-    @modelBinder.bind @model, @$el
-    @$el.find(".select-chosen").chosen({width:'100%'})    
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     $('.widgetType').on 'change', (evt, params) =>
       if params.selected is 'event-by-location'
@@ -42,27 +37,25 @@ module.exports = class WidgetEditView extends View
 
   events:
     'click .saveButton' : 'save'
-    'click .cancel':'cancel' 
-    'click .previewButton' : 'preview'   
-
-  cancel:()->
-    @publishEvent '!router:route', @listRoute        
+    'click .cancelButton':'cancel' 
+    'click .previewButton' : 'preview'    
 
   save: () ->
     @updateModel()
-    @model.save()
+    @model.save {}, {
+      success: =>
+        @postSave() if @postSave
+    }
 
   preview: () ->
     @updateModel()
     @model.save {}, {
       success: (err, doc) =>
-        @publishEvent '!router:changeURL', "/widget/#{@model.id}"
         @updatePreview()
     }
 
   updatePreview: () =>
     $('#widgetPreview').attr('src', "http://localhost:3000/integrate/widget/#{@model.id}")
-
 
   byLocation: () =>
     @$el.find('.event-by-business').hide()

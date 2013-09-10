@@ -1,4 +1,4 @@
-View = require 'views/base/view'
+View = require 'views/base/inlineEdit'
 ImageUtils = require 'utils/imageUtils'
 MediaList = require 'views/media/mediaLibraryPopover'
 ImageChooser = require 'views/common/imageChooser'
@@ -19,8 +19,6 @@ module.exports = class Edit extends View
 
   attach: ->
     super
-    @modelBinder.bind @model, @$el
-    @$el.find(".select-chosen").chosen({width:'100%'})
     @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
     @attachMediaLibrary()    
 
@@ -35,13 +33,9 @@ module.exports = class Edit extends View
     @removeSubview('mediaPopover') if @subview('mediaPopover')
     @subview('mediaPopover', new MediaList({container : @$el.find('.library-contents'), collection: Chaplin.datastore.media}))    
 
-  cancel:()->
-    @publishEvent '!router:route', @listRoute
-
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
     errors = @model.validate()
-    console.log errors
     if errors
       for x in errors
         @$el.find("textarea[name='#{x.p}'], input[name='#{x.p}']").parent().addClass('has-error')
@@ -52,9 +46,7 @@ module.exports = class Edit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
-    console.log @validate()
     if @validate()
-      console.log 'past validate'
       if $("#filelist div").length > 0
         @subview('imageChooser').uploadQueue (media) =>
           @model.set 'media',[media]
@@ -67,13 +59,7 @@ module.exports = class Edit extends View
       else
         @model.save {}, {
             success: =>
-              console.log 'model save success'
-              console.log @postSave
               @postSave() if @postSave
             error: (model, response) ->
               console.log response
         }    
-
-  postSave: =>
-    @collection.add @model
-    @publishEvent '!router:route', @listRoute  

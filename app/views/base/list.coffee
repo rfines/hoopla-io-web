@@ -16,6 +16,8 @@ module.exports = class List extends CollectionView
     super(options)
     @params = options.params
     @publishEvent 'activateNav', @listRoute
+    @subscribeEvent("#{@noun}:created", @showCreatedMessage) if @showCreatedMessage
+    @subscribeEvent("#{@noun}:duplicate", @duplicate) if @duplicate
 
   attach: ->
     super()

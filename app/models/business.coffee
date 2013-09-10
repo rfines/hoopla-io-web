@@ -83,3 +83,10 @@ module.exports = class Business extends Model
       return $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: options.height, width: options.width})  
     else
       return undefined
+
+  clone: ->
+    json = @toJSON()
+    delete json.id
+    delete json._id
+    delete json._v
+    return new Business(json)      
