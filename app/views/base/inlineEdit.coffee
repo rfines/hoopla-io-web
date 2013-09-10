@@ -24,4 +24,5 @@ module.exports = class InlineEdit extends View
   attach: ->
     super
     @modelBinder.bind @model, @$el
-    @$el.find(".select-chosen").chosen({width:'100%'})            
+    @$el.find(".select-chosen").chosen({width:'100%'})  
+    @$el.find(".select-chosen-nosearch").chosen({width:'100%', disable_search: true})            
