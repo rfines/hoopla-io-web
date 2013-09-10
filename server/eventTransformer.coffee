@@ -2,7 +2,7 @@ _ = require('lodash')
 moment = require('moment')
 
 nextOccurrence = (event) ->
-  if event.occurrences and _.first(event.occurrences)
+  if event.occurrences and _.first(event.occurrences)?.start
     m = moment(_.first(event.occurrences).start)
     m.local()
     if m.isAfter(moment().startOf('day'))
@@ -27,13 +27,14 @@ dateDisplayText = (event) ->
 
 timeDisplayText = (event) ->
   ne = nextOccurrence(event)
-  st = moment(ne.start)
-  et = moment(ne.end)
-  console.log st
-  return "#{st.format('hh:mm')} - #{et.format('hh:mm')}"
+  if ne
+    st = moment(ne.start)
+    et = moment(ne.end)
+    return "#{st.format('hh:mm')} - #{et.format('hh:mm')}"
+  else
+    return ''
 
 module.exports.transform = (event) ->
-
   return {
     name : event.name
     eventImage : event.media?[0]?.url || 'http://placehold.it/100x100'
