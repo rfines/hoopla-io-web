@@ -56,6 +56,7 @@ module.exports = class WidgetEditView extends View
     @updateModel()
     @model.save {}, {
       success: (err, doc) =>
+        @publishEvent '!router:changeURL', "/widget/#{@model.id}"
         @updatePreview()
     }
 
