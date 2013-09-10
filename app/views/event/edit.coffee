@@ -100,7 +100,7 @@ module.exports = class EventEditView extends View
     console.log 'postSave'
     console.log @isNew
     if @isNew
-      console.log 'add to collection'
+      @publishEvent 'event:created', @model
       @collection.add @model
       @dispose()
     else

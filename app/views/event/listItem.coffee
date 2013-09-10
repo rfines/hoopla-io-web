@@ -4,7 +4,7 @@ EventEdit = require 'views/event/edit'
 
 module.exports = class ListItem extends ListItemView
   template: require 'templates/event/listItem'
-  noun : "event"    
+  noun : "event"  
 
   getTemplateData: =>
     td = super()

@@ -5,6 +5,13 @@ module.exports = class ListItem extends View
   className: 'row'
   noun : "business"
 
+  initialize: ->
+    super
+    
+  attach: ->
+    super
+    @$el.attr('id', @model.id) if not @model.isNew()
+
   events:
     "click .edit" : "edit"
     "click .deleteButton" : "destroy"

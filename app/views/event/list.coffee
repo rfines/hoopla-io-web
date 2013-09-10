@@ -10,12 +10,12 @@ module.exports = class List extends ListView
   noun : 'event'
   listSelector : '#accordion'
   listRoute : 'myEvents'
+
+  listen:
+    "event:created mediator" : 'showCreatedMessage'
   
   initialize: (options) ->
     super(options)
-
-  filterer: (item, index) ->
-    index < 20
 
   attach: ->
     super()
@@ -36,4 +36,7 @@ module.exports = class List extends ListView
     new EventEdit
       container: @$el.find('.newEvent')
       collection : Chaplin.datastore.event
-      model : newEvent    
+      model : newEvent   
+
+  showCreatedMessage: (data) =>
+    @$el.find('.listAlert').html("Your event has been created. <a href='##{data.id}'>View</a>")
