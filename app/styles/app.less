@@ -21,12 +21,15 @@ input.form-control:focus, textarea.form-control:focus {
     box-shadow: 0px 0px 18px #06A1AF!important;
 }
 .modal-body img {max-width: 538px;}
-.modal-header .deleteButton {position: relative;
-right: 11px;
-top: -22px;
+.modal-header i.deleteItem {
+position: relative;
+left: 10px;
+top: -12px;
+font-size:20px;
 }
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
+.register.container {margin-top:60px;}
 ///CSS3 Animations///
 .rotate {
     -webkit-transition-duration: 0.8s;
@@ -48,6 +51,8 @@ legend {
     color: #3e3f42;
     font-size: 1.2em;
     border-bottom: 0px solid #000;
+    width: 97%;
+    margin-left: 1%
 }
 .required {
     color: @link-color;
@@ -68,7 +73,7 @@ form .has-error .form-control {box-shadow: 0px 0px 18px #b94a48!important;border
     font-size: 27px;
 }
 i.deleteItem:hover {color: @red;}
-  img.duplicateEvent { -webkit-transition-duration: 0.8s;
+  img.duplicateEvent, i.glyphicon-cloud-upload { -webkit-transition-duration: 0.8s;
     -moz-transition-duration: 0.8s;
     -o-transition-duration: 0.8s;
     transition-duration: 0.8s;
@@ -77,6 +82,12 @@ i.deleteItem:hover {color: @red;}
     -o-transition-property: -o-transform;
     transition-property: transform;
     overflow: hidden;}
+    .glyphicon-cloud-upload:hover {
+        display: inline-block;
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+    }
 .chooser .buttons {margin-right:30px;}
 .chooser .enlarge i {font-size: 1.7em;
 position: relative;
@@ -181,11 +192,16 @@ section.home {
     }
 }
 .btn-success {
-    color: rgb(27,99,136);
+    color: @gray ;
     background-color: #c5d645;
-    border-color: rgb(62,63,66);
-    font-family: quicksandbold;
-    font-size: 1.1em;
+    border: 1px solid #ccc;
+    font-size: 1.3em;
+}
+.btn-success:hover {
+    color: #fff ;
+    background-color: @brand-primary;
+    border: 1px solid #ccc;
+    font-size: 1.3em;
 }
 .btn-default {
     color: #06A1AF;
@@ -197,30 +213,47 @@ a {
     cursor: pointer;
 }
 .event-list {
-  .event-edit form {margin-left:0px!important;}
+   .panel-default > .panel-heading {line-height: 40px;}
+  .event-edit form {
+    .edit-actions{position:relative;top:108px;left:10px;}
+   
+    margin-left:0px!important;
+    .row div {
+        margin-bottom: 10px!important;
+    }
+    }
     h2 {
         font-family: 'museo';
         color: @gray-dark;
     }
+    
     .event-title a {
         font-family: 'quicksandbold';
         color: #06A1AF;
         font-size: 1.2em;
     }
+     
     .panel-default > .panel-heading + .panel-collapse .panel-body {
-        padding: 25px;
+        padding: 0px 25px 25px 25px;
         background-color: #06A1AF;
         box-shadow: 0px -2px 13px #5D5F5F inset;
+        
         label {
             color: #fff;
         }
+        
+     
     }
-    .expanded {box-shadow: 0px 4px 13px #A1A2A5 inset;
-    z-index: 999;}
+    .expanded {
+    box-shadow: 0px 4px 13px #A1A2A5 inset;
+    z-index: 999;
+    i.deleteItem, i.deleteItem:hover {color: @gray-lighter;}
+    img.duplicateEvent{opacity:0.2;}
+    }
     .row {
         margin-right: 0px!important;
         margin-left: 0px!important;
-        line-height: 46px;
+   
     }
     .eventListActions {
       text-align:right;
@@ -274,6 +307,16 @@ a {
         font-family: 'museo';
         color: @gray-dark;
         margin-bottom: 45px;
+    }
+    .radio label {
+    font-family:'quicksandbold';
+    font-size: 1.1em;
+    i {font-size: 0.9em;
+    opacity: .5;
+    margin-left: 5px;
+    color: #06A1AF;
+    }
+    
     }
 }
 .business-edit {
@@ -397,11 +440,13 @@ a {
             height: 136px;
             background: url('/client/images/publish_howie.png') 0px 0px no-repeat transparent;
         }
-        .currentImage {max-width: 321px;
-        margin-bottom: 9px;}
+        img.currentImage {
+          width: 100%;
+          margin-bottom: 9px;
+          }
         .popover {
             max-width: 476px;
-        }
+            }
         #map-canvas {
             width: 450px!important;
             margin-top: 10px;
@@ -411,7 +456,7 @@ a {
         }
         
        
-        .edit-actions{position:relative;top:72px;left:10px;}
+        .edit-actions{position:relative;top:85px;left:10px;}
     }
 }
  .no-bottom-margin div {margin-bottom:8px!important;}
