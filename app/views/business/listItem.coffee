@@ -5,7 +5,7 @@ EditView = require 'views/business/edit'
 module.exports = class ListItem extends EditableListItem
   template: template
   noun : "business"
-  editView : EditView
+  EditView : EditView
 
   getTemplateData: ->
     td = super

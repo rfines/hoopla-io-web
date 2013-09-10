@@ -5,7 +5,7 @@ EditView = require 'views/event/edit'
 module.exports = class ListItem extends ListItemView
   template: require 'templates/event/listItem'
   noun : "event"  
-  editView : EditView
+  EditView : EditView
 
   getTemplateData: =>
     td = super()
@@ -16,21 +16,21 @@ module.exports = class ListItem extends ListItemView
 
   attach: =>
     super()
-    @delegate 'show.bs.collapse', ->
+    @delegate 'show.bs.collapse', =>
       @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')
-      @subview 'inlineEdit', new EventEdit({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
-    @delegate 'hide.bs.collapse', ->
+      @subview 'inlineEdit', new @EditView({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
+    @delegate 'hide.bs.collapse', =>
       @$el.find('.panel-heading').removeClass('expanded')
-    @delegate 'click', '.showOccurrences', ->
+    @delegate 'click', '.showOccurrences', =>
       @$el.find('.recurrenceList').show()
       @$el.find('.inlineEdit').hide()
-    @delegate 'click', '.inlineEditButton', ->
+    @delegate 'click', '.inlineEditButton', =>
       @$el.find('.panel-heading').addClass('expanded')
       @$el.find('.recurrenceList').hide()
       @$el.find('.inlineEdit').show()
-    @subscribeEvent "event:#{@model.id}:edit:close", ->
+    @subscribeEvent "event:#{@model.id}:edit:close", =>
       $("#collapse#{@model.id}").collapse('hide')
       @removeSubview 'recurrenceList'
       @removeSubview 'inlineEdit'
-    @delegate "click", ".duplicateButton", ->
+    @delegate "click", ".duplicateButton", =>
       @publishEvent 'event:duplicate', @model
