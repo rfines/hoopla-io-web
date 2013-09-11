@@ -10,6 +10,7 @@ $ ->
     routes
   }
 
+  Backbone.Validation.patterns.phone = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
 
   # debug helper
   # usage: {{debug}} or {{debug someValue}}

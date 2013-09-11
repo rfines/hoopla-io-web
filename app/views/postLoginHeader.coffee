@@ -12,6 +12,7 @@ module.exports = class HeaderView extends View
     "click a.myBusinesses" : "redirectToBusinesses"
     "click a.media" : "redirectToMedia"
     "click a.myApps" : "redirectToApps"
+    "click a.account" : "redirectToAccount"
   listen:
     '!router:route mediator': 'activateNav'
     'activateNav mediator': 'activateNav'    
@@ -37,3 +38,6 @@ module.exports = class HeaderView extends View
 
   redirectToApps: (e) ->
     @publishEvent '!router:route', 'myWidgets'
+
+  redirectToAccount: (e) ->
+    @publishEvent '!router:route', 'account'  

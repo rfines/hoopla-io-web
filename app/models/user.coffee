@@ -2,6 +2,18 @@ Model = require 'models/base/model'
 
 module.exports = class User extends Model
   
+  validation :
+    firstName:
+      required: true
+    lastName:
+      required: true            
+    email:
+      required: true
+      pattern: "email"
+    phone:
+      required: false
+      pattern: "phone"
+
   url: ->
     if @isNew()
       return "/api/user"
@@ -25,10 +37,8 @@ module.exports = class User extends Model
         error: (body,response, xHr) =>
           errorResponse = JSON.parse(body.responseText)
           $('.errors').append("<span class='error'>#{errorResponse.message}</span>")
-          console.log 'could not authenticate'
           
   loginSuccess : (user) =>
-    console.log 'loginSuccess'
     Chaplin.datastore.loadEssential
       success: =>
         if Chaplin.datastore.business.hasNone()
@@ -49,15 +59,13 @@ module.exports = class User extends Model
         $.removeCookie('user')
         user = Chaplin.datastore.user
         if user
-          @getToken user.email, password
+          @getToken user.get('email'), password
         else
           user = new User()
           user.id = id
           user.fetch
             success: =>
               @loginSuccess(user)
-            error: (body, response, xHr) =>
-              console.log "Error changing password"
       error: (body, response, xHr) =>
         $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
 
@@ -67,11 +75,6 @@ module.exports = class User extends Model
       contentType:'application/json'
       url: "/api/passwordReset/emailRequest"
       data: JSON.stringify({email:email})
-      success: (body, response, xHr)=>
-        console.log body
-        console.log response
-      error:(body, response, xHr) =>
-        $('.errors').append("<span class='error'>Email sent.</span>")
 
   newPassword:(email,newPassword, token)=>
     $.ajax
@@ -84,7 +87,6 @@ module.exports = class User extends Model
         $.removeCookie('user')
         window.location = "/login"
       error:(body, response, xHr) =>
-        console.log "error case"
         if body.status is 403
           $('.errors').append("<span class='error'>Your email address was not found. Please register or try to log in using a different account.</span>")
         else

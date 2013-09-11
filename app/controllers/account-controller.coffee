@@ -1,6 +1,7 @@
 Controller = require 'controllers/base/postLoginController'
 ChangePasswordView = require 'views/change-password-view'
 ResetPasswordView = require 'views/reset-password'
+ManageAccount = require 'views/account/manage'
 
 module.exports = class AccountController extends Controller
   changePassword: ->
@@ -8,4 +9,7 @@ module.exports = class AccountController extends Controller
    
   newPassword: ->
     @view = new ResetPasswordView region: 'main'
+
+  manage: ->
+    @view = new ManageAccount region: 'main'
 
