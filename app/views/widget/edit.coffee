@@ -56,8 +56,8 @@ module.exports = class WidgetEditView extends View
 
   updatePreview: () =>
     $('#widgetPreview').attr('src', @getIframeSrc())
-    $('#widgetPreview').attr('style', "height:#{@model.get('height')}px;width:#{@model.get('width')}px;")
-    $('.embedCodeHtml').text("<iframe src=\"#{@getIframeSrc()}\" style=\"height:#{@model.get('height')}px;width:#{@model.get('width')}px;\"></iframe>")
+    $('#widgetPreview').attr('style', "height:#{@model.get('height')}px;width:#{@model.get('width')}px;border-radius:4px;")
+    $('.embedCodeHtml').text("<iframe scrolling=\"no\" style=\"border-radius:4px\" src=\"#{@getIframeSrc()}\" style=\"height:#{@model.get('height')}px;width:#{@model.get('width')}px;\"></iframe>")
 
   getIframeSrc: () =>
     return "#{window.baseUrl}integrate/widget/#{@model.id}"

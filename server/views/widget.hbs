@@ -2,34 +2,156 @@
 <html>
   <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
     <style>
-      div.eventRow {
-        border: 1px solid black;
-      }
-      div.eventImage, div.eventName, div.eventDate {
+	iframe {border:0px;overflow:hidden;border-radius:4px;}
+	body{width:99%;font-family:'Quicksand', "TrebuchetMS",sans-serif;
+	 margin:0px;}
+	body.dark {background-color:#101010;}   
+	body.light {background-color: #f5f6f6;border:1px solid rgb(190, 190, 190);}   
+	div.container {
+		overflow-x: scroll;
+		overflow-x: hidden;
+		}
+    div.eventImage, div.eventName, div.eventDate {
         display: inline-block;
       }
+	div.eventImage {width: 20%;
+		height: 20%;margin-right:10px;}
+	div.eventImage img {	width: 100%;
+}
+ 	div.eventRow {
+		position:relative;
+		width:96%;
+		font-size: 0.8em;
+		padding:8px 2px 5px 8px;
+      }
+	body.dark div.eventRow {
+        border-bottom: 1px solid #ccc;
+	}
+	body.light div.eventRow {
+        border-bottom: 1px solid rgb(190, 190, 190);
+	}
+	body.dark div.eventName,body.dark .eventDate,body.dark .eventTime, body.dark .widgetHeader {
+			color:#cccccc;
+		}
+	body.light div.eventName,body.light .eventDate,body.light .eventTime, body.light .widgetHeader {
+				color:#000;
+			}
+	div.eventDetails {
+		width: 20%;
+		height: 80px;
+		position: absolute;
+		right: 0px;
+		top: 10px;
+		
+		}
+	div.eventName {	
+		display: table;	
+		position: absolute;
+		width:55%;
+		left: 25%;
+		top: 28px;
+		font-weight:700;
+		}	
+	div.eventName a {		
+		word-wrap: break-word;
+		display: table-cell;
+		vertical-align: middle;
+		text-decoration:underline;
+		}
+	.accentColor {
+		color:#06A1AF!important;
+		}
+	body.dark .detailDrawer {
+		color:#ccc;
+		font-size:.9em;
+		}
+	body.dark .detailDrawer {
+		color:#000;
+		font-size:.9em;
+		}
+	body.light .detailDrawer strong {color:#6B6969;}
+	body.dark .detailDrawer strong {}
+	.detailDrawer strong {margin-right:3px;}
+	.detailDrawer p.description {}
+	.eventTime {font-size:11px;}
+	body.dark .widgetHeader {
+		padding:10px;
+		color:white;
+		background: #4c4c4c;
+		background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzRjNGM0YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEyJSIgc3RvcC1jb2xvcj0iIzU5NTk1OSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjI1JSIgc3RvcC1jb2xvcj0iIzY2NjY2NiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM5JSIgc3RvcC1jb2xvcj0iIzQ3NDc0NyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzJjMmMyYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzExMTExMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijc2JSIgc3RvcC1jb2xvcj0iIzJiMmIyYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjkxJSIgc3RvcC1jb2xvcj0iIzFjMWMxYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMzEzMTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+		background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4c4c), color-stop(12%,#595959), color-stop(25%,#666666), color-stop(39%,#474747), color-stop(50%,#2c2c2c), color-stop(51%,#000000), color-stop(60%,#111111), color-stop(76%,#2b2b2b), color-stop(91%,#1c1c1c), color-stop(100%,#131313));
+		background: -webkit-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);
+		background: -o-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);
+		background: -ms-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);
+		background: linear-gradient(to bottom, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 );
+		copy
+		
+		}
+		body.light .widgetHeader {
+			padding:10px;
+			color:#000;
+			background: rgb(245,246,246);
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ZjZmNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjIxJSIgc3RvcC1jb2xvcj0iI2RiZGNlMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ5JSIgc3RvcC1jb2xvcj0iI2I4YmFjNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjgwJSIgc3RvcC1jb2xvcj0iI2RkZGZlMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmNWY2ZjYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+			background: -moz-linear-gradient(top,  rgba(245,246,246,1) 0%, rgba(219,220,226,1) 21%, rgba(184,186,198,1) 49%, rgba(221,223,227,1) 80%, rgba(245,246,246,1) 100%);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(245,246,246,1)), color-stop(21%,rgba(219,220,226,1)), color-stop(49%,rgba(184,186,198,1)), color-stop(80%,rgba(221,223,227,1)), color-stop(100%,rgba(245,246,246,1)));
+			background: -webkit-linear-gradient(top,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%);
+			background: -o-linear-gradient(top,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%);
+			background: -ms-linear-gradient(top,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%);
+			background: linear-gradient(to bottom,  rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6',GradientType=0 );
+			
+			}
     </style>
   </head>
-  <body>
+  <body class="dark">
+	<div class="widgetHeader">Upcoming Local Events</div>
+	<div class="container" style="height: 625px;">
     {{#each events}}
+	
     <div class="eventRow">
       <div class="eventImage"><img src="{{eventImage}}" /></div>
-      <div class="eventName">
-        {{name}}<br />
+      <div class="eventName accentColor">
+		<a>
+{{name}}<br />
         {{host.name}}
+		</a>
       </div>
-      <div class="eventDate">
-          {{dateDisplay}}<br />
-          {{timeDisplay}}
+      <div class="detailDrawer">
+		<p class="description accentColor">GNS has crafted a hard-hitting; deep groove sound that 
+		incorporates supple funk, pop and rock reminiscent of David 
+		Bowie meets the Talking Heads</p>
+		<p class="cost"><strong>Cost:</strong><span class="accentColor">Free</span></p>
+		<p class="where"><strong>Where:</strong><span class="accentColor">Voodoo Lounge</span></p>
+	  </div>
+	<div class="eventDetails">
+          <span class="eventDate accentColor">{{dateDisplay}}</span>
+          <span class="eventTime accentColor">{{timeDisplay}}</span>
       </div>
     </div>
     {{/each}}
+</div>
     {{#if development}}
     <script>
       window.brunch = window.brunch || {};
       window.brunch['auto-reload'] = "{disabled: true}";
     </script>
     {{/if}}
+<script>
+$(document).ready(function() {
+(function($) {
+  var allPanels = $('.detailDrawer').hide();
+	$('.eventName a').click(function() {
+    allPanels.slideUp();
+    $(this).parent().next().slideDown();
+    return false;
+  });
+})
+(jQuery);
+});
+</script>
   </body>
 </html>
