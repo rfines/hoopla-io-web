@@ -8,6 +8,7 @@ module.exports = class LoginPopover extends View
 
   events:
     "submit form": 'login'
+    'click .cancel' : 'cancel'
 
   initialize: ->
     super
@@ -23,4 +24,8 @@ module.exports = class LoginPopover extends View
     if uname and pword
       @model.getToken uname, pword
     else
-      @$el.find('.errors').append("<span class='error'>A username and password is required</span>")    
+      @$el.find('.errors').html("<span class='error'>A username and password is required</span>")    
+
+  cancel: (e) ->
+    e.preventDefault()
+    console.log 'cancel'

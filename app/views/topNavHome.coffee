@@ -8,6 +8,9 @@ module.exports = class TopNav extends View
   region: 'topNav'
   template: template
 
+  events:
+    'click .loginPopover .cancel' : 'cancel'
+
   attach: ->
     super()
     @$el.find('.signInButton').popover({placement: 'bottom', content : "<div class='loginPopover'>Hello</div>", html: true}).popover('show').popover('hide')
@@ -22,3 +25,7 @@ module.exports = class TopNav extends View
     td = super
     td.showLogin = not Chaplin.datastore?.user?    
     td
+
+  cancel: ->
+    @$el.find('.signInButton').popover('hide')
+    @removeSubview('loginPopover')
