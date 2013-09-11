@@ -9,7 +9,6 @@ module.exports = class Event extends Model
     errors = []
     if not (@has('name') and @get('name').trim().length > 0)
       errors.push {p : 'name'}
-    console.log @attributes
     if not (@has('location') and @get('location').address)
       errors.push {p : 'address'}
     if not (@has('description') and @get('description').trim().length > 0)

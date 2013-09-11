@@ -16,7 +16,6 @@ module.exports = class Edit extends View
     td.isNew = @model.isNew()
     td.imageUrl = @model.imageUrl({height: 163, width: 266}) if @model.imageUrl
     td.hideUpload = @model.imageUrl?
-    console.log td.showUpload
     td
 
   attach: ->
@@ -51,19 +50,16 @@ module.exports = class Edit extends View
     if @validate()
       if $("#filelist div").length > 0
         @subview('imageChooser').uploadQueue (media) =>
-          @model.set 'media',[media]
-          console.log 'before save'
-          console.log @model
+          @model.set 
+            'media': [media]
           @model.save {}, {
             success: =>
+              @model.set 
+                'media': [media]            
               @postSave() if @postSave
-            error: (model, response) ->
-              console.log response
           }
       else
         @model.save {}, {
             success: =>
               @postSave() if @postSave
-            error: (model, response) ->
-              console.log response
         }    

@@ -7,7 +7,3 @@ module.exports = class HomePageView extends View
   autoRender: true
   className: 'home-page'
   template: template
-  
-  attach : ->
-    super
-    @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))

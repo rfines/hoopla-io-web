@@ -49,7 +49,6 @@ module.exports = class UserRegisterView extends View
 
   showError: (msg, fields) =>    
     @$el.find('.alert').show()
-    console.log msg
     if _.isObject(msg) and msg.message.indexOf('duplicate') > -1
       @$el.find('.message').text("#{@$el.find('.username').val()} is already used on hoopla.io.");
     else

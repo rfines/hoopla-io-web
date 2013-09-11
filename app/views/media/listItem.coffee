@@ -17,15 +17,11 @@ module.exports = class ListItem extends ListItemView
     "click .trash" : "destroy"
 
   destroy: (e) =>
-    console.log Chaplin.datastore.business.hasMedia(@model.id)
-    console.log Chaplin.datastore.event.hasMedia(@model.id)
     if not Chaplin.datastore.business.hasMedia(@model.id) and not Chaplin.datastore.event.hasMedia(@model.id)
       @model.destroy
         success: =>
           Chaplin.datastore.media.remove(@model)
           @dispose()
-        error: =>
-          console.log 'error'
     else
       alert('This image is currently in use by your businesses and events.')
     

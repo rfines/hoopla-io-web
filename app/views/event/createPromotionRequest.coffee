@@ -133,8 +133,6 @@ module.exports = class CreatePromotionReqeust extends View
             success:(item)=>
               if time? <=0
                 @publishEvent '!router:route', '/myEvents'
-            error:(error)=>
-              console.log error
           }    
         else
           promotionRequest.status=
@@ -146,8 +144,6 @@ module.exports = class CreatePromotionReqeust extends View
             success:(item)=>
               if time? <=0
                 @publishEvent '!router:route', '/myEvents'
-            error:(error)=>
-              console.log error
           }
       )
     if time? > 0 
