@@ -15,8 +15,9 @@ module.exports = class InlineEdit extends View
 
   postSave: =>
     if @isNew
-      @publishEvent '#{@noun}:created', @model
+      console.log @model
       @collection.add @model
+      @publishEvent '#{@noun}:created', @model
       @dispose()
     else
       @publishEvent "#{@noun}:#{@model.id}:edit:close"     

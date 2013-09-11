@@ -70,6 +70,7 @@ module.exports = class EventEditView extends View
   getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
+    td.eventTags = Chaplin.datastore.eventTag.models
     td    
 
   updateModel: ->

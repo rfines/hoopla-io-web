@@ -52,10 +52,11 @@
     <div class="row no-bottom-margin">
       <div class="col-md-4 blue-tags">
         <label for="eventType"><i class="glyphicon glyphicon-bullhorn"></i>Event Type<span class="required">*</span></label>
-        <select class="form-control select-chosen" multiple="true">
-          <option>Food</option>
+        <select class="form-control select-chosen" name="eventType">
           <option>Arts</option>
+          <option>Food</option>
           <option>Family</option>
+          <option>Food</option>
         </select>
       </div>
       <div class="col-md-4 address-finder">
@@ -97,20 +98,22 @@
 		        <input type="phone" class="form-control" name="contactPhone" />
 		</div>
 				<div class="gray-tags">
-			        <label for="website"><i class="glyphicon glyphicon-tags"></i>Event Tags</label>
-			          <select class="form-control select-chosen" multiple="true">
-			            <option>Food</option>
-			            <option>Arts</option>
-			            <option>Family</option>
-			          </select>
+          <label for="tags">Event Tags</label>
+          <select class="form-control select-chosen" multiple="true" name="tags">
+            {{#each eventTags}}
+              <option value="{{attributes.slug}}">{{attributes.text}}</option>
+            {{/each}}
+          </select>
 			      </div>
 			</div>
       <div class="col-md-4" id="image-chooser-container">
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
         <div class="well">      
           <img src="{{imageUrl}}" class="currentImage" />
-          <div class="imageChooser"></div>
-	<a class="showMediaLibrary pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Media Library</a>
+          <div class="{{#if hideUpload}}hide{{/if}}">
+            <div class="imageChooser"></div>
+  	        <a class="showMediaLibrary pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Media Library</a>
+        </div>
          </div>
 	
       </div>
