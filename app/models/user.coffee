@@ -42,7 +42,7 @@ module.exports = class User extends Model
     Chaplin.datastore.loadEssential
       success: =>
         if Chaplin.datastore.business.hasNone()
-          @publishEvent '!router:route', 'business'
+          @publishEvent '!router:route', 'myBusinesses'
         else      
           @publishEvent '!router:route', 'myEvents'
     @publishEvent 'loginStatus', true

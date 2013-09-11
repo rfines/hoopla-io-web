@@ -21,28 +21,33 @@
 </div>
 <form class="register-form form-horizontal col-md-6">
   <div class="register-div">
-  <div class="control-group business-type">
-Tell Us About Your Business<span class="required">*</span>
-<div class="radio">
-
+  <div class="control-group userType">
+  Tell Us About Your Business<span class="required">*</span>
+  <div class="radio">
   <label>
-<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+    <input type="radio" class="userType" name="userType" value="BUSINESS">
     I am a local business owner<i class="glyphicon glyphicon-question-sign"></i>
   </label>
-</div>
-<div class="radio">
-  <label>
-    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-    I am  a publisher<i class="glyphicon glyphicon-question-sign"></i>
-  </label>
-</div>
+  </div>
+  <div class="radio">
+    <label>
+      <input type="radio" class="userType" name="userType" value="PUBLISHER">
+      I am  a publisher<i class="glyphicon glyphicon-question-sign"></i>
+    </label>
+  </div>
 </div>
     <div class="control-group">
-      <label for="name" class="control-label">Name<span class="required">*</span></label>
+      <label for="firstName" class="control-label">First Name<span class="required">*</span></label>
       <div class="controls">
-        <input type="text" name="name" class="name form-control" />
+        <input type="text" name="firstName" class="firstName form-control" />
       </div>
     </div>
+    <div class="control-group">
+      <label for="lastName" class="control-label">Last Name<span class="required">*</span></label>
+      <div class="controls">
+        <input type="text" name="lastName" class="lastName form-control" />
+      </div>
+    </div>    
     <div class="control-group">
       <label for="username" class="control-label">Email<span class="required">*</span></label>
       <div class="controls">
