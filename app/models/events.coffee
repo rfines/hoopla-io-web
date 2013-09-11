@@ -23,3 +23,11 @@ module.exports = class Events extends Collection
   
   promotionRequests: ()->
     @get 'promotionRequests'
+
+  hasMedia: (mediaId) ->
+    @some (item) ->
+      if item.has('media')
+        return _.some item.get('media'), (i) ->
+          i._id is mediaId    
+      else
+        return false

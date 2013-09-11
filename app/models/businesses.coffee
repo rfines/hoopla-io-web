@@ -11,3 +11,11 @@ module.exports = class Businesses extends Collection
 
   hasNone: ->
     @length is 0
+
+  hasMedia: (mediaId) ->
+    @some (item) ->
+      if item.has('media')
+        return _.some item.get('media'), (i) ->
+          i._id is mediaId    
+      else
+        return false

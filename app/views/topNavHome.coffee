@@ -23,7 +23,7 @@ module.exports = class TopNav extends View
 
   getTemplateData: ->
     td = super
-    td.showLogin = not Chaplin.datastore?.user?    
+    td.showLogin = not Chaplin.datastore?.user?
     td
 
   cancel: ->

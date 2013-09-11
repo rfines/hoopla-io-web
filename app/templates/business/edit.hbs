@@ -18,16 +18,14 @@
           <label class=""><i class="glyphicon glyphicon-globe"></i>Business Website</label>
           <input type="url" class="form-control" name="website" placeholder="Website" />
         </div>
-        
-        
       </div>        
         <div class="col-md-6 col-sm-4 col-lg-6" style="margin-top:44px;">
-<span class="required pull-right">*required</span>
-		<div>
+          <span class="required pull-right">*required</span>
+		    <div>
           <label class=""><i class="glyphicon glyphicon-user"></i>Contact Name</label>
           <input type="text" class="form-control" name="contactName" placeholder="Name" />
         </div>
-		<div>
+		    <div>
           <label class="">Contact Email</label>
           <input type="email" class="form-control email" name="contactEmail" placeholder="Email" />
         </div>
@@ -35,15 +33,16 @@
           <label class=""><i class="glyphicon glyphicon-phone"></i>Contact Phone</label>
           <input type="phone" class="form-control phone" name="contactPhone" placeholder = "Phone"/>
         </div>
-<div>
-<label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Business Logo</label>
+        <div>
+        <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Business Logo</label>
           <div class="well">    
             <div class="profileImage">
               <img src="{{imageUrl}}" class="currentImage"/>
             </div>
             <div class="imageChooser"></div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#media-library-popover">Browse Library</button>
           </div>
-</div>
+        </div>
           <div>
             <label class=""><i class="glyphicon glyphicon-cog"></i>Facebook Profile URL</label>
             <input type="url" name="facebookUrl" class="form-control facebook" placeholder="Facebook Profile URL"/>
@@ -71,12 +70,10 @@
         <h4>My Media Library</h4>
       </div>
       <div class="modal-body library-contents">
-        
       </div>
       <div class="modal-footer">
-<button type="button" class="btn btn-info">Save changes</button>
+        <button type="button" class="btn btn-info">Save changes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        
       </div>
     </div>
   </div>
