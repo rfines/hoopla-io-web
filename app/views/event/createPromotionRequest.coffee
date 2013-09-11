@@ -114,6 +114,7 @@ module.exports = class CreatePromotionReqeust extends View
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
+        link: @event.get('website')?
         pageId: page
         pageAccessToken:@pageAccessToken
         promotionTime: moment().toDate().toISOString()
@@ -128,59 +129,47 @@ module.exports = class CreatePromotionReqeust extends View
             code: 'WAITING'
             retryCount:1
           promotionRequest.eventId = @event.id
-          promotionRequest.save (error, doc)=>
-            if error
+          promotionRequest.save {}, {
+            success:(item)=>
+              if time? <=0
+                @publishEvent '!router:route', '/myEvents'
+            error:(error)=>
               console.log error
-            else if time? <=0
-              @publishEvent '!router:route', '/myEvents'    
+          }    
         else
           promotionRequest.status=
             code: 'COMPLETE'
             retryCount:0
             completedDate: moment().toDate().toISOString()
           promotionRequest.eventId = @event.id
-          promotionRequest.save (error, doc)=>
-            if error
+          promotionRequest.save {}, {
+            success:(item)=>
+              if time? <=0
+                @publishEvent '!router:route', '/myEvents'
+            error:(error)=>
               console.log error
-            else if time? <=0
-              @publishEvent '!router:route', '/myEvents'    
+          }
       )
     if time? > 0 
       d= moment(date).toDate().toISOString()
       scheduled= new PromotionRequest
         message: message
+        link: @event.get('website')?
         media: @event.attributes.media[0]?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
         pageId:page
         pageAccessToken: @pageAccessToken
         promotionTime: d
-
-      @postScheduledFacebook(@fbPromoTarget,scheduled,@event.get('media')[0]?.url,d,(err,promoReq)=>
-        if err
-          console.log err
-          promoReq.status=
-            code: 'WAITING'
-            lastError:err
-            retryCount:1
-          promoReq.save (error, doc)=>
-            if error
-              console.log error
-            else if time? <=0
-              @publishEvent '!router:route', '/myEvents'  
-        else
-          promoReq.status=
-            code: 'COMPLETE'
-            retryCount:0
-            completedDate: moment().toDate().toISOString()
-          promoReq.eventId = @event.id
-          promoReq.save (error, doc)=>
-            if error
-              console.log error
-            else
-              console.log "Redirect?"
-              @publishEvent '!router:route', '/myEvents' 
-      )   
+      scheduled.eventId = @event.id
+      scheduled.save {}, {
+        success:(response,body)=>
+          console.log "saved the promo request"
+          @publishEvent '!router:route', '/myEvents'
+        error:(error)=>
+          console.log error
+      }
+         
 
   postToFacebookNow: (pt,pr, imageUrl, cb)=>
     console.log "Posting to facebook now"
@@ -188,6 +177,7 @@ module.exports = class CreatePromotionReqeust extends View
     if pt.accessToken && pr.attributes.pageId
       post=
         message: pr.attributes.message
+        link: @event.get('website')?
         caption: "#{@event.get('name')} #{@event.get('location').address} #{pr.attributes.message}"
         picture: @event.attributes.media[0]?.url
         title: @event.get('name')
@@ -196,8 +186,12 @@ module.exports = class CreatePromotionReqeust extends View
         method:'POST'
         data:post
         success:(response, body)=>
+          pr.status=
+            postId: response.id
+            code:'COMPLETED'
+            retryCount:0
           cb null, pr
-        failure:(err)=>
+        error:(err)=>
           console.log err
           pr.status=
             code:'WAITING'
@@ -208,6 +202,7 @@ module.exports = class CreatePromotionReqeust extends View
      if pr.attributes.pageAccessToken && pr.attributes.pageId
       post=
         message: pr.attributes.message
+        link: @event.get('website')?
         caption: "#{@event.get('name')} #{@event.get('location').address}"
         picture: @event.attributes.media[0]?.url
         title: @event.get('name')
@@ -220,7 +215,7 @@ module.exports = class CreatePromotionReqeust extends View
         data:post
         success:(response, body)=>
           cb null, pr
-        failure:(err)=>
+        error:(err)=>
           console.log err
           pr.status=
             code:'WAITING'
@@ -242,12 +237,13 @@ module.exports = class CreatePromotionReqeust extends View
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       pr.eventId = @event.id
-      pr.save (err, doc)=>
-        if err
-          console.log err
-        else if date?.length <=0
-          @publishEvent '!router:route', '/myEvents'
-
+      pr.save {},{
+        success:(response, doc)=>
+          if date?.length <=0
+            @publishEvent '!router:route', '/myEvents'
+        error:(error)=>
+          console.log error
+      }
     if time? > 0 
       scheduled= new PromotionRequest
         message: message
@@ -256,11 +252,13 @@ module.exports = class CreatePromotionReqeust extends View
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       scheduled.eventId = @event.id
-      scheduled.save (error, doc) =>
-        if error
-          console.log error
-        else
+      scheduled.save {},{
+        success:(response, doc) =>
           @publishEvent '!router:route', '/myEvents'
+        error:(response,err)=>
+          console.log response
+          console.log err
+      }
   showFacebook: (e)=>
     if e
       e.preventDefault()
@@ -309,7 +307,7 @@ module.exports = class CreatePromotionReqeust extends View
             pages:@fbPages
           @subview("facebookPages", new FacebookPagesView({model: @model, container : @$el.find('.pages')[0], options:options}))
           @subview("facebookEventPages", new FacebookPagesView({model: @model, container : @$el.find('.event-pages')[0], options:options}))
-        failure:(err)=>
+        error:(err)=>
           console.log err
           return null
 
@@ -343,6 +341,7 @@ module.exports = class CreatePromotionReqeust extends View
       promotionTime: date
       location: @event.get('location').address
       pageId:page
+      ticket_uri: @event.get('ticketUrl')?
       pageAccessToken: @pageAccessToken
       promotionTarget: @fbPromoTarget.id
       media: @event.get('media')[0]?._id
@@ -352,14 +351,23 @@ module.exports = class CreatePromotionReqeust extends View
       contentType: "application/json"
       data:data
       success:(response, body)=>
+        console.log "Inside success"
+        console.log pr
         pr.status=
-            code: 'COMPLETE'
-            retryCount:0
-            completedDate: moment().toDate().toISOString()
+          postId: response.id
+          code: 'COMPLETE'
+          retryCount:1
+          completedDate: moment().toDate().toISOString()
         pr.eventId = @event.id
-        pr.save (err,doc)=>
-          @publishEvent '!router:route', '/myEvents'
-      failure:(err)=>
+        pr.save {},{
+          success: (model, response, options)=>
+            console.log "Success handler"
+            @publishEvent '!router:route', '/myEvents'
+          error: (model, xhr, options)->
+            console.log "Inside save error"
+            console.log xhr
+          }
+      error:(err)=>
         console.log err
         pr.status=
           code: 'WAITING'
@@ -368,15 +376,12 @@ module.exports = class CreatePromotionReqeust extends View
             message=err?.message
 
         pr.eventId = @event.id
-        pr.save (err,doc)=>
-          console.log "Saved"
-          if err
+        pr.save  {},{
+          success:(model, response, options) =>
+            @publishEvent '!router:route', '/myEvents'
+          error:(model, xhr, options)=>
             console.log err
-          else
-            console.log "Posted event to facebook"
-            console.log doc
-            @publishEvent '!router:route', '/myEvents'    
-
+        }
   cancel:(e)->
     e.preventDefault()
     @publishEvent '!router:route', '/myEvents'
