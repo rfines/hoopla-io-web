@@ -2,6 +2,7 @@ View = require 'views/base/view'
 PromotionRequest = require 'models/promotionRequest'
 FacebookPagesView = require 'views/event/facebookPages'
 CreateFacebookEventView = require 'views/event/createFacebookEvent'
+AddressView = require 'views/address'
 
 module.exports = class CreatePromotionReqeust extends View
   template: require 'templates/event/createPromotionRequest'
@@ -48,6 +49,12 @@ module.exports = class CreatePromotionReqeust extends View
       td.showTwitter = false
     else
       td.showTwitter = true
+    td.profileImgUrl = @fbPromoTarget.profileImageUrl
+    td.profileName = @fbPromoTarget.profileName
+    td.eventAddress = @event.attributes.location.address
+    td.coverPhoto = @fbPromoTarget.profileCoverPhoto
+    td.dayOfWeek = moment(@event.nextOccurrence()).format("dddd")
+    td.startDate = moment(@event.nextOccurrence()).format("h:mm a")
     td.fbPages= @fbPages
     td
   
@@ -63,16 +70,20 @@ module.exports = class CreatePromotionReqeust extends View
     @subview("facebookEvent", new CreateFacebookEventView({model: @event, container : @$el.find('.facebook-event-preview')[0], options:options}))
     @initDatePickers()
     @initTimePickers()
+    @subview('event-address', new AddressView({container : @$el.find('.event-map'), model : @model}))  
+    $('input.address').remove()
+    $('label[for=address]').remove()
     
 
   events: 
-    "submit form.promoRequestFormFacebook": "saveFacebook"
+    "click .facebookPostBtn": "saveFacebook"
     "submit form.promoRequestFormTwitter" : "saveTwitter"
+    "click .createFbEventBtn":"saveFbEvent"
+    "click .cancelBtn":"cancel"
     "click .facebookTab" : "showFacebook"
     "click .twitterTab" : "showTwitter"
     "click .facebookEventTab":"showFacebookEvent"
-    "keyup .message":"addCharacter"
-
+    
   initDatePickers: =>
     @startDate = new Pikaday
       field: @$el.find('.promoDate')[0]
@@ -91,19 +102,21 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   saveFacebook:(e) ->
-    console.log @fbPromoTarget
     e.preventDefault()
     message = $('.message').val()
-    immediate = $('.immediate-box').val()
+    immediate = $('.immediate-box')
     date = @startDate.getMoment()
     time = $('.startTime').timepicker('getSecondsFromMidnight')
     date = date.add('seconds', time)
-    page = $('.pageSelection').val()
-    if immediate is 'fbImmediate'
+    page = $('.pages>.facebook-pages>.pageSelection').val()
+    @pageAccessToken = _.find(@fbPages, (item)=>
+      return item.id is page).access_token
+    if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
         pageId: page
-        startTime: moment().toDate().toISOString()
+        pageAccessToken:@pageAccessToken
+        promotionTime: moment().toDate().toISOString()
         media: @event.attributes.media[0]?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
@@ -133,19 +146,41 @@ module.exports = class CreatePromotionReqeust extends View
               @publishEvent '!router:route', '/myEvents'    
       )
     if time? > 0 
+      d= moment(date).toDate().toISOString()
       scheduled= new PromotionRequest
         message: message
-        startTime: moment(date).toDate().toISOString()
         media: @event.attributes.media[0]?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
-      scheduled.eventId = @event.id
-      scheduled.save (error, doc)=>
-        if error
-          console.log error
+        pageId:page
+        pageAccessToken: @pageAccessToken
+        promotionTime: d
+
+      @postScheduledFacebook(@fbPromoTarget,scheduled,@event.get('media')[0]?.url,d,(err,promoReq)=>
+        if err
+          console.log err
+          promoReq.status=
+            code: 'WAITING'
+            lastError:err
+            retryCount:1
+          promoReq.save (error, doc)=>
+            if error
+              console.log error
+            else if time? <=0
+              @publishEvent '!router:route', '/myEvents'  
         else
-          console.log "Redirect?"
-          @publishEvent '!router:route', '/myEvents'    
+          promoReq.status=
+            code: 'COMPLETE'
+            retryCount:0
+            completedDate: moment().toDate().toISOString()
+          promoReq.eventId = @event.id
+          promoReq.save (error, doc)=>
+            if error
+              console.log error
+            else
+              console.log "Redirect?"
+              @publishEvent '!router:route', '/myEvents' 
+      )   
 
   postToFacebookNow: (pt,pr, imageUrl, cb)=>
     console.log "Posting to facebook now"
@@ -153,13 +188,14 @@ module.exports = class CreatePromotionReqeust extends View
     if pt.accessToken && pr.attributes.pageId
       post=
         message: pr.attributes.message
-        picture: encodeURIComponent(@event.attributes.media[0]?.url)
+        caption: "#{@event.get('name')} #{@event.get('location').address} #{pr.attributes.message}"
+        picture: @event.attributes.media[0]?.url
         title: @event.get('name')
       $.ajax
-        url:"https://graph.facebook.com/#{pr.attributes.pageId}/feed?access_token=#{pt.accessToken}&message=#{post.message}"
+        url:"https://graph.facebook.com/#{pr.attributes.pageId}/feed?access_token=#{pt.accessToken}"
         method:'POST'
+        data:post
         success:(response, body)=>
-         
           cb null, pr
         failure:(err)=>
           console.log err
@@ -168,9 +204,30 @@ module.exports = class CreatePromotionReqeust extends View
             retryCount:0
             lastError: err
           cb err, pr
-        
+  postScheduledFacebook: (pt,pr,imageUrl,date,cb)=>
+     if pr.attributes.pageAccessToken && pr.attributes.pageId
+      post=
+        message: pr.attributes.message
+        caption: "#{@event.get('name')} #{@event.get('location').address}"
+        picture: @event.attributes.media[0]?.url
+        title: @event.get('name')
+        published:false
+        scheduled_publish_time:moment(date).format('X')
+      console.log post
+      $.ajax
+        url:"https://graph.facebook.com/#{pr.attributes.pageId}/feed?access_token=#{pr.attributes.pageAccessToken}"
+        method:'POST'
+        data:post
+        success:(response, body)=>
+          cb null, pr
+        failure:(err)=>
+          console.log err
+          pr.status=
+            code:'WAITING'
+            retryCount:0
+            lastError: err
+          cb err, pr
   saveTwitter: (e)->
-    console.log @twPromoTarget
     e.preventDefault()
     message = $('.tweetMessage').val()
     immediate = $('.tw-immediate-box').val()
@@ -180,7 +237,7 @@ module.exports = class CreatePromotionReqeust extends View
     if immediate is 'twImmediate'
       pr = new PromotionRequest
         message: message
-        startTime: moment().toDate().toISOString()
+        promotionTime: moment().toDate().toISOString()
         media: @event.attributes.media[0]?._id
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
@@ -194,7 +251,7 @@ module.exports = class CreatePromotionReqeust extends View
     if time? > 0 
       scheduled= new PromotionRequest
         message: message
-        startTime: moment(date).toDate().toISOString()
+        promotionTime: moment(date).toDate().toISOString()
         media: @event.attributes.media[0]?._id
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
@@ -255,9 +312,73 @@ module.exports = class CreatePromotionReqeust extends View
         failure:(err)=>
           console.log err
           return null
+
   addCharacter:(e)=>
-    console.log e.keyCode
-    code = ((if e.keyCode then e.keyCode else e.which))
+    code = String.fromCharCode(((if e.keyCode then e.keyCode else e.which)))
     currentPreviewMessage = $('.preview-message').html()
     currentPreviewMessage= currentPreviewMessage + code
     $('.preview-message').html(currentPreviewMessage)
+
+  saveFbEvent:(e)=>
+    e.preventDefault()
+    page=$('.event-pages>.facebook-pages>.pageSelection').val()
+    @pageAccessToken = _.find(@fbPages, (item)=>
+      return item.id is page
+      )?.access_token
+    at = @fbPromoTarget.accessToken
+    if @pageAccessToken
+      at = @pageAccessToken
+    date = moment().toDate().toISOString()
+    data =
+      name: @event.get('name')
+      description:@event.get('description')
+      picture:@event.get('media')[0]?.url
+      location:@event.get('location').address
+      start_time:moment(@event.nextOccurrence()).toDate().toISOString()
+
+    pr = new PromotionRequest
+      pushType: "FACEBOOK-EVENT"
+      title: @event.name
+      startTime: moment(@event.nextOccurrence()).toDate().toISOString()
+      promotionTime: date
+      location: @event.get('location').address
+      pageId:page
+      pageAccessToken: @pageAccessToken
+      promotionTarget: @fbPromoTarget.id
+      media: @event.get('media')[0]?._id
+    $.ajax
+      url:"https://graph.facebook.com/#{page}/events?access_token=#{at}"
+      method:'POST'
+      contentType: "application/json"
+      data:data
+      success:(response, body)=>
+        pr.status=
+            code: 'COMPLETE'
+            retryCount:0
+            completedDate: moment().toDate().toISOString()
+        pr.eventId = @event.id
+        pr.save (err,doc)=>
+          @publishEvent '!router:route', '/myEvents'
+      failure:(err)=>
+        console.log err
+        pr.status=
+          code: 'WAITING'
+          retryCount:1
+          lastError:
+            message=err?.message
+
+        pr.eventId = @event.id
+        pr.save (err,doc)=>
+          console.log "Saved"
+          if err
+            console.log err
+          else
+            console.log "Posted event to facebook"
+            console.log doc
+            @publishEvent '!router:route', '/myEvents'    
+
+  cancel:(e)->
+    e.preventDefault()
+    @publishEvent '!router:route', '/myEvents'
+
+ 

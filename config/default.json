@@ -10,7 +10,8 @@
   "robotsFile" : "stage.robots.hbs",
   "facebook":{
     "key":"338061672996288",
-    "secret":"2123f32e8e0a1997907ba47a7cbcbf98"
+    "secret":"2123f32e8e0a1997907ba47a7cbcbf98",
+    "scope": "publish_actions,user_events,manage_pages,publish_stream,file_upload,photo_upload,create_event"
   },
   "twitter":{
     "consumer_key":"iKn7zB6daKb1B4OxaursvA",
