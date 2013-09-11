@@ -54,8 +54,6 @@ module.exports = class Edit extends View
             'media': [media]
           @model.save {}, {
             success: =>
-              @model.set 
-                'media': [media]            
               @postSave() if @postSave
           }
       else
