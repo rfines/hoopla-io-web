@@ -11,7 +11,6 @@ module.exports = class ListItem extends ListItemView
     
   initialize: ->
     super
-    console.log @model
 
   events:
     "click .trash" : "destroy"

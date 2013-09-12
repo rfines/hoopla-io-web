@@ -14,7 +14,7 @@ module.exports = class List extends ListView
     @standAloneUpload = options.standAloneUpload
 
   attach: ->
-    super
+    super()
     if @standAloneUpload
       @subview('imageChooser', new ImageChooser({container: @$el.find('.well.add-media'), standAloneUpload:true}))
 

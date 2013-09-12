@@ -16,13 +16,33 @@ module.exports = class HeaderView extends View
   listen:
     '!router:route mediator': 'activateNav'
     'activateNav mediator': 'activateNav'    
+  attach: ()->
+    super()
+    url = @getCurrentUrl()
+    @activateNav(url)
 
   activateNav: (route) ->
-    @$el.find('.active').removeClass('active')
     if route is 'myBusinesses'
+      @$el.find('.active').removeClass('active')
       @$el.find('.myBusinesses').addClass('active')
+      @updatePageTitle("My Businesses")
     if route is 'myEvents'
+      @$el.find('.active').removeClass('active')
       @$el.find('.myEvents').addClass('active')
+      @updatePageTitle("My Events")
+    if route is 'myWidgets'
+      @$el.find('.active').removeClass('active')
+      @$el.find('.myApps').addClass('active')
+      @updatePageTitle("My Apps") 
+    if route is 'account' 
+      @$el.find('.active').removeClass('active')
+      @$el.find('.profileActions').addClass('active')
+      @updatePageTitle("My Account") 
+    if route is 'media'
+      @$el.find('.active').removeClass('active')
+      @$el.find('.profileActions').addClass('active')
+      @updatePageTitle("My Media Library") 
+
 
   logout:(e)->
     @publishEvent '!router:route', 'logout'
@@ -41,3 +61,10 @@ module.exports = class HeaderView extends View
 
   redirectToAccount: (e) ->
     @publishEvent '!router:route', 'account'  
+  updatePageTitle:(title)=>
+    $('.page-title>h2').html(title)
+
+  getCurrentUrl: ()->
+    locale = window.location
+    return locale.href.replace(window.baseUrl, '')
+    
