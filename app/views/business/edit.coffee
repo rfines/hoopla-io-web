@@ -1,8 +1,9 @@
 template = require 'templates/business/edit'
-View = require 'views/base/edit'
+View = require 'views/base/inlineEdit'
 Business = require 'models/business'
 AddressView = require 'views/address'
 ImageUtils = require 'utils/imageUtils'
+MediaMixin = require 'views/mixins/mediaMixin'
 
 module.exports = class BusinessEditView extends View
   autoRender: true
@@ -10,6 +11,10 @@ module.exports = class BusinessEditView extends View
   template: template
   listRoute: 'myBusinesses'
   noun : 'business'
+
+  initialize: ->
+    @extend @, new MediaMixin()
+    super()
 
   attach: ->
     super

@@ -1,8 +1,8 @@
 template = require 'templates/event/edit'
-View = require 'views/base/edit'
+View = require 'views/base/inlineEdit'
 Event = require 'models/event'
 AddressView = require 'views/address'
-ImageUtils = require 'utils/imageUtils'
+MediaMixin = require 'views/mixins/mediaMixin'
 
 module.exports = class EventEditView extends View
   autoRender: true
@@ -10,6 +10,10 @@ module.exports = class EventEditView extends View
   template: template
   listRoute: 'myEvents'
   noun : 'event'
+  
+  initialize: ->
+    @extend @, new MediaMixin()
+    super()
 
   attach: =>
     super
@@ -35,7 +39,6 @@ module.exports = class EventEditView extends View
       @model.set 
         'host' : params.selected
         'location' : Chaplin.datastore.venue.get(params.selected).get('location')
-      console.log @model.get('host')
     @subscribeEvent 'selectedMedia', @updateImage   
     @delegate 'click', '.showMediaLibrary', (e) =>
       e.stopPropagation()
@@ -59,7 +62,6 @@ module.exports = class EventEditView extends View
     if not @model.isNew()
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
-
     @$el.find('.startTime').on 'changeTime', @predictEndTime
 
 
@@ -103,7 +105,6 @@ module.exports = class EventEditView extends View
         @collection.add @model
       @publishEvent '!router:route', "/event/#{@model.id}/promote"
     else
-      console.log 'close it out'
       @publishEvent "#{@noun}:#{@model.id}:edit:close"     
 
   showPromote:(show)=>
