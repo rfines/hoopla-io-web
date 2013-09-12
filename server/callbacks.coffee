@@ -19,12 +19,13 @@ module.exports.facebook = (req, res) ->
       else
         slQstring = require('querystring').parse("#{body}")
         accessToken = slQstring.access_token
-        me = "https://graph.facebook.com/me?access_token=#{accessToken}&fields=cover,id,name,link,username"
+        me = "https://graph.facebook.com/me?access_token=#{accessToken}&&fields=id,name,cover,username,first_name,last_name,gender,picture,website"
         request me, (errors, resp, bod)=>
           if errors
             handleError(res,facebookConnectError)
           else
             b=JSON.parse(bod)
+            console.log b
             promoTarget = 
               accountType: 'FACEBOOK'
               accessToken: accessToken
@@ -32,7 +33,7 @@ module.exports.facebook = (req, res) ->
               profileName: b.name
               profileId: b.id
               profileImageUrl: "https://graph.facebook.com/#{b.id}/picture?type=normal"
-              profileCoverPhoto:b.cover
+              profileCoverPhoto:b.cover.source
             options=
               uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
               method:'POST'
