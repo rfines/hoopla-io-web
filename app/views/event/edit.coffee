@@ -31,11 +31,12 @@ module.exports = class EventEditView extends View
     @delegate 'click', '.addressButton', @chooseCustomVenue
     @delegate 'submit', 'form', (e)->
       e.preventDefault()    
-    @listenTo @$el.find('.business'), 'change', @changeBusiness
-    @listenTo @$el.find('.host'), 'change', @changeHost     
+    @$el.find('.business').on 'change', @changeBusiness
+    @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage   
 
   changeHost:  (evt, params) =>
+    console.log 'change host'
     @model.set 
       'host' : params.selected
       'location' : Chaplin.datastore.venue.get(params.selected).get('location')   
