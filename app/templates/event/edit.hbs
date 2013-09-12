@@ -110,12 +110,15 @@
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
         <div class="well">      
           <img src="{{imageUrl}}" class="currentImage" />
-          <div class="{{#if hideUpload}}hide{{/if}}">
+          <div class="">
             <div class="imageChooser"></div>
   	        <a class="showMediaLibrary pull-right" data-toggle="modal" data-target="#media-library-popover"><i class="glyphicon glyphicon-list"></i>Media Library</a>
         </div>
          </div>
 	
+      </div>
+      <div class="col-md-4 promotion-selection">
+        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Promote to Social Media now</label>
       </div>
 	<div class="col-md-4 edit-actions">
          <div><button type="cancel" class="btn btn-default pull-right">Cancel</button>&nbsp;<a type="submit" class="pull-right saveButton"></a></div>
