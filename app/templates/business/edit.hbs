@@ -40,7 +40,9 @@
               <img src="{{imageUrl}}" class="currentImage"/>
             </div>
             <div class="imageChooser"></div>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#media-library-popover">Browse Library</button>
+            {{#if hasMedia}}
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</button>
+            {{/if}}
           </div>
         </div>
           <div>
@@ -62,7 +64,7 @@
         </div>
       </div>
 </form>
-<div class="modal fade" id="media-library-popover" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="media-library-popover-{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
