@@ -18,7 +18,7 @@ module.exports = class List extends ListView
     super()
     @$el.find('.listAlert').hide()
     @filter @filterer
-
+  
   create: (e) =>
     EventEdit = require 'views/event/edit'
     newEvent = new Event()

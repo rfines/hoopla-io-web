@@ -24,6 +24,14 @@ module.exports = class Event extends Model
         return m
     return undefined
 
+  nextOccurrenceEnd: ->
+    if @get('occurrences') and _.first(@get('occurrences'))
+      m = moment(_.first(@get('occurrences')).end)
+      m.local()
+      if m.isAfter(moment().startOf('day'))
+        return m
+    return undefined
+
   lastOccurrence: ->
     if @get('occurrences') and _.last(@get('occurrences'))
       m = moment(_.last(@get('occurrences')).start)

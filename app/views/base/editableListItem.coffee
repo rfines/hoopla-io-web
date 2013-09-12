@@ -8,6 +8,7 @@ module.exports = class EditableListItem extends ListItemView
     @delegate 'hide.bs.collapse', =>
       @$el.find('.panel-heading').removeClass('expanded')
     @delegate 'click', '.inlineEditButton', =>
+      console.log "inside delegate"
       @$el.find('.panel-heading').addClass('expanded')
       @$el.find('.inlineEdit').show()
     @subscribeEvent "#{@noun}:#{@model.id}:edit:close", =>
