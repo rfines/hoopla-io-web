@@ -24,42 +24,45 @@
       <label for="height">Height</label>
       <input type="text" class="form-control" name="height">
     </div>
+	<div class="col-md-2">
+      <label for="widgetStyle">Theme</label>
+        <select name="widgetStyle" class="form-control widgetStyle select-chosen-nosearch">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+     <label for="accentColor">Link Color</label>
+      <input type="color" class="colorpicker" name="accentColor">
+    </div>
   </div>
 
   <div class="row">
-    <div class="col-md-4 event-by-location">
+    <div class="col-md-12 event-by-location">
       <label for="tags">Event Tags</label>
       <select class="form-control select-chosen" multiple="true" name="tags">
         {{#each eventTags}}
           <option value="{{attributes.slug}}">{{attributes.text}}</option>
         {{/each}}
       </select>
-    </div>
-    <div class="col-md-4 event-by-business">
-      <label for="tags">Businesses</label>
-      <select class="form-control select-chosen" multiple="true" name="businesses">
-        {{#each businesses}}
-          <option value="{{id}}">{{attributes.name}}</option>
-        {{/each}}
-      </select>
-    </div>    
-    <div class="col-md-2">
-      <label for="widgetStyle">Theme</label>
-        <select name="widgetStyle" class="form-control widgetStyle select-chosen-nosearch">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-        </select>
-    </div>            
-    <div class="col-md-2">
-      <label for="accentColor">Link Color</label>
-      <input type="color" class="colorpicker" name="accentColor">
-    </div>                
+    </div>                 
   </div>
+<div class="row">
+<div class="col-md-12 event-by-business">
+  <label for="tags">Businesses</label>
+  <select class="form-control select-chosen" multiple="true" name="businesses">
+    {{#each businesses}}
+      <option value="{{id}}">{{attributes.name}}</option>
+    {{/each}}
+  </select>
+</div>
+</div>
   <div class="row event-by-location">
     <div class="col-md-10 geoLocation"></div>
     <div class="col-md-2">
       <label for="radius">Radius</label>
       <select name="radius" class="form-control">
+		<option selected="selected">Select a language</option>
         <option value="1609">1</option>
         <option value="8047">5</option>
         <option value="16093">10</option>
@@ -69,17 +72,18 @@
     </div>
   </div>
   <div class="row embedCode">
-    <div class="col-md-8">
+    <div class="col-md-9">
       <textarea class="embedCodeHtml"></textarea>
     </div>
   </div>
 </form>
 </div>
 <div class="col-md-5 widgetPreviewContainer">
+  <div class="static-widget-preview"><img src="http://placehold.it/350x350""></div>
   <iframe src="" scrolling="no" id="widgetPreview"></iframe>
-  <div class="row widgetPreviewControls">
+  
+</div><div class="row widgetPreviewControls">
       <button type="cancel" class="btn btn-default pull-left cancelButton">Cancel</button>
-      <a class="btn btn-success saveButton pull-right">Save</a>
-      <a class="btn btn-default previewButton pull-right">Preview</a>
+      <a class="btn btn-success-sm saveButton pull-right">Save</a>
+      <a class="btn btn-info previewButton pull-right">Preview</a>
   </div>
-</div>

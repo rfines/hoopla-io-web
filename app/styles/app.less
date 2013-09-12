@@ -28,7 +28,7 @@ top: -12px;
 font-size:20px;
 }
 .page-title h2 {color:@brand-success;line-height:30px;margin-top:12px;font-family:'museoLight';}
-iframe {border:0px;overflow:hidden;max-width: 470px;max-height:580px;margin-top: 31px;min-height: 360px;}
+iframe {border:0px;overflow:hidden;max-width: 470px;max-height:650px;margin-top: 31px;min-height: 360px;}
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
 .register.container {margin-top:60px;}
@@ -199,6 +199,13 @@ section.home {
     border: 1px solid #ccc;
     font-size: 1.3em;
 }
+.btn-success-sm {
+    color: @gray ;
+    background-color: #c5d645;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    margin-left: 10px;
+}
 .btn-success:hover {
     color: #fff ;
     background-color: @brand-primary;
@@ -239,18 +246,18 @@ a {
     text-align: center;
     }
     .widgetPreviewControls {
-      position: relative;
-      right: -92px;
+      position: absolute!important;
+      right: 29px;
       width: 380px;
-      bottom: 1px;
+      bottom: 0px;
       }
   form  .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
          padding: 15px;
          margin-left: -15px;
         }
-   .row {margin-bottom:15px;}
+   .row {margin-bottom:15px;position:relative;}
    #map-canvas {margin-top:15px!important;width: 637px!important;}
-   textarea.embedCodeHtml {width: 637px!important;}
+   textarea.embedCodeHtml {width: 651px!important;height:74px;}
 }
 .event-list {
    .panel-default > .panel-heading {line-height: 40px;}
