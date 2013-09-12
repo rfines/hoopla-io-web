@@ -13,10 +13,8 @@ module.exports = class Edit extends View
 
   getTemplateData: ->
     td = super()
-    td.isNew = @model.isNew()
     td.imageUrl = @model.imageUrl({height: 163, width: 266}) if @model.imageUrl
     td.hideUpload = @model.imageUrl?
-    td.hasMedia = Chaplin.datastore.media.length > 0
     td
 
   attach: ->

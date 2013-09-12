@@ -9,7 +9,7 @@
         <legend><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit Event <span class="required pull-right">*required</span></legend>
         {{/if}}
         {{#if isNew}}
-        <div class="col-md-4">
+        <div class="col-md-4 {{#if hasSingleBusiness}}hide{{/if}}">
   		    <label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
           <select name="business" class="business select-chosen form-control">
             {{#each businesses}}
@@ -118,9 +118,8 @@
   	         {{#if hasMedia}}
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</button>
             {{/if}}
-        </div>
+          </div>
          </div>
-	
       </div>
       <div class="col-md-4 promotion-selection">
         <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Promote to Social Media now</label>

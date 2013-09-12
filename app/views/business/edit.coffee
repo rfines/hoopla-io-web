@@ -21,11 +21,6 @@ module.exports = class BusinessEditView extends View
       @$el.find('.foursquare').val(_.findWhere(links, {target:"Foursquare"})?.url)
     @subscribeEvent 'selectedMedia', @updateImage
 
-
-  getTemplateData: ->
-    td = super()
-    td    
-
   updateModel: ->
     @setSmLinks()
     @setLocation()
