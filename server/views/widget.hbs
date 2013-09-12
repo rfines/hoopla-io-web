@@ -61,7 +61,7 @@
 		text-decoration:underline;
 		}
 	.accentColor {
-		color:#06A1AF!important;
+		color:{{widget.accentColor}}!important;
 		}
 	body.dark .detailDrawer {
 		color:#ccc;
@@ -107,9 +107,9 @@
 			}
     </style>
   </head>
-  <body class="{{widgetStyle}}">
+  <body class="{{widget.widgetStyle}}">
 	<div class="widgetHeader">Upcoming Local Events</div>
-	<div class="container" style="height: 625px;">
+	<div class="container" style="height: {{widget.height}}px;">
     {{#each events}}
 	
     <div class="eventRow">

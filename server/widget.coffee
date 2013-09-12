@@ -34,7 +34,7 @@ module.exports.show = (req, res) ->
           facebookClientId: CONFIG.facebook.key
           baseUrl : CONFIG.baseUrl
           events: events
-          widgetStyle : widget.widgetStyle
+          widget: widget
         res.render "widget.hbs", data
       else
         res.end()

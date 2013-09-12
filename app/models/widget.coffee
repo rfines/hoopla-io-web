@@ -7,6 +7,7 @@ module.exports = class Widget extends Model
   defaults: 
     height: 350
     width: 350
+    accentColor: '06A1AF'
 
   clone: ->
     json = @toJSON()

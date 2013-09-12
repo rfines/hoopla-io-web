@@ -23,6 +23,9 @@ module.exports = class WidgetEditView extends View
         @byLocation() 
       else
         @byBusiness()
+    $('.colorpicker').spectrum({
+      showInput : true
+    })
 
 
   getTemplateData: ->
