@@ -21,7 +21,7 @@ module.exports = class CreatePromotionReqeust extends View
   initialize:(options) ->
     super(options)
     @event = options.data
-    @business = Chaplin.datastore.business.get(@event.attributes.business)
+    @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'FACEBOOK'
       )
@@ -40,7 +40,7 @@ module.exports = class CreatePromotionReqeust extends View
     td.twitterProfileImageUrl = @twitterImgUrl
     td.facebookProfileName = @facebookProfileName
     td.twitterHandle = @twitterHandle
-    td.previewText = "Event Name: #{@event.attributes.name}  Date: #{@event.nextOccurrence().format('MMM DD, YYYY')} Time: #{moment(@event.nextOccurrence()).format("h:mm A")}"
+    td.previewText = @event.get('description')
     if not @fbPromoTarget
       td.showFb = false
     else
@@ -104,6 +104,8 @@ module.exports = class CreatePromotionReqeust extends View
   saveFacebook:(e) ->
     e.preventDefault()
     message = $('.message').val()
+    link =  $('.link-input').val()
+    console.log link
     immediate = $('.immediate-box')
     date = @startDate.getMoment()
     time = $('.startTime').timepicker('getSecondsFromMidnight')
@@ -114,44 +116,32 @@ module.exports = class CreatePromotionReqeust extends View
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
-        link: @event.get('website')?
+        link:link
+        caption:@event.get('name')
+        title: @event.get('name')
         pageId: page
         pageAccessToken:@pageAccessToken
         promotionTime: moment().toDate().toISOString()
-        media: @event.attributes.media[0]?._id
+        media: @event.get('media[0]')?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
-      
-      @postToFacebookNow(@fbPromoTarget,pr,@event.attributes.media[0]?.url,(err,promotionRequest)=>
-        if err
-          console.log err
-          promotionRequest.status=
-            code: 'WAITING'
-            retryCount:1
-          promotionRequest.eventId = @event.id
-          promotionRequest.save {}, {
-            success:(item)=>
-              if time? <=0
-                @publishEvent '!router:route', '/myEvents'
-          }    
-        else
-          promotionRequest.status=
-            code: 'COMPLETE'
-            retryCount:0
-            completedDate: moment().toDate().toISOString()
-          promotionRequest.eventId = @event.id
-          promotionRequest.save {}, {
-            success:(item)=>
-              if time? <=0
-                @publishEvent '!router:route', '/myEvents'
-          }
-      )
+      pr.eventId = @event.id
+      pr.save {}, {
+        success:(item)=>
+          if time? <=0
+            @publishEvent '!router:route', '/myEvents'
+        error:(error)=>
+          console.log error
+      }    
+        
     if time? > 0 
       d= moment(date).toDate().toISOString()
       scheduled= new PromotionRequest
         message: message
-        link: @event.get('website')?
-        media: @event.attributes.media[0]?._id
+        link:link
+        caption:@event.get('description')
+        title: @event.get('name')
+        media: @event.get('media[0]')?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
         pageId:page
@@ -173,9 +163,9 @@ module.exports = class CreatePromotionReqeust extends View
     if pt.accessToken && pr.attributes.pageId
       post=
         message: pr.attributes.message
-        link: @event.get('website')?
+        link: @event.get('website')
         caption: "#{@event.get('name')} #{@event.get('location').address} #{pr.attributes.message}"
-        picture: @event.attributes.media[0]?.url
+        picture:@event.get('media')[0]?._id
         title: @event.get('name')
       $.ajax
         url:"https://graph.facebook.com/#{pr.attributes.pageId}/feed?access_token=#{pt.accessToken}"
@@ -194,30 +184,7 @@ module.exports = class CreatePromotionReqeust extends View
             retryCount:0
             lastError: err
           cb err, pr
-  postScheduledFacebook: (pt,pr,imageUrl,date,cb)=>
-     if pr.attributes.pageAccessToken && pr.attributes.pageId
-      post=
-        message: pr.attributes.message
-        link: @event.get('website')?
-        caption: "#{@event.get('name')} #{@event.get('location').address}"
-        picture: @event.attributes.media[0]?.url
-        title: @event.get('name')
-        published:false
-        scheduled_publish_time:moment(date).format('X')
-      console.log post
-      $.ajax
-        url:"https://graph.facebook.com/#{pr.attributes.pageId}/feed?access_token=#{pr.attributes.pageAccessToken}"
-        method:'POST'
-        data:post
-        success:(response, body)=>
-          cb null, pr
-        error:(err)=>
-          console.log err
-          pr.status=
-            code:'WAITING'
-            retryCount:0
-            lastError: err
-          cb err, pr
+  
   saveTwitter: (e)->
     e.preventDefault()
     message = $('.tweetMessage').val()
@@ -229,7 +196,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr = new PromotionRequest
         message: message
         promotionTime: moment().toDate().toISOString()
-        media: @event.attributes.media[0]?._id
+        media: @event.get('media')[0]?._id
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       pr.eventId = @event.id
@@ -244,7 +211,7 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
-        media: @event.attributes.media[0]?._id
+        media: @event.get('media')[0]?._id
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       scheduled.eventId = @event.id
@@ -315,6 +282,7 @@ module.exports = class CreatePromotionReqeust extends View
 
   saveFbEvent:(e)=>
     e.preventDefault()
+    console.log @fbPromoTarget
     page=$('.event-pages>.facebook-pages>.pageSelection').val()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
@@ -323,61 +291,31 @@ module.exports = class CreatePromotionReqeust extends View
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
-    data =
-      name: @event.get('name')
-      description:@event.get('description')
-      picture:@event.get('media')[0]?.url
-      location:@event.get('location').address
-      start_time:moment(@event.nextOccurrence()).toDate().toISOString()
-
+    console.log "page #{page}"
+    console.log @fbPromoTarget._id
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
-      title: @event.name
+      link:@event.get('website')
+      caption:@event.get('name')
+      title: @event.get('name')
       startTime: moment(@event.nextOccurrence()).toDate().toISOString()
       promotionTime: date
       location: @event.get('location').address
       pageId:page
-      ticket_uri: @event.get('ticketUrl')?
+      ticket_uri: @event.get('ticketUrl')
       pageAccessToken: @pageAccessToken
-      promotionTarget: @fbPromoTarget.id
+      promotionTarget: @fbPromoTarget._id
       media: @event.get('media')[0]?._id
-    $.ajax
-      url:"https://graph.facebook.com/#{page}/events?access_token=#{at}"
-      method:'POST'
-      contentType: "application/json"
-      data:data
-      success:(response, body)=>
-        console.log "Inside success"
-        console.log pr
-        pr.status=
-          postId: response.id
-          code: 'COMPLETE'
-          retryCount:1
-          completedDate: moment().toDate().toISOString()
-        pr.eventId = @event.id
-        pr.save {},{
-          success: (model, response, options)=>
-            console.log "Success handler"
-            @publishEvent '!router:route', '/myEvents'
-          error: (model, xhr, options)->
-            console.log "Inside save error"
-            console.log xhr
-          }
-      error:(err)=>
-        console.log err
-        pr.status=
-          code: 'WAITING'
-          retryCount:1
-          lastError:
-            message=err?.message
-
-        pr.eventId = @event.id
-        pr.save  {},{
-          success:(model, response, options) =>
-            @publishEvent '!router:route', '/myEvents'
-          error:(model, xhr, options)=>
-            console.log err
-        }
+    pr.eventId = @event.id
+    pr.save {},{
+      success: (model, response, options)=>
+        console.log "Success handler"
+        @publishEvent '!router:route', '/myEvents'
+      error: (model, xhr, options)->
+        console.log "Inside save error"
+        console.log xhr
+      }
+  
   cancel:(e)->
     e.preventDefault()
     @publishEvent '!router:route', '/myEvents'

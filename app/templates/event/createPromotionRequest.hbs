@@ -33,9 +33,12 @@
         <div class="col-sm-7 col-lg-4 pages"></div>
       </div>
       <div class="row">
+        <div class="col-md-8"><label for="link-input"><i class="glyphicon glyphicon-link"></i>Event Link</label><input type="url" value="{{defaultLink}}" class="form-control link-input" /></div>
+      </div>
+      <div class="row">
         <div class="col-md-8">
           <label for="description"><i class="glyphicon glyphicon-pencil"></i>Status Message</label>
-          <textarea class="form-control span3 message" name="message" placeholder="Status Message...">{{previewText}}</textarea>
+          <textarea class="form-control span3 message" rows="5" name="message" placeholder="Status Message...">{{previewText}}</textarea>
         </div>
         <div class="col-md-4">
            <div class="checkbox">
