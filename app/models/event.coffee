@@ -5,18 +5,16 @@ module.exports = class Event extends Model
   
   urlRoot : "/api/event"
 
-  validate: ->
-    errors = []
-    if not (@has('name') and @get('name').trim().length > 0)
-      errors.push {p : 'name'}
-    if not (@has('location') and @get('location').address)
-      errors.push {p : 'address'}
-    if not (@has('description') and @get('description').trim().length > 0)
-      errors.push {p : 'description'}      
-    if errors.length is 0
-      return undefined
-    else
-      return errors  
+  validation :
+    name:
+      required: true        
+    description:
+      required: true
+    location:
+      required: true
+    contactPhone:
+      required: false
+      pattern: "phone"
 
   nextOccurrence: ->
     if @get('occurrences') and _.first(@get('occurrences'))
