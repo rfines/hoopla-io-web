@@ -6,6 +6,9 @@ module.exports = class Businesses extends Collection
   url: ->
     "/api/user/#{$.cookie('user')}/businesses"
 
+  comparator : (business) ->
+    business.get('name').toLowerCase()
+
   hasOne: ->
     @length is 1
 
