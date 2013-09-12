@@ -13,16 +13,24 @@ module.exports = class EventEditView extends View
 
   attach: =>
     super
+    @showPromote(false)
     @initTimePickers()
     @initDatePickers()
     @attachAddressFinder()    
     $('.business').on 'change', (evt, params) =>
+      b = Chaplin.datastore.business.get(params.selected)
       @model.set 'business', params.selected
       if not @model.has('host')
         @model.set 
           'host': params.selected
-          'location' : Chaplin.datastore.business.get(params.selected).get('location')
+          'location' : b?.get('location')
         $('.host').trigger("chosen:updated")
+      if b.get('promotionTargets')?.length > 0
+        @showPromote(true)
+      else
+        @showPromote(false)
+    if Chaplin.datastore.business.hasOne()
+      @showPromote(true)
     $('.host').on 'change', (evt, params) =>
       @model.set 
         'host' : params.selected
@@ -86,3 +94,17 @@ module.exports = class EventEditView extends View
       start : sd.toDate().toISOString()
       end : ed.toDate().toISOString()
     }]
+
+  postSave:()=>
+    if $('.promote-checkbox').is(':checked')
+      if @isNew
+        @collection.add @model
+      @publishEvent '!router:route', "/event/#{@model.id}/promote"
+    else
+      super()
+
+  showPromote:(show)=>
+    if show
+      $('.promotion-selection').show()
+    else
+      $('.promotion-selection').hide()
