@@ -1,5 +1,5 @@
-<div class="col-md-8">
-<form class="form-inline" role="form">
+<div class="col-md-7">
+<form class="" role="form">
   <div class="row">
     <div class="col-8">
       <legend>Widget Builder</legend>
@@ -51,12 +51,12 @@
         </select>
     </div>            
     <div class="col-md-2">
-      <label for="accentColor">Accent Color</label>
+      <label for="accentColor">Link Color</label>
       <input type="color" class="colorpicker" name="accentColor">
     </div>                
   </div>
   <div class="row event-by-location">
-    <div class="col-md-4 geoLocation"></div>
+    <div class="col-md-10 geoLocation"></div>
     <div class="col-md-2">
       <label for="radius">Radius</label>
       <select name="radius" class="form-control">
@@ -75,11 +75,11 @@
   </div>
 </form>
 </div>
-<div class="col-md-4">
+<div class="col-md-5 widgetPreviewContainer">
   <iframe src="" scrolling="no" id="widgetPreview"></iframe>
-  <div class="row">
-      <button type="cancel" class="btn btn-default pull-right cancelButton">Cancel</button>
-      <a class="btn btn-default saveButton">Save</a>
-      <a class="btn btn-default previewButton">Preview</a>
+  <div class="row widgetPreviewControls">
+      <button type="cancel" class="btn btn-default pull-left cancelButton">Cancel</button>
+      <a class="btn btn-success saveButton pull-right">Save</a>
+      <a class="btn btn-default previewButton pull-right">Preview</a>
   </div>
 </div>

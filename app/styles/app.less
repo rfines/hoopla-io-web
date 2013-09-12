@@ -20,7 +20,7 @@ body {
 input.form-control:focus, textarea.form-control:focus {
     box-shadow: 0px 0px 18px #12545A!important;
 }
-.modal-body img {max-width: 538px;}
+.modal-body img {max-width: 538px;max-height:558px;}
 .modal-header i.deleteItem {
 position: relative;
 left: 10px;
@@ -28,7 +28,7 @@ top: -12px;
 font-size:20px;
 }
 .page-title h2 {color:@brand-success;line-height:30px;margin-top:12px;font-family:'museoLight';}
-iframe {border:0px;overflow:hidden;}
+iframe {border:0px;overflow:hidden;max-width: 470px;max-height:580px;margin-top: 31px;min-height: 360px;}
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
 .register.container {margin-top:60px;}
@@ -214,21 +214,50 @@ section.home {
 a {
     cursor: pointer;
 }
+  .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline, .form-container {
+       background-color: #06A1AF;
+       box-shadow: 0px -2px 13px #5D5F5F inset;
+       padding:0px;
+       label {
+           color: #fff;
+       }
+       legend {
+            font-family: 'museoLight';
+            color: #c5d645;
+            font-size: 1.4em;
+            border-bottom: 0px solid #000;
+            position: relative;
+            top: 11px;
+
+            i {color:#c5d645;opacity:1.0!important;}
+        }
+      }
+.widget-list {
+  .widgetPreviewContainer {
+    position: relative;
+    top: 3px;
+    text-align: center;
+    }
+    .widgetPreviewControls {
+      position: relative;
+      right: -92px;
+      width: 380px;
+      bottom: 1px;
+      }
+  form  .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
+         padding: 15px;
+         margin-left: -15px;
+        }
+   .row {margin-bottom:15px;}
+   #map-canvas {margin-top:15px!important;width: 637px!important;}
+   textarea.embedCodeHtml {width: 637px!important;}
+}
 .event-list {
    .panel-default > .panel-heading {line-height: 40px;}
    .list-options a {padding: 9px 12px;
    }
    .event-list-controls {margin-bottom:10px;}
-   legend {
-       font-family: 'museoLight';
-       color: #c5d645;
-       font-size: 1.4em;
-       border-bottom: 0px solid #000;
-       position: relative;
-       top: 11px;
-       
-       i {color:#c5d645;opacity:1.0!important;}
-   }
+   
    .alert-container {padding-left: 0px!important;
    padding-right: 34px;}
    .alert.listAlert {padding: 7px;
