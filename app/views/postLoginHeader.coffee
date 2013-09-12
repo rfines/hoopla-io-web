@@ -22,7 +22,7 @@ module.exports = class HeaderView extends View
     if route is 'myBusinesses'
       @$el.find('.myBusinesses').addClass('active')
     if route is 'myEvents'
-      @$el.find('.myEvents').addClass('active')      
+      @$el.find('.myEvents').addClass('active')
 
   logout:(e)->
     @publishEvent '!router:route', 'logout'

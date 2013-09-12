@@ -14,7 +14,7 @@
           <select name="business" class="business select-chosen form-control">
             {{#each businesses}}
               <option value="{{id}}">{{attributes.name}}</option>
-            {{/each}}
+            {{/each}}      
           </select>
         </div>
         {{/if}}
@@ -66,6 +66,9 @@
           {{#each businesses}}
             <option value="{{id}}">{{attributes.name}}</option>
           {{/each}}
+          {{#each venues}}
+            <option value="{{id}}">{{attributes.name}}</option>
+          {{/each}}                
         </select>
 
       </div>

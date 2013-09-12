@@ -34,7 +34,8 @@ module.exports = class EventEditView extends View
     $('.host').on 'change', (evt, params) =>
       @model.set 
         'host' : params.selected
-        'location' : Chaplin.datastore.business.get(params.selected).get('location')
+        'location' : Chaplin.datastore.venue.get(params.selected).get('location')
+      console.log @model.get('host')
     @subscribeEvent 'selectedMedia', @updateImage   
     @delegate 'click', '.showMediaLibrary', (e) =>
       e.stopPropagation()
@@ -78,6 +79,7 @@ module.exports = class EventEditView extends View
   getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
+    td.venues = Chaplin.datastore.venue.models
     td.eventTags = Chaplin.datastore.eventTag.models
     td    
 
@@ -101,7 +103,8 @@ module.exports = class EventEditView extends View
         @collection.add @model
       @publishEvent '!router:route', "/event/#{@model.id}/promote"
     else
-      super()
+      console.log 'close it out'
+      @publishEvent "#{@noun}:#{@model.id}:edit:close"     
 
   showPromote:(show)=>
     if show

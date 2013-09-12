@@ -16,13 +16,16 @@ module.exports = exports = class DataStore
   widget : new Widgets()
   user: undefined
   eventTag: new EventTags()
+  venue : new Businesses()
 
   constructor: (@name) ->
     @event.model = Event
     @business.model = Business
     @media.model = Media
     @widget.model = Widget
-
+    @venue.model = Business
+    @venue.url = ->
+      "/api/venues"
 
   load: (options) ->
     if @["#{options.name}"].length > 0
@@ -34,28 +37,23 @@ module.exports = exports = class DataStore
 
   loadEssential: (options) ->
     Chaplin.mediator.publish 'startWaiting'
-    Chaplin.datastore.load 
-      name : 'business'
+    Chaplin.datastore.load
+      name: 'venue'
       success: =>
         Chaplin.datastore.load 
-          name : 'event'
+          name : 'business'
           success: =>
             Chaplin.datastore.load 
-              name : 'media'
+              name : 'event'
               success: =>
-                Chaplin.datastore.load
-                  name : 'widget'
+                Chaplin.datastore.load 
+                  name : 'media'
                   success: =>
                     Chaplin.datastore.load
-                      name: 'eventTag'
+                      name : 'widget'
                       success: =>
-                        Chaplin.mediator.publish 'stopWaiting'
-                        options.success()
-                  error: =>
-                    options.error() if options.error                    
-              error: =>
-                options.error() if options.error
-          error: =>
-            options.error() if options.error
-      error: =>
-        options.error() if options.error                            
+                        Chaplin.datastore.load
+                          name: 'eventTag'
+                          success: =>
+                            Chaplin.mediator.publish 'stopWaiting'
+                            options.success()
