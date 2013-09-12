@@ -6,8 +6,11 @@ module.exports = class AddressView extends View
   className: 'address'
   template: template
 
-  initialize: ->
-    super
+  initialize: (options) ->
+    if options.template
+      @template = options.template
+    super(options)
+
 
   attach: =>
     super

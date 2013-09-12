@@ -15,38 +15,52 @@ module.exports = class EventEditView extends View
     @extend @, new MediaMixin()
     super()
 
+  getTemplateData: =>
+    td = super()
+    td.businesses = Chaplin.datastore.business.models
+    td.venues = Chaplin.datastore.venue.models
+    td.eventTags = Chaplin.datastore.eventTag.models
+    td        
+
   attach: =>
     super
-    @showPromote(false)
+    @initSocialMediaPromotion()
     @initTimePickers()
     @initDatePickers()
-    @attachAddressFinder()    
-    $('.business').on 'change', (evt, params) =>
-      b = Chaplin.datastore.business.get(params.selected)
-      @model.set 'business', params.selected
-      if not @model.has('host')
-        @model.set 
-          'host': params.selected
-          'location' : b?.get('location')
-        $('.host').trigger("chosen:updated")
-      if b.get('promotionTargets')?.length > 0
-        @showPromote(true)
-      else
-        @showPromote(false)
-    if Chaplin.datastore.business.hasOne()
-      @showPromote(true)
-    $('.host').on 'change', (evt, params) =>
-      @model.set 
-        'host' : params.selected
-        'location' : Chaplin.datastore.venue.get(params.selected).get('location')
+    @delegate 'click', '.showMediaLibrary', @showMediaLibrary
+    @delegate 'click', '.addressButton', @chooseCustomVenue
+    @delegate 'submit', 'form', (e)->
+      e.preventDefault()    
+    @listenTo @$el.find('.business'), 'change', @changeBusiness
+    @listenTo @$el.find('.host'), 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage   
-    @delegate 'click', '.showMediaLibrary', (e) =>
-      e.stopPropagation()
-      if @model.isNew()
-        $("#media-library-popover-").modal()
-      else
-        $("#media-library-popover-#{@model.id}").modal()
 
+  changeHost:  (evt, params) =>
+    @model.set 
+      'host' : params.selected
+      'location' : Chaplin.datastore.venue.get(params.selected).get('location')   
+
+  changeBusiness: (evt, params) =>
+    b = Chaplin.datastore.business.get(params.selected)
+    @model.set 'business', params.selected
+    if not @model.has('host')
+      @model.set 
+        'host': params.selected
+        'location' : b?.get('location')
+      $('.host').trigger("chosen:updated")
+    @showPromote(b.get('promotionTargets')?.length > 0)
+
+  showMediaLibrary: (e) =>
+    e.stopPropagation()
+    if @model.isNew()
+      $("#media-library-popover-").modal()
+    else
+      $("#media-library-popover-#{@model.id}").modal()
+
+  initSocialMediaPromotion: =>
+    shouldShow = @model.get('business') and Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets')?.length > 0
+    console.log shouldShow
+    @showPromote(shouldShow)
 
   initDatePickers: =>
     @startDate = new Pikaday
@@ -71,19 +85,17 @@ module.exports = class EventEditView extends View
       @$el.find('.endTime').timepicker('setTime', st+(60*60))  
 
 
-  attachAddressFinder: =>
-    @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Hello</div>", container: 'div.address-finder', html: true}).popover('show').popover('hide')
+  chooseCustomVenue: =>
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       @$el.find('.popover-content').html("<div class='addressPopover'></div>")
-      @removeSubview('addressPopover') if @subview('addressPopover')
-      @subview('addressPopover', new AddressView({container : @$el.find('.addressPopover'), model : @model}))  
-
-  getTemplateData: =>
-    td = super()
-    td.businesses = Chaplin.datastore.business.models
-    td.venues = Chaplin.datastore.venue.models
-    td.eventTags = Chaplin.datastore.eventTag.models
-    td    
+      if not @subview('addressPopover')
+        @subview 'addressPopover', new AddressView
+          container : @$el.find('.addressPopover')
+          model : @model
+          template: require('templates/addressPopover')
+    @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
+    @delegate 'click', '.closeAddress', ->
+      @$el.find('.addressButton').popover('hide')
 
   updateModel: ->
     @model.set

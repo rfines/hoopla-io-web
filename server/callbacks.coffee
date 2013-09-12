@@ -33,7 +33,7 @@ module.exports.facebook = (req, res) ->
               profileName: b.name
               profileId: b.id
               profileImageUrl: "https://graph.facebook.com/#{b.id}/picture?type=normal"
-              profileCoverPhoto:b.cover.source
+              profileCoverPhoto:b.cover?.source
             options=
               uri:"#{CONFIG.baseUrl}api/business/#{req.query.businessId}/promotionTarget"
               method:'POST'
