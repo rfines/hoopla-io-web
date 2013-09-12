@@ -20,6 +20,7 @@ module.exports = class CreatePromotionReqeust extends View
 
   initialize:(options) ->
     super(options)
+    console.log options
     @event = options.data
     @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.attributes.promotionTargets, (item) =>
