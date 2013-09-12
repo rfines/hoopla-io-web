@@ -37,10 +37,12 @@ module.exports = class InlineEdit extends View
 
 
   validate: ->
+    console.log 'validate'
     @$el.find('.has-error').removeClass('has-error')
     if @model.validate()
       for x in _.keys(@model.validate())
-        @$el.find("input[name='#{x}'], textarea[name=#{x}]").parent().addClass('has-error')
+        console.log @$el.find("input[name=#{x}], textarea[name=#{x}]").parent()
+        @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
       return false
     else
       return true    
@@ -67,6 +69,7 @@ module.exports = class InlineEdit extends View
       else
         @model.save {}, {
             success: =>
+              console.log 'call postsave'
               @postSave() if @postSave
         }    
 

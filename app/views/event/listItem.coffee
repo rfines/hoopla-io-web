@@ -18,9 +18,9 @@ module.exports = class ListItem extends ListItemView
       td.imageUrl = ""
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
     if Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets').length <= 0
-      td.showButton = false
+      td.allowPromotion = false
     else
-      td.showButton = true
+      td.allowPromotion = true
     td.isRecurring = @model.get('schedules')?.length > 0
     td  
 

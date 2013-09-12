@@ -8,7 +8,7 @@ module.exports = class MediaMixin
   constructor: (name) ->
     @name = 'MediaMixin'
 
-  updateImage: (e) =>
+  updateImage: (e) ->
     if e
       @model.set 'media', [e.toJSON()]
       @$el.find('.modal').modal('hide')

@@ -117,7 +117,7 @@ module.exports = class EventEditView extends View
         @collection.add @model
       @publishEvent '!router:route', "/event/#{@model.id}/promote"
     else
-      @publishEvent "#{@noun}:#{@model.id}:edit:close"     
+      super()
 
   showPromote:(show)=>
     if show
