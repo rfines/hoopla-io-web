@@ -49,14 +49,15 @@
     </div>
 
     <div class="row no-bottom-margin">
-      <div class="col-md-4 blue-tags">
-        <label for="eventType"><i class="glyphicon glyphicon-bullhorn"></i>Event Type<span class="required">*</span></label>
-        <select class="form-control select-chosen" name="eventType">
-          <option>Arts</option>
-          <option>Food</option>
-          <option>Family</option>
-          <option>Food</option>
-        </select>
+      <div class="col-md-4 gray-tags">
+        <div class="gray-tags">
+          <label for="tags">Event Categories</label>
+          <select class="form-control select-chosen" multiple="true" name="tags">
+            {{#each eventTags}}
+              <option value="{{attributes.slug}}">{{attributes.text}}</option>
+            {{/each}}
+          </select>
+         </div>
       </div>
       <div class="col-md-4 address-finder">
         <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
@@ -83,31 +84,23 @@
     </div>
     <div class="row">
       <div class="col-md-8">
-      <div>
-        <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
-        <textarea class="form-control description" name="description" placeholder="Description"></textarea>
+        <div>
+          <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
+          <textarea class="form-control description" name="description" placeholder="Description"></textarea>
+        </div>
+        <div class="event-website">
+        	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+          <input type="url" class="form-control" name="website" />
+        </div>
+        <div>
+      		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+  	      <input type="text" class="form-control" name="contactName" />
+      	</div>
+      	<div>
+  			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+  		    <input type="phone" class="form-control" name="contactPhone" />
+    		</div>
       </div>
-      <div class="event-website">
-      	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-        <input type="url" class="form-control" name="website" />
-      </div>
-      <div>
-    		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-	      <input type="text" class="form-control" name="contactName" />
-    	</div>
-    	<div>
-			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-		    <input type="phone" class="form-control" name="contactPhone" />
-  		</div>
-				<div class="gray-tags">
-          <label for="tags">Event Tags</label>
-          <select class="form-control select-chosen" multiple="true" name="tags">
-            {{#each eventTags}}
-              <option value="{{attributes.slug}}">{{attributes.text}}</option>
-            {{/each}}
-          </select>
-			      </div>
-			</div>
       <div class="col-md-4" id="image-chooser-container">
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
         <div class="well">      
