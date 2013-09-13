@@ -41,7 +41,9 @@ module.exports = class HeaderView extends View
     if route is 'media'
       @$el.find('.active').removeClass('active')
       @$el.find('.profileActions').addClass('active')
-      @updatePageTitle("My Media Library") 
+      @updatePageTitle("My Media Library")
+    else if route.indexOf 'promote' > 0
+      @updatePageTitle("Promote Event")
 
 
   logout:(e)->
@@ -61,6 +63,7 @@ module.exports = class HeaderView extends View
 
   redirectToAccount: (e) ->
     @publishEvent '!router:route', 'account'  
+
   updatePageTitle:(title)=>
     $('.page-title>h2').html(title)
 

@@ -23,13 +23,13 @@ module.exports = class List extends ListView
     @publishEvent "closeOthers"
     EventEdit = require 'views/event/edit'
     newEvent = new Event()
-    @removeSubview('newEvent') if @subview('newEvent')
+    @removeSubview('newItem') if @subview('newItem')
     if Chaplin.datastore.business.hasOne()
       newEvent.set 
         'business' : Chaplin.datastore.business.first().id
         'host' : Chaplin.datastore.business.first().id
         'location' : Chaplin.datastore.business.first().get('location')          
-    @subview('newEvent', new EventEdit({container: @$el.find('.newEvent'), collection : Chaplin.datastore.event, model : newEvent}))
+    @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))
 
   showCreatedMessage: (data) =>
     @$el.find('.listAlert').show()
@@ -38,7 +38,4 @@ module.exports = class List extends ListView
   duplicate: (data) =>
     EventEdit = require 'views/event/edit'
     newEvent = data.clone()
-    new EventEdit
-      container: @$el.find('.newEvent')
-      collection : Chaplin.datastore.event
-      model : newEvent       
+    @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))  

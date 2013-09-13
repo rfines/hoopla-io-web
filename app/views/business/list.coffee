@@ -16,5 +16,4 @@ module.exports = class List extends ListView
 
   attach:->
     super()
-    @subscribeEvent "emptyNew", =>
-      @$el.find('.newItem').empty()
+    
