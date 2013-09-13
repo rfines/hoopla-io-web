@@ -9,6 +9,7 @@ module.exports = class Widget extends Model
     width: 350
     accentColor: '06A1AF'
     radius: 16093
+    widgetStyle: 'dark'
 
   validation :
     name:

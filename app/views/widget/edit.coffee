@@ -9,8 +9,13 @@ module.exports = class WidgetEditView extends View
   listRoute: 'myWidgets'
   noun : 'widget'
 
+  listen:
+    'change model' : 'preview'
+
   attach: ->
     super
+    @$el.find('.embedCode').hide()
+    @$el.find('#widgetPreview').hide()
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     $('.widgetType').on 'change', (e) =>
       widgetType = @$el.find('input[name=widgetType]:checked').val()
@@ -19,6 +24,7 @@ module.exports = class WidgetEditView extends View
       else
         @byBusiness()
     if not @model.isNew()
+      @$el.find('.embedCode').show()
       @updatePreview()   
       if @model.get('widgetType') is 'event-by-location'
         @byLocation() 
@@ -27,6 +33,9 @@ module.exports = class WidgetEditView extends View
     $('.colorpicker').spectrum({
       showInput : true
     })
+    if not @model.has('widgetType') 
+      @$el.find('.event-by-business').hide()
+      @$el.find('.event-by-location').hide()
 
 
   getTemplateData: ->
@@ -42,7 +51,6 @@ module.exports = class WidgetEditView extends View
   events:
     'click .saveButton' : 'save'
     'click .cancelButton':'cancel' 
-    'click .previewButton' : 'preview'    
 
   preview: () ->
     @updateModel()
@@ -62,9 +70,11 @@ module.exports = class WidgetEditView extends View
     return "#{window.baseUrl}integrate/widget/#{@model.id}"
 
   byLocation: () =>
+    @$el.find('.widgetHelp').hide()
     @$el.find('.event-by-business').hide()
     @$el.find('.event-by-location').show()
 
   byBusiness: () =>
+    @$el.find('.widgetHelp').hide()
     @$el.find('.event-by-business').show()
     @$el.find('.event-by-location').hide()
