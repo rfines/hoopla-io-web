@@ -22,6 +22,8 @@ module.exports = class HeaderView extends View
     @activateNav(url)
 
   activateNav: (route) ->
+    if route?.indexOf 'promote' > 0
+      @updatePageTitle("Promote Event")
     if route is 'myBusinesses'
       @$el.find('.active').removeClass('active')
       @$el.find('.myBusinesses').addClass('active')
@@ -42,8 +44,7 @@ module.exports = class HeaderView extends View
       @$el.find('.active').removeClass('active')
       @$el.find('.profileActions').addClass('active')
       @updatePageTitle("My Media Library")
-    else if route.indexOf 'promote' > 0
-      @updatePageTitle("Promote Event")
+    
 
 
   logout:(e)->
