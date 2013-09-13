@@ -17,6 +17,9 @@ module.exports = class List extends ListView
   attach: ->
     super()
     @$el.find('.listAlert').hide()
+    @subscribeEvent 'closeOthers',=>
+      @removeSubview 'newItem' if @subview 'newItem'
+      console.log "Should have emptied the new item view"
     @filter @filterer
   
   create: (e) =>
@@ -30,6 +33,7 @@ module.exports = class List extends ListView
         'host' : Chaplin.datastore.business.first().id
         'location' : Chaplin.datastore.business.first().get('location')          
     @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))
+    
 
   showCreatedMessage: (data) =>
     @$el.find('.listAlert').show()

@@ -5,16 +5,14 @@ module.exports = class EditableList extends ListView
   attach: =>
     super
     @$el.find('.listAlert').hide()
-    @subscribeEvent "emptyNew", =>
-      @removeSubview 'newItem'
+    @subscribeEvent 'closeOthers',=>
+      @removeSubview 'newItem' if @subview 'newItem'
+      console.log "Should have emptied the new item view"
 
   create: (e) =>
     Chaplin.datastore.loadEssential 
       success: =>    
-        @view = new @EditView
-          container: @$el.find('.newItem')
-          collection : @collection
-          model : new @Model()              
+        @subview("newItem", new @EditView({container: @$el.find('.newItem'),collection : @collection,model : new @Model()}))
 
   showCreatedMessage: (data) =>
     @$el.find('.listAlert').show()
@@ -22,7 +20,4 @@ module.exports = class EditableList extends ListView
 
   duplicate: (data) =>
     n = data.clone()
-    new @EditView
-      container: @$el.find('.newItem')
-      collection : @collection
-      model : n      
+    @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : @collection, model : n}))  
