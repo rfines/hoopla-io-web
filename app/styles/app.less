@@ -253,10 +253,11 @@ a {
       .expanded {
       box-shadow: 0px 4px 13px #A1A2A5 inset;
       z-index: 999;
-      i.deleteItem, i.deleteItem:hover {color: @gray-lighter;}
+      i.deleteItem, i.deleteItem:hover , i.promoteItem{color: @gray-lighter;}
       img.duplicateEvent, img.duplicateWidget, img.duplicateBusiness{opacity:0.2;}
       }
 .widget-list {
+ .widget-list-container { margin-top:15px;}
   legend {padding-left:10px;}
   .widgetPreviewContainer {
     position: relative;
@@ -269,14 +270,17 @@ a {
       width: 380px;
       bottom: 0px;
       }
+      .event-title, .eventListActions {margin-top: 0px;
+      line-height: 50px;}
   form  .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
          padding: 15px;
          margin-left: -15px;
         }
-   .row {margin-bottom:15px;position:relative;}
+   .row {margin-bottom:0px;position:relative;}
    #map-canvas {margin-top:15px!important;width: 637px!important;}
    textarea.embedCodeHtml {width: 651px!important;height:74px;}
 }
+.account-manage {margin-top: 25px;}
 .account-manage .control-group {margin-bottom:15px;}
 .event-title, .business-name, .eventListActions {display: table;margin-top: 30px;}
 .event-title a.inlineEditButton {word-wrap: break-word;
@@ -284,6 +288,7 @@ display: table-cell;
 vertical-align: middle;font-size: 1.3em;
 font-family: 'museo';}
 .event-list {
+  #accordion {margin-top:15px;}
    .panel-default > .panel-heading {line-height: 40px;}
    .list-options a {padding: 9px 12px;
    }
@@ -433,6 +438,7 @@ font-family: 'museo';}
      }
 }
 .business-list {
+  .business-list-container {margin-top:15px;}
     .row {
         margin: 0px;
         .image {
@@ -585,12 +591,13 @@ textarea.form-control.description {
 
 
 }
-.active.facebookTab a, .active.facebookEventTab a {
+.active.facebookTab a, .active.facebookEventTab a, .active.twitterTab {
     line-height: 28px;
+    font-family: 'quicksandbold';
     img {float:right;opacity:1.0;}
     }
     
-.facebookTab a, .facebookEventTab a {
+.facebookTab a, .facebookEventTab a, .twitterTab a {
   line-height: 28px;
         img {float:right;opacity:0.5;}
         }
