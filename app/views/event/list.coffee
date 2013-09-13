@@ -23,16 +23,13 @@ module.exports = class List extends ListView
     @publishEvent "closeOthers"
     EventEdit = require 'views/event/edit'
     newEvent = new Event()
-    @$el.find('.newEvent').empty()
+    @removeSubview('newEvent') if @subview('newEvent')
     if Chaplin.datastore.business.hasOne()
       newEvent.set 
         'business' : Chaplin.datastore.business.first().id
         'host' : Chaplin.datastore.business.first().id
         'location' : Chaplin.datastore.business.first().get('location')          
-    new EventEdit
-      container: @$el.find('.newEvent')
-      collection : Chaplin.datastore.event
-      model : newEvent   
+    @subview('newEvent', new EventEdit({container: @$el.find('.newEvent'), collection : Chaplin.datastore.event, model : newEvent}))
 
   showCreatedMessage: (data) =>
     @$el.find('.listAlert').show()
