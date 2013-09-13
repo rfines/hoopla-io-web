@@ -37,7 +37,6 @@ module.exports = class InlineEdit extends View
 
 
   validate: ->
-    console.log 'validate'
     @$el.find('.has-error').removeClass('has-error')
     if @model.validate()
       for x in _.keys(@model.validate())

@@ -8,6 +8,15 @@ module.exports = class Widget extends Model
     height: 350
     width: 350
     accentColor: '06A1AF'
+    radius: 16093
+
+  validation :
+    name:
+      required: true        
+    widgetType:
+      required: true
+    widgetStyle:
+      required: true
 
   clone: ->
     json = @toJSON()

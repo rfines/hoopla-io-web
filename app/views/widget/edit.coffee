@@ -12,8 +12,9 @@ module.exports = class WidgetEditView extends View
   attach: ->
     super
     @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
-    $('.widgetType').on 'change', (evt, params) =>
-      if params.selected is 'event-by-location'
+    $('.widgetType').on 'change', (e) =>
+      widgetType = @$el.find('input[name=widgetType]:checked').val()
+      if widgetType is 'event-by-location'
         @byLocation()
       else
         @byBusiness()
@@ -43,19 +44,13 @@ module.exports = class WidgetEditView extends View
     'click .cancelButton':'cancel' 
     'click .previewButton' : 'preview'    
 
-  save: () ->
-    @updateModel()
-    @model.save {}, {
-      success: =>
-        @postSave() if @postSave
-    }
-
   preview: () ->
     @updateModel()
-    @model.save {}, {
-      success: (err, doc) =>
-        @updatePreview()
-    }
+    if @validate()
+      @model.save {}, {
+        success: (err, doc) =>
+          @updatePreview()
+      }
 
   updatePreview: () =>
     @$el.find('.static-widget-preview').hide()
