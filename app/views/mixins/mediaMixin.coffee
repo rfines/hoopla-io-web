@@ -12,8 +12,9 @@ module.exports = class MediaMixin
     if e
       @model.set 'media', [e.toJSON()]
       @$el.find('.modal').modal('hide')
+      @$el.find('.currentImage').show()
       @$el.find('.currentImage').attr('src', $.cloudinary.url(ImageUtils.getId(e.attributes.url), {crop: 'fill', height: 250, width: 350}))
-      @$el.find('.imageChooser').hide()                        
+      @$el.find('.image-controls').hide()                        
 
   attachMediaLibrary: ->
     @removeSubview('mediaPopover') if @subview('mediaPopover')

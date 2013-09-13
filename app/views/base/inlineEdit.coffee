@@ -35,7 +35,7 @@ module.exports = class InlineEdit extends View
     if @hasMedia
       @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:false,standAloneUpload:false}}))
       @attachMediaLibrary() 
-    if @model.get('media').length >0
+    if @model.get('media')?.length >0
       @$el.find('.image-controls').hide()
       @$el.find('.default-image-actions').show()  
 
@@ -88,5 +88,6 @@ module.exports = class InlineEdit extends View
 
   showImageControls: (e)=>
     e.preventDefault()
+    @$el.find('.currentImage').hide()
     @$el.find('.image-controls').show()
     @$el.find('.default-image-actions').hide()          

@@ -24,6 +24,8 @@ module.exports = (match) ->
   match 'account/forgot-password', 'account#resetPassword'
   match 'password/reset', 'home#newPassword'
   match 'event/:id/promote', 'event#promote'
+  match 'business/:id/facebookDeauthorize', 'business#facebookDeauthorize'
+  match 'business/:id/twitterDeauthorize', 'business#twitterDeauthorize'
 
   # login/logout
   match 'login', 'login#login', name: 'auth_login'

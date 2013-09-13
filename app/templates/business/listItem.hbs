@@ -14,12 +14,12 @@
         </div>
         <div class="col-md-3 promotionTargets">
           {{#if facebookConnected}}
-            <p class="social-connection"><a class="facebook connected socialConnected"><img src="/client/images/fb_connected.png">Connected</a></p>
+            <p class="social-connection"><a class="facebook connected socialConnected" href="/business/{{_id}}/facebookDeauthorize" title="Click to deauthorize Facebook"><img src="/client/images/fb_connected.png">Connected</a></p>
           {{else}}
             <p class="social-connection"><a class="facebook socialNotConnected" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Connect this channel</a></p>
           {{/if}}
           {{#if twitterConnected}}
-            <p class="social-connection"><a class="twitter connected"><img class="socialConnected" src="/client/images/twitter-connected.png">Connected</a></p>
+            <p class="social-connection"><a class="twitter connected" href="/business/{{_id}}/twitterDeauthorize" title="Click to deauthorize Twitter"><img class="socialConnected" src="/client/images/twitter-connected.png">Connected</a></p>
           {{else}}
             <p class="social-connection"><a class="twitter socialNotConnected" href="{{twitterConnectUrl}}"><img class="socialNotConnected" src="/client/images/twitter-not-connected.png">Connect this channel</a></p>
           {{/if}}    
