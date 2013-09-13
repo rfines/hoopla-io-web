@@ -16,7 +16,8 @@ module.exports = class List extends CollectionView
     super(options)
     @params = options.params
     @publishEvent 'activateNav', @listRoute
-    @subscribeEvent("#{@noun}:created", @showCreatedMessage) if @showCreatedMessage
+    
+    @subscribeEvent "#{@noun}:created", @showCreatedMessage if @showCreatedMessage
     @subscribeEvent("#{@noun}:duplicate", @duplicate) if @duplicate
 
   attach: ->
@@ -31,3 +32,7 @@ module.exports = class List extends CollectionView
 
   initItemView: (model) =>
     return new @itemView({model : model, collection: @collection})
+
+  showCreatedMessage: (data) =>
+    console.log 'show created message'
+    @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"    

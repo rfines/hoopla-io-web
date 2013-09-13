@@ -113,9 +113,11 @@ module.exports = class EventEditView extends View
     }]
 
   postSave:()=>
+    console.log 'event edit postsave'
     if $('.promote-checkbox').is(':checked')
       if @isNew
         @collection.add @model
+        @publishEvent '#{@noun}:created', @model
       @publishEvent '!router:route', "/event/#{@model.id}/promote"
     else
       super()
