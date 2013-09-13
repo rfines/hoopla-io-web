@@ -13,18 +13,19 @@
       <div class="col-md-2 event-image">
         <img src="{{imageUrl}}" alt="{{name}} image" />
       </div>
-      <div class="col-md-5 event-title">
+      <div class="col-md-4 event-title">
         <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
       </div>
       <div class="col-md-2 business-name">
         {{businessName}}
       </div>
-      <div class="col-md-1 eventListActions">
+      <div class="col-md-2 eventListActions">
+		{{#if allowPromotion}}
+        <a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="promoteItem glyphicon glyphicon-bullhorn"></i></a>
+        {{/if}}
         <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a>
         <a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
-        {{#if allowPromotion}}
-        <a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="deleteItem glyphicon glyphicon-bullhorn"></i></a>
-        {{/if}}
+        
       </div>                 
     </div>
   </div>

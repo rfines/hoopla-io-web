@@ -76,6 +76,14 @@ form .has-error label {font-family:'quicksandbold';}
     left: 20px;
     font-size: 27px;
 }
+ i.promoteItem {
+    color: @link-color;
+    position: relative;
+    top: 7px;
+    left: -25px;
+    font-size: 27px;
+}
+a.duplicateButton {text-decoration:none;}
 i.deleteItem:hover {color: @red;}
   img.duplicateEvent, i.glyphicon-cloud-upload { -webkit-transition-duration: 0.8s;
     -moz-transition-duration: 0.8s;
@@ -249,6 +257,7 @@ a {
       img.duplicateEvent, img.duplicateWidget, img.duplicateBusiness{opacity:0.2;}
       }
 .widget-list {
+  legend {padding-left:10px;}
   .widgetPreviewContainer {
     position: relative;
     top: 3px;
@@ -268,10 +277,12 @@ a {
    #map-canvas {margin-top:15px!important;width: 637px!important;}
    textarea.embedCodeHtml {width: 651px!important;height:74px;}
 }
+.account-manage .control-group {margin-bottom:15px;}
 .event-title, .business-name, .eventListActions {display: table;margin-top: 30px;}
 .event-title a.inlineEditButton {word-wrap: break-word;
 display: table-cell;
-vertical-align: middle;}
+vertical-align: middle;font-size: 1.3em;
+font-family: 'museo';}
 .event-list {
    .panel-default > .panel-heading {line-height: 40px;}
    .list-options a {padding: 9px 12px;
@@ -570,13 +581,19 @@ textarea.form-control.description {
     font-family: @font-family-serif;
     padding: 7px 20px 7px 5px;
 }
-.blue-tags .chosen-container-multi .chosen-choices li.search-choice {
-    background-image: none;
-    background-color: @link-color;
-    color: @gray-lighter;
-    font-family: @font-family-serif;
-    padding: 7px 20px 7px 5px;
+.blue-tags {
+
+
 }
+.active.facebookTab a, .active.facebookEventTab a {
+    line-height: 28px;
+    img {float:right;opacity:1.0;}
+    }
+    
+.facebookTab a, .facebookEventTab a {
+  line-height: 28px;
+        img {float:right;opacity:0.5;}
+        }
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
     position: absolute;
     top: 6px;
