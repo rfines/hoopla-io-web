@@ -44,10 +44,13 @@
           <div class="profileImage">
             <img src="{{imageUrl}}" class="currentImage"/>
           </div>
-          <div class="imageChooser"></div>
-          {{#if hasMedia}}
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</button>
-          {{/if}}
+          <div class="image-controls">
+            <div class="imageChooser"></div>
+              {{#if hasMedia}}
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</button>
+              {{/if}}
+            </div>
+          </div>
         </div>
       </div>  
       <div>

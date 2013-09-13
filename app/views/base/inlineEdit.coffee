@@ -11,7 +11,8 @@ module.exports = class InlineEdit extends View
 
   events:
     'click .saveButton' : 'save'
-    'click .cancel':'cancel'      
+    'click .cancel':'cancel'
+    'click .change-image-btn':'showImageControls'      
 
   getTemplateData: ->
     td = super
@@ -22,18 +23,21 @@ module.exports = class InlineEdit extends View
     td.hasMultipleBusinesses = Chaplin.datastore.business.length > 1
     if @hasMedia
       td.imageUrl = @model.imageUrl({height: 163, width: 266}) if @model.imageUrl
-      td.hideUpload = @model.imageUrl?    
+      td.hideUpload = @model.imageUrl?
     td
 
   attach: ->
-    super
+    super()
     @modelBinder.bind @model, @$el
     Backbone.Validation.bind(@)
     @$el.find(".select-chosen").chosen({width:'100%'})  
     @$el.find(".select-chosen-nosearch").chosen({width:'100%', disable_search: true})  
     if @hasMedia
-      @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser')}))
-      @attachMediaLibrary()   
+      @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:false,standAloneUpload:false}}))
+      @attachMediaLibrary() 
+    if @model.get('media').length >0
+      @$el.find('.image-controls').hide()
+      @$el.find('.default-image-actions').show()  
 
 
   validate: ->
@@ -80,4 +84,9 @@ module.exports = class InlineEdit extends View
       @publishEvent "#{@noun}:created", @model
       @dispose()
     else
-      @publishEvent "#{@noun}:#{@model.id}:edit:close"         
+      @publishEvent "#{@noun}:#{@model.id}:edit:close" 
+
+  showImageControls: (e)=>
+    e.preventDefault()
+    @$el.find('.image-controls').show()
+    @$el.find('.default-image-actions').hide()          

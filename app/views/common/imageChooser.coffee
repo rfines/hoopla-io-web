@@ -12,13 +12,13 @@ module.exports = class ImageChooser extends View
 
   initialize: (options)->
     super(options)
-    @standAloneUpload = options.standAloneUpload
+    @standAloneUpload = options.data.standAloneUpload
+    @showControls = options.data.showControls if options.data.showControls
 
   events:
     'click .remove-button': 'removeFile'
   attach: ->
     super()
-
     @uploader = new plupload.Uploader(
       multipart : false
       runtimes: "html5,flash,silverlight,html4"
@@ -85,4 +85,5 @@ module.exports = class ImageChooser extends View
   getTemplateData: ->
     td = super()
     td.standAloneUpload = @standAloneUpload
+    td.showControls = @showControls
     td  
