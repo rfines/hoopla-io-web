@@ -11,7 +11,7 @@ module.exports = class ListItem extends ListItemView
   getTemplateData: =>
     td = super()
     td.dateText = @model.dateDisplayText()
-    td.startTimeText = "#{@model.nextOccurrence().format("h:mm A")} - #{@model.nextOccurrenceEnd().format("h:mm A")}"
+    td.startTimeText = "#{@model.nextOccurrence()?.format("h:mm A")} - #{@model.nextOccurrenceEnd()?.format("h:mm A")}"
     if @model.get('media')?.length >0
       td.imageUrl =$.cloudinary.url(ImageUtils.getId( @model.get('media')[0]?.url), {crop: 'fill', height: 100, width: 125})
     else
