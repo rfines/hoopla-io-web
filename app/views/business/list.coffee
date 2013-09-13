@@ -13,3 +13,8 @@ module.exports = class List extends ListView
   listRoute : 'myBusinesses'
   EditView : EditView
   Model : Model  
+
+  attach:->
+    super()
+    @subscribeEvent "emptyNew", =>
+      @$el.find('.newItem').empty()

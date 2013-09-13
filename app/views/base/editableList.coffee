@@ -5,6 +5,9 @@ module.exports = class EditableList extends ListView
   attach: =>
     super
     @$el.find('.listAlert').hide()
+    @subscribeEvent "emptyNew", =>
+      @$el.find('.newEvent').empty()
+      @$el.find('.newItem').empty()
 
   create: (e) =>
     Chaplin.datastore.loadEssential 

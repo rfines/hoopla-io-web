@@ -12,3 +12,8 @@ module.exports = class List extends ListView
   listSelector: '.widget-list-container'
   EditView : EditView
   Model : Model
+
+  attach: ->
+    super()
+    @subscribeEvent "emptyNew", =>
+      @$el.find('.newItem').empty()

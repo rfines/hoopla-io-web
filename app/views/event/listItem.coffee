@@ -27,8 +27,6 @@ module.exports = class ListItem extends ListItemView
   attach: =>
     super()
     @delegate 'show.bs.collapse', =>
-      console.log "event show.bs.collapse"
-      @publishEvent "#{@noun}:#{@model.id}:edit:closeOthers"
       @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')
       @subview 'inlineEdit', new @EditView({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
     @delegate 'hide.bs.collapse', =>
@@ -46,9 +44,8 @@ module.exports = class ListItem extends ListItemView
       @removeSubview 'inlineEdit'
     @delegate "click", ".duplicateButton", =>
       @publishEvent 'event:duplicate', @model
-    @subscribeEvent "#{@noun}:#{@model.id}:edit:closeOthers", =>
+    @subscribeEvent "closeOthers", =>
       panels = $(".panel-collapse.in")
-      console.log panels
       _.each panels, (element, index,list)=>
         $('#'+element.id).collapse('hide')
       @removeSubview 'inlineEdit'

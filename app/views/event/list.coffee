@@ -20,8 +20,10 @@ module.exports = class List extends ListView
     @filter @filterer
   
   create: (e) =>
+    @publishEvent "closeOthers"
     EventEdit = require 'views/event/edit'
     newEvent = new Event()
+    @$el.find('.newEvent').empty()
     if Chaplin.datastore.business.hasOne()
       newEvent.set 
         'business' : Chaplin.datastore.business.first().id
