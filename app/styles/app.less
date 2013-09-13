@@ -44,6 +44,11 @@ iframe {border:0px;overflow:hidden;max-width: 470px;max-height:590px;margin-top:
     transition-property: transform;
     overflow: hidden;
 }
+@-webkit-keyframes scale {
+    0% {-webkit-transform: scale(.25, .25);}
+    50% {-webkit-transform: scale(.5, .5);}
+    100% {-webkit-transform: scale(1.0, 1.0); }
+}
 h1, h2, h3, h4, h5 {font-family:'museo';}
 ///Forms////
 .topNav .form-signin a {font-size:.8em;position: relative;
@@ -73,17 +78,20 @@ form .has-error label {font-family:'quicksandbold';}
     color: @gray-light;
     position: relative;
     top: 7px;
-    left: 20px;
+    left: 61px;
     font-size: 27px;
 }
  i.promoteItem {
     color: @link-color;
     position: relative;
     top: 7px;
-    left: -25px;
+    left: 30px;
     font-size: 27px;
 }
-a.duplicateButton {text-decoration:none;}
+  i.promoteItem:hover{-webkit-transform: scale(1.2);}
+a.duplicateButton {  text-decoration: none;
+  left: 50px;
+  position: relative;}
 i.deleteItem:hover {color: @red;}
   img.duplicateEvent, i.glyphicon-cloud-upload { -webkit-transition-duration: 0.8s;
     -moz-transition-duration: 0.8s;
@@ -288,6 +296,7 @@ display: table-cell;
 vertical-align: middle;font-size: 1.3em;
 font-family: 'museo';}
 .event-list {
+   .event-image {text-align:center;}
   #accordion {margin-top:15px;}
    .panel-default > .panel-heading {line-height: 40px;}
    .list-options a {padding: 9px 12px;
@@ -351,7 +360,6 @@ font-family: 'museo';}
    
     }
     .eventListActions {
-      text-align:right;
       
         img.duplicateEvent:hover {  -webkit-transform: rotate(360deg);
           -moz-transform: rotate(360deg);
@@ -498,6 +506,7 @@ font-family: 'museo';}
         font-family: 'museo';
         color: @gray-dark;
     }
+   
     form {
         margin-left: 40px;
         .row div {
