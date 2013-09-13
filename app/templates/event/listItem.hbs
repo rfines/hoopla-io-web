@@ -1,24 +1,25 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="row panel-title">
-      <div class="col-md-1 date">
-        {{dateText}}{{startTimeText}}
+      <div class="col-md-2 date">
+        <p class="eventDate">{{dateText}}</p>
+		<p class="eventTime">{{startTimeText}}</p>
         <a class="accordion-toggle">
           {{#if isRecurring}}
           <a class="showOccurrences" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}"><i class="glyphicon glyphicon-circle-arrow-up showOccurrences"></i></a>
           {{/if}}
         </a>
       </div>
-      <div class="col-md-2 col-md-offset-1 event-image">
+      <div class="col-md-2 event-image">
         <img src="{{imageUrl}}" alt="{{name}} image" />
       </div>
       <div class="col-md-5 event-title">
         <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
       </div>
-      <div class="col-md-3 business-name">
+      <div class="col-md-2 business-name">
         {{businessName}}
       </div>
-      <div class="col-md-2 eventListActions">
+      <div class="col-md-1 eventListActions">
         <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a>
         <a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
         {{#if allowPromotion}}

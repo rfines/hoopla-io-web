@@ -28,7 +28,7 @@ top: -12px;
 font-size:20px;
 }
 .page-title h2 {color:@brand-success;line-height:30px;margin-top:12px;font-family:'museoLight';}
-iframe {border:0px;overflow:hidden;max-width: 470px;max-height:650px;margin-top: 31px;min-height: 360px;}
+iframe {border:0px;overflow:hidden;max-width: 470px;max-height:590px;margin-top: 31px;min-height: 360px;}
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
 .register.container {margin-top:60px;}
@@ -242,6 +242,12 @@ a {
             i {color:#c5d645;opacity:1.0!important;}
         }
       }
+      .expanded {
+      box-shadow: 0px 4px 13px #A1A2A5 inset;
+      z-index: 999;
+      i.deleteItem, i.deleteItem:hover {color: @gray-lighter;}
+      img.duplicateEvent, img.duplicateWidget, img.duplicateBusiness{opacity:0.2;}
+      }
 .widget-list {
   .widgetPreviewContainer {
     position: relative;
@@ -262,6 +268,10 @@ a {
    #map-canvas {margin-top:15px!important;width: 637px!important;}
    textarea.embedCodeHtml {width: 651px!important;height:74px;}
 }
+.event-title, .business-name, .eventListActions {display: table;margin-top: 30px;}
+.event-title a.inlineEditButton {word-wrap: break-word;
+display: table-cell;
+vertical-align: middle;}
 .event-list {
    .panel-default > .panel-heading {line-height: 40px;}
    .list-options a {padding: 9px 12px;
@@ -290,13 +300,24 @@ a {
         font-family: 'museo';
         color: @gray-dark;
     }
-    
+    .date {text-align: center;}
     .event-title a {
-        font-family: 'quicksandbold';
+        font-family: 'museo';
         color: #06A1AF;
-        font-size: 1.2em;
+        font-size: 1.4em;
+        line-height: 25px;
     }
-     
+    .eventDate {
+    font-family: 'quicksandbold';
+    color: #06A1AF;
+    margin: 13px 0px 0px 0px;
+    font-size: 1.6em;
+    }
+    .eventTime {
+    font-size: 1em;
+    color: #06A1AF;
+    margin: 0px;
+    }
     .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
         background-color: #06A1AF;
         box-shadow: 0px -2px 13px #5D5F5F inset;
@@ -307,12 +328,7 @@ a {
         
      
     }
-    .expanded {
-    box-shadow: 0px 4px 13px #A1A2A5 inset;
-    z-index: 999;
-    i.deleteItem, i.deleteItem:hover {color: @gray-lighter;}
-    img.duplicateEvent{opacity:0.2;}
-    }
+  
     .row {
         margin-right: 0px!important;
         margin-left: 0px!important;
