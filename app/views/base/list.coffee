@@ -23,16 +23,13 @@ module.exports = class List extends CollectionView
   attach: ->
     super()
     if @params?.error
-      @$el.find('.listAlert').removeClass('hide')
-      @$el.find('.listAlert').text @params.error
+      @publishEvent 'message:publish', 'error', @params.error
 
   create: =>
-    console.log 'create'
     @publishEvent '!router:route', @noun
 
   initItemView: (model) =>
     return new @itemView({model : model, collection: @collection})
 
   showCreatedMessage: (data) =>
-    console.log 'show created message'
     @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"    
