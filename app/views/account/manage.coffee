@@ -16,7 +16,7 @@ module.exports = class Edit extends View
     super
     @$el.find('.message').hide()
     @modelBinder.bind @model, @$el  
-    Backbone.Validation.bind(@);  
+    Backbone.Validation.bind(@)
 
   save: (e) =>
     @clearErrors()
@@ -25,12 +25,16 @@ module.exports = class Edit extends View
 
   saveUser: =>
     if not @model.validate()
-      @model.save()
+      @model.save {}, {
+        success: =>
+          @$el.find('.message').show().addClass('alert-success').append("<div class='row'>Your account has been updated</div>")
+      }
     else
       for x in _.keys(@model.validate())
         @$el.find("input[name='#{x}']").parent().addClass('has-error')
 
   clearErrors: =>
+    @$el.find('.message').empty().hide()
     @$el.find(".has-error").removeClass('has-error')
 
   changePassword: (oldPass, newPass, newPassConfirm)->
@@ -39,4 +43,9 @@ module.exports = class Edit extends View
     pwordConfirm = @$el.find("input[name='newPassword-confirm']").val()
     if oldPass and pword and pwordConfirm
       if pwordConfirm is pword
-        @model.changePassword $.cookie('user'), pword, oldPass
+        @model.changePassword $.cookie('user'), pword, oldPass, {
+          onSuccess: =>
+            @$el.find('.message').show().addClass('alert-success').append("<div class='row'>Your password has been changed.</div>")
+          onError: =>
+            @$el.find('.message').show().addClass('alert-danger').append("<div class='row'>Unable to change your password.</div>")
+          }

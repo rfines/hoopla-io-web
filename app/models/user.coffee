@@ -20,7 +20,7 @@ module.exports = class User extends Model
     else
       return "/api/user/#{@id}"
 
-  getToken : (uname, pword) ->
+  getToken : (uname, pword, options) ->
     $.ajax
         type: 'POST',
         contentType: 'application/json',
@@ -33,21 +33,25 @@ module.exports = class User extends Model
           user.id = body.user
           user.fetch
             success: =>
-              @loginSuccess(user)
+              @loginSuccess(user, options)
         error: (body,response, xHr) =>
           errorResponse = JSON.parse(body.responseText)
           $('.errors').append("<span class='error'>#{errorResponse.message}</span>")
           
-  loginSuccess : (user) =>
+  loginSuccess : (user, options) =>
+    console.log options
     Chaplin.datastore.loadEssential
       success: =>
-        if Chaplin.datastore.business.hasNone()
-          @publishEvent '!router:route', 'myBusinesses'
-        else      
-          @publishEvent '!router:route', 'myEvents'
+        if options?.onSuccess
+          options.onSuccess()
+        else
+          if Chaplin.datastore.business.hasNone()
+            @publishEvent '!router:route', 'myBusinesses'
+          else      
+            @publishEvent '!router:route', 'myEvents'
     @publishEvent 'loginStatus', true
   
-  changePassword :(id, password, currentPassword)=>
+  changePassword :(id, password, currentPassword, options)=>
     $.ajax
       type: 'PUT'
       contentType:'application/json'
@@ -59,15 +63,18 @@ module.exports = class User extends Model
         $.removeCookie('user')
         user = Chaplin.datastore.user
         if user
-          @getToken user.get('email'), password
+          @getToken user.get('email'), password, options
         else
           user = new User()
           user.id = id
           user.fetch
             success: =>
-              @loginSuccess(user)
+              @loginSuccess(user, options)
       error: (body, response, xHr) =>
-        $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
+        if options.onError
+          options.onError()
+        else
+          $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
 
   resetPassword:(email)=>
     $.ajax

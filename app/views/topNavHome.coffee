@@ -10,6 +10,7 @@ module.exports = class TopNav extends View
 
   events:
     'click .loginPopover .cancel' : 'cancel'
+    'click .forgotPasswordButton' : 'cancel'
 
   attach: ->
     super()
@@ -19,7 +20,6 @@ module.exports = class TopNav extends View
       if @subview('loginPopover')
         @removeSubview('loginPopover')
       @subview('loginPopover', new LoginPopover({container: @$el.find('.loginPopover')}))
-    
 
   getTemplateData: ->
     td = super

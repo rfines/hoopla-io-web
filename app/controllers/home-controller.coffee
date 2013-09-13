@@ -4,6 +4,7 @@ MarketingView = require 'views/marketing/basic'
 PreLoginHeaderView = require 'views/preLoginHeader'
 TopNav = require 'views/topNavHome'
 Footer = require 'views/footerHome'
+ResetPasswordView = require 'views/reset-password'
 
 module.exports = class HomeController extends Controller
   home: ->
@@ -14,4 +15,5 @@ module.exports = class HomeController extends Controller
     @compose 'topNav', TopNav  
     @compose 'footer', Footer
 
-  
+  newPassword: ->
+    @view = new ResetPasswordView region: 'main'
