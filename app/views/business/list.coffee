@@ -18,5 +18,4 @@ module.exports = class List extends ListView
     super()
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
-      console.log "Should have emptied the new item view"
     
