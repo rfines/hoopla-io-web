@@ -3,6 +3,7 @@ express = require("express")
 app = express()
 port = process.env.PORT || 3000
 widget = require('./server/widget')
+apiProxy = require('./server/apiProxy')
 
 app.configure ->
   app.set('view engine', 'hbs')
@@ -18,13 +19,13 @@ app.configure ->
   
 #api urls use proxy to set headers
 app.get "/api/*", (req, res) ->
-  require('./server/apiProxy').handler(req,res,"GET")
+  apiProxy.handler(req,res,"GET")
 app.post "/api/*", (req,res) ->
-  require('./server/apiProxy').handler(req,res,'POST')
+  apiProxy.handler(req,res,'POST')
 app.put "/api/*", (req,res) ->
-  require('./server/apiProxy').handler(req,res,'PUT')
+  apiProxy.handler(req,res,'PUT')
 app.delete "/api/*", (req,res) ->
-  require('./server/apiProxy').handler(req,res,'DELETE')
+  apiProxy.handler(req,res,'DELETE')
 
 app.get "/robots.txt", (req, res) ->
   res.set
