@@ -6,6 +6,9 @@ oauth = require('oauth')
 handleError = (res, errorMsg) ->
   errorMsg = errorMsg || 'We were unable to connect your business.  Are you sure you approved the request?'
   res.redirect("#{CONFIG.baseUrl}myBusinesses?error=#{encodeURIComponent(errorMsg)}")
+handleSuccess = (res, successMsg, redirect) ->
+  successMsg = successMsg || "We successfully connected to your social media account."
+  res.redirect("#{redirect}?success=#{successMsg}")
 
 module.exports.facebook = (req, res) ->
   facebookConnectError = 'We were unable to connect your business to facebook.  Are you sure you approved the request?'
@@ -42,7 +45,7 @@ module.exports.facebook = (req, res) ->
               if err
                 handleError(res, facebookConnectError)
               else
-                res.redirect("#{CONFIG.baseUrl}myBusinesses")
+                handleSuccess(res, "Successfully connected to Facebook on your behalf.","#{CONFIG.baseUrl}myBusinesses" )
   else
     handleError(res, facebookConnectError)
         
@@ -98,7 +101,7 @@ module.exports.oauthTwitterCallback = (req,res)->
                     if err
                       handleError(res, twitterConnectError)
                     else
-                      res.redirect("#{CONFIG.baseUrl}myBusinesses")
+                      handleSuccess(res, "Successfully connected to Twitter on your behalf.","#{CONFIG.baseUrl}myBusinesses" )
              
     else
       handleError(res, twitterConnectError)

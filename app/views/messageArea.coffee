@@ -14,6 +14,7 @@ module.exports = class MessageArea extends View
     console.log 'message area'
 
   updateMessage: (type, text) ->
+    console.log text
     if type is 'error'
       @$el.addClass('alert-danger')
     else

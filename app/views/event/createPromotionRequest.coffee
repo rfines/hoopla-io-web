@@ -10,6 +10,7 @@ module.exports = class CreatePromotionReqeust extends View
   className: 'create-promotion-requests'
   event: {}
   business: {}
+  noun: 'promotion'
   facebookImgUrl= undefined
   twitterImgUrl=undefined
   facebookProfileName = undefined
@@ -20,7 +21,6 @@ module.exports = class CreatePromotionReqeust extends View
 
   initialize:(options) ->
     super(options)
-    console.log options
     @event = options.data
     @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.attributes.promotionTargets, (item) =>
@@ -106,7 +106,6 @@ module.exports = class CreatePromotionReqeust extends View
     e.preventDefault()
     message = $('.message').val()
     link =  $('.link-input').val()
-    console.log link
     immediate = $('.immediate-box')
     date = @startDate.getMoment()
     time = $('.startTime').timepicker('getSecondsFromMidnight')
@@ -130,7 +129,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {}, {
         success:(item)=>
           if time? <=0
-            @publishEvent '!router:route', '/myEvents'
+            @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will go out as soon as possible.'
         error:(error)=>
           console.log error
       }    
@@ -151,16 +150,13 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {}, {
         success:(response,body)=>
-          console.log "saved the promo request"
-          @publishEvent '!router:route', '/myEvents'
+          @publishEvent '!router:route', "/myEvents?success=Your Facebook event promotion has been scheduled for #{moment(d).toDate().format("ddd, MMM D YYYY")}."
         error:(error)=>
           console.log error
       }
          
 
   postToFacebookNow: (pt,pr, imageUrl, cb)=>
-    console.log "Posting to facebook now"
-    console.log pt
     if pt.accessToken && pr.attributes.pageId
       post=
         message: pr.attributes.message
@@ -204,7 +200,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
           if date?.length <=0
-            @publishEvent '!router:route', '/myEvents'
+            @publishEvent '!router:route', '/myEvents?success=Your Twitter event promotion will go out as soon as possible.'
         error:(error)=>
           console.log error
       }
@@ -218,7 +214,7 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {},{
         success:(response, doc) =>
-          @publishEvent '!router:route', '/myEvents'
+          @publishEvent '!router:route', '/myEvents?success=Your Twitter event promotion has been scheduled for #{moment(date).toDate().format("ddd, MMM D YYYY")}.'
         error:(response,err)=>
           console.log response
           console.log err
@@ -283,7 +279,6 @@ module.exports = class CreatePromotionReqeust extends View
 
   saveFbEvent:(e)=>
     e.preventDefault()
-    console.log @fbPromoTarget
     page=$('.event-pages>.facebook-pages>.pageSelection').val()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
@@ -292,8 +287,6 @@ module.exports = class CreatePromotionReqeust extends View
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
-    console.log "page #{page}"
-    console.log @fbPromoTarget._id
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
       link:@event.get('website')
@@ -310,8 +303,7 @@ module.exports = class CreatePromotionReqeust extends View
     pr.eventId = @event.id
     pr.save {},{
       success: (model, response, options)=>
-        console.log "Success handler"
-        @publishEvent '!router:route', '/myEvents'
+        @publishEvent '!router:route', '/myEvents?success=Your event has been successfully created on Facebook. Please allow a few minutes for it to show up."'
       error: (model, xhr, options)->
         console.log "Inside save error"
         console.log xhr

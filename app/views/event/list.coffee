@@ -2,7 +2,7 @@ ListView = require 'views/base/list'
 template = require 'templates/event/list'
 ListItem = require 'views/event/listItem'
 Event = require 'models/event'
-MessageArea = require 'views/messageArea'
+
 
 module.exports = class List extends ListView
   className: 'event-list'
@@ -11,14 +11,30 @@ module.exports = class List extends ListView
   noun : 'event'
   listSelector : '#accordion'
   listRoute : 'myEvents'
+  allowCreate = false
 
   attach: ->
     super()
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
-      console.log "Should have emptied the new item view"
     @filter @filterer
-    @subview('messageArea', new MessageArea({container: '.alert-container'}))
+    if not @allowCreate
+      @publishEvent "message:publish", "success", "You need to create a business before you can create events."
+
+  getTemplateData:->
+    td = super()
+    if Chaplin.datastore.business.length > 0
+      console.log "Allowing create"
+      td.allowCreate = true
+      @allowCreate = true
+    else
+      console.log "Not Allowing create"
+      
+      td.allowCreate = false
+      @allowCreate = false
+    console.log td.allowCreate
+    td
+
   
   create: (e) =>
     @publishEvent "closeOthers"

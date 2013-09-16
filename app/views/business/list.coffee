@@ -3,6 +3,7 @@ template = require 'templates/business/list'
 ListItem = require 'views/business/listItem'
 EditView = require 'views/business/edit'
 Model = require 'models/business'
+MessageArea = require 'views/messageArea'
 
 module.exports = class List extends ListView
   className: 'business-list'
@@ -18,4 +19,6 @@ module.exports = class List extends ListView
     super()
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
-    
+    @subscribeEvent 'business:deauthorize', (id)=>
+      @$el.find("##{id}").removeClass('connected').removeClass('socialConnected').addClass('socialNotConnected')
+

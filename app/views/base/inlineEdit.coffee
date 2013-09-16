@@ -35,9 +35,15 @@ module.exports = class InlineEdit extends View
     if @hasMedia
       @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:false,standAloneUpload:false}}))
       @attachMediaLibrary() 
+    else
+      @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:true,standAloneUpload:false}}))
+      @attachMediaLibrary()
+       
     if @model.get('media')?.length >0
       @$el.find('.image-controls').hide()
-      @$el.find('.default-image-actions').show()  
+      @$el.find('.default-image-actions').show()
+    else
+      @$el.find('.default-image-actions').hide()
 
 
   validate: ->

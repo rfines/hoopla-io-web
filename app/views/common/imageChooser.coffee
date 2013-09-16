@@ -65,9 +65,11 @@ module.exports = class ImageChooser extends View
         file.status = plupload.DONE
         @media = response.media
         Chaplin.datastore.media.add(@media)
+        @publishEvent "message:publish", "success", "The image was successfully added to your media library."
       else
         $("#" + file.id + " b").html "0%"
         file.status = plupload.FAILED
+        @publishEvent "message:publish", "error", "The image was not added to your media library."
         @media = null
 
     @uploader.init()

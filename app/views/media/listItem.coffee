@@ -13,6 +13,8 @@ module.exports = class ListItem extends ListItemView
     super
 
   events:
+    "click .thumbnail": "openModal"
+    "click .enlarge":"openModal"
     "click .trash" : "destroy"
 
   destroy: (e) =>
@@ -29,3 +31,9 @@ module.exports = class ListItem extends ListItemView
     td.thumbUrl = $.cloudinary.url(ImageUtils.getId(td.url), {crop: 'fill', height: 163, width: 266})
     td.fullUrl = td.url
     td
+  openModal:(e)=>
+    e.preventDefault()
+    @$el.find("##{@model.id}").modal({
+      keyboard:true,
+      show:true
+    })

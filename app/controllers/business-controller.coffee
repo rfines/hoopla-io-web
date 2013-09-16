@@ -30,10 +30,21 @@ module.exports = class BusinessController extends Controller
   handleSuccess: (model,response,options)=>
     if response
       console.log response
+    @publishEvent '!router:route', "myBusinesses?deauth=twitter_#{model}"
 
   handleFailure: (model,xhr,options)=>
     if response
       console.log xhr
+
+  handleFBSuccess: (model,response,options)=>
+    if response
+      console.log response
+    @publishEvent '!router:route', "myBusinesses?deauth=facebook_#{model}"
+
+  handleFBFailure: (model,xhr,options)=>
+    if response
+      console.log xhr
+
   facebookDeauthorize:(params)->
     Chaplin.datastore.loadEssential 
       success: =>
@@ -43,8 +54,13 @@ module.exports = class BusinessController extends Controller
           return item.accountType is 'FACEBOOK'
         if target
           target = new PromotionTarget(target) 
-          target.destroy({success: @handleFBSuccess, error: @handleFBFailure})
-          @publishEvent '!router:route', "myBusinesses"
+          target.destroy({
+            success: (model,response,options)=> 
+              console.log "Success handler"
+              @handleFBSuccess(params.id)
+            error: (model,xhr,options)=>
+              @handleFBFailure
+          })
         else
           @publishEvent '!router:route', "myBusinesses"
 
@@ -61,8 +77,14 @@ module.exports = class BusinessController extends Controller
           return item.accountType is 'TWITTER'
         if target
           target = new PromotionTarget(target) 
-          target.destroy({success: @handleSuccess, error: @handleFailure})
-          @publishEvent '!router:route', "myBusinesses"
+          target.destroy({
+            success:(model,response,options)=> 
+              console.log "Success"
+              @handleSuccess(params.id)
+            error:(model,xhr,options)->
+              @handleFailure
+          })
+          
         else
           @publishEvent '!router:route', "myBusinesses"
 

@@ -1,7 +1,11 @@
 
 <div class="row event-list-controls">
   <div span class="col-md-3">
-    <a class="btn btn-success createButton">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
+    {{#if allowCreate}}
+      <a class="btn btn-success createButton">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
+    {{else}}
+      <a class="btn btn-success createButton" disabled="disabled" title="You need a business first!">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
+    {{/if}}
   </div>
   <div span class="col-md-6 alert-container"></div>
   <div span class="col-md-3">

@@ -4,13 +4,15 @@ PromoRequest = require 'models/promotionRequest'
 module.exports = class EventController extends Controller
   list: (params) ->
     EventList = require 'views/event/list'
+    console.log params
     Chaplin.datastore.loadEssential 
       success: =>
         @view = new EventList
           region: 'main'
           collection : Chaplin.datastore.event
           filterer: (item, index) ->
-            item.nextOccurrence() and item.nextOccurrence().isAfter(moment())                
+            item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
+          params:params                
             
 
   past: ->

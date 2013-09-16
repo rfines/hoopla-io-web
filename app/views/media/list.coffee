@@ -12,7 +12,7 @@ module.exports = class List extends ListView
   initialize: (options)->
     super(options)
     console.log options
-    @standAloneUpload = options.data?.standAloneUpload
+    @standAloneUpload = options.standAloneUpload
 
 
   attach: ->

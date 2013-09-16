@@ -15,4 +15,3 @@ module.exports = class List extends ListView
 
   attach: ->
     super()
-    
