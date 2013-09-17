@@ -47,7 +47,7 @@ handlePost = (req, res)->
     res.writeHead 500
     res.end()
   )
-  if req.headers['content-type'] is 'application/json'
+  if req.headers['content-type'].indexOf('application/json') != -1
     creq.write JSON.stringify(req.body)
     creq.end()
   else
