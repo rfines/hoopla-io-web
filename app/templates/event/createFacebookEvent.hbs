@@ -1,27 +1,16 @@
  <div class="row">
-  <div class="col-sm-7 col-lg-4 event-pages"></div>
+  <div class="col-sm-7 col-lg-12 event-pages"></div>
   </div>
-<div class="row">
+<div class="row event-page-preview">
   <img src={{coverPhoto}} alt="facebook cover image" />
   <h4>{{name}}</h4>
-  <div class="event-times"><span>{{dayOfWeek}}</span><span>{{startDate}}</span><span>Sunny and 75</span></div>
-  <div class="event-description"><span>{{description}}</span></div>
-  <div class="event-map" style="height:100px;width:500px;"></div>
-</div><br />
-<div class="row" style="margin-top:20%;">
-  <div class="media">
-    <a class="pull-left" href="#">
-      <img class="media-object" src={{profileImgUrl}} alt="facebook profile picture">
-    </a>
-    <div class="media-body">
-      <h4 class="media-heading">{{profileName}}</h4>
-      <div class="preview-message"><div class="event-times"><span>{{dayOfWeek}} at {{startDate}}</span></div>
-      <div class="event-address"><span>{{eventAddress}}</span></div>
-    </div>
-  </div>
+  <div class="event-times"><span class="event-day"><i class="glyphicon glyphicon-calendar"></i>{{dayOfWeek}}</span><span class="event-time"><i class="glyphicon glyphicon-time"></i>{{startDate}}</span><span class="event-weather"><i class="icon-moon"></i>Sunny and 75</span></div>
+  <div class="event-description"><span><i class="icon-align-left"></i>{{description}}</span></div>
+  <div class="event-map"></div>
+</div>
+<div class="actions pull-right">
+  <button type="button" class="btn btn-success-sm createFbEventBtn">Continue</button>
+  <button type="button" class="btn btn-default cancelBtn">Cancel</button>
+</div>
+</div>
 
-</div>
-<div class="actions" style="margin-top:5%;">
-  <button type="button" class="btn btn-success createFbEventBtn">Continue</button>
-  <button type="button" class="btn btn-cancel cancelBtn">Return to Events</button>
-</div>

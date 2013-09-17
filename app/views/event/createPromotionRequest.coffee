@@ -129,7 +129,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {}, {
         success:(item)=>
           if time? <=0
-            @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will go out as soon as possible.'
+            @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will magically appear shortly.'
         error:(error)=>
           console.log error
       }    
