@@ -24,7 +24,6 @@ module.exports = class ListItem extends EditableListItem
     "click #deauth-twitter":"deauthorizeTwitter"
 
   attach: ->
-    console.log @model
     fbCon = _.some @model.get('promotionTargets'), (item) ->
       item.accountType is 'FACEBOOK'
     twCon = _.some @model.get('promotionTargets'), (item) ->
