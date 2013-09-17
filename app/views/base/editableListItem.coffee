@@ -10,10 +10,10 @@ module.exports = class EditableListItem extends ListItemView
       console.log @$el.find('div.panel-heading')
       @$el.find('div.panel-heading').removeClass('expanded')
     @delegate 'click', '.inlineEditButton', =>
+      console.log "Click inline edit"
       @publishEvent "closeOthers"
       @$el.find('.panel-heading').addClass('expanded')
-      @$el.find('.inlineEdit').show()
-      
+      @$el.find('.inlineEdit').show()  
     @subscribeEvent "#{@noun}:#{@model.id}:edit:close", =>
       $("#collapse#{@model.id}").collapse('hide')
       @removeSubview 'inlineEdit'
