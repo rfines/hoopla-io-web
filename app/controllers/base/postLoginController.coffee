@@ -26,6 +26,8 @@ module.exports = class PostLoginController extends Chaplin.Controller
                 @publishEvent 'navigation:loggedIn'
         else
           @goToLogin()
+      else
+        @publishEvent 'navigation:loggedIn'
 
   compositions: =>
     @compose 'site', SiteView

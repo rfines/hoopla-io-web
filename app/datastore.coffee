@@ -28,7 +28,7 @@ module.exports = exports = class DataStore
       "/api/venues"
 
   load: (options) ->
-    if @["#{options.name}"].length > 0
+    if @["#{options.name}"].models.length > 0
       options.success()
     else
       @["#{options.name}"].fetch
@@ -36,6 +36,7 @@ module.exports = exports = class DataStore
           options.success()
 
   loadEssential: (options) ->
+    console.log "Loading essential"
     Chaplin.mediator.publish 'startWaiting'
     Chaplin.datastore.load
       name: 'venue'
