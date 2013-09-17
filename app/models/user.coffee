@@ -36,7 +36,7 @@ module.exports = class User extends Model
               @loginSuccess(user, options)
         error: (body,response, xHr) =>
           errorResponse = JSON.parse(body.responseText)
-          $('.errors').append("<span class='error'>#{errorResponse.message}</span>")
+          $('.errors').empty().html("<span class='error'>#{errorResponse.message}</span>")
           
   loginSuccess : (user, options) =>
     console.log options
@@ -74,7 +74,7 @@ module.exports = class User extends Model
         if options.onError
           options.onError()
         else
-          $('.errors').append("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
+          $('.errors').empty().html("<span class='error'>#{JSON.parse(body.responseText).message}</span>")
 
   resetPassword:(email)=>
     $.ajax
@@ -95,7 +95,7 @@ module.exports = class User extends Model
         window.location = "/login"
       error:(body, response, xHr) =>
         if body.status is 403
-          $('.errors').append("<span class='error'>Your email address was not found. Please register or try to log in using a different account.</span>")
+          $('.errors').empty().html("<span class='error'>Your email address was not found. Please register or try to log in using a different account.</span>")
         else
-          $('.errors').append("<span class='error'>Something went wrong.</span>")
+          $('.errors').empty().html("<span class='error'>Something went wrong.</span>")
 

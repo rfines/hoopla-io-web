@@ -24,6 +24,7 @@ module.exports = class LoginPopover extends View
     if uname and pword
       @model.getToken uname, pword
     else
+      @$el.find('.errors').empty()
       @$el.find('.errors').html("<span class='error'>A username and password is required</span>")    
 
   cancel: (e) ->

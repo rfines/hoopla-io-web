@@ -27,14 +27,11 @@ module.exports = class List extends CollectionView
     @subview('messageArea', new MessageArea({container: '.alert-container'}))
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
+      @publishEvent '!router:changeURL',  "#{baseUrl}"
       @publishEvent 'message:publish', 'error', @params.error
-      @publishEvent '!router:changeURL',  "#{baseUrl}"
     else if @params?.success
-      @publishEvent 'message:publish', 'success', @params.success
       @publishEvent '!router:changeURL',  "#{baseUrl}"
-    else if @params?.deauth
-      @publishEvent "business:dauthorize", @params.deauth
-      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      @publishEvent 'message:publish', 'success', @params.success      
 
   create: =>
     @publishEvent '!router:route', @noun

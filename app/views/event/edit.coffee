@@ -66,6 +66,7 @@ module.exports = class EventEditView extends View
   initDatePickers: =>
     @startDate = new Pikaday
       field: @$el.find('.startDate')[0]
+      minDate: moment().toDate()
     if not @model.isNew()
       @startDate.setMoment @model.getStartDate()
       $('.startDate').val(@model.getStartDate().format('YYYY-MM-DD'))

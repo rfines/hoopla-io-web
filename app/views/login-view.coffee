@@ -21,6 +21,6 @@ module.exports = class LoginView extends View
     if uname and pword
       @model.getToken uname, pword
     else
-      @$el.find('.errors').append("<span class='error'>A username and password is required</span>")
+      @$el.find('.errors').empty().html("<span class='error'>A username and password is required</span>")
   
 

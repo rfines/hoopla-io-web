@@ -13,16 +13,10 @@
 
         </div>
         <div class="col-md-3 promotionTargets">
-          {{#if facebookConnected}}
-            <p class="social-connection"><a class="facebook connected socialConnected" id="facebook_{{_id}}" href="/business/{{_id}}/facebookDeauthorize" title="Click to deauthorize Facebook"><img src="/client/images/fb_connected.png">Connected</a></p>
-          {{else}}
-            <p class="social-connection"><a class="facebook socialNotConnected" id="facebook_{{_id}}" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Connect this channel</a></p>
-          {{/if}}
-          {{#if twitterConnected}}
-            <p class="social-connection"><a class="twitter connected" id="twitter_{{_id}}" href="/business/{{_id}}/twitterDeauthorize" title="Click to deauthorize Twitter"><img class="socialConnected" src="/client/images/twitter-connected.png">Connected</a></p>
-          {{else}}
-            <p class="social-connection"><a class="twitter socialNotConnected" id="twitter_{{_id}}" href="{{twitterConnectUrl}}"><img class="socialNotConnected" src="/client/images/twitter-not-connected.png">Connect this channel</a></p>
-          {{/if}}    
+            <p class="social-connection fb-auth"><a class="facebook connected socialConnected" id="deauth-facebook" title="Click to deauthorize Facebook"><img src="/client/images/fb_connected.png">Connected</a></p>
+            <p class="social-connection fb-not-auth"><a class="facebook socialNotConnected" id="{{_id}}" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Connect this channel</a></p>
+            <p class="social-connection tw-auth"><a class="twitter connected socialConnected" id="deauth-twitter" title="Click to deauthorize Twitter"><img src="/client/images/twitter-connected.png">Connected</a></p>
+            <p class="social-connection tw-not-auth"><a class="twitter socialNotConnected" id="{{_id}}" href="{{twitterConnectUrl}}"><img  src="/client/images/twitter-not-connected.png">Connect this channel</a></p>
         </div>        
       </div>
     </div>

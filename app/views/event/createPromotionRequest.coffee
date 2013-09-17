@@ -84,15 +84,19 @@ module.exports = class CreatePromotionReqeust extends View
     "click .facebookTab" : "showFacebook"
     "click .twitterTab" : "showTwitter"
     "click .facebookEventTab":"showFacebookEvent"
+    "change .immediate-box":"immediateClick"
+    "change .tw-immediate-box": "twitterImmediateClick"
     
   initDatePickers: =>
     @startDate = new Pikaday
       field: @$el.find('.promoDate')[0]
+      minDate: moment().toDate()
     if not @model.isNew()
       startDate.setMoment @model.date
       $('.promoDate').val(@model.date.format('YYYY-MM-DD'))
     @twStartDate = new Pikaday
       field: @$el.find('.twPromoDate')[0]
+      minDate: moment().toDate()
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
@@ -105,11 +109,13 @@ module.exports = class CreatePromotionReqeust extends View
   saveFacebook:(e) ->
     e.preventDefault()
     message = $('.message').val()
+    successMessageAppend ="" 
     link =  $('.link-input').val()
     immediate = $('.immediate-box')
     date = @startDate.getMoment()
     time = $('.startTime').timepicker('getSecondsFromMidnight')
     date = date.add('seconds', time)
+    now = moment().format('X')
     page = $('.pages>.facebook-pages>.pageSelection').val()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page).access_token
@@ -128,14 +134,14 @@ module.exports = class CreatePromotionReqeust extends View
       pr.eventId = @event.id
       pr.save {}, {
         success:(item)=>
-          if time? <=0
-            @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will magically appear shortly.'
+          @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will magically appear shortly.'
         error:(error)=>
           console.log error
       }    
-        
     if time? > 0 
       d= moment(date).toDate().toISOString()
+      if now >= moment(d).format('X')
+        successMessageAppend = "You chose a date in the past, your message will go out immediately."
       scheduled= new PromotionRequest
         message: message
         link:link
@@ -150,46 +156,25 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {}, {
         success:(response,body)=>
-          @publishEvent '!router:route', "/myEvents?success=Your Facebook event promotion has been scheduled for #{moment(d).toDate().format("ddd, MMM D YYYY")}."
+          console.log "Click"
+          @publishEvent '!router:route', "/myEvents?success=Your Facebook event promotion has been scheduled for #{moment(d).format("ddd, MMM D YYYY h:mm A")}. #{successMessageAppend}"
         error:(error)=>
           console.log error
       }
-         
-
-  postToFacebookNow: (pt,pr, imageUrl, cb)=>
-    if pt.accessToken && pr.attributes.pageId
-      post=
-        message: pr.attributes.message
-        link: @event.get('website')
-        caption: "#{@event.get('name')} #{@event.get('location').address} #{pr.attributes.message}"
-        picture:@event.get('media')[0]?._id
-        title: @event.get('name')
-      $.ajax
-        url:"https://graph.facebook.com/#{pr.attributes.pageId}/feed?access_token=#{pt.accessToken}"
-        method:'POST'
-        data:post
-        success:(response, body)=>
-          pr.status=
-            postId: response.id
-            code:'COMPLETED'
-            retryCount:0
-          cb null, pr
-        error:(err)=>
-          console.log err
-          pr.status=
-            code:'WAITING'
-            retryCount:0
-            lastError: err
-          cb err, pr
   
   saveTwitter: (e)->
     e.preventDefault()
+    successMessageAppend ="" 
     message = $('.tweetMessage').val()
-    immediate = $('.tw-immediate-box').val()
+    immediate = $('.tw-immediate-box')
     date = @twStartDate.getMoment()
     time = $('.twStartTime').timepicker('getSecondsFromMidnight')
+    now = moment().format('X')
     date = date.add('seconds', time)
-    if immediate is 'twImmediate'
+    if now >= moment(date).format('X')
+      successMessageAppend = "You chose a date in the past so your message will go out immediately."
+    
+    if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
         promotionTime: moment().toDate().toISOString()
@@ -199,8 +184,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.eventId = @event.id
       pr.save {},{
         success:(response, doc)=>
-          if date?.length <=0
-            @publishEvent '!router:route', '/myEvents?success=Your Twitter event promotion will go out as soon as possible.'
+            @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion will go out as soon as possible. #{successMessageAppend}"
         error:(error)=>
           console.log error
       }
@@ -214,7 +198,7 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {},{
         success:(response, doc) =>
-          @publishEvent '!router:route', '/myEvents?success=Your Twitter event promotion has been scheduled for #{moment(date).toDate().format("ddd, MMM D YYYY")}.'
+          @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
         error:(response,err)=>
           console.log response
           console.log err
@@ -303,7 +287,7 @@ module.exports = class CreatePromotionReqeust extends View
     pr.eventId = @event.id
     pr.save {},{
       success: (model, response, options)=>
-        @publishEvent '!router:route', '/myEvents?success=Your event has been successfully created on Facebook. Please allow a few minutes for it to show up."'
+        @publishEvent '!router:route', '/myEvents?success=Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       error: (model, xhr, options)->
         console.log "Inside save error"
         console.log xhr
@@ -313,4 +297,31 @@ module.exports = class CreatePromotionReqeust extends View
     e.preventDefault()
     @publishEvent '!router:route', '/myEvents'
 
- 
+  immediateClick:()->
+    element = $('.immediate-box')
+    if element.is(':checked')
+      @hideFbDates()
+    else
+      @showFbDates()
+
+  twitterImmediateClick:()->
+    element = $('.tw-immediate-box')
+    if element.is(':checked')
+      @hideTwitterDates()
+    else
+      @showTwitterDates()
+  hideFbDates:()->
+    @$el.find('.postStartTime').hide()
+    @$el.find('.postDate').hide()
+
+  showFbDates:()->
+    @$el.find('.postStartTime').show()
+    @$el.find('.postDate').show()
+
+  showTwitterDates:()->
+    @$el.find('.twPostTime').show()
+    @$el.find('.twPostDate').show()
+
+  hideTwitterDates:()->
+    @$el.find('.twPostTime').hide()
+    @$el.find('.twPostDate').hide()

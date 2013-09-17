@@ -19,6 +19,10 @@ module.exports = class List extends ListView
     super()
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
-    @subscribeEvent 'business:deauthorize', (id)=>
-      @$el.find("##{id}").removeClass('connected').removeClass('socialConnected').addClass('socialNotConnected')
-
+    baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
+    if @params?.error
+      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      @publishEvent 'message:publish', 'error', @params.error
+    else if @params?.success
+      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      @publishEvent 'message:publish', 'success', @params.success  

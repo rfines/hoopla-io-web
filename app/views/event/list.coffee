@@ -20,19 +20,22 @@ module.exports = class List extends ListView
     @filter @filterer
     if not @allowCreate
       @publishEvent "message:publish", "success", "You need to create a business before you can create events."
+    baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
+    if @params?.error
+      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      @publishEvent 'message:publish', 'error', @params.error
+    else if @params?.success
+      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      @publishEvent 'message:publish', 'success', @params.success  
 
   getTemplateData:->
     td = super()
     if Chaplin.datastore.business.length > 0
-      console.log "Allowing create"
       td.allowCreate = true
       @allowCreate = true
     else
-      console.log "Not Allowing create"
-      
       td.allowCreate = false
       @allowCreate = false
-    console.log td.allowCreate
     td
 
   
