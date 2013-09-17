@@ -24,6 +24,7 @@ module.exports = class ListItem extends EditableListItem
     "click #deauth-twitter":"deauthorizeTwitter"
 
   attach: ->
+    super()
     fbCon = _.some @model.get('promotionTargets'), (item) ->
       item.accountType is 'FACEBOOK'
     twCon = _.some @model.get('promotionTargets'), (item) ->
@@ -48,12 +49,12 @@ module.exports = class ListItem extends EditableListItem
         success: (model,response,options)=>      
           @showFbAuthBtn()
           console.log "publishing event"
-          @publishEvent "message:publish", 'success',"Deauthorized Facebook from #{@model.get('name')}"
+          @publishEvent "message:publish", 'success',"Disconnected Facebook from #{@model.get('name')}"
         error: (model,xhr,options)=>
-          @publishEvent "message:publish", 'error','An error occurred while deauthorizing this Facebook account.'
+          @publishEvent "message:publish", 'error','An error occurred while disconnecting this Facebook account.'
       })
     else
-      @publishEvent "message:publish", 'error','An error occurred while deauthorizing this Facebook account.'
+      @publishEvent "message:publish", 'error','An error occurred while disconnecting this Facebook account.'
 
   deauthorizeTwitter :(e)->
     e.preventDefault()
@@ -67,13 +68,13 @@ module.exports = class ListItem extends EditableListItem
           @showTwitterAuthBtn()
           console.log repsonse
           console.log "Publishing event"
-          @publishEvent "message:publish", 'success',"Deauthorized Twitter from #{@model.get('name')}"
+          @publishEvent "message:publish", 'success',"Disconnected Twitter from #{@model.get('name')}"
         error: (model,xhr,options)=>
-          @publishEvent "message:publish", 'error','An error occurred while deauthorizing this Twitter account.'
+          @publishEvent "message:publish", 'error','An error occurred while disconnecting this Twitter account.'
       })
     else
       @showTwitterAuthBtn()
-      @publishEvent "message:publish", 'success',"Deauthorized Twitter from #{@model.get('name')}."
+      @publishEvent "message:publish", 'success',"Disconnected Twitter from #{@model.get('name')}."
 
   showFbAuthBtn:()=>
     @$el.find('.fb-auth').hide()
