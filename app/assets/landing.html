@@ -161,6 +161,14 @@ nav.signup h4 {
   background: #c5d645;
   color: #3e3f42;
 }
+#Section-1 i {
+	
+	color:#c5d645;
+}
+#Section-2 i {
+	
+	color:#06a1af;
+}
 .well {
   border: none;
   -webkit-border-radius: 0px;
@@ -170,18 +178,20 @@ nav.signup h4 {
 #Section-1 .well {
   /*background-color:#34495e;*/
 
-  background: url(../../images/bgredtwo.png) 0% 0% fixed repeat;
+  background: url('http://lorempixel.com/output/nightlife-q-c-1920-1096-7.jpg') 0% 0% fixed repeat;
   color: #fff;
   margin-bottom: -100px;
   margin-top: 60px;
   padding-top: 60px;
   padding-bottom: 60px;
 }
-.well .lead {
+.well .lead, #Section-2 .well .lead p.dev-cta{
   font-size: 220%;
+text-shadow: 0px 0px 5px #000;
+color:#fff!important;
 }
 #Section-2 .well {
-  background: url(../../images/bgredtwo.png) 0% 0% fixed repeat;
+  background: url('http://farm7.staticflickr.com/6208/6035958264_2bbd2735f4_o.jpg') 0% 0% fixed repeat;
   margin-bottom: -100px;
   margin-top: 60px;
   padding-top: 60px;
@@ -407,7 +417,7 @@ footer .circ-wrap a:hover {
 	==============================*/
 .social-contacts a i {
   text-decoration: none;
-  color: #3F7497;
+  color: #06a1af;
 }
 .social-contacts a i:hover {
   color: #335E7C;
@@ -2232,7 +2242,7 @@ a .icon-flip-vertical:before {
 		 <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
 				
 			<div class="">
-				<i class="icon-magic icon-4x"></i>
+				<img src="images/landing/create.png">
 			</div>
 	          <h3>CREATE</h3>
 	          <p class="justify">Enter your event details into the Hoopla.io platform. Set one-time or recurring, or tag relevant details to optimize search.</p>
@@ -2240,7 +2250,7 @@ a .icon-flip-vertical:before {
 	        </div>
 			<div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
 			<div class="">
-				<i class="icon-bullhorn icon-4x"></i>
+				<img src="images/landing/promote.png">
 				</div>
 	          <h3>PROMOTE</h3>
 	          <p class="justify">   Don’t forget to tag your event so that people will find it. Hoopla.io will publish your event on your website, social media, and local distribution partners.
@@ -2249,7 +2259,7 @@ a .icon-flip-vertical:before {
 	        </div>
 	        <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
 				<div class="">
-				<i class="icon-glass icon-4x"></i>
+				<img src="images/landing/relax.png">
 				</div>
 	          <h3>RELAX</h3>
 	          <p class="justify">That’s it! We’ll do the work for you, all you need to do is sit back and get ready for a full house. </p>
@@ -2363,7 +2373,6 @@ a .icon-flip-vertical:before {
           <p class="lead">Which gives you a reliable source for 
 		high quality, local events content. 
 		</p>
-		  <p><a class="btn btn-large btn-info" href="http://www.bootstraptor.com">View details »</a></p>
        </div>
 	   
       </div>
@@ -2377,47 +2386,35 @@ a .icon-flip-vertical:before {
   <div class="item active">
   <div class="row text-center">
 		<!-- ITEM-->
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-			<div class="thumbnail product-item">
-				<a href="#"><img src="images/landing/flatphone.png" alt="" ></a>
-			</div>
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+			<div class="circ-wrap">
+				<i class="icon-cogs icon-4x"></i>
+				</div>
 			<h3>AUTOMATED CURATION</h3>
 			<p>We get our event information straight from the source, the event host.  Rest easy knowing that all the information is accurate and up-to-date.</p>
-			<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
         </div>
 		<!-- ITEM-->
 
 		<!-- ITEM-->
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-			<div class="thumbnail product-item">
-				<a href="#"><img src="images/landing/flatphone.png" alt=""></a>
-			</div>
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+			<div class="circ-wrap">
+				<i class="icon-search icon-4x"></i>
+				</div>
 			<h3>NO MORE SEARCHING
 			</h3>
 			<p>Your time is too important to spend searching multiple websites for events to fill your event calendar. With Hoopla.io, all you need to do is select the relevant events that your readers would be interested in, and our platform will do the rest. </p>
-			<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
         </div>
 		<!-- ITEM-->
 		<!-- ITEM-->
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-			<div class="thumbnail product-item">
-				<a href="#"><img  src="images/landing/flatphone.png" alt=""></a>
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+		<div class="circ-wrap">
+			<i class="icon-calendar icon-4x"></i>
 			</div>
 			<h3>FREE CONTENT</h3>
 			<p>Our widgets and API seamlessly connect to existing websites and CMS platforms. Set it up once, and you’re good to go.</p>
-			<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
         </div>
 		<!-- ITEM-->
-		<!-- ITEM-->
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-			<div class="thumbnail product-item">
-				<a href="#"><img  src="images/landing/flatphone.png" alt=""></a>
-			</div>
-			<h3>SEAMLESS INTEGRATION</h3>
-			<p>Our widgets and API seamlessly connect to existing websites and CMS platforms. Set it up once, and you’re good to go.</p>
-			<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
-        </div>
-		<!-- ITEM-->
+	
 		
 	
 		
@@ -2427,46 +2424,35 @@ a .icon-flip-vertical:before {
 	
 	<div class="item">
 	<div class="row text-center">
+			<!-- ITEM-->
+	        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+				<div class="circ-wrap">
+							<i class="icon-beaker icon-4x"></i>
+							</div>
+				<h3>SEAMLESS INTEGRATION</h3>
+				<p>Our widgets and API seamlessly connect to existing websites and CMS platforms. Set it up once, and you’re good to go.</p>
+	        </div>
+			<!-- ITEM-->
+			<!-- ITEM-->
+	        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+				<div class="circ-wrap">
+							<i class="icon-home icon-4x"></i>
+							</div>
+				<h3>LOCAL &amp; HYPERLOCAL</h3>
+				<p>Looking for well known local events to populate your events calendar?  We’ve got you covered.  But we also have the little guys too: neighborhood bars and restaurants, community galleries, etc.  We call those hard-to-find events hyperlocal, and it’s our bread and butter.
+				</p>
+	        </div>
+			<!-- ITEM-->
 		<!-- ITEM-->
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-			<div class="thumbnail product-item">
-				<a href="#"><img src="images/landing/flatphone.png" alt="" ></a>
-			</div>
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+			<div class="circ-wrap">
+						<i class="icon-code icon-4x"></i>
+						</div>
 			<h3>NEED AN API? WE’VE GOT ONE</h3>
 			<p>Integrate our API easily into your website or application and start building cool products with our events data. Contact us for details</p>
-			<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
         </div>
 		<!-- ITEM-->
 		
-			<!-- ITEM-->
-	        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-				<div class="thumbnail product-item">
-					<a href="#"><img src="images/landing/flatphone.png" alt="" ></a>
-				</div>
-				<h3>Product name</h3>
-				<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
-	        </div>
-			<!-- ITEM-->
-
-			<!-- ITEM-->
-	        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-				<div class="thumbnail product-item">
-					<a href="#"><img src="images/landing/flatphone.png" alt=""></a>
-				</div>
-				<h3>Product name</h3>
-				<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
-	        </div>
-			<!-- ITEM-->
-		
-		<!-- ITEM-->
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-			<div class="thumbnail product-item">
-				<a href="#"><img src="images/landing/flatphone.png" alt=""></a>
-			</div>
-			<h3>Product name</h3>
-			<p><a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">View details »</a></p>	
-        </div>
-		<!-- ITEM-->
 	</div>
 	</div>
 </div><!-- /INNER-->  
@@ -2481,13 +2467,13 @@ a .icon-flip-vertical:before {
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-					<p class="lead">
-						Marketing slogan awesome call to action with button!
+					<p class="lead dev-cta">
+						Are you a developer?
 					</p>
 					
 				</div>
 				<div class="text-left col-xs-12 col-sm-3 col-md-3 col-lg-3">
-					<a class="btn btn-large btn-block btn-default" href="http://www.bootstraptor.com">Get it now!</a>
+					<a class="btn btn-large btn-block btn-success" href="http://www.bootstraptor.com">Get Your API Key Here »</a>
 				</div>
 			</div>
 		</div>
@@ -2508,27 +2494,66 @@ a .icon-flip-vertical:before {
  
 		<div class="row text-center">
 			<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-				<a href="#"><img src="images/landing/avaone.jpg" width="160" height="160" class="img-circle"></a>
-				<h3>John Doe</h3>
+				<a href="#"><img src="images/landing/dondo.jpg" width="160" height="160" class="img-circle"></a>
+				<h3>Adam Arredondo</h3>
+				<h4>Executive &amp; Co-Founder</h4>
+				<h5>Chief Magic Officer</h5>
 			  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-				<a href="#"><img src="images/landing/avatwo.jpg" width="160" height="160" class="img-circle"></a>
-				<h3>John Doe</h3>
+				<a href="#"><img src="images/landing/marcus.jpg" width="160" height="160" class="img-circle"></a>
+				<h3>Matthew Marcus</h3>
+				<h4>Executive &amp; Co-Founder</h4>
+				<h5>Chief Telepathy Officer</h5>
 			  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-				<a href="#"><img src="images/landing/avathree.jpg" width="160" height="160" class="img-circle"></a>
-				<h3>John Doe</h3>
+				<a href="#"><img src="images/landing/england.jpg" width="160" height="160" class="img-circle"></a>
+				<h3>Adam England</h3>
+				<h4>Platform Development</h4>
+				<h5>Director of Special Effects<h5>
 			  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-				<a href="#"><img src="images/landing/avafour.jpg" width="160" height="160" class="img-circle"></a>
-				<h3>John Doe</h3>
+				<a href="#"><img src="images/landing/miq.jpg" width="160" height="160" class="img-circle"></a>
+				<h3>Matt Miquelon</h3>
+				<h4>Platform Development</h4>
+				<h5>Director of Illusions<h5>
 			  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
 			</div>
 			
 		</div>
+			<div class="row text-center">
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+					<a href="#"><img src="images/landing/dondo.jpg" width="160" height="160" class="img-circle"></a>
+					<h3>Adam Arredondo</h3>
+					<h4>Executive &amp; Co-Founder</h4>
+					<h5>Chief Magic Officer</h5>
+				  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+					<a href="#"><img src="images/landing/marcus.jpg" width="160" height="160" class="img-circle"></a>
+					<h3>Matthew Marcus</h3>
+					<h4>Executive &amp; Co-Founder</h4>
+					<h5>Chief Telepathy Officer</h5>
+				  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+					<a href="#"><img src="images/landing/england.jpg" width="160" height="160" class="img-circle"></a>
+					<h3>Adam England</h3>
+					<h4>Platform Development</h4>
+					<h5>Director of Special Effects<h5>
+				  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+					<a href="#"><img src="images/landing/miq.jpg" width="160" height="160" class="img-circle"></a>
+					<h3>Matt Miquelon</h3>
+					<h4>Platform Development</h4>
+					<h5>Director of Illusions<h5>
+				  <p class="text-center social-contacts"> <a href="#"><i class="icon-facebook-sign icon-2x"></i></a> <a href="#"><i class="icon-twitter-sign icon-2x"></i></a> <a href="#"><i class="icon-github-sign icon-2x"></i></a> <a href="#"><i class="icon-linkedin-sign icon-2x"></i></a> <a href="#"><i class="icon-google-plus-sign icon-2x"></i></a></p>
+				</div>
+
+			</div>
 		<hr>
 		
 <div class="row">
@@ -2642,7 +2667,7 @@ a .icon-flip-vertical:before {
 <div class="container">
    <div class="row">
 		<div class="page-header text-center col-sm-12 col-lg-12">
-			<h3>Section-3 Plans &amp; Pricing</h3>
+			<h3>Contact Us</h3>
 		</div> 
 	</div>	
 	
@@ -2650,109 +2675,6 @@ a .icon-flip-vertical:before {
 	  
 	  <div class="row">
 	  
-		<!--  STANDART PRICE ITEM  -->
-			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-				<div class="pricing-table blue"><!-- BODY BOX-->
-					<div class="pricing-table-header"><!-- HEADER BOX-->
-						<span class="heading">Single applications</span>
-						<span class="price-value">$<span>14</span><span class="mo">/mo</span></span>		   
-					</div><!--/ BODY BOX-->
-						
-				<div class="pricing-table-space"></div><!-- CONTENT BOX-->
-				<div class="pricing-table-features">
-					<p> <strong>Single</strong> installation</p>
-					<p><strong> Unlimited </strong> Support</p>
-					<p><strong>Validation</strong> W3C</p>
-					<p><strong>Bootstrap</strong> 2.3.0</p>
-					<p><strong>HTML5</strong> &amp; <strong> CSS3</strong></p>
-				</div><!-- /  CONTENT BOX-->
-						
-					<div class="pricing-table-sign-up"><!-- BUTTON BOX-->
-						<a href="#" class="btn btn-large btn-block btn-info">BUY NOW!</a>
-					</div><!-- BUTTON BOX-->
-						
-				</div><!--/ BODY BOX-->
-			</div><!--  COL3  -->
-			<!--  STANDART PRICE ITEM  -->
-			<!--  STANDART PRICE ITEM  -->
-			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-				<div class="pricing-table blue"><!-- BODY BOX-->
-					<div class="pricing-table-header"><!-- HEADER BOX-->
-									
-						<span class="heading">Single applications</span>
-						<span class="price-value">$<span>14</span><span class="mo">/mo</span></span>
-								   
-					</div><!--/ BODY BOX-->
-						
-				<div class="pricing-table-space"></div><!-- CONTENT BOX-->
-				<div class="pricing-table-features">
-					<p> <strong>Single</strong> installation</p>
-					<p><strong> Unlimited </strong> Support</p>
-					<p><strong>Validation</strong> W3C</p>
-					<p><strong>Bootstrap</strong> 2.3.0</p>
-					<p><strong>HTML5</strong> &amp; <strong> CSS3</strong></p>
-				</div><!-- /  CONTENT BOX-->
-						
-				<div class="pricing-table-sign-up"><!-- BUTTON BOX-->
-					<a href="#" class="btn btn-large btn-block btn-info">BUY NOW!</a>
-				</div><!-- BUTTON BOX-->
-						
-				</div><!--/ BODY BOX-->
-			</div><!--  COL3  -->
-			<!--  STANDART PRICE ITEM  -->
-			<!--  STANDART PRICE ITEM  -->
-			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-			<div class="pricing-table blue"><!-- BODY BOX-->
-				<div class="pricing-table-header"><!-- HEADER BOX-->
-								
-					<span class="heading">Single applications</span>
-					<span class="price-value">$<span>14</span><span class="mo">/mo</span></span>
-							   
-				</div><!--/ BODY BOX-->
-						
-				<div class="pricing-table-space"></div><!-- CONTENT BOX-->
-				<div class="pricing-table-features">
-					<p> <strong>Single</strong> installation</p>
-					<p><strong> Unlimited </strong> Support</p>
-					<p><strong>Validation</strong> W3C</p>
-					<p><strong>Bootstrap</strong> 2.3.0</p>
-					<p><strong>HTML5</strong> &amp; <strong> CSS3</strong></p>
-				</div><!-- /  CONTENT BOX-->
-						
-				<div class="pricing-table-sign-up"><!-- BUTTON BOX-->
-					<a href="#" class="btn btn-large btn-block btn-info">BUY NOW!</a>
-				</div><!-- BUTTON BOX-->
-					
-			</div><!--/ BODY BOX-->
-			</div><!--  COL3  -->
-			<!--  STANDART PRICE ITEM  -->
-			
-			<!--  STANDART PRICE ITEM  -->
-			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-			<div class="pricing-table blue"><!-- BODY BOX-->
-			<div class="pricing-table-header"><!-- HEADER BOX-->
-							
-			<span class="heading">Single applications</span>
-			<span class="price-value">$<span>14</span><span class="mo">/mo</span></span>
-						   
-			</div><!--/ BODY BOX-->
-					
-			<div class="pricing-table-space"></div><!-- CONTENT BOX-->
-			<div class="pricing-table-features">
-			<p> <strong>Single</strong> installation</p>
-			<p><strong> Unlimited </strong> Support</p>
-			<p><strong>Validation</strong> W3C</p>
-			<p><strong>Bootstrap</strong> 2.3.0</p>
-			<p><strong>HTML5</strong> &amp; <strong> CSS3</strong></p>
-			</div><!-- /  CONTENT BOX-->
-					
-			<div class="pricing-table-sign-up"><!-- BUTTON BOX-->
-			<a href="#" class="btn btn-large btn-block btn-info">BUY NOW!</a>
-			</div><!-- BUTTON BOX-->
-					
-			</div><!--/ BODY BOX-->
-			</div><!--  COL3  -->
-			<!--  STANDART PRICE ITEM  -->
 	  </div>
 	</div><!-- / CONTAINER-->
 </section> 
