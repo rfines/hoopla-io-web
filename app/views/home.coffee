@@ -7,11 +7,9 @@ module.exports = class HomePageView extends View
   className: 'home-page'
   template: template
 
-  initialize: (options) ->
-    console.log options
-    super()
-    @showLogin = options.showLogin
-    @showForgotPassword = options.showForgotPassword
+  initialize: (@options) ->
+    super(options)
+    console.log @options
 
   events:
     'click .registerForm .btn' : 'register'
@@ -23,8 +21,9 @@ module.exports = class HomePageView extends View
     $(".well").parallax "50%", 0.1
     $(".navbar .nav > li > a").click ->
       $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
-    @publishEvent 'showLogin' if @showLogin
-    @publishEvent 'showForgotPassword' if @showForgotPassword
+    @publishEvent 'showLogin' if @options.showLogin
+    @publishEvent 'showForgotPassword' if @options.showForgotPassword
+    @publishEvent 'showResetPassword' if @options.showResetPassword
 
   register: (e) ->
     e.preventDefault()

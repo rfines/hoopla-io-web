@@ -3,6 +3,7 @@ template = require 'templates/site'
 FooterView = '/views/footer'
 LoginPopover = require 'views/loginPopover'
 ForgotPassword = require 'views/forgotPassword'
+ResetPassword = require 'views/reset-password'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class SiteView extends View
@@ -21,6 +22,7 @@ module.exports = class SiteView extends View
   listen:
     'showLogin mediator' : 'login'
     'showForgotPassword mediator' : 'forgotPassword'
+    'showResetPassword mediator' : 'resetPassword'
 
   login: (e) ->
     e.preventDefault() if e
@@ -31,4 +33,9 @@ module.exports = class SiteView extends View
     console.log 'fp'
     e.preventDefault() if e
     @subview('forgotPasswordModal', new ForgotPassword({container: $('#forgotPasswordModal .modal-content')}))  
-    $('#forgotPasswordModal').modal('show')    
+    $('#forgotPasswordModal').modal('show')  
+
+  resetPassword: (e) ->
+    e.preventDefault() if e
+    @subview('resetPasswordModal', new ResetPassword({container: $('#resetPasswordModal .modal-content')}))  
+    $('#resetPasswordModal').modal('show')        
