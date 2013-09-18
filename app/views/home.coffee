@@ -1,6 +1,7 @@
 template = require 'templates/home'
 View = require 'views/base/view'
 User = require 'models/user'
+LoginPopover = require 'views/loginPopover'
 
 
 module.exports = class HomePageView extends View
@@ -10,6 +11,7 @@ module.exports = class HomePageView extends View
 
   events:
     'click .registerForm .btn' : 'register'
+    'click .sign-in' : 'login'
 
   attach: ->
     super()
@@ -39,3 +41,8 @@ module.exports = class HomePageView extends View
         }
     else
       alert('Email and Password are required')
+
+
+  login: (e) ->
+    e.preventDefault()
+    @subview('loginPopover', new LoginPopover({container: $('#loginModal .modal-content')}))

@@ -7,7 +7,7 @@ module.exports = class LoginPopover extends View
   template: template
 
   events:
-    "submit form": 'login'
+    "click .loginButton": 'login'
     'click .cancel' : 'cancel'
 
   initialize: ->
@@ -18,14 +18,15 @@ module.exports = class LoginPopover extends View
     super
 
   login: (e)->
+    console.log 'login'
     e.preventDefault()
     uname = @$el.find('.username').val()
     pword = @$el.find('.password').val()
     if uname and pword
       @model.getToken uname, pword
     else
-      @$el.find('.errors').empty()
-      @$el.find('.errors').html("<span class='error'>A username and password is required</span>")    
+      @$el.find('.alert').empty()
+      @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>")    
 
   cancel: (e) ->
     e.preventDefault()
