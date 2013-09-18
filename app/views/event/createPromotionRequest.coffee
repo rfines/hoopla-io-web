@@ -109,6 +109,7 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   saveFacebook:(e) ->
+    Chaplin.mediator.publish 'startWaiting'
     e.preventDefault()
     message = $('.message').val()
     successMessageAppend ="" 
@@ -136,8 +137,10 @@ module.exports = class CreatePromotionReqeust extends View
       pr.eventId = @event.id
       pr.save {}, {
         success:(item)=>
+          Chaplin.mediator.publish 'stopWaiting'
           @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will magically appear shortly.'
         error:(error)=>
+          Chaplin.mediator.publish 'stopWaiting'
           console.log error
       }    
     if time? > 0 
@@ -158,10 +161,11 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {}, {
         success:(response,body)=>
-          console.log "Click"
+          Chaplin.mediator.publish 'stopWaiting'
           @publishEvent '!router:route', "/myEvents?success=Your Facebook event promotion has been scheduled for #{moment(d).format("ddd, MMM D YYYY h:mm A")}. #{successMessageAppend}"
         error:(error)=>
           console.log error
+          Chaplin.mediator.publish 'stopWaiting'
       }
   
   saveTwitter: (e)->
@@ -186,8 +190,10 @@ module.exports = class CreatePromotionReqeust extends View
       pr.eventId = @event.id
       pr.save {},{
         success:(response, doc)=>
+            Chaplin.mediator.publish 'stopWaiting'
             @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion will go out as soon as possible. #{successMessageAppend}"
         error:(error)=>
+          Chaplin.mediator.publish 'stopWaiting'
           console.log error
       }
     if time? > 0 
@@ -200,8 +206,10 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {},{
         success:(response, doc) =>
+          Chaplin.mediator.publish 'stopWaiting'
           @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
         error:(response,err)=>
+          Chaplin.mediator.publish 'stopWaiting'
           console.log response
           console.log err
       }
@@ -265,6 +273,7 @@ module.exports = class CreatePromotionReqeust extends View
 
   saveFbEvent:(e)=>
     e.preventDefault()
+    Chaplin.mediator.publish 'startWaiting'
     page=$('.event-pages>.facebook-pages>.pageSelection').val()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
@@ -289,8 +298,10 @@ module.exports = class CreatePromotionReqeust extends View
     pr.eventId = @event.id
     pr.save {},{
       success: (model, response, options)=>
+        Chaplin.mediator.publish 'stopWaiting'
         @publishEvent '!router:route', '/myEvents?success=Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       error: (model, xhr, options)->
+        Chaplin.mediator.publish 'stopWaiting'
         console.log "Inside save error"
         console.log xhr
       }

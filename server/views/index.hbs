@@ -14,6 +14,10 @@
       <script src="../../assets/js/respond.min.js"></script>
     <![endif]-->
     <script>require('initialize');</script>
+    <script type="text/javascript" charset="utf-8" src="/client/edge/HOOPLADOTS_edgePreload.js"></script>
+    <style>
+        .edgeLoad-hoopla_dots_loader { visibility:hidden; }
+    </style>
   </head>
   <body data-spy="scroll" data-target=".top-spy">
     {{#if development}}
@@ -22,11 +26,16 @@
       window.brunch['auto-reload'] = "{disabled: true}";
     </script>
     {{/if}}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>  
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
     <script>
       $.cloudinary.config({ cloud_name: '{{cloudinary.cloudName}}'})
       window.facebookClientId = "{{facebookClientId}}";
       window.baseUrl = "{{baseUrl}}"
     </script>
+    <div class="preloader" style="display:none">
+      <div id="Stage" class="hoopla_dots_loader">
+      </div>
+    </div>
   </body>
 </html>
