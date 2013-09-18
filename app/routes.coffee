@@ -2,9 +2,6 @@ module.exports = (match) ->
   match '', 'home#home'
 
   # Marketing/Pre-Login Routes
-  match 'about', 'marketing#about'
-  match 'localBusinesses', 'marketing#localBusinesses'
-  match 'publishers', 'marketing#publishers'
   match 'signUp', 'registration#registerUser'
 
   # Post-Login Routes
