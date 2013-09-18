@@ -1,5 +1,6 @@
 module.exports = (match) ->
   match '', 'home#home'
+  match 'home', 'home#home'
 
   # Marketing/Pre-Login Routes
   match 'signUp', 'registration#registerUser'
@@ -17,8 +18,6 @@ module.exports = (match) ->
   match 'widget', 'widget#create'
   match 'widget/:id', 'widget#edit'
   match 'account', 'account#manage'
-  match 'account/change-password', 'account#changePassword' 
-  match 'account/forgot-password', 'account#resetPassword'
   match 'password/reset', 'home#home', params: { showResetPassword: true}
   match 'event/:id/promote', 'event#promote'
 

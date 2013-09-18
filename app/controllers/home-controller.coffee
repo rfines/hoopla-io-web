@@ -9,6 +9,3 @@ module.exports = class HomeController extends Controller
 
   compositions: =>
     @compose 'site', SiteView
-
-  newPassword: ->
-    @view = new ResetPasswordView region: 'main'
