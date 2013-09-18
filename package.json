@@ -12,7 +12,7 @@
     "start": "coffee app.coffee",
     "test": "brunch test",
     "install": "bower install",
-    "postinstall": "brunch build -o"
+    "postinstall": "brunch build -P"
   },
   "dependencies": {
     "brunch": "1.7.x",
