@@ -23,6 +23,6 @@ module.exports = class ResetPasswordView extends View
       if passConfirm is password
         @model.newPassword email, password, location.search.split('=')[1]
       else
-        @$el.find('.errors').append("<span class='error'>The passwords do not match</span>")
+        @$el.find('.alert').show().html("<span class='error'>The passwords do not match</span>")
     else
-      @$el.find('.errors').append("<span class='error'>All fields are required.</span>")
+      @$el.find('.alert').show().html("<span class='error'>All fields are required.</span>")
