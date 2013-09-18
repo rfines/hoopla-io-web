@@ -24,8 +24,8 @@ module.exports = (match) ->
 
 
   # login/logout
-  match 'login', 'login#login', name: 'auth_login'
-  match 'logout', 'login#logout',name: 'auth_logout'
+  match 'login', 'home#home', params: { showLogin: true }
+  match 'logout', 'login#logout'
   match 'login/forgot-password', 'login#resetPassword'
 
   #demo route

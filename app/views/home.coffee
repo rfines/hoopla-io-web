@@ -9,6 +9,10 @@ module.exports = class HomePageView extends View
   className: 'home-page'
   template: template
 
+  initialize: (options) ->
+    super()
+    @showLogin = options.showLogin
+
   events:
     'click .registerForm .btn' : 'register'
     'click .sign-in' : 'login'
@@ -20,6 +24,10 @@ module.exports = class HomePageView extends View
     $(".well").parallax "50%", 0.1
     $(".navbar .nav > li > a").click ->
       $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
+    console.log @showLogin
+    if @showLogin
+      @login()
+      $('#loginModal').modal('show')
 
   register: (e) ->
     e.preventDefault()
@@ -44,5 +52,5 @@ module.exports = class HomePageView extends View
 
 
   login: (e) ->
-    e.preventDefault()
+    e.preventDefault() if e
     @subview('loginPopover', new LoginPopover({container: $('#loginModal .modal-content')}))

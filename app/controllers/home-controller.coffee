@@ -3,9 +3,9 @@ Controller = require 'controllers/base/preLoginController'
 HomePageView = require 'views/home'
 
 module.exports = class HomeController extends Controller
-  home: ->
+  home: (params) ->
     template = require('templates/home')
-    @view = new HomePageView({region:'main'});
+    @view = new HomePageView({region:'main', showLogin : params?.showLogin});
 
   compositions: =>
     @compose 'site', SiteView

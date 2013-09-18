@@ -23,7 +23,10 @@ module.exports = class LoginPopover extends View
     uname = @$el.find('.username').val()
     pword = @$el.find('.password').val()
     if uname and pword
-      @model.getToken uname, pword
+      $('#loginModal').modal('hide')
+      @publishEvent 'startWaiting'
+      @model.getToken uname, pword, =>
+        @dispose()
     else
       @$el.find('.alert').empty()
       @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>")    
