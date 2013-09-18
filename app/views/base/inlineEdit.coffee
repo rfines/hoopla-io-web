@@ -44,6 +44,8 @@ module.exports = class InlineEdit extends View
       @$el.find('.default-image-actions').show()
     else
       @$el.find('.default-image-actions').hide()
+    if @isNew
+      @$el.find('.change-image-btn').hide()
 
 
   validate: ->

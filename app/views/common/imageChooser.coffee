@@ -52,7 +52,9 @@ module.exports = class ImageChooser extends View
       up.refresh() # Reposition Flash/Silverlight
     
     @uploader.bind "UploadProgress", (up, file) =>
-      $("#" + file.id + " b").html file.percent + "%"
+      if file.percent < 100
+        $("#" + file.id ).html file.name + ' uploading...' 
+      
 
     @uploader.bind "Error", (up, err) =>
       $("#filelist").append "<div>Error: " + err.code + ", Message: " + err.message + ((if err.file then ", File: " + err.file.name else "")) + "</div>"
@@ -61,13 +63,19 @@ module.exports = class ImageChooser extends View
     @uploader.bind "FileUploaded", (up, file, response) =>
       response = JSON.parse(response.response)
       if response.success is true
-        $("#" + file.id + " b").html "100%"
+        if @standAloneUpload is true
+          $('#choose-image').attr('disabled', false)
+          $("#filelist div").empty()
+          console.log @file.id
         file.status = plupload.DONE
         @media = response.media
         Chaplin.datastore.media.add(@media)
         @publishEvent "message:publish", "success", "The image was successfully added to your media library."
       else
-        $("#" + file.id + " b").html "0%"
+        if @standAloneUpload is true
+          $('#choose-image').attr('disabled', false)
+          $("#" + @file.id).remove()
+        $("#" + @file.id).html "0%"
         file.status = plupload.FAILED
         @publishEvent "message:publish", "error", "The image was not added to your media library."
         @media = null
@@ -76,7 +84,7 @@ module.exports = class ImageChooser extends View
 
   removeFile:(e)=>
     @uploader.removeFile(@file)
-    $('#'+@file.id).remove()
+    $("#filelist div").remove()
     $('#choose-image').attr('disabled', false)
 
   uploadQueue: (cb)->

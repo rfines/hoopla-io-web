@@ -91,11 +91,13 @@ module.exports = class CreatePromotionReqeust extends View
     @startDate = new Pikaday
       field: @$el.find('.promoDate')[0]
       minDate: moment().toDate()
+      format: 'M-DD-YYYY'
     if not @model.isNew()
       startDate.setMoment @model.date
-      $('.promoDate').val(@model.date.format('YYYY-MM-DD'))
+      $('.promoDate').val(@model.date.format('M-DD-YYYY'))
     @twStartDate = new Pikaday
       field: @$el.find('.twPromoDate')[0]
+      format: 'M-DD-YYYY'
       minDate: moment().toDate()
 
   initTimePickers: =>
