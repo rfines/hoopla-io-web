@@ -21,4 +21,4 @@ module.exports = class HomeController extends Controller
     $.removeCookie('token')
     $.removeCookie('user')
     delete Chaplin.datastore.user
-    window.location = '/'    
+    @publishEvent "!router:route" : ""

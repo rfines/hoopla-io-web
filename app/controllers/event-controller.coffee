@@ -11,7 +11,8 @@ module.exports = class EventController extends Controller
           collection : Chaplin.datastore.event
           filterer: (item, index) ->
             item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
-          params:params                
+          params:params
+          options: 'future'                
             
 
   past: ->
@@ -22,7 +23,8 @@ module.exports = class EventController extends Controller
           region: 'main'
           collection : Chaplin.datastore.event
           filterer: (item, index) ->
-            not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())  
+            not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())
+          options: 'past'  
                 
   promote: (params) ->
     CreatePromotionRequest = require 'views/event/createPromotionRequest'

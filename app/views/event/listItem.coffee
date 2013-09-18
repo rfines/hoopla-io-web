@@ -7,7 +7,7 @@ module.exports = class ListItem extends ListItemView
   template: require 'templates/event/listItem'
   noun : "event"  
   EditView : EditView
-
+  collapsedId = undefined
   getTemplateData: =>
     td = super()
     td.dateText = @model.dateDisplayText()
@@ -27,30 +27,22 @@ module.exports = class ListItem extends ListItemView
   attach: =>
     super()
     @delegate 'show.bs.collapse', =>
-      @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')
       @subview 'inlineEdit', new @EditView({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
+      @$el.find('div.panel-heading').addClass('expanded')
     @delegate 'hide.bs.collapse', =>
-      console.log @$el.find('.panel-heading')
-      $('#'+@model.id+' .panel-heading').removeClass('expanded')
-    @delegate 'click', '.showOccurrences', =>
-      @$el.find('.recurrenceList').show()
-      @$el.find('.inlineEdit').hide()
-    @delegate 'click', '.inlineEditButton', =>
-      @publishEvent "closeOthers"
-      @$el.find('.panel-heading').addClass('expanded')
-      @$el.find('.recurrenceList').hide()
-      @$el.find('.inlineEdit').show()
-      
-    @subscribeEvent "event:#{@model.id}:edit:close", =>
-      $("#collapse#{@model.id}").collapse('hide')
-      @removeSubview 'recurrenceList'
+      @$el.find('div.panel-heading').removeClass('expanded')
       @removeSubview 'inlineEdit'
-    @delegate "click", ".duplicateButton", =>
-      @publishEvent 'event:duplicate', @model
+    @delegate 'click', '.inlineEditButton', =>
+      @publishEvent "closeOthers"    
+      @$el.find('.inlineEdit').show()  
+    @subscribeEvent "#{@noun}:#{@model.id}:edit:close", =>
+      $("#collapse#{@model.id}").collapse('hide')
+      @removeSubview 'inlineEdit'
     @subscribeEvent "closeOthers", =>
       panels = $(".panel-collapse.in")
       _.each panels, (element, index,list)=>
         $('#'+element.id).collapse('hide')
-        $('#'+element.id+' .panel-heading').removeClass('expanded')
       @removeSubview 'inlineEdit'
+    @delegate "click", ".duplicateButton", =>
+      @publishEvent "#{@noun}:duplicate", @model        
       

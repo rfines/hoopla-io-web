@@ -1,19 +1,20 @@
 ListItemView = require 'views/base/listItem'
 
 module.exports = class EditableListItem extends ListItemView
+  collapsedId = undefined
+
   attach: =>
     super()
     @delegate 'show.bs.collapse', =>
       @subview 'inlineEdit', new @EditView({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
+      @$el.find('div.panel-heading').addClass('expanded')
+      @collapsedId = undefined
     @delegate 'hide.bs.collapse', =>
-      console.log @$el.find('div.expanded')
       @$el.find('div.expanded').removeClass('expanded')
-      @$el.find('div.panel-heading').removeClass('expanded')
+      @collapsedId = @model.id
       @removeSubview 'inlineEdit'
     @delegate 'click', '.inlineEditButton', =>
-      console.log "Click inline edit"
       @publishEvent "closeOthers"
-      @$el.find('.panel-heading').addClass('expanded')
       @$el.find('.inlineEdit').show()  
     @subscribeEvent "#{@noun}:#{@model.id}:edit:close", =>
       $("#collapse#{@model.id}").collapse('hide')
@@ -22,7 +23,6 @@ module.exports = class EditableListItem extends ListItemView
       panels = $(".panel-collapse.in")
       _.each panels, (element, index,list)=>
         $('#'+element.id).collapse('hide')
-        $('#'+element.id+'>.panel-heading')
       @removeSubview 'inlineEdit'
     @delegate "click", ".duplicateButton", =>
       @publishEvent "#{@noun}:duplicate", @model        

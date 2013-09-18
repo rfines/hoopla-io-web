@@ -87,7 +87,6 @@ module.exports = class InlineEdit extends View
 
 
   postSave: =>
-    console.log 'inlineEdit postSave'
     if @isNew
       @collection.add @model
       @publishEvent "#{@noun}:created", @model

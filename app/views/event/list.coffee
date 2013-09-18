@@ -27,7 +27,6 @@ module.exports = class List extends ListView
     else if @params?.success
       @publishEvent '!router:changeURL',  "#{baseUrl}"
       @publishEvent 'message:publish', 'success', @params.success 
-    console.log window.location.pathname.split('/').indexOf('past') 
     if location.pathname.split('/').indexOf('past') > -1
       @$el.find('.pastEvents').addClass('active')
       @$el.find('.futureEvents').removeClass('active')
