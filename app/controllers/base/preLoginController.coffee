@@ -19,7 +19,7 @@ module.exports = class Controller extends Chaplin.Controller
                 Chaplin.datastore.user = user
                 @publishEvent '!router:route', 'myEvents'
               error: =>
-                @publishEvent '!router:route', "logout"
+                @publishEvent '!router:route', "auth_logout"
 
   compositions: =>
     @compose 'site', SiteView

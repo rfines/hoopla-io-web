@@ -51,8 +51,6 @@ module.exports = class Event extends Model
     if ne
       next = ne
       days = ne.startOf('day').diff(now.startOf('day'), 'days', true)
-      console.log days
-      console.log next
       if days > 1
         return next.format('MM/DD/YYYY')        
       else
