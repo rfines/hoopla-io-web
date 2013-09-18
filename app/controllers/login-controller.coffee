@@ -3,7 +3,7 @@ TopNav = require 'views/topNavHome'
 Footer = require 'views/footerHome'
 Controller = require 'controllers/base/preLoginController'
 LoginView = require 'views/login-view'
-ResetPasswordRequestView = require 'views/reset-password-request'
+ForgotPassword = require 'views/forgotPassword'
 
 module.exports = class HomeController extends Controller
   login: ->
@@ -13,9 +13,6 @@ module.exports = class HomeController extends Controller
     @compose 'site', SiteView
     @compose 'topNav', TopNav  
     @compose 'footer', Footer
-  
-  resetPassword: ->
-    @view = new ResetPasswordRequestView region: 'main'  
 
   logout: ->
     $.removeCookie('token')

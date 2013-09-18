@@ -9,6 +9,7 @@ module.exports = class LoginPopover extends View
   events:
     "click .loginButton": 'login'
     'click .cancel' : 'cancel'
+    'click .forgotPasswordButton' : 'forgotPassword'
 
   initialize: ->
     super
@@ -30,6 +31,10 @@ module.exports = class LoginPopover extends View
     else
       @$el.find('.alert').empty()
       @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>")    
+
+  forgotPassword: (e) ->
+    e.preventDefault() if e
+    @publishEvent '!router:route', '/forgotPassword'
 
   cancel: (e) ->
     e.preventDefault()

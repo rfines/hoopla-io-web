@@ -1,8 +1,6 @@
 template = require 'templates/home'
 View = require 'views/base/view'
 User = require 'models/user'
-LoginPopover = require 'views/loginPopover'
-
 
 module.exports = class HomePageView extends View
   autoRender: true
@@ -10,12 +8,13 @@ module.exports = class HomePageView extends View
   template: template
 
   initialize: (options) ->
+    console.log options
     super()
     @showLogin = options.showLogin
+    @showForgotPassword = options.showForgotPassword
 
   events:
     'click .registerForm .btn' : 'register'
-    'click .sign-in' : 'login'
 
   attach: ->
     super()
@@ -24,10 +23,8 @@ module.exports = class HomePageView extends View
     $(".well").parallax "50%", 0.1
     $(".navbar .nav > li > a").click ->
       $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
-    console.log @showLogin
-    if @showLogin
-      @login()
-      $('#loginModal').modal('show')
+    @publishEvent 'showLogin' if @showLogin
+    @publishEvent 'showForgotPassword' if @showForgotPassword
 
   register: (e) ->
     e.preventDefault()
@@ -49,8 +46,3 @@ module.exports = class HomePageView extends View
         }
     else
       alert('Email and Password are required')
-
-
-  login: (e) ->
-    e.preventDefault() if e
-    @subview('loginPopover', new LoginPopover({container: $('#loginModal .modal-content')}))
