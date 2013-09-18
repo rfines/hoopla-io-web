@@ -19,7 +19,7 @@ module.exports = (match) ->
   match 'account', 'account#manage'
   match 'account/change-password', 'account#changePassword' 
   match 'account/forgot-password', 'account#resetPassword'
-  match 'password/reset', 'home#newPassword'
+  match 'password/reset', 'home#home', params: { showResetPassword: true}
   match 'event/:id/promote', 'event#promote'
 
 
