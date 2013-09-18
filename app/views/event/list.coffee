@@ -26,8 +26,15 @@ module.exports = class List extends ListView
       @publishEvent 'message:publish', 'error', @params.error
     else if @params?.success
       @publishEvent '!router:changeURL',  "#{baseUrl}"
-      @publishEvent 'message:publish', 'success', @params.success  
-
+      @publishEvent 'message:publish', 'success', @params.success 
+    console.log window.location.pathname.split('/').indexOf('past') 
+    if location.pathname.split('/').indexOf('past') > -1
+      @$el.find('.pastEvents').addClass('active')
+      @$el.find('.futureEvents').removeClass('active')
+    else
+      @$el.find('.pastEvents').removeClass('active')
+      @$el.find('.futureEvents').addClass('active')
+  
   getTemplateData:->
     td = super()
     if Chaplin.datastore.business.length > 0
@@ -37,7 +44,6 @@ module.exports = class List extends ListView
       td.allowCreate = false
       @allowCreate = false
     td
-
   
   create: (e) =>
     @publishEvent "closeOthers"

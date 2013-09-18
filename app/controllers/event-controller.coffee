@@ -3,9 +3,7 @@ Event = require 'models/event'
 PromoRequest = require 'models/promotionRequest'
 module.exports = class EventController extends Controller
   list: (params) ->
-    console.log "event List"
     EventList = require 'views/event/list'
-    console.log params
     Chaplin.datastore.loadEssential 
       success: =>
         @view = new EventList
@@ -17,7 +15,6 @@ module.exports = class EventController extends Controller
             
 
   past: ->
-    console.log "Loading past events"
     EventList = require 'views/event/list'
     Chaplin.datastore.loadEssential 
       success: =>

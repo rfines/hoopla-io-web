@@ -30,7 +30,8 @@ module.exports = class ListItem extends ListItemView
       @subview 'recurrenceList', new RecurrenceList({container: @$el.find('.recurrenceList'), model: @model}) if not @subview('recurrenceList')
       @subview 'inlineEdit', new @EditView({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
     @delegate 'hide.bs.collapse', =>
-      @$el.find('.panel-heading').removeClass('expanded')
+      console.log @$el.find('.panel-heading')
+      $('#'+@model.id+' .panel-heading').removeClass('expanded')
     @delegate 'click', '.showOccurrences', =>
       @$el.find('.recurrenceList').show()
       @$el.find('.inlineEdit').hide()
@@ -50,5 +51,6 @@ module.exports = class ListItem extends ListItemView
       panels = $(".panel-collapse.in")
       _.each panels, (element, index,list)=>
         $('#'+element.id).collapse('hide')
+        $('#'+element.id+' .panel-heading').removeClass('expanded')
       @removeSubview 'inlineEdit'
       

@@ -6,9 +6,10 @@ module.exports = class EditableListItem extends ListItemView
     @delegate 'show.bs.collapse', =>
       @subview 'inlineEdit', new @EditView({container: @$el.find('.inlineEdit'), model : @model, collection : @collection}) if not @subview('inlineEdit')
     @delegate 'hide.bs.collapse', =>
-      console.log "hide bs collapse"
-      console.log @$el.find('div.panel-heading')
+      console.log @$el.find('div.expanded')
+      @$el.find('div.expanded').removeClass('expanded')
       @$el.find('div.panel-heading').removeClass('expanded')
+      @removeSubview 'inlineEdit'
     @delegate 'click', '.inlineEditButton', =>
       console.log "Click inline edit"
       @publishEvent "closeOthers"
