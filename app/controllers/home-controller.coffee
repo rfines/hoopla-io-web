@@ -1,6 +1,7 @@
 SiteView = require 'views/site-view'
 Controller = require 'controllers/base/preLoginController'
 HomePageView = require 'views/home'
+BlogView = require 'views/blog'
 
 module.exports = class HomeController extends Controller
   home: (params) ->
@@ -14,3 +15,9 @@ module.exports = class HomeController extends Controller
 
   compositions: =>
     @compose 'site', SiteView
+    
+  blog: (params)->
+    template = require('templates/blog')
+    @view = new BlogView
+      region:'main'
+      

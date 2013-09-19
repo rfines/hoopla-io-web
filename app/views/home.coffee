@@ -10,8 +10,6 @@ module.exports = class HomePageView extends View
 
   initialize: (@options) ->
     super(options)
-    console.log @options
-
   events:
     'click .registerForm .btn' : 'register'
 
@@ -50,3 +48,4 @@ module.exports = class HomePageView extends View
         }
     else
       alert('Email and Password are required')
+
