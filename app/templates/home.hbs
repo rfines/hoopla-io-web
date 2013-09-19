@@ -122,13 +122,16 @@ nav.signup div {
   width: 60%;
 }
 nav.signup input.form-control {
-  width: 20%;
+  width: 32%;
   float: left;
   margin-left: 2%;
+  height: 44px;
+  font-size: 1.5em;
 }
 nav.signup h4 {
   display: inline-block;
   float: left;
+font-size:1.4em;
 }
 .success {
   color: #c5d645;
@@ -228,6 +231,14 @@ hr,
   border-bottom: 2px solid #fff;
   display: inline-block;
 }
+.register-form {padding: 20px;
+background-color: rgb(69, 70, 66);
+border-radius: 19px;
+color:#fff;
+}
+.register-form .radio label {color: #c5d645;}
+.userType {margin-bottom:20px;}
+.register-form label {color: #c5d645;font-family:'quicksandlight';}
 /* FOOTER
     ================================*/
 footer {
@@ -856,12 +867,13 @@ border:6px solid #3498DB;
   </header>
   <nav class="navbar-inverse signup">
     <form class="registerForm">
-      <div class="form-group">
-        <h4>Sign up for a free trial today</h4>
+      <div class="form-group input-group">
+        <h4>Sign up for free</h4>
+		<label for='email' class="sr-only">Email</label>
         <input type="text" placeholder="email" class="form-control" name="email">
-        <input type="password" placeholder="password"  class="form-control" name="password">
-        <a class="btn btn-success">Sign Up</a>
-      </div>
+<label for='password' class="sr-only">Email</label>
+        <input type="password" placeholder="password"  class="form-control" name="password"><a class="btn btn-success">Sign Up</a>
+        </div>
     </form>
     
   </nav>
@@ -869,42 +881,7 @@ border:6px solid #3498DB;
   <div class="container">
     <div class="row">
       <div class="page-header text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h3 class="success">What do you need to do?</h3>
-        <p class="lead"></p>
-      </div> 
-    </div>
-    <div class="row">
-       <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
-          
-        <div class="">
-          <img src="/client/images/landing/create.png" />
-        </div>
-              <h3>CREATE</h3>
-              <p class="justify">Enter your event details into the Hoopla.io platform. Set one-time or recurring, or tag relevant details to optimize search.</p>
-            </div>
-        <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
-        <div class="">
-          <img src="/client/images/landing/promote.png" />
-          </div>
-              <h3>PROMOTE</h3>
-              <p class="justify">   Don’t forget to tag your event so that people will find it. Hoopla.io will publish your event on your website, social media, and local distribution partners.
-        </p>
-
-            </div>
-            <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
-          <div class="">
-          <img src="/client/images/landing/relax.png" />
-          </div>
-              <h3>RELAX</h3>
-              <p class="justify">That’s it! We’ll do the work for you, all you need to do is sit back and get ready for a full house. </p>
-
-           </div>
-    </div>
-    <div class="row">
-      <div class="page-header text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h3>EVENT MARKETING MADE EASY
-
-        </h3>
+        <h3>EVENT MARKETING MADE EASY </h3>
         <p class="lead">
             So simple, it’s almost magical. 
         </p>
@@ -956,9 +933,43 @@ border:6px solid #3498DB;
             <h3>6. BOOTSTRAP 3.0.!</h3>
             <p class="justify">Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
     </div>
+	<div class="row">
+      <div class="page-header text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h3 class="success">What do you need to do?</h3>
+        <p class="lead"></p>
+      </div> 
+    </div>
+    <div class="row">
+       <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
+          
+        <div class="">
+          <img src="/client/images/landing/create.png" />
+        </div>
+              <h3>CREATE</h3>
+              <p class="justify">Enter your event details into the Hoopla.io platform. Set one-time or recurring, or tag relevant details to optimize search.</p>
+            </div>
+        <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="">
+          <img src="/client/images/landing/promote.png" />
+          </div>
+              <h3>PROMOTE</h3>
+              <p class="justify">   Don’t forget to tag your event so that people will find it. Hoopla.io will publish your event on your website, social media, and local distribution partners.
+        </p>
+
+            </div>
+            <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="">
+          <img src="/client/images/landing/relax.png" />
+          </div>
+              <h3>RELAX</h3>
+              <p class="justify">That’s it! We’ll do the work for you, all you need to do is sit back and get ready for a full house. </p>
+
+           </div>
+    </div>
   </div>
   
-  </div><!-- / CONTAINER-->
+  </div>
+<!-- / CONTAINER-->
   <div class="well">
     <div class="container">
       <div class="row">
@@ -969,7 +980,7 @@ border:6px solid #3498DB;
           
         </div>
         <div class="text-left col-xs-12 col-sm-3 col-md-3 col-lg-3">
-          <a class="btn btn-large btn-block btn-success" href="/signUp">Start</a>
+          <a class="btn btn-large btn-block btn-success" href="#Section-4">Start</a>
         </div>
       </div>
     </div>
@@ -1149,78 +1160,7 @@ border:6px solid #3498DB;
       </div>
     <hr>
     
-<div class="row">
-<div class="col-xs-12 col-sm-8 col-md-7 col-lg-7 col-lg-7">
-  <h3 class="main-color">OUR STORY</h3>
-  <div class="about-box row">
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-      <div class="circ-wrap">
-        <i class="icon-beaker icon-4x"></i>
-      </div>
-    </div>
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">   
-      <h4><span>WEB &amp; UI DESIGN</span></h4>
-      
-      <p class="">
-      There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.
-      </p>
-    </div>
-  </div>
-  <div class="about-box row">
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-      <div class="circ-wrap">
-        <i class="icon-beaker icon-4x"></i>
-      </div>
-    </div>
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">   
-      <h4><span>WEB &amp; UI DESIGN</span></h4>
-      
-      <p class="">
-      There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.
-      </p>
-    </div>
-  </div>
-  <div class="about-box row">
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-      <div class="circ-wrap">
-        <i class="icon-beaker icon-4x"></i>
-      </div>
-    </div>
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">   
-      <h4><span>WEB &amp; UI DESIGN</span></h4>
-      
-      <p class="">
-      There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.
-      </p>
-    </div>
-  </div>
-</div>
 
-<div class="col-xs-12 col-sm-4 col-md-5 col-lg-5">
-  <h3 class="main-color">MAIN SKILLS</h3>
-  <h4>DESIGN</h4>
-  <div class="progress">
-      <div class="bar" style="width: 75%;"></div>
-  </div>
-  <h4>HTML5</h4>
-  <div class="progress">
-      <div class="bar bar-danger" style="width: 60%;"></div>
-  </div>
-  <h4>CSS3</h4>
-  <div class="progress">
-      <div class="bar bar-success" style="width: 55%;"></div>
-  </div>
-  <h4>JQUERY</h4>
-  <div class="progress">
-    <div class="bar bar-warning" style="width: 75%;"></div>
-  </div>
-  <h4>PHP</h4>
-  <div class="progress">
-    <div class="bar bar-info" style="width: 55%;"></div>
-  </div>
-  </div>
-</div>
-</div>
 </section>
 <section id="Section-4">
   <div class="container">
