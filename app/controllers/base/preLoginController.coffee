@@ -1,7 +1,4 @@
 SiteView = require 'views/site-view'
-PreLoginHeaderView = require 'views/preLoginHeader'
-TopNav = require 'views/topNav'
-Footer = require 'views/footer'
 User = require 'models/user'
 
 module.exports = class Controller extends Chaplin.Controller
@@ -19,10 +16,7 @@ module.exports = class Controller extends Chaplin.Controller
                 Chaplin.datastore.user = user
                 @publishEvent '!router:route', 'myEvents'
               error: =>
-                @publishEvent '!router:route', "auth_logout"
+                @publishEvent '!router:route', '/logout'
 
   compositions: =>
     @compose 'site', SiteView
-    @compose 'topNav', TopNav, {region: 'topNav'}
-    @compose 'preLoginHeader', PreLoginHeaderView, {region:'header'}  
-    @compose 'footer', Footer

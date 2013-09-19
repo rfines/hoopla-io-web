@@ -63,6 +63,7 @@
   margin-right: 26px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color:#999;
 }
 .chosen-container-single .chosen-single-with-deselect span {
   margin-right: 38px;
@@ -227,7 +228,7 @@
   border: 0 !important;
   background: transparent !important;
   box-shadow: none;
-  color: #666;
+  color: #999;
   font-size: 100%;
   font-family: sans-serif;
   line-height: normal;

@@ -19,7 +19,7 @@ module.exports = class List extends ListView
       @removeSubview 'newItem' if @subview 'newItem'
     @filter @filterer
     if not @allowCreate
-      @publishEvent "message:publish", "success", "You need to create a business before you can create events."
+      @publishEvent "message:publish", "success", "You need to <a href=\'/myBusinesses\'>create a business</a> before you can create events."
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
       @publishEvent '!router:changeURL',  "#{baseUrl}"

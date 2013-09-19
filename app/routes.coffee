@@ -3,7 +3,7 @@ module.exports = (match) ->
   match 'home', 'home#home'
 
   # Marketing/Pre-Login Routes
-  match 'signUp', 'registration#registerUser'
+  match 'signUp', 'home#home', params: {signup : true}
 
   # Post-Login Routes
   match 'myBusinesses', 'business#list'
