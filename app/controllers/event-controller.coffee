@@ -38,6 +38,6 @@ module.exports = class EventController extends Controller
           model: prRequest
           data: Chaplin.datastore.event.get(params.id)
 
-  pastComparator:(event,second,third)->
+  pastComparator:(event)->
     console.log "Past comparator"
-    return -event.lastOccurrence().toDate().getTime() | -moment(event.endDate).toDate().getTime()
+    return -event.lastOccurrence().toDate().getTime()
