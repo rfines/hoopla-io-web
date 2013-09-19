@@ -25,6 +25,7 @@ section {
 }
 .page-header {
   padding-top: 20px;
+text-align: center;
 }
 .justify {
   text-align: justify;
@@ -175,6 +176,7 @@ font-size:1.4em;
   font-size: 220%;
 text-shadow: 0px 0px 5px #000;
 color:#fff!important;
+font-family:'quicksandbold';
 }
 #Section-2 .well {
   background: url('http://farm7.staticflickr.com/6208/6035958264_2bbd2735f4_o.jpg') 0% 0% fixed repeat;
@@ -213,9 +215,11 @@ hr,
   font-weight: 100;
   font-size: 46px;
   line-height: 46px;
+  color:#fff;
 }
 .box {
   margin-bottom: 30px;
+min-height: 400px;
 }
 .about-box {
   margin-bottom: 20px;
@@ -423,6 +427,9 @@ footer .circ-wrap a:hover {
 .social-contacts a:hover {
   text-decoration: none;
 }
+.bio div {margin-bottom:40px;}
+.bio h3 {font-family:'museoLight';}
+.bio h4, .bio h5{font-family:'quicksand';}
 /* PRODUCTS
   ==============================*/
 .thumbnail.product-item {
@@ -503,6 +510,8 @@ footer .circ-wrap a:hover {
   -moz-border-radius: 0px;
   border-radius: 0px;
 }
+
+#myCarousel2 .item {min-height:370px;}
 /* @media width
   ====================================*/
 @media (max-width: 979px) {
@@ -852,6 +861,7 @@ border:6px solid #3498DB;
                   </div>
                   <div class="text-center col-xs-12 col-sm-6 col-md-4 col-lg-4">
                     <h1 class="">Hoopla.io makes it so easy, it's almost magic</h1>
+<a class="btn btn-large btn-success" href="#Section-4">Start</a>
                   </div>
                 </div>
             </div>
@@ -865,18 +875,7 @@ border:6px solid #3498DB;
       <a class="gobtn" href="#Section-1"><i class="icon-chevron-down icon-large"></i></a>
     </div>
   </header>
-  <nav class="navbar-inverse signup">
-    <form class="registerForm">
-      <div class="form-group input-group">
-        <h4>Sign up for free</h4>
-		<label for='email' class="sr-only">Email</label>
-        <input type="text" placeholder="email" class="form-control" name="email">
-<label for='password' class="sr-only">Email</label>
-        <input type="password" placeholder="password"  class="form-control" name="password"><a class="btn btn-success">Sign Up</a>
-        </div>
-    </form>
-    
-  </nav>
+ 
 <section id="Section-1">
   <div class="container">
     <div class="row">
@@ -991,7 +990,7 @@ border:6px solid #3498DB;
 
    <div class="row">
     <div class="page-header text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h3 class="primary">EVENT CURATION MADE EASY</h3>
+      <h3>EVENT CURATION MADE EASY</h3>
       <p class="lead">So simple, it’s almost magic.
     </p></div> 
   </div>  
@@ -1091,12 +1090,12 @@ border:6px solid #3498DB;
   <div class="container">
     <div class="row">
       <div class="page-header text-center col-sm-12 col-lg-12">
-        <h3>The Hoopla.io team</h3>
+        <h3>THE HOOPLA.io TEAM</h3>
         <p class="lead">
       </p></div> 
     </div>  
  
-    <div class="row text-center">
+    <div class="row text-center bio">
       <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
         <a href="#"><img src="/client/images/landing/dondo.jpg" width="160" height="160" class="img-circle"></a>
         <h3>Adam Arredondo</h3>
@@ -1127,7 +1126,7 @@ border:6px solid #3498DB;
       </div>
       
     </div>
-      <div class="row text-center">
+      <div class="row text-center bio">
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
           <a href="#"><img src="/client/images/landing/dondo.jpg" width="160" height="160" class="img-circle"></a>
           <h3>Adam Arredondo</h3>
@@ -1159,7 +1158,32 @@ border:6px solid #3498DB;
 
       </div>
     <hr>
-    
+    <div class="row">
+	<div class="col-xs-12 col-sm-8 col-md-8 col-lg-12 col-lg-12">
+	  <h3 class="main-color">OUR STORY</h3>
+	<p class="lead">
+	
+	<p class="lead">If you try to define “hoopla,” you’ll get the following:</p>
+
+	<p class="lead"><strong class="lead">hoop·la</strong></br>
+	n. Informal</br>
+	<em>1.a. Boisterous, jovial commotion or excitement.</em></br>
+	    <em>b. Extravagant publicity: The new sedan was introduced to the public with much hoopla.</em></br>
+	<em>2. Talk intended to mislead or confuse.</em>
+</p>
+	<p class="lead">Well, we’re definitely not meaning to mislead you, but we are committed to [ ]</p>
+
+	<p class="lead">Hoopla.io started because we believed it should be easy to find things to do. We created a <a href="http://www.localruckus.com" target="blank">Ruckus</a> but weren’t satisfied with that. So we started over, and created a B2B platform. </p>
+
+	<p class="lead">We believe in three things: </p>
+	<ul>
+	<li class="lead">Empowering businesses to make use of current technology</li>
+	<li class="lead">Showcasing national, regional, local and hyperlocal events</li> 
+	<li class="lead">Making it stupid simple</li>
+	</ul>
+	</p>
+	</div>
+	</div>
 
 </section>
 <section id="Section-4">
@@ -1168,7 +1192,7 @@ border:6px solid #3498DB;
       <div class="page-header text-center col-sm-12 col-lg-12">
       </div> 
     </div>-->
-    <div class="row signUpArea"></div>
+    <div class="row signUpArea"><div class="page-header"><h3>SIGN UP FOR FREE, IT'S EASY AS PIE!</h3></div></div>
   </div>
 </section> 
 <footer id="foot-sec">
