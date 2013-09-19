@@ -33,10 +33,12 @@ module.exports = class EventEditView extends View
       e.preventDefault()    
     @$el.find('.business').on 'change', @changeBusiness
     @$el.find('.host').on 'change', @changeHost     
-    @subscribeEvent 'selectedMedia', @updateImage   
+    @subscribeEvent 'selectedMedia', @updateImage
+
+  positionPopover:()=>
+    $('.popover.bottom').css('top', '60px')  
 
   changeHost:  (evt, params) =>
-    console.log 'change host'
     @model.set 
       'host' : params.selected
       'location' : Chaplin.datastore.venue.get(params.selected).get('location')   
@@ -90,15 +92,17 @@ module.exports = class EventEditView extends View
 
   chooseCustomVenue: =>
     @$el.find('.addressButton').on 'shown.bs.popover', =>
-      @$el.find('.popover-content').html("<div class='addressPopover'></div>")
-      if not @subview('addressPopover')
+      if @$el.find('#map-canvas').length <=0
+        @$el.find('.popover-content').html("<div class='addressPopover'></div>")
         @subview 'addressPopover', new AddressView
           container : @$el.find('.addressPopover')
           model : @model
           template: require('templates/addressPopover')
-    @$el.find('.addressButton').popover({placement: 'bottom', content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
+    @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
+    @positionPopover()
     @delegate 'click', '.closeAddress', ->
-      @$el.find('.addressButton').popover('hide')
+      if @$el.find('.popover-content').is(':visible')
+        @$el.find('.addressButton').popover('hide')
 
   updateModel: ->
     @model.set
@@ -115,7 +119,7 @@ module.exports = class EventEditView extends View
     }]
 
   postSave:()=>
-    console.log 'event edit postsave'
+    @publishEvent 'stopWaiting'
     if $('.promote-checkbox').is(':checked')
       if @isNew
         @collection.add @model

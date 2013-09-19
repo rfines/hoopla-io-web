@@ -33,7 +33,7 @@ module.exports = class InlineEdit extends View
     @$el.find(".select-chosen").chosen({width:'100%'})  
     @$el.find(".select-chosen-nosearch").chosen({width:'100%', disable_search: true})  
     if @hasMedia
-      if @model.get('media').length > 0
+      if @model.get('media')?.length > 0
         @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:false,standAloneUpload:false}}))
       else
         @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:true,standAloneUpload:false}}))
@@ -58,7 +58,7 @@ module.exports = class InlineEdit extends View
     else
       return true    
 
-  cancel: (e) ->
+  cancel: (e) =>
     if @model.isNew()
       super()
     else
@@ -81,12 +81,12 @@ module.exports = class InlineEdit extends View
       else
         @model.save {}, {
             success: =>
-              console.log 'call postsave'
               @postSave() if @postSave
         }    
 
 
   postSave: =>
+    @publishEvent 'stopWaiting'
     if @isNew
       @collection.add @model
       @publishEvent "#{@noun}:created", @model

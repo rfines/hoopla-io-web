@@ -35,8 +35,7 @@ module.exports = class AddressView extends View
             zoom: 16
             center: results[0].geometry.location
             mapTypeId: google.maps.MapTypeId.ROADMAP
-          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions); 
-          map.setCenter p       
+          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);       
           marker = new google.maps.Marker(
             map: map
             position: results[0].geometry.location

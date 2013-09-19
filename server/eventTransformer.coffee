@@ -27,6 +27,7 @@ dateDisplayText = (event) ->
 
 timeDisplayText = (event) ->
   ne = nextOccurrence(event)
+  console.log ne._i
   if ne
     st = moment(ne.start)
     et = moment(ne.end)
@@ -35,9 +36,19 @@ timeDisplayText = (event) ->
     return ''
 
 module.exports.transform = (event) ->
+  cost = ''
+  if event.cost is 0 or not event.cost
+    cost = 'FREE'
+  else
+    cost = "$#{event.cost}"
   return {
     name : event.name
     eventImage : event.media?[0]?.url || 'http://placehold.it/100x100'
     dateDisplay : dateDisplayText(event)
     timeDisplay : timeDisplayText(event)
+    cost:cost
+    description:event.description || ''
+    hostName: event.business.name
+    link: event.website
+
   }
