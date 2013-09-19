@@ -80,7 +80,7 @@ module.exports = class Event extends Model
     if media?.length > 0
       return $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: options.height, width: options.width})  
     else
-      return undefined    
+      return undefined 
 
   clone: ->
     json = @toJSON()

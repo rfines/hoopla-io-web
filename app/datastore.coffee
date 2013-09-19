@@ -36,7 +36,6 @@ module.exports = exports = class DataStore
           options.success()
 
   loadEssential: (options) ->
-    console.log "Loading essential"
     Chaplin.mediator.publish 'startWaiting'
     Chaplin.datastore.load
       name: 'venue'

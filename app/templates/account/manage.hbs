@@ -1,5 +1,12 @@
 <form class="" role="form">
-  <div class="alert message"></div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="alert message"></div>
+    </div>
+    <div class="col-md-6">
+      <div class="alert password-message"></div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-6">
       <legend>Profile Information</legend>
@@ -40,24 +47,23 @@
         <input type="text" class="form-control" name="phone" placeholder="Phone"/>
       </div>                         
     </div>
-    <div class="col-md-6">
-      <div class="alert password-message"></div>
-      <legend>Change Password</legend>
-      <div class="control-group">
-        <label for="current_password" class="control-label">Current Password</label>
-          <input type="password" name="currentPassword" class="form-control"/>
+      <div class="col-md-6">
+        <legend>Change Password</legend>
+        <div class="control-group">
+          <label for="current_password" class="control-label">Current Password</label>
+            <input type="password" name="currentPassword" class="form-control"/>
+        </div>
+        <div class="control-group">
+          <label for="password" class="control-label">Password</label>
+            <input type="password" name="newPassword" id="password" class="form-control" />
+        </div>
+        <div class="control-group">
+          <label for="password-confirm" class="control-label">Confirm Password</label>
+          <input type="password" name="newPassword-confirm" class="form-control" />
+        </div>
+        <div class="form-actions">
+          <a type="submit" class="pull-right btn btn-info saveButton">Save Changes</a>
+        </div>
       </div>
-      <div class="control-group">
-        <label for="password" class="control-label">Password</label>
-          <input type="password" name="newPassword" id="password" class="form-control" />
-      </div>
-      <div class="control-group">
-        <label for="password-confirm" class="control-label">Confirm Password</label>
-        <input type="password" name="newPassword-confirm" class="form-control" />
-      </div>
-      <div class="form-actions">
-        <a type="submit" class="pull-right btn btn-info saveButton">Save Changes</a>
-      </div>
-    </div>
   </div>
 </form>

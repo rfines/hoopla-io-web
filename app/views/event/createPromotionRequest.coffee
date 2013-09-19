@@ -68,6 +68,13 @@ module.exports = class CreatePromotionReqeust extends View
     options=
       business:@business
       promotionTarget:@fbPromoTarget
+    @$el.find('.tweetMessage').simplyCountable({
+      maxCount: 140
+      strictMax:true
+      overClass:'alert alert-error'
+      countDirection: 'down'
+
+    })
     @subview("facebookEvent", new CreateFacebookEventView({model: @event, container : @$el.find('.facebook-event-preview')[0], options:options}))
     @initDatePickers()
     @initTimePickers()
@@ -177,7 +184,7 @@ module.exports = class CreatePromotionReqeust extends View
     time = $('.twStartTime').timepicker('getSecondsFromMidnight')
     now = moment().format('X')
     date = date.add('seconds', time)
-    if now >= moment(date).format('X')
+    if date and now >= moment(date).format('X')
       successMessageAppend = "You chose a date in the past so your message will go out immediately."
     
     if immediate.is(':checked')

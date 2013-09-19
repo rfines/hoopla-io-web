@@ -19,9 +19,11 @@ module.exports = class EventController extends Controller
     EventList = require 'views/event/list'
     Chaplin.datastore.loadEssential 
       success: =>
+        collection = Chaplin.datastore.event
+        collection.reset(collection.sortBy(@pastComparator))
         @view = new EventList
           region: 'main'
-          collection : Chaplin.datastore.event
+          collection : collection
           filterer: (item, index) ->
             not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())
           options: 'past'  
@@ -35,3 +37,7 @@ module.exports = class EventController extends Controller
           region: 'main'
           model: prRequest
           data: Chaplin.datastore.event.get(params.id)
+
+  pastComparator:(event,second,third)->
+    console.log "Past comparator"
+    return -event.lastOccurrence().toDate().getTime() | -moment(event.endDate).toDate().getTime()

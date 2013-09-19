@@ -14,6 +14,7 @@ module.exports = class AddressView extends View
 
   attach: =>
     super
+    console.log "mapping attach"
     if @model.has 'location'
       @$el.find('.address').val(@model.get('location').address)
       @showGeo(@model.get('location'))
@@ -24,6 +25,7 @@ module.exports = class AddressView extends View
     'change input' : 'mapLocation'
 
   mapLocation: (e) =>
+    console.log "mapping location"
     address = @$el.find('.address').val()
     if address
       geocoder = new google.maps.Geocoder()
@@ -33,7 +35,8 @@ module.exports = class AddressView extends View
             zoom: 16
             center: results[0].geometry.location
             mapTypeId: google.maps.MapTypeId.ROADMAP
-          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);        
+          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions); 
+          map.setCenter p       
           marker = new google.maps.Marker(
             map: map
             position: results[0].geometry.location
@@ -51,11 +54,13 @@ module.exports = class AddressView extends View
 
   showGeo: (location) =>
     p = new google.maps.LatLng(location.geo.coordinates[1], location.geo.coordinates[0])
+    console.log p
     mapOptions =
       zoom: 16
       center: p
     mapTypeId: google.maps.MapTypeId.ROADMAP
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map.setCenter(p)
     marker = new google.maps.Marker(
       map: map
       position: p

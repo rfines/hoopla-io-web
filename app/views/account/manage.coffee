@@ -35,6 +35,7 @@ module.exports = class Edit extends View
 
   clearErrors: =>
     @$el.find('.message').empty().hide()
+    @$el.find('.password-message').empty().hide()
     @$el.find(".has-error").removeClass('has-error')
 
   changePassword: (oldPass, newPass, newPassConfirm)->
@@ -45,8 +46,8 @@ module.exports = class Edit extends View
       if pwordConfirm is pword
         @model.changePassword $.cookie('user'), pword, oldPass, {
           onSuccess: =>
-            @$el.find('.message').show().addClass('alert-success').append("<div class='row'>Your password has been changed.</div>")
+            @$el.find('.password-message').show().addClass('alert-success').append("<div class='row'>Your password has been changed.</div>")
           onError: =>
             console.log "Some error"
-            @$el.find('.message').show().addClass('alert-danger').append("<div class='row'>Unable to change your password.</div>")
+            @$el.find('.password-message').show().addClass('alert-danger').append("<div class='row'>Unable to change your password.</div>")
           }

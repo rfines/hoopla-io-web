@@ -61,12 +61,12 @@ module.exports = class ImageChooser extends View
       up.refresh() # Reposition Flash/Silverlight
 
     @uploader.bind "FileUploaded", (up, file, response) =>
+      @publishEvent "startWaiting"
       response = JSON.parse(response.response)
       if response.success is true
         if @standAloneUpload is true
           $('#choose-image').attr('disabled', false)
           $("#filelist div").empty()
-          console.log @file.id
         file.status = plupload.DONE
         @media = response.media
         Chaplin.datastore.media.add(@media)
@@ -90,6 +90,7 @@ module.exports = class ImageChooser extends View
   uploadQueue: (cb)->
     @uploader.bind "UploadComplete", (up, files)=>
       cb @media
+    @publishEvent "startWaiting"
     @uploader.start()
 
   getTemplateData: ->
