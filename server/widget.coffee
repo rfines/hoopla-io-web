@@ -24,6 +24,10 @@ module.exports.show = (req, res) ->
   request configRequest, (err, resp, widget) ->
     widget = JSON.parse(widget)
     request resultsRequest, (err, resp, body) ->
+      if err
+        console.log err
+        res.send 500
+        res.end()
       if body
         events = JSON.parse(body)
         events = _.map events, eventTransformer.transform

@@ -38,21 +38,20 @@ timeDisplayText = (event) ->
     return ''
 
 module.exports.transform = (event) ->
-  console.log event.host
   cost = ''
   if event.cost is 0 or not event.cost
     cost = 'FREE'
   else
     cost = "$#{event.cost}"
-  return {
+  o = {
     name : event.name
     eventImage : event.media?[0]?.url || 'http://placehold.it/100x100'
     dateDisplay : dateDisplayText(event)
     timeDisplay : timeDisplayText(event)
     cost:cost
     description:event.description || ''
-    hostName: event.business.name
-    address:event.location.address
     link: event.website
-
   }
+  o.hostName = event.business.name if event.business
+  o.address = event.location.address if event.location?.address
+  return o

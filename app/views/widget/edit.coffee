@@ -52,7 +52,20 @@ module.exports = class WidgetEditView extends View
     'click .saveButton' : 'save'
     'click .cancelButton':'cancel' 
 
-  preview: () ->
+  validate: ->
+    @$el.find('.has-error').removeClass('has-error')
+    errs = @model.validate()
+    if @model.get('widgetType') is 'event-by-location' and (not @model.get('location')?.geo?.coordinates?.length > 0)
+      errs = errs || {}
+      errs.address = 'required'
+    if errs
+      for x in _.keys(errs)
+        @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
+      return false
+    else
+      return true        
+
+  preview: () =>
     @updateModel()
     if @validate()
       @model.save {}, {
