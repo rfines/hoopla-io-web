@@ -61,8 +61,8 @@ module.exports = class ImageChooser extends View
       up.refresh() # Reposition Flash/Silverlight
 
     @uploader.bind "FileUploaded", (up, file, response) =>
-      @publishEvent "startWaiting"
       response = JSON.parse(response.response)
+      @publishEvent "stopWaiting"
       if response.success is true
         if @standAloneUpload is true
           $('#choose-image').attr('disabled', false)

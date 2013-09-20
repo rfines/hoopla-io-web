@@ -12,7 +12,7 @@ module.exports = class EditableList extends ListView
     Chaplin.datastore.loadEssential 
       success: =>    
         @subview("newItem", new @EditView({container: @$el.find('.newItem'),collection : @collection,model : new @Model()}))
-
+  
   duplicate: (data) =>
     n = data.clone()
     @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : @collection, model : n}))  
