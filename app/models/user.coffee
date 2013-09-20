@@ -35,11 +35,13 @@ module.exports = class User extends Model
             success: =>
               @loginSuccess(user, options)
         error: (body,response, xHr) =>
-          errorResponse = JSON.parse(body.responseText)
-          $('.errors').empty().html("<span class='error'>#{errorResponse.message}</span>")
+          if body.responseText
+            errorResponse = JSON.parse(body.responseText).message
+          else
+            errorResponse = "Unable to login.  Please check your username and password."
+          options.onError(errorResponse) if options.onError
           
   loginSuccess : (user, options) =>
-    console.log options
     Chaplin.datastore.loadEssential
       success: =>
         if options?.onSuccess

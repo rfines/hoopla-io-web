@@ -4,6 +4,11 @@ HomePageView = require 'views/home'
 BlogView = require 'views/blog'
 
 module.exports = class HomeController extends Controller
+
+  initialize: =>
+    Chaplin.mediator.subscribe 'startWaiting', @startWaiting
+    Chaplin.mediator.subscribe 'stopWaiting', @stopWaiting
+
   home: (params) ->
     template = require('templates/home')
     @view = new HomePageView
@@ -21,3 +26,10 @@ module.exports = class HomeController extends Controller
     @view = new BlogView
       region:'main'
       
+
+  startWaiting: ->
+    $('.preloader').css('margin-top': '-60px')
+    $('.preloader').addClass('loading').show()
+
+  stopWaiting: ->
+    $('.preloader').removeClass('loading').hide()      
