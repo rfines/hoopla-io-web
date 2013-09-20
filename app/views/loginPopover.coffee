@@ -46,3 +46,7 @@ module.exports = class LoginPopover extends View
 
   cancel: (e) ->
     e.preventDefault()
+<<<<<<< HEAD
+=======
+    
+>>>>>>> Small fixes in web

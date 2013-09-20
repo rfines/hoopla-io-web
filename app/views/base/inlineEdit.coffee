@@ -52,14 +52,13 @@ module.exports = class InlineEdit extends View
     @$el.find('.has-error').removeClass('has-error')
     if @model.validate()
       for x in _.keys(@model.validate())
-        console.log @$el.find("input[name=#{x}], textarea[name=#{x}]").parent()
         @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
       return false
     else
       return true    
   cancel: (e)=>
     e.preventDefault() if e
-    if @subview("newItem").length > 0 && @model.isNew()
+    if @subview("newItem")?.length > 0 && @model.isNew()
       @removeSubview("newItem")
       @$el.find('.newItem').scrollUp()
     else
@@ -87,6 +86,7 @@ module.exports = class InlineEdit extends View
 
   postSave: =>
     @publishEvent 'stopWaiting'
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     if @isNew
       @collection.add @model
       @publishEvent "#{@noun}:created", @model

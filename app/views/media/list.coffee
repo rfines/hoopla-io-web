@@ -11,7 +11,6 @@ module.exports = class List extends ListView
   standAloneUpload :false
   initialize: (options)->
     super(options)
-    console.log options
     @standAloneUpload = options.standAloneUpload
 
 

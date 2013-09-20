@@ -144,7 +144,6 @@ module.exports = class CreatePromotionReqeust extends View
           @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will magically appear shortly.'
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
-          console.log error
       }    
     if time? > 0 
       d= moment(date).toDate().toISOString()
@@ -193,7 +192,6 @@ module.exports = class CreatePromotionReqeust extends View
             @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion will go out as soon as possible."
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
-          console.log error
       }
     if time? > 0 
       if date and now >= moment(date).format('X')
@@ -211,8 +209,6 @@ module.exports = class CreatePromotionReqeust extends View
           @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
         error:(response,err)=>
           Chaplin.mediator.publish 'stopWaiting'
-          console.log response
-          console.log err
       }
   showFacebook: (e)=>
     if e

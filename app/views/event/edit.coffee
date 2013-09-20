@@ -73,7 +73,6 @@ module.exports = class EventEditView extends View
 
   initSocialMediaPromotion: =>
     shouldShow = @model.get('business') and Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets')?.length > 0
-    console.log shouldShow
     @showPromote(shouldShow)
 
   initDatePickers: =>
