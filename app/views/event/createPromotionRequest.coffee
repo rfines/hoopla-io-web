@@ -65,9 +65,7 @@ module.exports = class CreatePromotionReqeust extends View
       @showFacebook()
     else
       @showTwitter()
-    options=
-      business:@business
-      promotionTarget:@fbPromoTarget
+    
     @$el.find('.tweetMessage').simplyCountable({
       maxCount: 140
       strictMax:true
@@ -75,12 +73,10 @@ module.exports = class CreatePromotionReqeust extends View
       countDirection: 'down'
 
     })
-    @subview("facebookEvent", new CreateFacebookEventView({model: @event, container : @$el.find('.facebook-event-preview')[0], options:options}))
+    
     @initDatePickers()
     @initTimePickers()
-    @subview('event-address', new AddressView({container : @$el.find('.event-map'), model : @model}))  
-    $('input.address').remove()
-    $('label[for=address]').remove()
+   
     
 
   events: 
@@ -184,9 +180,8 @@ module.exports = class CreatePromotionReqeust extends View
     time = $('.twStartTime').timepicker('getSecondsFromMidnight')
     now = moment().format('X')
     date = date.add('seconds', time)
-    if date and now >= moment(date).format('X')
-      successMessageAppend = "You chose a date in the past so your message will go out immediately."
     
+    console.log @event.get('media')
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
@@ -198,12 +193,14 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
             Chaplin.mediator.publish 'stopWaiting'
-            @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion will go out as soon as possible. #{successMessageAppend}"
+            @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion will go out as soon as possible."
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           console.log error
       }
     if time? > 0 
+      if date and now >= moment(date).format('X')
+        successMessageAppend = "You chose a date in the past so your message will go out immediately."
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
@@ -236,6 +233,13 @@ module.exports = class CreatePromotionReqeust extends View
     $('.twitterTab').removeClass('active')
     $('.facebookTab').removeClass('active')
     $('.facebookEventTab').addClass('active')
+    options=
+      business:@business
+      promotionTarget:@fbPromoTarget
+    @subview("facebookEvent", new CreateFacebookEventView({model: @event, container : @$el.find('.facebook-event-preview')[0], options:options}))
+    @subview('event-address', new AddressView({container : @$el.find('.event-map'), model : @model}))  
+    $('input.address').remove()
+    $('label[for=address]').remove()
     $('#facebookEventPanel').show()
     $('#facebookPanel').hide()
     $('#twitterPanel').hide()

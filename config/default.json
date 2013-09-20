@@ -22,9 +22,6 @@
     "authorize_url": "https://api.twitter.com/oauth/authorize",
     "access_token_url":"https://api.twitter.com/oauth/access_token",
     "callback_url": "http://localhost:3000/callbacks/oauthTwitterCallback"
-  },
-  "bitly":{
-    "apiKey":"R_44d5cd00ef3d3a578d2a4fea2fe9d7e5",
-    "username":"localruckus"
   }
+ 
 }
