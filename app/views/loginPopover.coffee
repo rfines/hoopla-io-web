@@ -19,7 +19,6 @@ module.exports = class LoginPopover extends View
     super
 
   login: (e)->
-    console.log 'login'
     e.preventDefault()
     uname = @$el.find('.username').val()
     pword = @$el.find('.password').val()
@@ -47,4 +46,3 @@ module.exports = class LoginPopover extends View
 
   cancel: (e) ->
     e.preventDefault()
-    console.log 'cancel'

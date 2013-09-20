@@ -14,14 +14,12 @@ module.exports = class FacebookPagesView extends View
 
   initialize:(options) ->
     super(options)
-    console.log options.options
     @fbPages = options.options.pages
   attach : ->
     super
   getTemplateData : ->
     td = super()
     td.fbPages = @fbPages
-    console.log td.fbPages
     td
     
   events: 
@@ -29,7 +27,6 @@ module.exports = class FacebookPagesView extends View
 
   setSelectedPage:(e)=>
     @pageId = $('.pageSelection').val()
-    console.log @pageId
 
   getSelectedPage:=>
     @pageId

@@ -11,7 +11,6 @@ $ ->
   }
   $.ajaxSetup({cache:false})
   Backbone.Validation.patterns.phone = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
-  console.log 'nice scroll'
   $("html").niceScroll({cursorcolor:"#ffffff"});
   $('.carousel').carousel
     interval: 10000

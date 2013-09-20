@@ -30,7 +30,6 @@ module.exports = class SiteView extends View
     $('#loginModal').modal('show')
 
   forgotPassword: (e) ->
-    console.log 'fp'
     e.preventDefault() if e
     @subview('forgotPasswordModal', new ForgotPassword({container: $('#forgotPasswordModal .modal-content')}))  
     $('#forgotPasswordModal').modal('show')  

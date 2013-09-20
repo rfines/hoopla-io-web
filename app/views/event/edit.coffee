@@ -127,7 +127,6 @@ module.exports = class EventEditView extends View
 
   updateModel: ->
     if @$el.find('input.repeats:checked').val()
-      console.log 'recurring'
       startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
       endTime = moment().startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))
       duration = (@$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight') - @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight')) / 60

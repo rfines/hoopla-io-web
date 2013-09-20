@@ -39,5 +39,4 @@ module.exports = class EventController extends Controller
           data: Chaplin.datastore.event.get(params.id)
 
   pastComparator:(event)->
-    console.log "Past comparator"
     return -event.lastOccurrence().toDate().getTime()

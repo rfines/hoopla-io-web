@@ -11,9 +11,6 @@ module.exports = class BusinessController extends Controller
           region: 'main'
           collection : Chaplin.datastore.business
           model : Chaplin.datastore.business.get(params.id)
-      error: (model, response) =>
-        console.log 'error'
-        console.log response   
 
   list: (params) ->
     BusinessList = require 'views/business/list'
@@ -23,7 +20,4 @@ module.exports = class BusinessController extends Controller
           region: 'main'
           collection : Chaplin.datastore.business
           params : params
-      error: (model, response) =>
-        console.log 'error'
-        console.log response
    

@@ -48,6 +48,5 @@ module.exports = class Edit extends View
           onSuccess: =>
             @$el.find('.password-message').show().addClass('alert-success').append("<div class='row'>Your password has been changed.</div>")
           onError: =>
-            console.log "Some error"
             @$el.find('.password-message').show().addClass('alert-danger').append("<div class='row'>Unable to change your password.</div>")
           }

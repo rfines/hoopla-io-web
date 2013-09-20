@@ -17,7 +17,6 @@ module.exports = class List extends CollectionView
 
   initialize: (options) ->
     super(options)
-    console.log @collection.models
     @params = options.params
     @publishEvent 'activateNav', @listRoute
     @subscribeEvent "#{@noun}:created", @showCreatedMessage if @showCreatedMessage

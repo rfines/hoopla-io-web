@@ -14,7 +14,6 @@ module.exports = class AddressView extends View
 
   attach: =>
     super
-    console.log "mapping attach"
     if @model.has 'location'
       @$el.find('.address').val(@model.get('location').address)
       @showGeo(@model.get('location'))
@@ -25,7 +24,6 @@ module.exports = class AddressView extends View
     'change input' : 'mapLocation'
 
   mapLocation: (e) =>
-    console.log "mapping location"
     address = @$el.find('.address').val()
     @$el.find('#map-canvas').show()
     if address
