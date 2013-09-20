@@ -120,16 +120,18 @@
           <div class="eventName accentColor">
     		<a>
     {{name}}<br />
-            {{host.name}}
+          at {{hostName}}
     		</a>
           </div>
           <div class="detailDrawer">
-    		<p class="description accentColor">{{description}}</p>
-    		<p class="cost"><strong>Cost:</strong><span class="accentColor">{{cost}}</span></p>{{hostName}}</span></p>
+            <p class="venueAddress"><strong>Address:</strong>{{address}}</p>
+    		<p class="description accentColor"><strong>Description:</strong>{{description}}</p>
+    		<p class="cost"><strong>Cost:</strong><span class="accentColor">{{cost}}</span></p>
         {{#if link}}<p class="link"><strong>Web:</strong><span class="accentColor"><a target="_blank" href="{{link}}">Visit Website</a></span></p>{{/if}}
     	  </div>
     	<div class="eventDetails">
-              <span class="eventDate accentColor">{{dateDisplay}}</span>
+
+              <span class="eventDate accentColor">{{dateDisplay}}</span><br />
               <span class="eventTime accentColor">{{timeDisplay}}</span>
           </div>
     </div>
@@ -147,7 +149,12 @@ $(document).ready(function() {
   var allPanels = $('.detailDrawer').hide();
 	$('.eventName a').click(function() {
     allPanels.slideUp();
-    $(this).parent().next().slideDown();
+    if($(this).parent().next().is(':visible'))
+    {
+      $(this).parent().next().slideUp()
+    }else{    
+     $(this).parent().next().slideDown();
+    }
     return false;
   });
 })
