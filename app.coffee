@@ -50,6 +50,7 @@ app.get "/*", (req, res) ->
     cloudinary : CONFIG.cloudinary
     facebookClientId: CONFIG.facebook.key
     baseUrl : CONFIG.baseUrl
+    googleAnalytics : CONFIG.googleAnalytics
   res.render "index.hbs", data
 
 app.listen(port);

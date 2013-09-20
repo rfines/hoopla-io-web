@@ -22,6 +22,8 @@
     "authorize_url": "https://api.twitter.com/oauth/authorize",
     "access_token_url":"https://api.twitter.com/oauth/access_token",
     "callback_url": "http://localhost:3000/callbacks/oauthTwitterCallback"
+  },
+   "googleAnalytics" : {
+    "code" : "UA-43137412-2"
   }
- 
 }

@@ -13,6 +13,7 @@ module.exports = class PostLoginController extends Chaplin.Controller
     Chaplin.mediator.subscribe 'stopWaiting', @stopWaiting
 
   beforeAction: (params, route) ->
+    _gaq.push(['_trackEvent', route.path, 'view']) if _gaq?.push
     @compositions()
     url = window.location.href
     if url.indexOf('register') < 0    
