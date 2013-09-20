@@ -39,13 +39,20 @@
         <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="End Time">
       </div>            
       <div class="col-md-2">
-        <!--
-        <label for="repeats"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
+        <input type="checkbox" name="recurring" class="repeats"/> Repeats?
+      </div>
+    </div>
+
+    <div class="row recurringScheduleDetails">
+      <div class="col-md-2">
+        <label for="repeats" style="color:#333"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
         <select name="repeats" class="form-control">
           <option>Daily</option>
-          <option>Weekly</option>
         </select>
-        -->
+      </div>
+      <div class="col-md-2">
+        <label for="end" style="color:#333"><i class="glyphicon glyphicon-calendar"></i>Schedule Until<span class="required">*</span></label>
+        <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
       </div>
     </div>
 
@@ -118,7 +125,7 @@
       <div class="col-md-4 promotion-selection">
         <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />&nbsp;Post event to social media channels now</label>
       </div>
-	<div class="col-md-4 edit-actions">
+      <div class="col-md-4 edit-actions">
          <div><button type="cancel" class="btn btn-default pull-right cancel">Cancel</button>&nbsp;
          {{#if isNew}}
           <button type="submit" class="btn btn-success saveButton">Submit</button>

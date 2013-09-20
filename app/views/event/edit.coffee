@@ -34,6 +34,17 @@ module.exports = class EventEditView extends View
     @$el.find('.business').on 'change', @changeBusiness
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
+    if @model.get('schedules')?.length > 0
+      @$el.find('.repeats').attr('checked', true)
+      @$el.find('.recurringScheduleDetails').show()
+    else
+      @$el.find('.recurringScheduleDetails').hide()
+    @delegate 'change', 'input.repeats', =>
+      if @$el.find('input.repeats:checked').val()
+        @$el.find('.recurringScheduleDetails').show()
+      else
+        @$el.find('.recurringScheduleDetails').hide()
+                
 
   positionPopover:()=>
     $('.popover.bottom').css('top', '60px')  
@@ -69,10 +80,20 @@ module.exports = class EventEditView extends View
     @startDate = new Pikaday
       field: @$el.find('.startDate')[0]
       format: 'M-DD-YYYY'
-      minDate: moment().toDate()
+      minDate: moment().toDate()      
     if not @model.isNew()
       @startDate.setMoment @model.getStartDate()
       $('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
+
+    @endDate = new Pikaday
+      field: @$el.find('.endDate')[0]
+      format: 'M-DD-YYYY'
+      minDate: moment().toDate()      
+    if @model.get('schedules')?[0]?.end
+      ed = moment(@model.get('schedules')?[0]?.end)
+      @endDate.setMoment ed
+      $('.endDate').val(ed.format('M-DD-YYYY'))      
+
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
@@ -105,8 +126,19 @@ module.exports = class EventEditView extends View
         @$el.find('.addressButton').popover('hide')
 
   updateModel: ->
-    @model.set
-      fixedOccurrences : @getFixedOccurrences()    
+    if @$el.find('input.repeats:checked').val()
+      console.log 'recurring'
+      startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
+      endTime = moment().startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))
+      duration = (@$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight') - @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight')) / 60
+      @model.set
+        schedules: [{start: @startDate.getMoment().toDate().toISOString(), end: @endDate.getMoment().toDate().toISOString(), duration : duration, hour : startTime.hour(), minute: startTime.minute()}]
+      @model.set 'fixedOccurrences', []
+    else
+      console.log 'fixed'
+      @model.set
+        fixedOccurrences : @getFixedOccurrences()    
+      @model.set 'schedules', []
 
   getFixedOccurrences: =>
     sd = @startDate.getMoment()
