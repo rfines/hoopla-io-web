@@ -109,7 +109,7 @@ text-align: center;
 #topnav .upper-nav a {
   float:left;
   margin: 10px;
-      color:#c5d645!important;
+      color:#c5d645;
 }
 #topnav a {
     font-family:'quicksandbold';
