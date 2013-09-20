@@ -34,6 +34,7 @@ module.exports = class List extends CollectionView
       @publishEvent 'message:publish', 'success', @params.success      
 
   create: =>
+    @publishEvent "closeOthers"
     @publishEvent '!router:route', @noun
 
   initItemView: (model) =>

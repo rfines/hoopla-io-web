@@ -27,6 +27,7 @@ module.exports = class AddressView extends View
   mapLocation: (e) =>
     console.log "mapping location"
     address = @$el.find('.address').val()
+    @$el.find('#map-canvas').show()
     if address
       geocoder = new google.maps.Geocoder()
       geocoder.geocode {address: address}, (results, status) =>
@@ -40,7 +41,6 @@ module.exports = class AddressView extends View
             map: map
             position: results[0].geometry.location
           )
-          @$el.find('#map-canvas').show()
           google.maps.event.trigger(map, 'visible_changed')
           google.maps.event.trigger(map, 'resize')
           @location =
@@ -53,7 +53,8 @@ module.exports = class AddressView extends View
 
   showGeo: (location) =>
     p = new google.maps.LatLng(location.geo.coordinates[1], location.geo.coordinates[0])
-    console.log p
+    if not @$el.find('#map-canvas').is(':visible')
+      @$el.find('#map-canvas').show()
     mapOptions =
       zoom: 16
       center: p
