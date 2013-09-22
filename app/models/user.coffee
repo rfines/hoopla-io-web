@@ -27,6 +27,8 @@ module.exports = class User extends Model
         url:  '/api/tokenRequest',
         data: JSON.stringify({password : pword,email : uname}),
         success: (body,response, xHr) =>
+          console.log 'got token'
+          console.log body
           $.cookie('token', body.authToken, path: '/')
           $.cookie('user', body.user, path: '/')
           user = new User()

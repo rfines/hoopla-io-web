@@ -1,6 +1,7 @@
 module.exports = (match) ->
   match '', 'home#home'
   match 'blog', 'home#blog'
+  match 'Contact', 'home#home'
 
   # Marketing/Pre-Login Routes
   match 'signUp', 'home#home', params: {signup : true}

@@ -47,12 +47,24 @@
       <div class="col-md-2">
         <label for="repeats" style="color:#333"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
         <select name="repeats" class="form-control">
-          <option>Daily</option>
+          <option value="DAILY">Every Day</option>
+          <option value="WEEKLY">Weekly</option>
         </select>
       </div>
       <div class="col-md-2">
         <label for="end" style="color:#333"><i class="glyphicon glyphicon-calendar"></i>Schedule Until<span class="required">*</span></label>
         <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
+      </div>
+      <div class="col-md-2">
+        <label>Monday</label><input type="checkbox" name="MONDAY" value="2" /><br />
+        <label>Tuesday</label><input type="checkbox" name="TUESDAY" value="3" /><br />
+        <label>Wednesday</label><input type="checkbox" name="WEDNESDAY" value="4" /><br />
+        <label>Thursday</label><input type="checkbox" name="THURSDAY" value="5" /><br />
+      </div>
+      <div class="col-md-2">
+        <label>Friday</label><input type="checkbox" name="FRIDAY" value="6" /><br />
+        <label>Saturday</label><input type="checkbox" name="SATURDAY" value="7" /><br />
+        <label>Sunday</label><input type="checkbox" name="SUNDAY" value="1" /><br />        
       </div>
     </div>
 

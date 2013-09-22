@@ -17,6 +17,7 @@ module.exports = class LoginPopover extends View
 
   attach: ->
     super
+    @$el.find('.password').focus()
 
   login: (e)->
     e.preventDefault()

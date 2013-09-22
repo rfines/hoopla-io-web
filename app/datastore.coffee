@@ -37,23 +37,37 @@ module.exports = exports = class DataStore
 
   loadEssential: (options) ->
     Chaplin.mediator.publish 'startWaiting'
-    Chaplin.datastore.load
-      name: 'venue'
-      success: =>
-        Chaplin.datastore.load 
-          name : 'business'
-          success: =>
-            Chaplin.datastore.load 
-              name : 'event'
-              success: =>
-                Chaplin.datastore.load 
-                  name : 'media'
-                  success: =>
-                    Chaplin.datastore.load
-                      name : 'widget'
-                      success: =>
-                        Chaplin.datastore.load
-                          name: 'eventTag'
-                          success: =>
-                            Chaplin.mediator.publish 'stopWaiting'
-                            options.success()
+    async.parallel [
+      (callback) ->
+        Chaplin.datastore.load
+          name: 'venue'
+          success: ->
+            callback null
+      (callback) ->
+        Chaplin.datastore.load
+          name: 'business'
+          success: ->
+            callback null            
+      (callback) ->
+        Chaplin.datastore.load
+          name: 'event'
+          success: ->
+            callback null
+      (callback) ->
+        Chaplin.datastore.load
+          name: 'media'
+          success: ->
+            callback null
+      (callback) ->
+        Chaplin.datastore.load
+          name: 'widget'
+          success: ->
+            callback null
+      (callback) ->
+        Chaplin.datastore.load
+          name: 'eventTag'
+          success: ->
+            callback null            
+    ], ->
+      Chaplin.mediator.publish 'stopWaiting'
+      options.success()
