@@ -14,6 +14,7 @@ module.exports = class MessageArea extends View
     super
 
   updateMessage: (type, text) ->
+    @$el.removeClass('alert-danger').removeClass('alert-success')
     if type is 'error'
       @$el.addClass('alert-danger')
     else
