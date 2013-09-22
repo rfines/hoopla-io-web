@@ -3,6 +3,8 @@ PromotionRequest = require 'models/promotionRequest'
 FacebookPagesView = require 'views/event/facebookPages'
 CreateFacebookEventView = require 'views/event/createFacebookEvent'
 AddressView = require 'views/address'
+MessageArea = require 'views/messageArea'
+
 
 module.exports = class CreatePromotionReqeust extends View
   template: require 'templates/event/createPromotionRequest'
@@ -31,9 +33,10 @@ module.exports = class CreatePromotionReqeust extends View
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
       )
+    @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
     @twitterImgUrl = @twPromoTarget?.profileImageUrl
     @twitterHandle =  @twPromoTarget?.profileName 
-    @getFacebookPages(@fbPromoTarget)
+    
     
   getTemplateData: ->
     td = super()
@@ -65,7 +68,7 @@ module.exports = class CreatePromotionReqeust extends View
       @showFacebook()
     else
       @showTwitter()
-    
+    @subview('messageArea', new MessageArea({container: '.alert-container'}))
     @$el.find('.tweetMessage').simplyCountable({
       maxCount: 140
       strictMax:true
@@ -76,6 +79,7 @@ module.exports = class CreatePromotionReqeust extends View
     
     @initDatePickers()
     @initTimePickers()
+    @getFacebookPages(@fbPromoTarget)
    
     
 
@@ -125,6 +129,7 @@ module.exports = class CreatePromotionReqeust extends View
     page = $('.pages>.facebook-pages>.pageSelection').val()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page).access_token
+    
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
@@ -141,11 +146,12 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {}, {
         success:(item)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent '!router:route', '/myEvents?success=Your Facebook event promotion will magically appear shortly.'
+          @publishEvent 'notify:publish', 'Your Facebook event promotion will magically appear shortly.'
+
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
       }    
-    if time? > 0 
+    else if time? > 0 
       d= moment(date).toDate().toISOString()
       if now >= moment(d).format('X')
         successMessageAppend = "You chose a date in the past, your message will go out immediately."
@@ -164,10 +170,14 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.save {}, {
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent '!router:route', "/myEvents?success=Your Facebook event promotion has been scheduled for #{moment(d).format("ddd, MMM D YYYY h:mm A")}. #{successMessageAppend}"
+          @publishEvent 'notify:publish', "Your Facebook event promotion has been scheduled for #{moment(d).format("ddd, MMM D YYYY h:mm A")}. #{successMessageAppend}"
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
       }
+    else 
+      Chaplin.mediator.publish 'stopWaiting'
+      @publishEvent 'notify:publish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
+        
   
   saveTwitter: (e)->
     e.preventDefault()
@@ -189,11 +199,11 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
             Chaplin.mediator.publish 'stopWaiting'
-            @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion will go out as soon as possible."
+            @publishEvent 'notify:publish', "Your Twitter event promotion will go out as soon as possible."
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
       }
-    if time? > 0 
+    else if time? > 0 
       if date and now >= moment(date).format('X')
         successMessageAppend = "You chose a date in the past so your message will go out immediately."
       scheduled= new PromotionRequest
@@ -206,10 +216,14 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.save {},{
         success:(response, doc) =>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent '!router:route', "/myEvents?success=Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
+          @publishEvent 'notify:publish', "Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
         error:(response,err)=>
           Chaplin.mediator.publish 'stopWaiting'
       }
+    else 
+      Chaplin.mediator.publish 'stopWaiting'
+      @publishEvent 'notify:publish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
+        
   showFacebook: (e)=>
     if e
       e.preventDefault()
@@ -264,7 +278,6 @@ module.exports = class CreatePromotionReqeust extends View
             event: @event
             pages:@fbPages
           @subview("facebookPages", new FacebookPagesView({model: @model, container : @$el.find('.pages')[0], options:options}))
-          @subview("facebookEventPages", new FacebookPagesView({model: @model, container : @$el.find('.event-pages')[0], options:options}))
         error:(err)=>
           return null
 
@@ -302,9 +315,10 @@ module.exports = class CreatePromotionReqeust extends View
     pr.save {},{
       success: (model, response, options)=>
         Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent '!router:route', '/myEvents?success=Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       error: (model, xhr, options)->
         Chaplin.mediator.publish 'stopWaiting'
+        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       }
   
   cancel:(e)->
@@ -339,3 +353,36 @@ module.exports = class CreatePromotionReqeust extends View
   hideTwitterDates:()->
     @$el.find('.twPostTime').hide()
     @$el.find('.twPostDate').hide()
+
+  showCreatedMessage: (data) =>
+    console.log data
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    if _.isObject data
+      if data.type
+        @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
+      else
+        @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
+    else if _.isString(data)
+      @publishEvent 'message:publish', 'success', "#{data}"
+
+  validate: (message, immediate, date, time)=>
+    valid = true
+    console.log date
+    console.log time
+    console.log immediate.is(':checked')
+    if not message or not message.length > 0
+      @$el.find('input[type=textarea]').addClass('error')
+      valid = false
+      @publishEvent 'notify:publish', {type:'error', message:"Magic requires words, please enter a message to post!"}
+    if not immediate.is(':checked') and time is null and not date._i
+      valid = false
+      @$el.find('input[type=checkbox]').addClass('error')
+      @$el.find('.datePicker').addClass('error')
+      @$el.find('.timepicker').addClass('error')
+      @publishEvent 'notify:publish', {type:'error', message:"When do you want this magic to happen?"}
+    if valid
+      @$el.find('input[type=textarea]').removeClass('error')
+      @$el.find('input[type=checkbox]').removeClass('error')
+      @$el.find('.datePicker').removeClass('error')
+      @$el.find('.timepicker').removeClass('error')
+    return valid

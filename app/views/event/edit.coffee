@@ -133,7 +133,6 @@ module.exports = class EventEditView extends View
         schedules: [{start: @startDate.getMoment().toDate().toISOString(), end: @endDate.getMoment().toDate().toISOString(), duration : duration, hour : startTime.hour(), minute: startTime.minute()}]
       @model.set 'fixedOccurrences', []
     else
-      console.log 'fixed'
       @model.set
         fixedOccurrences : @getFixedOccurrences()    
       @model.set 'schedules', []
