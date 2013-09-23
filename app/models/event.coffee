@@ -67,10 +67,22 @@ module.exports = class Event extends Model
         return ''
 
   getStartDate: ->
-    return moment(_.first(@get('occurrences')).start)
+    if @get('occurrences')?.length > 0
+      return moment(_.first(@get('occurrences')).start)
+    else
+      if @get('schedules')?[0]
+        return moment(@get('schedules')[0].start)
+      else
+        return undefined
 
   getEndDate: ->
-    return moment(_.first(@get('occurrences')).end)    
+    if @get('occurrences')?.length > 0
+      return moment(_.first(@get('occurrences')).end)
+    else
+      if @get('schedules')?[0]
+        return moment(@get('schedules')[0].end)
+      else
+        return undefined  
 
   getSortDate: ->
     return @nextOccurrence() || @lastOccurrence()

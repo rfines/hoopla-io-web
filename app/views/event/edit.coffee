@@ -42,22 +42,55 @@ module.exports = class EventEditView extends View
       @$el.find('.recurringScheduleDetails').show()
       s = @model.get('schedules')[0]
       if s.dayOfWeek?.length is 0 and s.dayOfWeekCount?.length is 0
-        @model.set 'repeats', 'DAILY'
+        @initDaily(s)
       else
         if s.dayOfWeekCount?.length > 0
-          @model.set 'repeats', 'MONTHLY'
+          @initMonthly(s)
         else
           @initWeekly(s)
     else
       @$el.find('.recurringScheduleDetails').hide()
     @delegate 'change', 'input.repeats', =>
       if @$el.find('input.repeats:checked').val()
+        @initDaily({}) if not @model.get('recurrenceInterval')
         @$el.find('.recurringScheduleDetails').show()
       else
         @$el.find('.recurringScheduleDetails').hide()
+    @delegate 'change', 'select[name=recurrenceInterval]', =>
+      @show[@$el.find('select[name=recurrenceInterval] option:selected').val()](@$el)
+
+  show: {
+    DAILY : (el) ->
+      el.find('.dayOfWeekCountContainer').hide()
+      el.find('.dayOfWeekContainer').hide()
+    WEEKLY: (el) ->
+      el.find('.dayOfWeekCountContainer').hide()
+      el.find('.dayOfWeekContainer').show()
+    MONTHLY: (el) ->
+      console.log el
+      el.find('.dayOfWeekCountContainer').show()
+      el.find('.dayOfWeekContainer').show()  
+  }
+
+  initDaily: (schedule) =>
+    @show.DAILY(@$el)
+    @model.set 'recurrenceInterval', 'DAILY'
 
   initWeekly: (schedule) =>
-    @model.set 'repeats', 'WEEKLY'
+    @show.WEEKLY(@$el)
+    @model.set 'recurrenceInterval', 'WEEKLY'
+    @model.set 'SUNDAY', true if _.contains(schedule.dayOfWeek, 1)
+    @model.set 'MONDAY', true if _.contains(schedule.dayOfWeek, 2)
+    @model.set 'TUESDAY', true if _.contains(schedule.dayOfWeek, 3)
+    @model.set 'WEDNESDAY', true if _.contains(schedule.dayOfWeek, 4)
+    @model.set 'THURSDAY', true if _.contains(schedule.dayOfWeek, 5)
+    @model.set 'FRIDAY', true if _.contains(schedule.dayOfWeek, 6)
+    @model.set 'SATURDAY', true if _.contains(schedule.dayOfWeek, 7) 
+
+  initMonthly: (schedule) =>
+    @show.MONTHLY(@$el)
+    @model.set 'recurrenceInterval', 'MONTHLY'
+    @model.set 'dayOfWeekCount', schedule.dayOfWeekCount[0]
     @model.set 'SUNDAY', true if _.contains(schedule.dayOfWeek, 1)
     @model.set 'MONDAY', true if _.contains(schedule.dayOfWeek, 2)
     @model.set 'TUESDAY', true if _.contains(schedule.dayOfWeek, 3)
@@ -121,8 +154,8 @@ module.exports = class EventEditView extends View
       scrollDefaultTime : "12:00"
       step : 15
     if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate()) if @model.getStartDate()
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate()) if @model.getEndDate()
     @$el.find('.startTime').on 'changeTime', @predictEndTime
 
 
@@ -146,7 +179,9 @@ module.exports = class EventEditView extends View
       if @$el.find('.popover-content').is(':visible')
         @$el.find('.addressButton').popover('hide')
 
-  updateModel: ->
+  updateModel: =>
+    console.log 'update model'
+    console.log @$el.find('input.repeats:checked').val()
     if @$el.find('input.repeats:checked').val()
       @model.set
         schedules: @getSchedules()
@@ -155,6 +190,7 @@ module.exports = class EventEditView extends View
       @model.set
         fixedOccurrences : @getFixedOccurrences()    
         schedules :[]
+    console.log @model.toJSON()
 
   getSchedules: =>
     startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
@@ -166,17 +202,25 @@ module.exports = class EventEditView extends View
       duration : duration
       hour : startTime.hour()
       minute: startTime.minute()
-    dayOfWeek = []
-    dayOfWeek.push 1 if @model.get('SUNDAY')
-    dayOfWeek.push 2 if @model.get('MONDAY')
-    dayOfWeek.push 3 if @model.get('TUESDAY')
-    dayOfWeek.push 4 if @model.get('WEDNESDAY')
-    dayOfWeek.push 5 if @model.get('THURSDAY')
-    dayOfWeek.push 6 if @model.get('FRIDAY')
-    dayOfWeek.push 7 if @model.get('SATURDAY')
-    dayOfWeekCount = [@model.get('dayOfWeekCount')] if @model.get('dayOfWeekCount')
-    s.dayOfWeek = dayOfWeek
-    s.dayOfWeekCount = dayOfWeekCount || []
+    console.log @model.get('recurrenceInterval')
+    if @model.get('recurrenceInterval') is 'MONTHLY' or @model.get('recurrenceInterval') is 'WEEKLY'
+      console.log 'weekly or monthly'
+      dayOfWeek = []
+      dayOfWeek.push 1 if @model.get('SUNDAY')
+      dayOfWeek.push 2 if @model.get('MONDAY')
+      dayOfWeek.push 3 if @model.get('TUESDAY')
+      dayOfWeek.push 4 if @model.get('WEDNESDAY')
+      dayOfWeek.push 5 if @model.get('THURSDAY')
+      dayOfWeek.push 6 if @model.get('FRIDAY')
+      dayOfWeek.push 7 if @model.get('SATURDAY')
+      s.dayOfWeek = dayOfWeek
+    else
+      s.dayOfWeek = []
+    if @model.get('recurrenceInterval') is 'MONTHLY'
+      dayOfWeekCount = [@model.get('dayOfWeekCount')] if @model.get('dayOfWeekCount')
+      s.dayOfWeekCount = dayOfWeekCount || []
+    else
+      s.dayOfWeekCount = []
     return [s]
 
 

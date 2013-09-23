@@ -45,19 +45,20 @@
 
     <div class="row recurringScheduleDetails">
       <div class="col-md-2">
-        <label for="repeats" style="color:#333"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
-        <select name="repeats" class="form-control">
+        <label for="recurrenceInterval"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
+        <select name="recurrenceInterval" class="form-control">
           <option value="DAILY">Every Day</option>
           <option value="WEEKLY">Weekly</option>
+          <option value="MONTHLY">Monthly</option>
         </select>
       </div>
       <div class="col-md-2">
-        <label for="end" style="color:#333"><i class="glyphicon glyphicon-calendar"></i>Schedule Until<span class="required">*</span></label>
+        <label for="end"><i class="glyphicon glyphicon-calendar"></i>Schedule Until<span class="required">*</span></label>
         <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 dayOfWeekCountContainer">
         <label for="dayOfWeekCount">On the</label>
-        <select name="dayOfWeekCount">
+        <select name="dayOfWeekCount" class="form-control">
           <option value="1">First</option>
           <option value="2">Second</option>
           <option value="3">Third</option>
@@ -65,16 +66,16 @@
           <option value="0">Last</option>
         </select>
       </div>
-      <div class="col-md-2">
-        <label>Monday</label><input type="checkbox" name="MONDAY" value="2" /><br />
-        <label>Tuesday</label><input type="checkbox" name="TUESDAY" value="3" /><br />
-        <label>Wednesday</label><input type="checkbox" name="WEDNESDAY" value="4" /><br />
-        <label>Thursday</label><input type="checkbox" name="THURSDAY" value="5" /><br />
+      <div class="col-md-2 dayOfWeekContainer">
+        <input type="checkbox" name="MONDAY" value="2" /> <label>Monday</label><br />
+        <input type="checkbox" name="TUESDAY" value="3" /> <label>Tuesday</label><br />
+        <input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
+        <input type="checkbox" name="THURSDAY" value="5" /> <label>Thursday</label><br />
       </div>
-      <div class="col-md-2">
-        <label>Friday</label><input type="checkbox" name="FRIDAY" value="6" /><br />
-        <label>Saturday</label><input type="checkbox" name="SATURDAY" value="7" /><br />
-        <label>Sunday</label><input type="checkbox" name="SUNDAY" value="1" /><br />        
+      <div class="col-md-2 dayOfWeekContainer">
+        <input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
+        <input type="checkbox" name="SATURDAY" value="7" /> <label>Saturday</label><br />
+        <input type="checkbox" name="SUNDAY" value="1" /> <label>Sunday</label><br />        
       </div>
     </div>
 
