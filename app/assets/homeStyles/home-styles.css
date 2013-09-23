@@ -23,7 +23,7 @@ section {
   max-width: none;
 }
 .page-header {
-  padding-top: 20px;
+  padding-top: 10px;
 text-align: center;
 }
 .justify {
@@ -83,7 +83,7 @@ text-align: center;
   -moz-border-radius-topright: 5px;
   -webkit-border-top-right-radius: 5px;
   border-top-right-radius: 5px;
-  padding-top: 15px;
+  padding-top: pag5px;
 }
 .gobtn i {
   color: #c5d645;
@@ -101,20 +101,25 @@ text-align: center;
   color: #06a1af;
   font-size: 2.1em;
   margin-top: 25%;
+  margin-bottom: 8%;
 }
 #topnav .upper-nav {
   position: absolute;
   top: -2px;
   right: 10px;
   font-size:.8em;
+  width:300px;
 }
 #topnav .upper-nav a {
   float:left;
   margin: 10px;
       color:#92928E;
 }
-#topnav .upper-nav a.sign-in {
-      color:#06a1af;
+#topnav .upper-nav a.btn-default {
+      color:#92928E;
+}
+#topnav .upper-nav a.btn-info {
+            color:#fff;
 }
 #topnav a {
     font-family:'quicksandbold';
@@ -549,7 +554,6 @@ footer .circ-wrap a:hover {
     position: fixed !important;
   }
   .navbar .nav > li > a {
-    padding: 30px 10px;
   }
   .jumbotron h1 {
     font-size: 40px;
@@ -596,6 +600,10 @@ footer .circ-wrap a:hover {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
+  }
+  #topnav .upper-nav {
+    right:-12px;
+    top:0px;
   }
   /* FIX FONT SIZE AND jumbotron padding in HEADER FOR MOBILE DEVICES 07/16/2013 */
   #head-top .jumbotron {
