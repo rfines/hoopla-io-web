@@ -1,19 +1,30 @@
 
 <div class="row event-list-controls">
+
   <div span class="col-md-3">
     {{#if allowCreate}}
       <a class="btn btn-success createButton">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
     {{else}}
       <a class="btn btn-success createButton" disabled="disabled" title="You need a business first!">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
     {{/if}}
+
   </div>
-  <div span class="col-md-6 alert-container"></div>
+  <div span class="col-md-6 alert-container">{{#if isEmpty}}
+<div class="well initial-state"><img src="client/images/howie-initial.png" class="pull-left"><h2>There are currently no upcoming events to display.</h2><h3>That's all right, feel free to <a class="createButton">enter an event now</a>. It's as easy as pulling a rabbit out of a hat</h3></div>
+{{/if}}
+</div>
+
   <div span class="col-md-3">
+{{#if isEmpty}}
+
+{{else}}
     <div class="btn-group pull-right list-options">
       <a href="/myEvents/past" class="btn btn-default pastEvents">Past Events</a>
       <a href="/myEvents" class="btn btn-info futureEvents">Upcoming Events</a>
     </div>
+ {{/if}}
   </div>
 </div>
+
 <div class="newItem"></div>
 <div class="panel-group clear" id="accordion"></div>
