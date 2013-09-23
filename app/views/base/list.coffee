@@ -45,3 +45,7 @@ module.exports = class List extends CollectionView
       @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
     else if _.isString(data)
       @publishEvent 'message:publish', 'success', "#{data}"
+  getTemplateData: =>
+    td=super()
+    td.isEmpty = @collection.length is 0 if @collection
+    td
