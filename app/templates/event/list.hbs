@@ -1,5 +1,11 @@
 
 <div class="row event-list-controls">
+<<<<<<< Updated upstream
+=======
+{{#if isEmpty}}
+<div class="well initial-state"><img src="client/images/howie-initial.png" class="pull-left"><h2>You currently have no upcoming events to display.</h2><h3>That's all right, feel free to <a class="createButton">enter an event now</a>.</h3> <h4>It's as easy as pulling a rabbit out of a hat</h4></div>
+{{else}}
+>>>>>>> Stashed changes
   <div span class="col-md-3">
     {{#if allowCreate}}
       <a class="btn btn-success createButton">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
@@ -7,7 +13,14 @@
       <a class="btn btn-success createButton" disabled="disabled" title="You need a business first!">Create New Event <i class="glyphicon glyphicon-cloud-upload"></i></a>
     {{/if}}
   </div>
+<<<<<<< Updated upstream
   <div span class="col-md-6 alert-container"></div>
+=======
+{{/if}}
+  <div span class="col-md-6 alert-container">
+</div>
+
+>>>>>>> Stashed changes
   <div span class="col-md-3">
     <div class="btn-group pull-right list-options">
       <a href="/myEvents/past" class="btn btn-default pastEvents">Past Events</a>

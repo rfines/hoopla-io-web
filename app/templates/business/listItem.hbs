@@ -3,11 +3,13 @@
     <div class="row panel-title">
       <div class="row well well-sm">
         <div class="col-md-3 image">
-		
+	
           {{#if imageUrl}}
               <img src="{{imageUrl}}" class="currentImage"/>
+{{else}}
+	<img src="/client/images/image-placeholder-bg.png" class="placeholderImage"/>
           {{/if}}
-<img src="/client/images/image-placeholder-bg.png" class="currentImage"/>
+
         </div>
         <div class="col-md-6">
           <h2><a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a></h2>
