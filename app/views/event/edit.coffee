@@ -41,14 +41,13 @@ module.exports = class EventEditView extends View
       @$el.find('.repeats').attr('checked', true)
       @$el.find('.recurringScheduleDetails').show()
       s = @model.get('schedules')[0]
-      @model.set 'MONDAY', '2'
       if s.dayOfWeek?.length is 0 and s.dayOfWeekCount?.length is 0
         @model.set 'repeats', 'DAILY'
       else
-        if s.dayOfWeekCount
+        if s.dayOfWeekCount?.length > 0
           @model.set 'repeats', 'MONTHLY'
         else
-          @initWeekly()
+          @initWeekly(s)
     else
       @$el.find('.recurringScheduleDetails').hide()
     @delegate 'change', 'input.repeats', =>
@@ -57,8 +56,15 @@ module.exports = class EventEditView extends View
       else
         @$el.find('.recurringScheduleDetails').hide()
 
-  initWeekly: =>
+  initWeekly: (schedule) =>
     @model.set 'repeats', 'WEEKLY'
+    @model.set 'SUNDAY', true if _.contains(schedule.dayOfWeek, 1)
+    @model.set 'MONDAY', true if _.contains(schedule.dayOfWeek, 2)
+    @model.set 'TUESDAY', true if _.contains(schedule.dayOfWeek, 3)
+    @model.set 'WEDNESDAY', true if _.contains(schedule.dayOfWeek, 4)
+    @model.set 'THURSDAY', true if _.contains(schedule.dayOfWeek, 5)
+    @model.set 'FRIDAY', true if _.contains(schedule.dayOfWeek, 6)
+    @model.set 'SATURDAY', true if _.contains(schedule.dayOfWeek, 7) 
 
                 
 
@@ -168,8 +174,9 @@ module.exports = class EventEditView extends View
     dayOfWeek.push 5 if @model.get('THURSDAY')
     dayOfWeek.push 6 if @model.get('FRIDAY')
     dayOfWeek.push 7 if @model.get('SATURDAY')
-    console.log dayOfWeek
+    dayOfWeekCount = [@model.get('dayOfWeekCount')] if @model.get('dayOfWeekCount')
     s.dayOfWeek = dayOfWeek
+    s.dayOfWeekCount = dayOfWeekCount || []
     return [s]
 
 
