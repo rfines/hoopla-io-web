@@ -22,10 +22,8 @@ module.exports = class UserRegisterView extends View
     uname = @$el.find('.username').val()
     pword = @$el.find('.password').val()
     pwordconfirm =@$el.find('.password-confirm').val()
-    firstName = @$el.find('.firstName').val()
-    lastName = @$el.find('.lastName').val()
     userType = @$el.find('input[name=userType]:checked').val()
-    if uname and pword and pwordconfirm and lastName and firstName and userType
+    if uname and pword and pwordconfirm and userType
       if pword != pwordconfirm
         @showError "Passwords do not match.", ['password', 'password-confirm']
       else
@@ -33,8 +31,6 @@ module.exports = class UserRegisterView extends View
           $.removeCookie('token')
           $.removeCookie('user')
         @model.set
-          firstName: firstName
-          lastName: lastName
           email: uname
           password: pword
           userType : userType
@@ -45,7 +41,7 @@ module.exports = class UserRegisterView extends View
             @showError xhr.responseJSON
         }
     else
-      @showError "All fields are required", ['firstName', 'lastName', 'email', 'password', 'password-confirm', 'userType']
+      @showError "All fields are required", ['email', 'password', 'password-confirm', 'userType']
 
   showError: (msg, fields) =>    
     @$el.find('.alert').show()
