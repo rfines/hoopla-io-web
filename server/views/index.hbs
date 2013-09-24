@@ -20,6 +20,11 @@
     </style>
   </head>
   <body data-spy="scroll" data-target=".top-spy">
+    <div class="preloader" style="display:none">
+      <div id="Stage" class="hoopla_dots_loader">
+      </div>
+        <h2>Loading...</h2>
+    </div>
     {{#if development}}
     <script>
       window.brunch = window.brunch || {};
@@ -41,11 +46,13 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
+    </script>        
+    <script type="text/javascript" src="http://assets.freshdesk.com/widget/freshwidget.js"></script>
+    <style type="text/css" media="screen, projection">
+      @import url(http://assets.freshdesk.com/widget/freshwidget.css); 
+    </style> 
+    <script type="text/javascript">
+      FreshWidget.init("", {"queryString": "&widgetType=popup", "widgetType": "popup", "buttonText": "Support", "buttonColor": "black", "buttonBg": "#1eb5c2", "backgroundImage": "", "alignment": "4", "offset": "350px", "formHeight": "500px", "url": "http://hooplaio.freshdesk.com"} );
     </script>    
-    <div class="preloader" style="display:none">
-      <div id="Stage" class="hoopla_dots_loader">
-      </div>
-        <h2>Loading...</h2>
-    </div>
   </body>
 </html>
