@@ -2,37 +2,44 @@
 <form class="" role="form">
   <div class="row">
     <div class="col-8">
-      <legend>Widget Builder</legend>
+      <legend>Create New Widget</legend>
     </div>   
+	<div class="widgetHelp">
+	    <div class="col-md-12">
+	      <p class="white">Create a website or WordPress widget to display your venue's event stream or a listing of all local events around a specified location. You can even filter your local event listing by category and radius, if you wish.</p>
+	    </div>
+	  </div>
   </div>
   <div class="row">
     <div class="col-md-12">
       <div class="radio">
         <label>
           <input type="radio" class="widgetType" name="widgetType" value="event-by-location">
-          Location Widget <i class="glyphicon glyphicon-question-sign"></i>
+          <h4>Location-Based Events</h4><span class="normal">Display upcoming events occurring around a specific address or zip code. Filter by event categories or radius around the specified location. Great for neighborhoods, hotels and resorts.</span>
         </label>
       </div>
+<hr>
       <div class="radio">
         <label>
           <input type="radio" class="widgetType" name="widgetType" value="event-by-business">
-          Events for My Business <i class="glyphicon glyphicon-question-sign"></i>
+          <h4>My Business/Venue Events</h4><span class="normal">Display your events on your website. Great for bars, restaurants, galleries, event spaces, communities or anywhere that hosts events or specials.</span>
         </label>
       </div>        
   </div>
   </div>
   <div class="row">
     <div class="col-md-4">
-      <label for="name">Name</label>
+      <label for="name">Name*</label>
       <input type="text" class="form-control name" name="name" placeholder="Name">
     </div>
     <div class="col-md-2">
-      <label for="width">Width</label>
+      <label for="width">Width (px)</label>
       <input type="text" class="form-control width" name="width">
     </div>
     <div class="col-md-2">
-      <label for="height">Height</label>
+      <label for="height">Height (px)</label>
       <input type="text" class="form-control" name="height">
+
     </div>
 	<div class="col-md-2">
       <label for="widgetStyle">Theme</label>
@@ -59,7 +66,7 @@
   </div>
 <div class="row">
 <div class="col-md-12 event-by-business">
-  <label for="tags">Businesses</label>
+  <label for="tags">For This Business</label>
   <select class="form-control select-chosen" multiple="true" name="businesses">
     {{#each businesses}}
       <option value="{{id}}">{{attributes.name}}</option>
@@ -81,13 +88,10 @@
       </select>
     </div>
   </div>
-  <div class="row widgetHelp well">
-    <div class="col-md-12">
-      Widget Builder Explanations will go here
-    </div>
-  </div>
+  
   <div class="row embedCode">
-    <div class="col-md-9">
+    <div class="col-md-12">
+<label class="normal">Copy and paste the code snippet below into your html page or WordPress HTML widget. If you'd like the widget to span the entire width of your page or article, change the width in the iframe widget to 100%;</label>
       <textarea class="embedCodeHtml"></textarea>
     </div>
   </div><br />
@@ -100,7 +104,7 @@
 </form>
 </div>
 <div class="col-md-5 widgetPreviewContainer">
-  <div class="static-widget-preview"><img src="http://placehold.it/350x350""></div>
+  <div class="static-widget-preview"><img src="/client/images/widget-placeholder.png"></div>
   <iframe src="" scrolling="no" id="widgetPreview"></iframe>
   
 </div>
