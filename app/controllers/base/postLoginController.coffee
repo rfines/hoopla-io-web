@@ -25,6 +25,8 @@ module.exports = class PostLoginController extends Chaplin.Controller
               success: =>
                 Chaplin.datastore.user = user
                 @publishEvent 'navigation:loggedIn'
+              error: =>
+                Chaplin.helpers.redirectTo {url: '/logout'}
         else
           @goToLogin()
       else
