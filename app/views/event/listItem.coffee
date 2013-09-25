@@ -23,11 +23,7 @@ module.exports = class ListItem extends ListItemView
     else
       td.allowPromotion = true
     td.isRecurring = @model.get('schedules')?.length > 0
-    td  
-
-  render: =>
-    console.log 'called render in eventListItem'
-    super()
+    td
 
   attach: =>
     super()

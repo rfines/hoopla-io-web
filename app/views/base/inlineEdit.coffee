@@ -27,16 +27,13 @@ module.exports = class InlineEdit extends View
     td
 
   attach: ->
-    console.log 'attach'
     super()
     @modelBinder.bind @model, @$el
     Backbone.Validation.bind(@)
     @$el.find('.helpTip').tooltip()
     @$el.find(".select-chosen").chosen({width:'100%'})  
     @$el.find(".select-chosen-nosearch").chosen({width:'100%', disable_search: true})  
-    console.log @hasMedia
     if @hasMedia
-      console.log @model.get('media')?.length > 0
       if @model.get('media')?.length > 0
         @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:false,standAloneUpload:false}}))
       else
@@ -54,8 +51,6 @@ module.exports = class InlineEdit extends View
 
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
-    console.log @model.get('cost')
-    console.log @model.validate()
     if @model.validate()
       for x in _.keys(@model.validate())
         @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')

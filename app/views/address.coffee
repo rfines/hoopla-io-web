@@ -45,8 +45,6 @@ module.exports = class AddressView extends View
             address : results[0].formatted_address
           n = @getNeighborhood(results)
           @location.neighborhood = n if n
-        else
-          console.log "Geocode was not successful for the following reason: " + status
 
   showGeo: (location) =>
     p = new google.maps.LatLng(location.geo.coordinates[1], location.geo.coordinates[0])

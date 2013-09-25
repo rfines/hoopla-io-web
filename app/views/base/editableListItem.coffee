@@ -26,5 +26,4 @@ module.exports = class EditableListItem extends ListItemView
         $('#'+element.id).collapse('hide')
       @removeSubview 'inlineEdit'
     @delegate "click", ".duplicateButton", =>
-      console.log 'publishing'
       @publishEvent "#{@noun}:duplicate", @model        

@@ -20,7 +20,6 @@ module.exports = class HomePageView extends View
     $("html").niceScroll();
     if @options.goto
       setTimeout =>
-        console.log @options.goto
         $.scrollTo($("##{@options.goto}"), @scrollSpeed)
       , 1500
     @publishEvent 'showLogin' if @options.showLogin

@@ -67,7 +67,6 @@ module.exports = class EventEditView extends View
       el.find('.dayOfWeekCountContainer').hide()
       el.find('.dayOfWeekContainer').show()
     MONTHLY: (el) ->
-      console.log el
       el.find('.dayOfWeekCountContainer').show()
       el.find('.dayOfWeekContainer').show()  
   }
@@ -180,8 +179,6 @@ module.exports = class EventEditView extends View
         @$el.find('.addressButton').popover('hide')
 
   updateModel: =>
-    console.log 'update model'
-    console.log @$el.find('input.repeats:checked').val()
     if @$el.find('input.repeats:checked').val()
       @model.set
         schedules: @getSchedules()
@@ -190,7 +187,6 @@ module.exports = class EventEditView extends View
       @model.set
         fixedOccurrences : @getFixedOccurrences()    
         schedules :[]
-    console.log @model.toJSON()
 
   getSchedules: =>
     startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
@@ -202,9 +198,7 @@ module.exports = class EventEditView extends View
       duration : duration
       hour : startTime.hour()
       minute: startTime.minute()
-    console.log @model.get('recurrenceInterval')
     if @model.get('recurrenceInterval') is 'MONTHLY' or @model.get('recurrenceInterval') is 'WEEKLY'
-      console.log 'weekly or monthly'
       dayOfWeek = []
       dayOfWeek.push 1 if @model.get('SUNDAY')
       dayOfWeek.push 2 if @model.get('MONDAY')

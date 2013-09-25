@@ -7,7 +7,6 @@ module.exports = class ListItem extends View
 
   attach: ->
     super
-    console.log 'attach base ListItem'
     @$el.attr('id', @model.id) if not @model.isNew()
 
   events:
