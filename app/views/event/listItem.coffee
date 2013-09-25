@@ -44,5 +44,10 @@ module.exports = class ListItem extends ListItemView
         $('#'+element.id).collapse('hide')
       @removeSubview 'inlineEdit'
     @delegate "click", ".duplicateButton", =>
-      @publishEvent "#{@noun}:duplicate", @model        
+      @publishEvent "#{@noun}:duplicate", @model
+    @$el.find('.scheduleText').popover(
+      trigger: 'hover'
+      placement: 'bottom'
+      content: @model.get('scheduleText')
+    )              
       

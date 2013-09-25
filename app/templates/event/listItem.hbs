@@ -1,36 +1,37 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="row panel-title">
-      <div class="col-md-2 date">
-        <p class="eventDate">{{dateText}}</p>
-		<p class="eventTime">{{startTimeText}}</p>
-        <a class="accordion-toggle">
-          {{#if isRecurring}}
-          <a class="showOccurrences" data-toggle="collapse" data-parent="#accordion" href="#collapse{{_id}}"><i class="glyphicon glyphicon-circle-arrow-up showOccurrences"></i></a>
-          {{/if}}
-        </a>
-      </div>
-      <div class="col-md-2 event-image">
-		{{#if imageUrl}}
-        <img src="{{imageUrl}}" alt="{{name}} image" />
-  {{else}}
-	<img src="/client/images/image-placeholder-bg.png" class="placeholderImage"/>
-	  {{/if}}
-      </div>
-      <div class="col-md-4 event-title">
-        <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
-      </div>
-      <div class="col-md-2 business-name">
-        {{businessName}}
-      </div>
-      <div class="col-md-2 eventListActions">
-		{{#if allowPromotion}}
-        <a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="promoteItem glyphicon glyphicon-bullhorn"></i></a>
-        {{/if}}
-        <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a>
-        <a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
-        
-      </div>                 
+      <div class="container">
+        <div class="row">      
+          <div class="col-md-2 date">
+            <p class="eventDate">{{dateText}}</p>
+    		    <p class="eventTime">{{startTimeText}}</p>
+            {{#if scheduleText}}
+              <i class="glyphicon glyphicon-plus"></i><a class="scheduleText">Additional Dates</a>
+            {{/if}}
+          </div>
+          <div class="col-md-2 event-image">
+    		    {{#if imageUrl}}
+            <img src="{{imageUrl}}" alt="{{name}} image" />
+            {{else}}
+    	     <img src="/client/images/image-placeholder-bg.png" class="placeholderImage"/>
+    	     {{/if}}
+          </div>
+          <div class="col-md-4 event-title">
+            <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
+          </div>
+          <div class="col-md-2 business-name">
+            {{businessName}}
+          </div>
+          <div class="col-md-2 eventListActions">
+    		    {{#if allowPromotion}}
+            <a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="promoteItem glyphicon glyphicon-bullhorn"></i></a>
+            {{/if}}
+            <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a>
+            <a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
+          </div>               
+        </div>
+      </div>  
     </div>
   </div>
   <div id="collapse{{_id}}" class="panel-collapse collapse">
