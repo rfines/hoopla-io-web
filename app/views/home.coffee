@@ -6,6 +6,7 @@ Register = require 'views/user-register-view'
 module.exports = class HomePageView extends View
   className: 'home-page'
   template: template
+  scrollSpeed: 1000
 
   initialize: (@options) ->
     super(options)
@@ -16,18 +17,24 @@ module.exports = class HomePageView extends View
     super()
     @subview('signupForm', new Register({container: @$el.find('.signUpArea')}))
     @setupParallax()
+    $("html").niceScroll();
     if @options.goto
       setTimeout =>
         console.log @options.goto
-        $.scrollTo($("##{@options.goto}"), 300)
+        $.scrollTo($("##{@options.goto}"), @scrollSpeed)
       , 1500
     @publishEvent 'showLogin' if @options.showLogin
     @publishEvent 'showForgotPassword' if @options.showForgotPassword
     @publishEvent 'showResetPassword' if @options.showResetPassword
+    @delegate 'click', 'a.toBusinesses', =>
+      $.scrollTo($("#Businesses"), @scrollSpeed)
+    @delegate 'click', 'a.toPublishers', =>
+      $.scrollTo($("#Publishers"), @scrollSpeed)    
+    @delegate 'click', 'a.toSignUp', =>
+      $.scrollTo($("#Contact"), @scrollSpeed)    
+
 
   setupParallax: ->
-    $.niceScroll()
-    $.localScroll()
     $(".well").parallax "50%", 0.1
     $(".navbar .nav > li > a").click ->
       $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
@@ -52,4 +59,3 @@ module.exports = class HomePageView extends View
         }
     else
       alert('Email and Password are required')
-
