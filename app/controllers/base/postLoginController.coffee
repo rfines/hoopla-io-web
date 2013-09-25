@@ -43,5 +43,5 @@ module.exports = class PostLoginController extends Chaplin.Controller
     $('.preloader').addClass('loading').show()
 
   stopWaiting: ->
-    $('.preloader').removeClass('loading').hide()
+    #$('.preloader').removeClass('loading').hide()
 
