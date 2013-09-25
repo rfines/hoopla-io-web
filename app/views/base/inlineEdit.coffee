@@ -30,6 +30,7 @@ module.exports = class InlineEdit extends View
     super()
     @modelBinder.bind @model, @$el
     Backbone.Validation.bind(@)
+    @$el.find('.helpTip').tooltip()
     @$el.find(".select-chosen").chosen({width:'100%'})  
     @$el.find(".select-chosen-nosearch").chosen({width:'100%', disable_search: true})  
     if @hasMedia
@@ -50,6 +51,8 @@ module.exports = class InlineEdit extends View
 
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
+    console.log @model.get('cost')
+    console.log @model.validate()
     if @model.validate()
       for x in _.keys(@model.validate())
         @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')

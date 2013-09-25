@@ -15,6 +15,9 @@ module.exports = class Event extends Model
     contactPhone:
       required: false
       pattern: "phone"
+    cost:
+      required: false
+      pattern: "number"
 
   nextOccurrence: ->
     if @get('occurrences') and _.first(@get('occurrences'))
