@@ -17,6 +17,7 @@ module.exports = class HomeController extends Controller
       showForgotPassword : params?.showForgotPassword
       showResetPassword: params?.showResetPassword
       signup : params?.signup
+      goto: params?.goto
 
   compositions: =>
     @compose 'site', SiteView
