@@ -2,7 +2,6 @@ template = require 'templates/messageArea'
 View = require 'views/base/view'
 
 module.exports = class MessageArea extends View
-  autoRender: true
   className: 'alert'
   template: template
   containerMethod: 'html'

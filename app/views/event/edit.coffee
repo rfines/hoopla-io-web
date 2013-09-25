@@ -5,7 +5,6 @@ AddressView = require 'views/address'
 MediaMixin = require 'views/mixins/mediaMixin'
 
 module.exports = class EventEditView extends View
-  autoRender: true
   className: 'event-edit'
   template: template
   listRoute: 'myEvents'
@@ -241,7 +240,7 @@ module.exports = class EventEditView extends View
       if @isNew
         @collection.add @model
         @publishEvent '#{@noun}:created', @model
-      @publishEvent '!router:route', "/event/#{@model.id}/promote"
+      Chaplin.helpers.redirectTo {url: "/event/#{@model.id}/promote"}
     else
       super()
 

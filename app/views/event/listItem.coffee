@@ -8,6 +8,7 @@ module.exports = class ListItem extends ListItemView
   noun : "event"  
   EditView : EditView
   collapsedId = undefined
+
   getTemplateData: =>
     td = super()
     td.dateText = @model.dateDisplayText()
@@ -23,6 +24,10 @@ module.exports = class ListItem extends ListItemView
       td.allowPromotion = true
     td.isRecurring = @model.get('schedules')?.length > 0
     td  
+
+  render: =>
+    console.log 'called render in eventListItem'
+    super()
 
   attach: =>
     super()
@@ -49,5 +54,5 @@ module.exports = class ListItem extends ListItemView
       trigger: 'hover'
       placement: 'bottom'
       content: @model.get('scheduleText')
-    )              
+    )           
       

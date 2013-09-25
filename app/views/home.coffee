@@ -4,7 +4,6 @@ User = require 'models/user'
 Register = require 'views/user-register-view'
 
 module.exports = class HomePageView extends View
-  autoRender: true
   className: 'home-page'
   template: template
 

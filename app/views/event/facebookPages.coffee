@@ -3,7 +3,6 @@ PromotionRequest = require 'models/promotionRequest'
 
 module.exports = class FacebookPagesView extends View
   template: require 'templates/event/facebookPages'
-  autoRender: true
   className: 'facebook-pages'
   event: {}
   business: {}

@@ -3,7 +3,6 @@ View = require 'views/base/view'
 User = require 'models/user'
 
 module.exports = class LoginPopover extends View
-  autoRender: true
   template: template
 
   events:
@@ -29,9 +28,9 @@ module.exports = class LoginPopover extends View
         onSuccess: =>
           $('#loginModal').modal('hide')
           if Chaplin.datastore.business.hasNone()
-            @publishEvent '!router:route', 'myBusinesses'
+            Chaplin.helpers.redirectTo {url: 'myBusinesses'}
           else      
-            @publishEvent '!router:route', 'myEvents'          
+            Chaplin.helpers.redirectTo {url: 'myEvents'}
         onError: (msg) =>
           @publishEvent 'stopWaiting'
           @$el.find('.alert').empty()
@@ -43,7 +42,7 @@ module.exports = class LoginPopover extends View
 
   forgotPassword: (e) ->
     e.preventDefault() if e
-    @publishEvent '!router:route', '/forgotPassword'
+    Chaplin.helpers.redirectTo {url: '/forgotPassword'}
 
   cancel: (e) ->
     e.preventDefault()

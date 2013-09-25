@@ -2,7 +2,6 @@ template = require 'templates/address'
 View = require 'views/base/view'
 
 module.exports = class AddressView extends View
-  autoRender: true
   className: 'address'
   template: template
 

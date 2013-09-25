@@ -5,7 +5,6 @@ ImageUtils = require 'utils/imageUtils'
 
 
 module.exports = class mediaLibraryListItem extends View
-  autoRender: true
   className: 'media-library'
   template: template
 

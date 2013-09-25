@@ -3,7 +3,6 @@ template = require 'templates/topNav'
 LoginPopover = require 'views/loginPopover'
 
 module.exports = class TopNav extends View
-  autoRender: true
   className: 'topNav'
   region: 'topNav'
   template: template

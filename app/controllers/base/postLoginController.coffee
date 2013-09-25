@@ -37,7 +37,7 @@ module.exports = class PostLoginController extends Chaplin.Controller
     @compose 'footer', Footer
 
   goToLogin: ->
-    @publishEvent '!router:route', 'login'
+    Chaplin.helpers.redirectTo {url: 'login'}
 
   startWaiting: ->
     $('.preloader').addClass('loading').show()

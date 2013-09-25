@@ -6,7 +6,6 @@ ImageUtils = require 'utils/imageUtils'
 MediaMixin = require 'views/mixins/mediaMixin'
 
 module.exports = class BusinessEditView extends View
-  autoRender: true
   className: 'business-edit'
   template: template
   listRoute: 'myBusinesses'

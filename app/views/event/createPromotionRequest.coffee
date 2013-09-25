@@ -8,7 +8,6 @@ MessageArea = require 'views/messageArea'
 
 module.exports = class CreatePromotionReqeust extends View
   template: require 'templates/event/createPromotionRequest'
-  autoRender: true
   className: 'create-promotion-requests'
   event: {}
   business: {}
@@ -323,7 +322,7 @@ module.exports = class CreatePromotionReqeust extends View
   
   cancel:(e)->
     e.preventDefault()
-    @publishEvent '!router:route', '/myEvents'
+    Chaplin.helpers.redirectTo {url: '/myEvents'}
 
   immediateClick:()->
     element = $('.immediate-box')

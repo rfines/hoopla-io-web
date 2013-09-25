@@ -8,6 +8,7 @@ module.exports = class ListItem extends ListItemView
   template: template
   noun: 'media'
   model: Media
+  
     
   initialize: ->
     super

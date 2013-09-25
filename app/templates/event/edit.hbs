@@ -81,7 +81,9 @@
     <div class="row no-bottom-margin">
       <div class="col-md-4 gray-tags">
         <div class="gray-tags">
-          <label for="tags">Event Categories</label>
+          <label for="tags">Event Categories
+            <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
+          </label>
           <select class="form-control select-chosen" multiple="true" name="tags">
             {{#each eventTags}}
               <option value="{{attributes.slug}}">{{attributes.text}}</option>

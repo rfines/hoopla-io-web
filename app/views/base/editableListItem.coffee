@@ -1,7 +1,8 @@
 ListItemView = require 'views/base/listItem'
 
 module.exports = class EditableListItem extends ListItemView
-  collapsedId = undefined
+  collapsedId : undefined
+  autoRender: false
 
   attach: =>
     super()
@@ -25,4 +26,5 @@ module.exports = class EditableListItem extends ListItemView
         $('#'+element.id).collapse('hide')
       @removeSubview 'inlineEdit'
     @delegate "click", ".duplicateButton", =>
+      console.log 'publishing'
       @publishEvent "#{@noun}:duplicate", @model        

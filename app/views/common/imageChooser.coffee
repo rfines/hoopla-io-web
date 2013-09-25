@@ -2,7 +2,6 @@ template = require 'templates/common/imageChooser'
 View = require 'views/base/view'
 
 module.exports = class ImageChooser extends View
-  autoRender: true
   className: 'image-chooser'
   template: template
   media= undefined

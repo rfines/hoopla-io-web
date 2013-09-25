@@ -14,9 +14,9 @@ module.exports = class Controller extends Chaplin.Controller
             user.fetch
               success: =>
                 Chaplin.datastore.user = user
-                @publishEvent '!router:route', 'myEvents'
+                Chaplin.helpers.redirectTo {url: 'myEvents'}
               error: =>
-                @publishEvent '!router:route', '/logout'
+                Chaplin.helpers.redirectTo {url: '/logout'}
 
   compositions: =>
     @compose 'site', SiteView

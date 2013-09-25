@@ -2,7 +2,6 @@ View = require 'views/base/view'
 template = require 'templates/postLoginHeader'
 
 module.exports = class HeaderView extends View
-  autoRender: true
   className: 'header'
   region: 'header'
   template: template
@@ -48,22 +47,22 @@ module.exports = class HeaderView extends View
 
 
   logout:(e)->
-    @publishEvent '!router:route', 'logout'
+    Chaplin.helpers.redirectTo {url: 'logout'}
 
   redirectToEvents: (e) ->
-    @publishEvent '!router:route', 'myEvents'
+    Chaplin.helpers.redirectTo {url: 'myEvents'}
 
   redirectToBusinesses: (e) ->
-    @publishEvent '!router:route', 'myBusinesses'    
+    Chaplin.helpers.redirectTo {url: 'myBusinesses'} 
 
   redirectToMedia: (e) ->
-    @publishEvent '!router:route', 'media'
+    Chaplin.helpers.redirectTo {url: 'media'}
 
   redirectToApps: (e) ->
-    @publishEvent '!router:route', 'myWidgets'
+    Chaplin.helpers.redirectTo {url: 'myWidgets'}
 
   redirectToAccount: (e) ->
-    @publishEvent '!router:route', 'account'  
+    Chaplin.helpers.redirectTo {url: 'account'}
 
   updatePageTitle:(title)=>
     $('.page-title>h2').html(title)
