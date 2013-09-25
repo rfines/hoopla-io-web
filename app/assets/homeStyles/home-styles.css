@@ -274,10 +274,11 @@ font-size:1.4em;
   margin-top: 60px;
   padding-top: 60px;
   padding-bottom: 60px;
+  text-align: center;
 }
 
 .well .lead, #Publishers .well .lead p.dev-cta{
-  font-size: 220%;
+
 text-shadow: 0px 0px 5px #000;
 color:#fff!important;
 font-family:'quicksandbold';
@@ -325,11 +326,12 @@ font-family:'quicksandbold';
   background-color:#c5d645;
 }
 #Publishers .well {
-  background: url('/client/images/landing/drumroom.jpg') 0% 0% fixed repeat;
+  background: url('/client/images/landing/nightlife.jpg') 0% 0% fixed repeat;
   margin-bottom: -100px;
   margin-top: 60px;
   padding-top: 60px;
   padding-bottom: 60px;
+  text-align:center;
 }
 #About {
   background: #3e3f42;
@@ -376,7 +378,7 @@ hr,
   }
 .box {
   margin-bottom: 30px;
-min-height: 333px;
+min-height: 365px;
 }
 .about-box {
   margin-bottom: 20px;

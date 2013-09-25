@@ -37,6 +37,7 @@ module.exports = class HomePageView extends View
     $(".well").parallax "50%", 0.1
     $(".navbar .nav > li > a").click ->
       $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
+    $('.fittext').fitText(1.1, { maxFontSize: '55px' })
 
   register: (e) ->
     e.preventDefault()
