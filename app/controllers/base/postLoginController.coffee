@@ -40,9 +40,8 @@ module.exports = class PostLoginController extends Chaplin.Controller
     @publishEvent '!router:route', 'login'
 
   startWaiting: ->
-    console.log 'startWaiting'
     $('.preloader').addClass('loading').show()
+
   stopWaiting: ->
-    console.log 'stopWaiting'
     $('.preloader').removeClass('loading').hide()
 

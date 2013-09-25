@@ -33,7 +33,11 @@ module.exports = class List extends CollectionView
       @publishEvent '!router:changeURL',  "#{baseUrl}"
       @publishEvent 'message:publish', 'success', @params.success      
 
+  hideInitialStage: (e) =>
+    @$el.find('.initial-state').hide()
+
   create: =>
+    @hideInitialStage()
     @publishEvent "closeOthers"
     @publishEvent '!router:route', @noun
 

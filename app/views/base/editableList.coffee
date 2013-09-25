@@ -9,6 +9,7 @@ module.exports = class EditableList extends ListView
       @removeSubview 'newItem' if @subview 'newItem'
 
   create: (e) =>
+    @hideInitialStage()
     Chaplin.datastore.loadEssential 
       success: =>    
         @subview("newItem", new @EditView({container: @$el.find('.newItem'),collection : @collection,model : new @Model()}))

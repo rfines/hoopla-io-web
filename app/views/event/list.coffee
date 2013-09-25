@@ -18,8 +18,6 @@ module.exports = class List extends ListView
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
     @filter @filterer
-    if not @allowCreate
-      @publishEvent "message:publish", "success", "You need to <a href=\'/myBusinesses\'>create a business</a> before you can create events."
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
       @publishEvent '!router:changeURL',  "#{baseUrl}"
@@ -45,6 +43,7 @@ module.exports = class List extends ListView
     td
   
   create: (e) =>
+    @hideInitialStage()
     @publishEvent "closeOthers"
     EventEdit = require 'views/event/edit'
     newEvent = new Event()

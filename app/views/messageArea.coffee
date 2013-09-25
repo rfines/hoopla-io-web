@@ -5,6 +5,7 @@ module.exports = class MessageArea extends View
   autoRender: true
   className: 'alert'
   template: template
+  containerMethod: 'html'
 
   listen:
     "message:publish mediator": 'updateMessage'
