@@ -23,6 +23,7 @@ module.exports = class EventEditView extends View
     td        
 
   attach: =>
+    @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
     @initSocialMediaPromotion()
     @initTimePickers()

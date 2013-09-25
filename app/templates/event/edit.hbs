@@ -20,7 +20,6 @@
         {{/if}}
       </div>   
     </div>
-
     <div class="row">
       <div class="col-md-4">
         <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
@@ -92,7 +91,6 @@
       </div>
       <div class="col-md-4 address-finder">
         <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
-		    <a class="addressButton"><i class="glyphicon glyphicon-plus pull-right"></i></a>  
         <select type="text/input" name="host" class="form-control host select-chosen">
           {{#each businesses}}
             <option value="{{id}}">{{attributes.name}}</option>
@@ -101,6 +99,7 @@
             <option value="{{id}}">{{attributes.name}}</option>
           {{/each}}                
         </select>
+        <a class="addressButton"><i class="glyphicon glyphicon-plus pull-right"></i></a> 
       </div>
         
       <div class="col-md-2">
