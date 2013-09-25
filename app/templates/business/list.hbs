@@ -1,6 +1,10 @@
 <div class="row">
-  <div span class="col-md-3">
+  <div span class="">
+{{#if isEmpty}}
+<div class="well initial-state"><img src="/client/images/howie-initial.png" class="pull-left"><h2>Welcome to Hoopla.io, thanks for taking us for spin.</h2><h3>Before adding any events or creating widgets, you need to create a profile for your business or businesses. If you have any questions, feel free to contact our support experts or view tutorials via the support tab on the left of the page.</h3> <h4><a class="createButton btn btn-success btn-lg">Add a business</a> It's as easy as pulling a rabbit out of a hat!</h4></div>
+{{else}}
     <a class="btn btn-success createButton">Add a Business <i class="glyphicon glyphicon-cloud-upload"></i></a>
+{{/if}}
   </div>
   <div span class="col-md-6 alert-container"></div>
   <div span class="col-md-3">
