@@ -17,16 +17,16 @@ module.exports = class HomePageView extends View
     super()
     @subview('signupForm', new Register({container: @$el.find('.signUpArea')}))
     @setupParallax()
+    #$(window).scrollTo($('#Contact .container'), 300)
     @publishEvent 'showLogin' if @options.showLogin
     @publishEvent 'showForgotPassword' if @options.showForgotPassword
     @publishEvent 'showResetPassword' if @options.showResetPassword
 
   setupParallax: ->
     $("#topnav").localScroll 3000
-    $(".gobtnwrapper").localScroll 3000
     $(".well").parallax "50%", 0.1
     $(".navbar .nav > li > a").click ->
-    $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
+      $(".navbar-collapse.navbar-ex1-collapse.in").removeClass("in").addClass("collapse").css "height", "0"
 
   register: (e) ->
     e.preventDefault()
