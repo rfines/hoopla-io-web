@@ -87,19 +87,15 @@ module.exports = class User extends Model
       url: "/api/passwordReset/emailRequest"
       data: JSON.stringify({email:email})
 
-  newPassword:(email,newPassword, token)=>
+  newPassword:(email,newPassword, token, options)=>
     $.ajax
       type:'POST'
       contentType:'application/json'
       url: "/api/passwordReset"
       data: JSON.stringify({email:email, password:newPassword, token:token})
       success: (body, response, xHr)=>
-        $.removeCookie('token')
-        $.removeCookie('user')
-        window.location = "/login"
+        options.onSuccess(body,response,xHr) if options.onSuccess
       error:(body, response, xHr) =>
-        if body.status is 403
-          $('.errors').empty().html("<span class='error'>Your email address was not found. Please register or try to log in using a different account.</span>")
-        else
-          $('.errors').empty().html("<span class='error'>Something went wrong.</span>")
+        options.onError(body, response,xHr) if options.onError
+    
 

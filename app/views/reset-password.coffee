@@ -21,8 +21,22 @@ module.exports = class ResetPasswordView extends View
     passConfirm = @$el.find('.password-confirm').val()
     if email and password and passConfirm
       if passConfirm is password
-        @model.newPassword email, password, location.search.split('=')[1]
+        @model.newPassword email, password, location.search.split('=')[1], {
+          onSuccess: =>
+            @publishEvent 'stopWaiting'
+            $('#resetPasswordModal').modal('hide')
+            $.removeCookie('token')
+            $.removeCookie('user')
+            @$el.find('.alert').empty().hide()  
+            window.location = "/login"
+          onError: (body, response, xHr) =>
+            @publishEvent 'stopWaiting'
+            if body.status is 401
+              @$el.find('.alert').empty().html("<span class='error'>Your email address was not found. Please register or try to log in using a different account.</span>").show()
+            else
+              @$el.find('.alert').empty().html("<span class='error'>Something went wrong.</span>").show()           
+        }
       else
-        @$el.find('.alert').show().html("<span class='error'>The passwords do not match</span>")
+        @$el.find('.alert').show().html("<span class='error'>The passwords do not match</span>").show()
     else
-      @$el.find('.alert').show().html("<span class='error'>All fields are required.</span>")
+      @$el.find('.alert').show().html("<span class='error'>All fields are required.</span>").show()
