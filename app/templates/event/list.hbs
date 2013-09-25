@@ -2,7 +2,11 @@
 <div class="well initial-state">
   <img src="/client/images/howie-initial.png" class="pull-left">
   <h2>You currently have no upcoming events to display.</h2>
+  {{#if allowCreate}}
   <h3>That's all right, feel free to <a class="createButton">enter an event now</a>.</h3>
+  {{else}}
+  <h3>Before you can enter an event, you'll need to <a href="/myBusinesses">setup a business</a>.</h3>
+  {{/if}}
   <h4>It's as easy as pulling a rabbit out of a hat</h4>
 </div>
 <div class="row event-list-controls">
