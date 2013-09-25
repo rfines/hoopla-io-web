@@ -48,8 +48,5 @@
     "moment": {
       "main": "moment.js"
     }
-  },
-  "resolutions": {
-    "jquery": "~2.0.3"
   }
 }
