@@ -5,6 +5,7 @@ module.exports = (match) ->
   match 'Publishers', 'home#home', params: {goto : 'Publishers'}
   match 'About', 'home#home', params: {goto : 'About'}
   match 'Contact', 'home#home', params: {goto : 'Contact'}
+  match 'register', 'home#home', params: {goto : 'Contact'}
 
   # Marketing/Pre-Login Routes
   match 'signUp', 'home#home', params: {signup : true}
