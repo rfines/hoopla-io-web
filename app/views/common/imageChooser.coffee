@@ -37,7 +37,6 @@ module.exports = class ImageChooser extends View
     )
         
     @uploader.bind "Init", (up, params) =>
-      console.log @uploader
       if $('.uploadBtn').length >0
         $(".uploadBtn").click (e) =>
           @uploader.start()

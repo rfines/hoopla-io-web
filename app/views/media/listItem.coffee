@@ -17,8 +17,11 @@ module.exports = class ListItem extends ListItemView
     "click .thumbnail": "openModal"
     "click .enlarge":"openModal"
     "click .trash" : "destroy"
+    "click .deleteItem":"closeModal"
+    "click .modal-backdrop":"closeModal"
 
   destroy: (e) =>
+    e.preventDefault() if e
     if not Chaplin.datastore.business.hasMedia(@model.id) and not Chaplin.datastore.event.hasMedia(@model.id)
       @model.destroy
         success: =>
@@ -33,8 +36,11 @@ module.exports = class ListItem extends ListItemView
     td.fullUrl = td.url
     td
   openModal:(e)=>
-    e.preventDefault()
-    @$el.find("##{@model.id}").modal({
-      keyboard:true,
-      show:true
-    })
+    e.preventDefault() if e
+    $("#modal_#{@model.id}").modal({
+      keyboard:true
+    }).show()
+  closeModal:(e)=>
+    e.preventDefault() if e
+    console.log "closing"
+    $("#modal_#{@model.id}").modal('hide')
