@@ -1,4 +1,7 @@
 #! /app/node_modules/.bin/coffee
+
+url = process.env.APPLICATION_URL || 'http://www.hoopla.io'
+
 if url.indexOf('https') is 0
   http = require("https")
 else
