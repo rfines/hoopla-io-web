@@ -1,0 +1,12 @@
+#! /app/node_modules/.bin/coffee
+if url.indexOf('https') is 0
+  http = require("https")
+else
+  http = require("http")
+
+http.get(url, (res) ->
+  console.log "Successfully pinged: #{url}"
+  process.exit 0
+).on "error", (e) ->
+  console.log "Error pinging: #{url}"
+  process.exit 1
