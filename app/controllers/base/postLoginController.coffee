@@ -14,7 +14,6 @@ module.exports = class PostLoginController extends Chaplin.Controller
 
   beforeAction: (params, route) ->
     _gaq.push(['_trackEvent', route.path, 'view']) if _gaq?.push
-    @compositions()
     url = window.location.href
     if url.indexOf('register') < 0    
       if not Chaplin.datastore?.user
@@ -24,7 +23,10 @@ module.exports = class PostLoginController extends Chaplin.Controller
             user.fetch
               success: =>
                 Chaplin.datastore.user = user
+                @compositions()
                 @publishEvent 'navigation:loggedIn'
+              error: =>
+                Chaplin.helpers.redirectTo {url: '/logout'}
         else
           @goToLogin()
       else
@@ -37,7 +39,7 @@ module.exports = class PostLoginController extends Chaplin.Controller
     @compose 'footer', Footer
 
   goToLogin: ->
-    @publishEvent '!router:route', 'login'
+    Chaplin.helpers.redirectTo {url: 'login'}
 
   startWaiting: ->
     $('.preloader').addClass('loading').show()

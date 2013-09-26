@@ -5,8 +5,6 @@ MessageArea = require 'views/messageArea'
 
 
 module.exports = class List extends CollectionView
-  autoRender: true
-  renderItems: true
   itemView: Chaplin.View
   noun : undefined
   className: undefined
@@ -27,10 +25,10 @@ module.exports = class List extends CollectionView
     @subview('messageArea', new MessageArea({container: '.alert-container'}))
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
-      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'error', @params.error
     else if @params?.success
-      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'success', @params.success      
 
   hideInitialStage: (e) =>
@@ -39,7 +37,7 @@ module.exports = class List extends CollectionView
   create: =>
     @hideInitialStage()
     @publishEvent "closeOthers"
-    @publishEvent '!router:route', @noun
+    Chaplin.helpers.redirectTo {url: @noun}
 
   initItemView: (model) =>
     return new @itemView({model : model, collection: @collection})

@@ -8,7 +8,6 @@ MessageArea = require 'views/messageArea'
 
 module.exports = class CreatePromotionReqeust extends View
   template: require 'templates/event/createPromotionRequest'
-  autoRender: true
   className: 'create-promotion-requests'
   event: {}
   business: {}
@@ -323,7 +322,7 @@ module.exports = class CreatePromotionReqeust extends View
   
   cancel:(e)->
     e.preventDefault()
-    @publishEvent '!router:route', '/myEvents'
+    Chaplin.helpers.redirectTo {url: '/myEvents'}
 
   immediateClick:()->
     element = $('.immediate-box')
@@ -355,7 +354,6 @@ module.exports = class CreatePromotionReqeust extends View
     @$el.find('.twPostDate').hide()
 
   showCreatedMessage: (data) =>
-    console.log data
     $("html, body").animate({ scrollTop: 0 }, "slow");
     if _.isObject data
       if data.type
@@ -367,9 +365,6 @@ module.exports = class CreatePromotionReqeust extends View
 
   validate: (message, immediate, date, time)=>
     valid = true
-    console.log date
-    console.log time
-    console.log immediate.is(':checked')
     if not message or not message.length > 0
       @$el.find('input[type=textarea]').addClass('error')
       valid = false

@@ -20,10 +20,10 @@ module.exports = class List extends ListView
     @filter @filterer
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
-      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'error', @params.error
     else if @params?.success
-      @publishEvent '!router:changeURL',  "#{baseUrl}"
+      Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'success', @params.success 
     if location.pathname.split('/').indexOf('past') > -1
       @$el.find('.pastEvents').addClass('active')

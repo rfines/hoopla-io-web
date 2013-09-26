@@ -51,8 +51,6 @@ module.exports = class InlineEdit extends View
 
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
-    console.log @model.get('cost')
-    console.log @model.validate()
     if @model.validate()
       for x in _.keys(@model.validate())
         @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')

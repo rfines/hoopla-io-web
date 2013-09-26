@@ -3,7 +3,6 @@ template = require 'templates/users/register'
 User = require 'models/user'
 
 module.exports = class UserRegisterView extends View
-  autoRender: true
   template: template
   initialize: ->
     super

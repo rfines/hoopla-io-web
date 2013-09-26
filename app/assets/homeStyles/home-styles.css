@@ -1,3 +1,65 @@
+/*Custom Icon Styles */
+
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"] {
+*/
+
+.icon-hourglass-save-time:before {
+	content: "\e000";
+}
+.icon-chart-analytics:before {
+	content: "\e001";
+}
+.icon-palm-trees-relax:before {
+	content: "\e003";
+}
+.icon-cloud-api:before {
+	content: "\e009";
+}
+.icon-automated-curation:before {
+	content: "\e00a";
+}
+.icon-gears-seamless-integration:before {
+	content: "\e00b";
+}
+.icon-comment-heart-support:before {
+	content: "\e00c";
+}
+.icon-clock-schedule:before {
+	content: "\e00d";
+}
+.icon-finger-one-click-sharing:before {
+	content: "\e00e";
+}
+.icon-belt-one-size-fits-all:before {
+	content: "\e00f";
+	font-size: 1.5em;
+  position: relative;
+  top: -20%;
+}
+.icon-martini-relax:before {
+	content: "\e002";
+}
+.icon-location-hyperlocal:before {
+	content: "\e004";
+}
+.icon-searching:before {
+	content: "\e005";
+}
+.icon-present-free-content:before {
+	content: "\e006";
+}
+.icon-bullhorn-promote:before {
+	content: "\e007";
+}
+.icon-magic-wand:before {
+	content: "\e008";
+}
+
 /* landing page styles
 ===========================*/
 body {
@@ -212,19 +274,64 @@ font-size:1.4em;
   margin-top: 60px;
   padding-top: 60px;
   padding-bottom: 60px;
+  text-align: center;
 }
+
 .well .lead, #Publishers .well .lead p.dev-cta{
-  font-size: 220%;
+
 text-shadow: 0px 0px 5px #000;
 color:#fff!important;
 font-family:'quicksandbold';
 }
+
+#Businesses .circ-wrap span {
+  font-size: 4.1em;
+  color: #c5d645;
+  position: relative;
+  top: -2%;
+  left: 1%;
+  text-shadow: 0px 0px 15px rgba(0,0,0,.2);
+  }
+  #Businesses .how .circ-wrap{
+    width:212px;
+    height:212px;
+    border-radius:111px;
+    border:0px solid #fff;
+  }
+  #Businesses .how .circ-wrap span {
+    font-size: 10.1em;
+    color: #fff;
+    position: relative;
+    top: -1%;
+    left: -2%;
+    text-shadow: 2px 2px 2px rgba(0,0,0,.1);
+    }
+#Businesses .how .circ-wrap.create {
+  background-color:rgb(30,181,194);
+}
+#Businesses .how .circ-wrap.promote {
+  background-color:rgb(62,63,66);
+}
+#Businesses .how .circ-wrap.promote span {
+  font-size: 10.6em;
+  top: 3%;
+  left: 2%;
+}
+#Businesses .how .circ-wrap.relax span {
+  font-size: 10.6em;
+  top: 3%;
+  left: 2%;
+}
+#Businesses .how .circ-wrap.relax {
+  background-color:#c5d645;
+}
 #Publishers .well {
-  background: url('http://farm7.staticflickr.com/6208/6035958264_2bbd2735f4_o.jpg') 0% 0% fixed repeat;
+  background: url('/client/images/landing/nightlife.jpg') 0% 0% fixed repeat;
   margin-bottom: -100px;
   margin-top: 60px;
   padding-top: 60px;
   padding-bottom: 60px;
+  text-align:center;
 }
 #About {
   background: #3e3f42;
@@ -258,9 +365,20 @@ hr,
   line-height: 46px;
   color:#fff;
 }
+#Publishers .circ-wrap {
+  border-color:rgb(145, 146, 146);
+}
+#Publishers .circ-wrap span {
+  font-size: 4.1em;
+  color: #06A1AF;
+  position: relative;
+  top: -2%;
+  left: 1%;
+  text-shadow: 0px 0px 15px rgba(0,0,0,.2);
+  }
 .box {
   margin-bottom: 30px;
-min-height: 400px;
+min-height: 365px;
 }
 .about-box {
   margin-bottom: 20px;
@@ -640,6 +758,51 @@ footer .circ-wrap a:hover {
     font-size: 32px;
     line-height: 34px;
   }
+  #Businesses .circ-wrap span, #Publishers .circ-wrap span {
+  font-size: 2.3em;
+  position: relative;
+  top: -15%;
+  left: 1%;
+  text-shadow: 0px 0px 15px rgba(0,0,0,.2);
+}
+
+#Businesses .how .circ-wrap{
+  width:212px;
+  height:212px;
+  border-radius:111px;
+  border:0px solid #fff;
+}
+#Businesses .how .circ-wrap span {
+  font-size: 10.1em;
+  color: #fff;
+  position: relative;
+  top: -1%;
+  left: -2%;
+  text-shadow: 0px 0px 15px rgba(0,0,0,.2);
+  }
+#Businesses .how .circ-wrap.create {
+background-color:rgb(30,181,194);
+}
+#Businesses .how .circ-wrap.promote {
+background-color:rgb(62,63,66);
+}
+#Businesses .how .circ-wrap.promote span {
+font-size: 10.6em;
+top: 3%;
+left: 2%;
+}
+#Businesses .how .circ-wrap.relax span {
+font-size: 10.6em;
+top: 3%;
+left: 2%;
+}
+#Businesses .how .circ-wrap.relax {
+background-color:#c5d645;
+}
+.box {
+  margin-bottom: 30px;
+min-height: 200px;
+}
 }
 @media (max-width: 767px) {
   /* CIRCULE ICONS FIX SIXE FOR MOBILES */

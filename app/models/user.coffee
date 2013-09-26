@@ -27,8 +27,6 @@ module.exports = class User extends Model
         url:  '/api/tokenRequest',
         data: JSON.stringify({password : pword,email : uname}),
         success: (body,response, xHr) =>
-          console.log 'got token'
-          console.log body
           $.cookie('token', body.authToken, path: '/')
           $.cookie('user', body.user, path: '/')
           user = new User()
@@ -50,9 +48,9 @@ module.exports = class User extends Model
           options.onSuccess()
         else
           if Chaplin.datastore.business.hasNone()
-            @publishEvent '!router:route', 'myBusinesses'
+            Chaplin.helpers.redirectTo {url: 'myBusinesses'}
           else      
-            @publishEvent '!router:route', 'myEvents'
+            Chaplin.helpers.redirectTo {url: 'myEvents'}
     @publishEvent 'loginStatus', true
   
   changePassword :(id, password, currentPassword, options)=>

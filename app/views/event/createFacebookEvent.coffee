@@ -8,7 +8,6 @@ FacebookPagesView = require 'views/event/facebookPages'
 module.exports = class CreateFacebookEventView extends View
   model:Event
   template: require 'templates/event/createFacebookEvent'
-  autoRender: true
   className: 'create-facebook-event'
   business = {}
   promotionTarget = {}

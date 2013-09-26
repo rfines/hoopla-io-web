@@ -1,7 +1,7 @@
 View = require 'views/base/view'
 
 module.exports = class ListItem extends View
-  autoRender: true
+  autoRender: false
   className: 'row'
   noun : "business"
 
@@ -15,7 +15,7 @@ module.exports = class ListItem extends View
 
   edit: (e) =>
     e.preventDefault()
-    @publishEvent '!router:route', "#{@noun}/#{@model.id}"
+    Chaplin.helpers.redirectTo {url: "#{@noun}/#{@model.id}"}
 
   destroy: (e) =>
     destroyConfirm = confirm("Delete this #{@noun}?")

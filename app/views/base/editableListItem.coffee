@@ -1,7 +1,8 @@
 ListItemView = require 'views/base/listItem'
 
 module.exports = class EditableListItem extends ListItemView
-  collapsedId = undefined
+  collapsedId : undefined
+  autoRender: false
 
   attach: =>
     super()

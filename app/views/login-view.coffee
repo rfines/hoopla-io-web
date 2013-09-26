@@ -4,7 +4,6 @@ User = require 'models/user'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class LoginView extends View
-  autoRender: true
   template: template
   container: "page-container"
   events:
