@@ -394,11 +394,12 @@ min-height: 365px;
   border-bottom: 2px solid #fff;
   display: inline-block;
 }
-.register-form {padding: 20px;
+.register-form {padding: 50px;
 background-color: rgb(69, 70, 66);
 border-radius: 19px;
 color:#fff;
 }
+.register-div {margin-bottom: 20px;}
 .register-form .radio label {color: #c5d645;}
 .userType {margin-bottom:20px;}
 .register-form label {color: #c5d645;font-family:'quicksandlight';}
