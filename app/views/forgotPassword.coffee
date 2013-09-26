@@ -7,7 +7,8 @@ module.exports = class ResetPasswordRequestView extends View
   template: template
   container: "page-container"
   events:
-    "submit form": 'resetPassword'
+    "submit form" : 'resetPassword'
+    "click .cancel" : 'cancel'
 
   initialize: ->
     super
@@ -22,3 +23,6 @@ module.exports = class ResetPasswordRequestView extends View
     else
       @$el.find('.alert-danger').removeClass('hide')
       @$el.find('.alert-danger').append("<span class='error'>A valid email address is required.</span>")
+  cancel:(e)=>
+    e.preventDefault()
+    Chaplin.helpers.redirectTo {url: ''}

@@ -9,6 +9,8 @@ module.exports = class LoginPopover extends View
     "click .loginButton": 'login'
     'click .cancel' : 'cancel'
     'click .forgotPasswordButton' : 'forgotPassword'
+    'keyup .password': 'submitOnEnter'
+    'keyup #loginModal': 'submitOnEnter'
 
   initialize: ->
     super
@@ -17,6 +19,13 @@ module.exports = class LoginPopover extends View
   attach: ->
     super
     @$el.find('.password').focus()
+
+   submitOnEnter:(e)=>
+    code = (if e.keyCode then e.keyCode else e.which)
+    if code is 13
+      @login(e)
+    else if code is 27
+      @cancel(e)
 
   login: (e)->
     e.preventDefault()
@@ -42,8 +51,11 @@ module.exports = class LoginPopover extends View
 
   forgotPassword: (e) ->
     e.preventDefault() if e
-    Chaplin.helpers.redirectTo {url: '/forgotPassword'}
+    Chaplin.helpers.redirectTo {url: 'forgotPassword'}
 
   cancel: (e) ->
     e.preventDefault()
+    @$el.find('.username').val('')
+    @$el.find('.password').val('')
+    $('#loginModal').modal('hide')
 
