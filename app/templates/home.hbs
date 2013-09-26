@@ -14,14 +14,14 @@
     </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse top-spy">
         <ul class="nav navbar-nav navbar-right">
-              <li><a href="#Businesses" class="toBusinesses">For Businesses</a></li>
-              <li><a href="#Publishers" class="toPublishers">For Publishers</a></li>
-              <li><a href="/blog">Blog</a></li>
+              <li><a href="#Businesses" class="toBusinesses" onClick="_gaq.push(['_trackEvent', 'Landing_Main_Nav', 'Business', '']);">For Businesses</a></li>
+              <li><a href="#Publishers" class="toPublishers" onClick="_gaq.push(['_trackEvent', 'Landing_Main_Nav', 'Publishers', '']);">For Publishers</a></li>
+              <li><a href="/blog" onClick="_gaq.push(['_trackEvent', 'Landing_Main_Nav', 'Blog', '']);">Blog</a></li>
         </ul>
       </div>
 	<nav class="upper-nav">
-		<a data-toggle="modal" href="#loginModal" class="sign-in btn btn-default btn-sm">Sign In</a>
-		<a href="#Contact" class="btn btn-info btn-sm toSignUp">Try It Free!</a>
+		<a data-toggle="modal" href="#loginModal" class="sign-in btn btn-default btn-sm" onClick="_gaq.push(['_trackEvent', 'Landing_Upper_Nav', 'Sign In', '']);">Sign In</a>
+		<a href="#Contact" class="btn btn-info btn-sm toSignUp" onClick="_gaq.push(['_trackEvent', 'Landing_Upper_Nav', 'Sign Up', 'Try it for Free']);">Try It Free!</a>
 		</nav>
     </div>
   
@@ -38,7 +38,7 @@
                 </div>
                 <div class="text-center col-xs-12 col-sm-6 col-md-4 col-lg-4 solution">
                   <h1 class="primary">Hoopla.io makes it effortless</h1>
-	<a class="btn btn-large btn-success toSignUp" href="#Contact"><i class="icon-magic"></i>Try it Free!</a>
+	<a class="btn btn-large btn-success toSignUp" href="#Contact" onClick="_gaq.push(['_trackEvent', 'Landing_Hero', 'Try it for free']);"><i class="icon-magic"></i>Try it Free!</a>
                 </div>
               </div>
             </div>
@@ -72,11 +72,11 @@
     </div>
 <div class="row">
     <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
-      <div class="circ-wrap">
-        <span aria-hidden="true" class="icon-hourglass-save-time"></span>
+      <div class="">
+        <img src="/client/images/landing/hourglass-save-time.png">
       </div>
       <h3>SAVE TIME, MONEY, &amp; ENERGY</h3>
-      <p class="justify">Our pricing model is built specifically with small businesses in mind. We want people to know about you and your unique events, so we’ve designed it to be simple, intuitive, and even a little bit fun. <a href="/#Contact" class="success">Go on, give it a whirl. Try is now for free!</a>.
+      <p class="justify">Our pricing model is built specifically with small businesses in mind. We want people to know about you and your unique events, so we’ve designed it to be simple, intuitive, and even a little bit fun. <a href="/#Contact" class="success" onClick="_gaq.push(['_trackEvent', 'Benefits_for_Businesses', 'Sign Up', 'Go on, give it a whirl. Try is now for free!']);">Go on, give it a whirl. Try is now for free!</a>.
       </p>
     </div>
     <div class="text-center box col-xs-12 col-sm-6 col-md-4 col-lg-4">
@@ -107,7 +107,7 @@
         <span aria-hidden="true" class="icon-comment-heart-support"></span>
         </div>
             <h3>WE’RE HERE FOR YOU</h3>
-            <p class="justify">We love what we do, and we want to make sure you love it too. Support from real humans — that’s how we operate. We’ll always be here should you need advice or assistance, so please don’t hesitate to <a href="#foot-sec">contact us</a>. 
+            <p class="justify">We love what we do, and we want to make sure you love it too. Support from real humans — that’s how we operate. We’ll always be here should you need advice or assistance, so please don’t hesitate to <a href="#foot-sec" onClick="_gaq.push(['_trackEvent', 'Benefits_for_Businesses', 'Contact Info', 'Contact Us']);">contact us</a>. 
 			</p>
           
     </div>
@@ -162,7 +162,7 @@
           <h2 class="lead fittext">
             Sign Up for your free Hoopla.io account.
           </h2>
-          <a class="btn btn-large btn-success" href="#Contact">Get Started Now</a>
+          <a class="btn btn-large btn-success" href="#Contact" onClick="_gaq.push(['_trackEvent', 'Landing_page_well', 'Sign Up for Free Hoopla.io Account', 'Get Started Now<']);">Get Started Now</a>
 
 
   </div>
@@ -242,7 +242,7 @@
 		        <span aria-hidden="true" class="icon-cloud-api"></span>
 		        </div>
       <h3>NEED AN API? WE’VE GOT ONE</h3>
-      <p>Integrate our API easily into your website or application and start building cool products with our events data. <a href="mailto:info@hoopla.io">Contact us for details</a></p>
+      <p>Integrate our API easily into your website or application and start building cool products with our events data. <a href="mailto:info@hoopla.io" onClick="_gaq.push(['_trackEvent', 'Benefits_for_Publishers', 'API Interest', 'Contact us for details']);">Contact us for details</a></p>
         </div>
   </div>
   </div>
