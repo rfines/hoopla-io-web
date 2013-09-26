@@ -39,26 +39,27 @@ module.exports = class CreatePromotionReqeust extends View
     
   getTemplateData: ->
     td = super()
-    td.facebookProfileImageUrl = @facebookImgUrl
-    td.twitterProfileImageUrl = @twitterImgUrl
-    td.facebookProfileName = @facebookProfileName
-    td.twitterHandle = @twitterHandle
+    td.eventAddress = @event.attributes.location.address
+    td.dayOfWeek = moment(@event.nextOccurrence()).format("dddd")
+    td.startDate = moment(@event.nextOccurrence()).format("h:mm a")
+    td.fbPages= @fbPages
     td.previewText = @event.get('description')
+
     if not @fbPromoTarget
       td.showFb = false
     else
       td.showFb =true
+      td.facebookProfileImageUrl = @facebookImgUrl
+      td.facebookProfileName = @facebookProfileName
+      td.profileImgUrl = @fbPromoTarget?.profileImageUrl
+      td.profileName = @fbPromoTarget?.profileName
+      td.coverPhoto = @fbPromoTarget?.profileCoverPhoto
     if not @twPromoTarget
       td.showTwitter = false
     else
       td.showTwitter = true
-    td.profileImgUrl = @fbPromoTarget.profileImageUrl
-    td.profileName = @fbPromoTarget.profileName
-    td.eventAddress = @event.attributes.location.address
-    td.coverPhoto = @fbPromoTarget.profileCoverPhoto
-    td.dayOfWeek = moment(@event.nextOccurrence()).format("dddd")
-    td.startDate = moment(@event.nextOccurrence()).format("h:mm a")
-    td.fbPages= @fbPages
+      td.twitterProfileImageUrl = @twitterImgUrl
+      td.twitterHandle = @twitterHandle
     td
   
   attach : ->
@@ -75,10 +76,9 @@ module.exports = class CreatePromotionReqeust extends View
       countDirection: 'down'
 
     })
-    
     @initDatePickers()
     @initTimePickers()
-    @getFacebookPages(@fbPromoTarget)
+    @getFacebookPages(@fbPromoTarget) if @fbPromoTarget
    
     
 
