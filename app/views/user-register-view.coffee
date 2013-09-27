@@ -21,8 +21,7 @@ module.exports = class UserRegisterView extends View
     uname = @$el.find('.username').val()
     pword = @$el.find('.password').val()
     pwordconfirm =@$el.find('.password-confirm').val()
-    userType = @$el.find('input[name=userType]:checked').val()
-    if uname and pword and pwordconfirm and userType
+    if uname and pword and pwordconfirm
       if pword != pwordconfirm
         @showError "Passwords do not match.", ['password', 'password-confirm']
       else
@@ -32,7 +31,6 @@ module.exports = class UserRegisterView extends View
         @model.set
           email: uname
           password: pword
-          userType : userType
         @model.save  {}, {
           success: (model, response, options)-> 
             model.getToken uname, pword    
@@ -40,7 +38,7 @@ module.exports = class UserRegisterView extends View
             @showError xhr.responseJSON
         }
     else
-      @showError "All fields are required", ['email', 'password', 'password-confirm', 'userType']
+      @showError "All fields are required", ['email', 'password', 'password-confirm']
 
   showError: (msg, fields) =>    
     @$el.find('.alert').show()
