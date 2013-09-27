@@ -59,7 +59,45 @@ you can use the generic selector below, but it's slower:
 .icon-magic-wand:before {
 	content: "\e008";
 }
-
+.icon {width:110px;
+height:120px;
+margin:0px auto;}
+.time-money {
+  background: url('../images/landing/hourglass-save-time.png') 0px 0px transparent no-repeat;
+}
+.one-size {
+  background: url('../images/landing/belt-one-size.png') 0px 0px transparent no-repeat;
+}
+.share-click {
+  background: url('../images/landing/finger-share.png') 0px 0px transparent no-repeat;
+}
+.clock-schedule {
+  background: url('../images/landing/clock-schedule.png') 0px 0px transparent no-repeat;
+}
+.support {
+  background: url('../images/landing/comment-support.png') 0px 0px transparent no-repeat;
+}
+.analytics {
+  background: url('../images/landing/chart-analytics.png') 0px 0px transparent no-repeat;
+}
+.hyper-local {
+  background: url('../images/landing/location-hyperlocal.png') 0px 0px transparent no-repeat;
+}
+.free-content {
+  background: url('../images/landing/present-free-content.png') 0px 0px transparent no-repeat;
+}
+.seamless {
+  background: url('../images/landing/gears-seamless.png') 0px 0px transparent no-repeat;
+}
+.automated-curation {
+  background: url('../images/landing/automated-curation.png') 0px 0px transparent no-repeat;
+}
+.no-searching {
+  background: url('../images/landing/arrows-searching.png') 0px 0px transparent no-repeat;
+}
+.api {
+  background: url('../images/landing/cloud-api.png') 0px 0px transparent no-repeat;
+}
 /* landing page styles
 ===========================*/
 body {
@@ -394,7 +432,7 @@ min-height: 365px;
   border-bottom: 2px solid #fff;
   display: inline-block;
 }
-.register-form {padding: 50px;
+.register-form {padding: 10px 15px 50px 15px;
 background-color: rgb(69, 70, 66);
 border-radius: 19px;
 color:#fff;
@@ -587,7 +625,7 @@ footer .circ-wrap a:hover {
 .social-contacts a:hover {
   text-decoration: none;
 }
-.bio div {margin-bottom:40px;}
+.bio div {margin-bottom:40px;min-height: 340px;}
 .bio h3 {font-family:'museoLight';}
 .bio h4, .bio h5{font-family:'quicksand';}
 /* PRODUCTS
