@@ -5,8 +5,6 @@ module.exports = class EditableList extends ListView
   attach: =>
     super
     @$el.find('.listAlert').hide()
-    @subscribeEvent 'closeOthers',=>
-      @removeSubview 'newItem' if @subview 'newItem'
 
   create: (e) =>
     @hideInitialStage()

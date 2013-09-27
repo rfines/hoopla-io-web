@@ -57,13 +57,13 @@ module.exports = class InlineEdit extends View
       return false
     else
       return true    
+  
   cancel: (e)=>
     e.preventDefault() if e
-    if @subview("newItem")?.length > 0 && @model.isNew()
-      @removeSubview("newItem")
-      @$el.find('.newItem').scrollUp()
+    if @model.isNew
+      @dispose()
+      $("html, body").animate({ scrollTop: 0 }, "slow");
     else
-      e.stopPropagation() if e
       @publishEvent "#{@noun}:#{@model.id}:edit:close"
 
   save: (e) ->
