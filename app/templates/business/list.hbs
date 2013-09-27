@@ -1,5 +1,3 @@
-<div class="row">
-  <div span class="">
 {{#if isEmpty}}
 <div class="well initial-state"><img src="/client/images/howie-initial.png" class="pull-left"><h2>Welcome to Hoopla.io, thanks for taking us for spin.</h2>
 <p class="lead"><i class="icon-check"></i> Add your business profile first.</p></li>
@@ -9,9 +7,11 @@
 <p class="lead"><i class="icon-check"></i> Publish your event to your social networks and website in one click.</p>
 <p class="lead"><i class="icon-check"></i> Generate a website widget for your website if you'd like.</p>
 <h3> If you have any questions, feel free to contact our support experts or view tutorials via the support tab on the left of the page.</h3> <h4><a class="createButton btn btn-success btn-lg">Add a business</a> It's as easy as pulling a rabbit out of a hat!</h4></div>
-{{else}}
-    <a class="btn btn-success createButton">Add a Business <i class="glyphicon glyphicon-cloud-upload"></i></a>
 {{/if}}
+
+<div class="row">
+  <div span class="hideInitial">
+    <a class="btn btn-success createButton">Add a Business <i class="glyphicon glyphicon-cloud-upload"></i></a>
   </div>
   <div span class="col-md-6 alert-container"></div>
   <div span class="col-md-3">

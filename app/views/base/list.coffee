@@ -29,10 +29,13 @@ module.exports = class List extends CollectionView
       @publishEvent 'message:publish', 'error', @params.error
     else if @params?.success
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
-      @publishEvent 'message:publish', 'success', @params.success      
+      @publishEvent 'message:publish', 'success', @params.success  
+    if @collection?.length is 0    
+      @$el.find('.hideInitial').hide();  
 
   hideInitialStage: (e) =>
     @$el.find('.initial-state').hide()
+    @$el.find('.hideInitial').show();
 
   create: =>
     @hideInitialStage()
@@ -47,6 +50,7 @@ module.exports = class List extends CollectionView
       @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
     else if _.isString(data)
       @publishEvent 'message:publish', 'success', "#{data}"
+  
   getTemplateData: =>
     td=super()
     td.isEmpty = @collection.length is 0 if @collection
