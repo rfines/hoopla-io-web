@@ -2,6 +2,7 @@ SiteView = require 'views/site-view'
 Controller = require 'controllers/base/preLoginController'
 HomePageView = require 'views/home'
 BlogView = require 'views/blog'
+ErrorView = require 'views/error'
 
 module.exports = class HomeController extends Controller
 
@@ -26,6 +27,11 @@ module.exports = class HomeController extends Controller
     template = require('templates/blog')
     @view = new BlogView
       region:'main'
+
+  error: (params) ->
+    template = require('templates/error')
+    @view = new ErrorView
+      region: 'main'
       
 
   startWaiting: ->

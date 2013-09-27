@@ -35,3 +35,6 @@ module.exports = (match) ->
   #demo route
   match 'image', 'home#index'
   match 'media', 'media#index'
+
+  #404
+  match '*anything', 'home#error'
