@@ -374,12 +374,19 @@ a {
         
       }
   form  .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
-         padding: 15px;
-         margin-left: -15px;
-        }
-   .row {margin-bottom:0px;position:relative;}
-   #map-canvas {margin-top:15px!important;width: 637px!important;margin-bottom: 15px!important;}
-   textarea.embedCodeHtml {width: 100%!important;height:74px;}
+    padding: 15px;
+    margin-left: -15px;
+  }
+  .row {margin-bottom:0px;position:relative;}
+  #map-canvas {
+    margin-top:15px!important;
+    width: 637px!important;
+    margin-bottom: 15px!important;
+    div {
+        margin:0px!important;
+    }
+  }
+ textarea.embedCodeHtml {width: 100%!important;height:74px;}
 }
 .account-manage {margin-top: 25px;}
 .account-manage .control-group {margin-bottom:15px;}
@@ -684,6 +691,9 @@ img.placeholderImage {width:125px;height:100px;}
         #map-canvas {
             width: 450px!important;
             margin-top: 10px;
+            div {
+                margin:0px!important;
+            }            
         }
         .address-finder .popover {
             top: -20px;
@@ -716,6 +726,12 @@ img.placeholderImage {width:125px;height:100px;}
         min-height: 279px;
     }
     .business-controls {margin-bottom: 20px;}
+    #map-canvas {
+        margin-top: 10px;
+        div {
+            margin:0px!important;
+        }            
+    }    
 }
 .btn {
     font-family: 'museo';

@@ -39,4 +39,5 @@ module.exports = class HomeController extends Controller
     $('.preloader').addClass('loading').show()
 
   stopWaiting: ->
+    $('.preloader').css('margin-top': '0px')
     $('.preloader').removeClass('loading').hide()      
