@@ -1,21 +1,33 @@
 {{#if isEmpty}}
-<div class="well initial-state"><img src="/client/images/howie-initial.png" class="pull-left"><h2>Welcome to Hoopla.io, thanks for taking us for spin.</h2>
-<p class="lead"><i class="icon-check"></i> Add your business profile first.</p></li>
-<p class="lead"><i class="icon-check"></i> Connect your social media networks (Facebook and Twitter).</p>
-<p class="lead"><i class="icon-check"></i> Create your events.</p>
-
-<p class="lead"><i class="icon-check"></i> Publish your event to your social networks and website in one click.</p>
-<p class="lead"><i class="icon-check"></i> Generate a website widget for your website if you'd like.</p>
-<h3> If you have any questions, feel free to contact our support experts or view tutorials via the support tab on the left of the page.</h3> <h4><a class="createButton btn btn-success btn-lg">Add a business</a> It's as easy as pulling a rabbit out of a hat!</h4></div>
-{{/if}}
+<div class="well initial-state"><img src="/client/images/howie-initial.png" class="pull-left">
+<h2>Welcome to Hoopla.io, thanks for taking us for spin.</h2>
+<h4 class="gray">Here's how you get started:</h4><br clear="left">
 
 <div class="row">
-  <div span class="hideInitial">
+
+<div class="onboarding col-md-2 col-lg-2 col-sm-12 col-xm-12"><img src="/client/images/landing/create.png"><ul><li>Add your business profile.</li><li>Connect your social media networks.</li></ul></div>
+<div class="onboarding col-md-2 col-lg-2 col-sm-12 col-xm-12"><img src="/client/images/landing/promote.png"><ul><li>Create your events.</li><li>Publish your event to your social networks and website in one click.</li></ul></div>
+<div class="onboarding col-md-2 col-lg-2 col-sm-12"><img src="/client/images/landing/relax.png"><ul><li>Relax — and prepare for a full house.</li></ul>
+</div>
+</div>
+<br clear="left">
+
+
+<h4  class="gray"><a class="createButton btn btn-success btn-lg pull-right">Add a business</a></h4><br clear="right"></div>
+{{else}}
+
     <a class="btn btn-success createButton">Add a Business <i class="glyphicon glyphicon-cloud-upload"></i></a>
+
+{{/if}}
+ <div span class="hideInitial">
+<a class="btn btn-success createButton">Add a Business <i class="glyphicon glyphicon-cloud-upload"></i></a>
+</div>
   </div>
+
   <div span class="col-md-6 alert-container"></div>
   <div span class="col-md-3">
   </div>
 </div>
 <div class="newItem"></div>
 <div class="panel-group clear business-list-container" id="accordion"></div>
+<p class="gray pull-right"> If you have any questions, feel free to contact our support experts or view tutorials via the support tab on the left of the page.</p> 

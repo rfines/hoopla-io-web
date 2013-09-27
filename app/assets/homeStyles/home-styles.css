@@ -115,6 +115,18 @@ header {
 	75% { background-position: 100% 20%; }
 	100% { background-position: 0% 0%; }
 }
+@-moz-keyframes animatedBackground {
+	25% { background-position: 100% 50%; }
+	50% { background-position: 0% 0%; }
+	75% { background-position: 100% 20%; }
+	100% { background-position: 0% 0%; }
+}
+@-o-keyframes animatedBackground {
+	25% { background-position: 100% 50%; }
+	50% { background-position: 0% 0%; }
+	75% { background-position: 100% 20%; }
+	100% { background-position: 0% 0%; }
+}
 @keyframes animatedBackground {
 	25% { background-position: 100% 50%; }
 	50% { background-position: 0% 0%; }
@@ -123,7 +135,7 @@ header {
 }
 section {
   position: relative;
-  padding-top: 70px;
+  padding-top: 55px;
   padding-bottom: 80px;
   width: 100%;
   min-width: 100%;
@@ -204,7 +216,13 @@ text-align: center;
   opacity: 0.9;
   text-decoration: none;
 }
-.jumbotron {background-image: url('../images/landing/problem-bg.png');background-position: 0px 0px; background-repeat:repeat;background-color: rgb(1, 109, 114)!important;-webkit-animation: animatedBackground 40s linear infinite;}
+.jumbotron {background-image: url('../images/landing/problem-bg.png');background-position: 0px 0px; background-repeat:repeat;background-color: rgb(1, 109, 114)!important;
+-webkit-animation:animatedBackground 40s linear infinite;
+   -moz-animation:animatedBackground 40s linear infinite;
+    -ms-animation:animatedBackground 40s linear infinite;
+     -o-animation:animatedBackground 40s linear infinite;
+        animation:animatedBackground 40s linear infinite;
+}
 .problem h1 {
   color: #06a1af;
   font-size: 2.1em;
@@ -275,6 +293,7 @@ font-size:1.4em;
 .success {
   color: #c5d645;
 }
+a.success, a.primary {text-decoration:underline!important;font-family:'quicksandbold';}
 .primary {
   color: #06a1af;
 }
@@ -377,6 +396,8 @@ line-height: 41px;}
   padding-bottom: 60px;
   text-align:center;
 }
+#Publishers img.solution {margin: 0px auto;}
+
 #About {
   background: #3e3f42;
   color: #999999;
@@ -422,7 +443,7 @@ hr,
   }
 .box {
   margin-bottom: 30px;
-min-height: 395px;
+height: 330px;
 }
 .about-box {
   margin-bottom: 20px;
