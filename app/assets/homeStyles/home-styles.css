@@ -360,6 +360,12 @@ font-family:'quicksandbold';
   top: 3%;
   left: 2%;
 }
+#Businesses  h4 {font-size: 25px;
+text-align: left;
+padding-top: 54px;
+font-family: 'museoLight';
+line-height: 41px;}
+#Businesses img.solution {margin:40px 20px 40px 20px;}
 #Businesses .how .circ-wrap.relax {
   background-color:#c5d645;
 }
