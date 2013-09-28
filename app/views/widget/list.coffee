@@ -15,3 +15,4 @@ module.exports = class List extends ListView
 
   attach: ->
     super()
+    @publishEvent 'activateNav', "myWidgets"

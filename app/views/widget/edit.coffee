@@ -8,10 +8,10 @@ module.exports = class WidgetEditView extends View
   template: template
   listRoute: 'myWidgets'
   noun : 'widget'
-
+  saving = false
   listen:
     'change model' : 'preview'
-
+  saving = false
   attach: ->
     super
     @$el.find('.embedCode').hide()
@@ -67,9 +67,14 @@ module.exports = class WidgetEditView extends View
 
   preview: () =>
     @updateModel()
-    if @validate()
+    if @validate() and not @saving
+      console.log "Saving"
+      @saving = true
       @model.save {}, {
         success: (err, doc) =>
+          console.log "Done Saving"
+          @saving = false
+          @publishEvent 'stopWaiting'
           @updatePreview()
       }
 

@@ -4,7 +4,7 @@ MediaList = require 'views/media/mediaLibraryPopover'
 ImageChooser = require 'views/common/imageChooser'
 
 module.exports = class InlineEdit extends View
-
+  saving=false
   initialize: ->
     super()
     @isNew = @model.isNew()
@@ -69,18 +69,21 @@ module.exports = class InlineEdit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
-    if @validate()
+    if @validate() and not @saving
+      @saving = true
       if @hasMedia and $("#filelist div").length > 0
         @subview('imageChooser').uploadQueue (media) =>
           @model.set 
             'media': [media]
           @model.save {}, {
             success: =>
+              @saving = false
               @postSave() if @postSave
           }
       else
         @model.save {}, {
             success: =>
+              @saving = false
               @postSave() if @postSave
         }    
 
