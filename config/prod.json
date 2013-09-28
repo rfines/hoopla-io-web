@@ -3,11 +3,11 @@
   "apiUrl" : "http://api.hoopla.io",
   "apiKey" :"METkwI15Bg0heuRNaru6",
   "apiSecret": "6n0pRhok4WR8yx8VudUD7XshboNCz51oFXJvZA2y",
-  //"cloudinary" : {
-  //  "cloudName" : "hu9ncnicw"
-  //}
+  "cloudinary" : {
+    "cloudName" : "hu3y2dnvf"
+  }
   "robotsFile" : "prod.robots.hbs",
-  "baseUrl":"http://www.hoopla.io/",
+  "baseUrl":"https://www.hoopla.io/",
   "facebook":{
     "key":"1414344922112968",
     "secret":"72123805ad815bfb5b34c3a2d608edd7"
