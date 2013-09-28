@@ -12,7 +12,6 @@ module.exports = class ListItem extends EditableListItem
     td = super
     callbackUrl = "#{window.baseUrl}callbacks/facebook?businessId=#{@model.id}"
     td.facebookConnectUrl = "https://www.facebook.com/dialog/oauth?client_id=#{window.facebookClientId}&scope=publish_actions,user_events,manage_pages,publish_stream,photo_upload,create_event&redirect_uri=#{encodeURIComponent(callbackUrl)}"
-    td.twitterConnectUrl = "#{window.baseUrl}oauth/twitter?businessId=#{@model.id}"
     td.facebookConnected = _.some @model.get('promotionTargets'), (item) ->
       item.accountType is 'FACEBOOK' 
     td.twitterConnected = _.some @model.get('promotionTargets'), (item) ->
@@ -22,6 +21,7 @@ module.exports = class ListItem extends EditableListItem
   events: 
     "click #deauth-facebook": "deauthorizeFacebook"
     "click #deauth-twitter":"deauthorizeTwitter"
+    "click .twitter.socialNotConnected":"redirectToTwitter"
 
   attach: ->
     super()
@@ -85,3 +85,6 @@ module.exports = class ListItem extends EditableListItem
   showTwitterDisconnect:()=>
     @$el.find('.tw-auth').show()
     @$el.find('.tw-not-auth').hide()
+  redirectToTwitter:(e)=>
+    e.preventDefault() if e
+    window.location.href = "/oauth/twitter?businessId=#{@model.id}"
