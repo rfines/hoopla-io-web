@@ -36,6 +36,10 @@ module.exports = class WidgetEditView extends View
     if not @model.has('widgetType') 
       @$el.find('.event-by-business').hide()
       @$el.find('.event-by-location').hide()
+    $radioButtons = $("input[type=\"radio\"]")
+    $radioButtons.click ->
+        $radioButtons.each ->
+          $(this).closest(".radio").toggleClass "selected", @checked
 
 
   getTemplateData: ->

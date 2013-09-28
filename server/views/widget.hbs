@@ -110,6 +110,7 @@
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6',GradientType=0 );
 			
 			}
+			img.promo {bottom:0px;}
     </style>
   </head>
   <body class="{{widget.widgetStyle}}">
@@ -138,7 +139,9 @@
           </div>
     </div>
     {{/each}}
+
 </div>
+
     {{#if development}}
     <script>
       window.brunch = window.brunch || {};
@@ -163,5 +166,6 @@ $(document).ready(function() {
 (jQuery);
 });
 </script>
+<img class="promo" src="http://stage.hoopla.io/client/images/PoweredByHoopla.png">
   </body>
 </html>
