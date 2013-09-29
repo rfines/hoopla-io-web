@@ -1,32 +1,39 @@
 {{#if isEmpty}}
 <div class="well initial-state"><img src="/client/images/howie-initial.png" class="pull-left">
-<h2>Welcome to Hoopla.io, thanks for taking us for spin.</h2>
-<br clear="left">
-
-<div class="row">
-<h4 class="gray">Here's how you get started:</h4>
-<div class="onboarding col-md-2 col-lg-2 col-sm-12 col-xm-12"><img src="/client/images/landing/create.png"><ul><li>Add your business profile.</li><li>Connect your social media networks.</li></ul></div>
-<div class="onboarding col-md-2 col-lg-2 col-sm-12 col-xm-12"><img src="/client/images/landing/promote.png"><ul><li>Create your events.</li><li>Publish your event to your social networks and website in one click.</li></ul></div>
-<div class="onboarding col-md-2 col-lg-2 col-sm-12"><img src="/client/images/landing/relax.png"><ul><li>Relax — and prepare for a full house.</li></ul>
+  <h2>Welcome to Hoopla.io, thanks for taking us for spin.</h2>
+  <br clear="left">
+  <div class="row">
+    <h4 class="gray">Here's how you get started:</h4>
+    <div class="onboarding col-md-2 col-lg-2 col-sm-12 col-xm-12"><img src="/client/images/landing/create.png">
+      <ul>
+        <li>Add your business profile.</li>
+        <li>Connect your social media networks.</li>
+      </ul>
+    </div>
+    <div class="onboarding col-md-2 col-lg-2 col-sm-12 col-xm-12">
+      <img src="/client/images/landing/promote.png">
+      <ul>
+        <li>Create your events.</li>
+        <li>Publish your event to your social networks and website in one click.</li>
+      </ul>
+    </div>
+    <div class="onboarding col-md-2 col-lg-2 col-sm-12">
+      <img src="/client/images/landing/relax.png">
+      <ul>
+        <li>Relax — and prepare for a full house.</li>
+      </ul>
+    </div>
+  </div>
+  <br clear="left">
+  <h4  class="gray"><a class="createButton btn btn-success btn-lg pull-right">Add a business profile</a></h4><br clear="right">
 </div>
-</div>
-<br clear="left">
-
-
-<h4  class="gray"><a class="createButton btn btn-success btn-lg pull-right">Add a business profile</a></h4><br clear="right"></div>
-{{else}}
-
-    <a class="btn btn-success createButton">Add a Business Profile<i class="glyphicon glyphicon-cloud-upload"></i></a>
-
 {{/if}}
- <div span class="hideInitial">
-<a class="btn btn-success createButton">Add a Business Profile<i class="glyphicon glyphicon-cloud-upload"></i></a>
-</div>
+<div class="row business-list-controls">
+  <div span class="col-md-3 hideInitial">
+    <a class="btn btn-success createButton">Add a Business Profile<i class="glyphicon glyphicon-cloud-upload"></i></a>
   </div>
-
   <div span class="col-md-6 alert-container"></div>
-  <div span class="col-md-3">
-  </div>
+  <div span class="col-md-3"></div>
 </div>
 <div class="newItem"></div>
 <div class="panel-group clear business-list-container" id="accordion"></div>
