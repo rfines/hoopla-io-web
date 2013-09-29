@@ -7,6 +7,7 @@ module.exports = class Model extends Chaplin.Model
     super(options)  
 
   save: (fields, options) ->
+    @publishEvent 'startWaiting'
     options = options || {}
     options.beforeSend = (xhr) ->
       if $.cookie('token')

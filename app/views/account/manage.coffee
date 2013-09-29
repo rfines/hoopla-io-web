@@ -14,6 +14,7 @@ module.exports = class Edit extends View
 
   attach: ->
     super
+    @publishEvent 'activateNav', "account"
     @$el.find('.message').hide()
     @modelBinder.bind @model, @$el  
     Backbone.Validation.bind(@)

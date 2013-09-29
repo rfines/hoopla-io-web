@@ -16,6 +16,7 @@ module.exports = class List extends ListView
 
   attach: ->
     super()
+    @publishEvent 'activateNav', "media"
     if @standAloneUpload
       @subview('imageChooser', new ImageChooser({container: @$el.find('.well.add-media'), data:{standAloneUpload:@standAloneUpload,showControls:true}}))
 
