@@ -1,32 +1,52 @@
 <link rel="stylesheet" href="/client/homeStyles/home-styles.css" >
 <nav id="topnav" class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-        <a class="navbar-brand" href="#head-top"><img src="/client/images/hoopla_logo.png" /></a>
-    </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse top-spy">
-        <ul class="nav navbar-nav navbar-right">
-              <li><a href="/">Home</a></li>
-              <li><a href="/Businesses">For Businesses</a></li>
-              <li><a href="/Publishers">For Publishers</a></li>
-              <li><a href="/About">About Us</a></li>
-              <li><a href="/Contact">Contact Us</a></li>
-              <li class="active"><a href="/blog">Blog</a></li>
-        </ul>
-      </div>
-    </div>
-  <a data-toggle="modal" href="#loginModal" class="btn btn-info btn-sm sign-in">Sign In</a>
+   	<div class="navbar-header">
+     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+       <span class="sr-only">Toggle navigation</span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+     </button>
+       <a class="navbar-brand" href="../#head-top"><img src="/client/images/hoopla_logo.png" /></a>
+   </div>
+     <div class="collapse navbar-collapse navbar-ex1-collapse top-spy">
+       <ul class="nav navbar-nav navbar-right">
+             <li><a href="../#Businesses" class="toBusinesses" onClick="_gaq.push(['_trackEvent', 'Landing_Main_Nav', 'Business', '']);">For Businesses</a></li>
+             <li><a href="../#Publishers" class="toPublishers" onClick="_gaq.push(['_trackEvent', 'Landing_Main_Nav', 'Publishers', '']);">For Publishers</a></li>
+             <li class="active"><a href="#" onClick="_gaq.push(['_trackEvent', 'Landing_Main_Nav', 'Blog', '']);">Blog</a></li>
+       </ul>
+     </div>
+	<nav class="upper-nav">
+	<a href="#Contact" class="btn btn-info btn-sm toSignUp" onClick="_gaq.push(['_trackEvent', 'Landing_Upper_Nav', 'Sign Up', 'Try it for Free']);">Try It Free!</a>
+		<a data-toggle="modal" href="#loginModal" class="sign-in btn btn-default btn-sm" onClick="_gaq.push(['_trackEvent', 'Landing_Upper_Nav', 'Sign In', '']);">Sign In</a>
+		
+		</nav>
+   </div>
+ 
 </nav>
-<div class="row">
+<div class="container blog">
   <div class="col-lg-14 col-md-12 col-xs-16">
+<h1 class="gray">Hoopla.io Blog</h1>
     <div class="blog-content">
-      <p>Some cool blog content goes here</p>
+      <p>Startup life is ever-morphing. You can never predict what will happen in 2, 5, or even 12 months, and I can honestly say that in the past three years, no two days have ever been the same. I started Local Ruckus three years ago because of one simple problem: it is really hard to find things to do. In the last three years, that little thought has grown by leaps and bounds in ways I could have never anticipated: moving from a small rental office to a snug basement of a residential house in the nation’s first Google Fiber neighborhood, growing our team from just me and one lonely developer (we had a lot of bonding moments, for sure) to a 15-person team of some of the most passionate people I have ever worked with, leading a grassroots initiative that has turned into the Kansas City Startup Village, and landing our first customer, Sprint. </p>	<img src="/client/images/Checklist.png" class="pull-right">
+
+	<p>Local Ruckus has certainly been an adventure — and one that we plan to keep going for a very long time — but we wanted something bigger, something brighter and shiny enough to ensure our own spotlight in the World Wide Web. So we consulted with some respected mentors, did a little soul-searching, and a lot of late-night debating. By July 2013, the conception of a new company was set in stone.</p>
+
+
+
+	<p>But what exactly will this company do, and what do we call it?</p>
+
+	<p>Whatever we decided on, we knew we wanted to keep the elements of Local Ruckus that reflected our “Work Hard. Play Hard,” mantra, our passion for local businesses and what they provide for communities, and our hankering to help people experience their community for what it’s really worth.</p>
+
+	<p>After what seemed like years brainstorming a name, we agreed on “Hoopla.io.” The word “hoopla” implies more than just a good time, but something that’s truly worth whooping and hollering about. Because at the end of the day, all we want is to help the people of America discover local and “hyperlocal” events that will eject them from the too-comfortable cushions of their couch and get them out having fun.</p> 
+
+	<p>Hoopla.io is an event marketing and syndication platform that gives local businesses a one-stop shop to promote their events, and publishers an automated curation tool to showcase nearby hyperlocal events. In short, a platform that will extract some of the “busy” out of “business” so that both local businesses and publishers could focus on other aspects of their work.</p> 
+
+	<p>This blog will give you an insider’s view into Hoopla.io — why we made the decisions that we did, how we did it, what’s coming next, and maybe even a little bit more of our Howie, our beloved Hoopla Hare. </p>
+
+	<p>Come with us on this journey, but buckle your seatbelts. It’s gonna be a wild ride!</p>
+<span class="col-md-12 center-text"><img src="client/images/Team-Hoopla-Funny.jpg" class="img-responsive"></span>
     </div>
   </div>
 </div>
