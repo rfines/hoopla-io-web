@@ -138,7 +138,7 @@ module.exports = class CreatePromotionReqeust extends View
         pageId: page
         pageAccessToken:@pageAccessToken
         promotionTime: moment().toDate().toISOString()
-        media: @event.get('media[0]')?._id
+        media: @event.get('media')?[0]?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
       pr.eventId = @event.id
@@ -191,7 +191,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr = new PromotionRequest
         message: message
         promotionTime: moment().toDate().toISOString()
-        media: @event.get('media')[0]?._id
+        media: @event.get('media')?[0]?._id
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       pr.eventId = @event.id
@@ -208,7 +208,7 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
-        media: @event.get('media')[0]?._id
+        media: @event.get('media')?[0]?._id
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       scheduled.eventId = @event.id
@@ -309,7 +309,7 @@ module.exports = class CreatePromotionReqeust extends View
       ticket_uri: @event.get('ticketUrl')
       pageAccessToken: @pageAccessToken
       promotionTarget: @fbPromoTarget._id
-      media: @event.get('media')[0]?._id
+      media: @event.get('media')?[0]?._id
     pr.eventId = @event.id
     pr.save {},{
       success: (model, response, options)=>
