@@ -17,6 +17,31 @@ body {
     height: 100%;
     background-attachment: fixed;
 }
+.container.blog {
+  background-color: @brand-success;
+      margin: -90px auto 0;
+      padding-top: 90px;
+  img {margin-bottom:15px;}
+}
+.howie-bg-404 {
+  background:url(../images/howie-dream-404.jpg) center center no-repeat transparent;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    text-shadow:1px 1px 0px @gray-dark;
+  position:fixed;
+  text-align:center;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  h1 {color:#fff;text-align:center;font-size:4em;margin-top:20%;}
+  h4 {text-align:center;color:@gray-lighter;margin-top:20px}
+  a.btn {
+    i{font-size:1.2em;position:relative;top:5px;}
+    font-size:2.2em;padding-bottom:15px;margin-top:20px;}
+  }
 .freshwidget-theme {font-family:'museoLight';font-size:1.2em;}
 .feedback-wrapper .modal-widget.modal-panel-active .modal-footer {width:100%!important;}
 .modal-panel form {margin-top: 40px 0px 0px 0px!important;}
@@ -119,10 +144,8 @@ iframe {border:0px;overflow:hidden;max-width: 470px;margin-top: 31px;min-height:
 .register.container {margin-top:60px;}
 .steps {}
 .steps p.lead {
-  color: #fff;
-  text-shadow: 1px 1px 1px rgba(0,0,0,.6);
-  font-size: 15px;
-  i {color:@gray-dark;margin-right:5px;text-shadow: 0px 0px 4px rgba(0,0,0,.0);}
+  font-size: 17px;
+  i {color:@gray-dark;margin:0px 5px 0px 0px;float:left;text-shadow: 0px 0px 4px rgba(0,0,0,.0);}
   }
 .steps h3 {margin-bottom:40px;}
 .gray {color:@gray-dark!important;}
@@ -340,7 +363,7 @@ section.home {
     color: #06A1AF;
 }
 .white {color:#fff;}
-.normal {font-family: 'quicksand';}
+.normal {font-family: 'quicksandbook';}
 .btn-info, .btn-info.active {
     background-color: #06A1AF;
 }
