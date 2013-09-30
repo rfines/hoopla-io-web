@@ -44,7 +44,7 @@ module.exports = class Event extends Model
     return undefined 
 
   dateDisplayText: ->
-    now = moment()
+    now = moment.utc()
     ne = @nextOccurrence()
     if ne
       next = ne
@@ -52,13 +52,14 @@ module.exports = class Event extends Model
       if days > 1
         return next.format('MM/DD/YYYY')        
       else
-        if days is 0
+        if days < 1
           return 'Today'
         else if days is 1
           return 'Tomorrow'
         else
-          return @lastOccurrence().format('MM/DD/YYYY') || moment(@endDate).format('MM/DD/YYYY') || moment(@startDate).format('MM/DD/YYYY')
+          return @nextOccurrence().format('MM/DD/YYYY') || moment(@endDate).format('MM/DD/YYYY') || moment(@startDate).format('MM/DD/YYYY')
     else
+      console.log 'getting last occurrence'
       if @lastOccurrence()
         return @lastOccurrence().format('MM/DD/YYYY')
       else
