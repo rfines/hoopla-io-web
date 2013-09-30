@@ -86,7 +86,7 @@ module.exports = class WidgetEditView extends View
     @$el.find('.static-widget-preview').hide()
     @$el.find('#widgetPreview').attr('src', @getIframeSrc())
     @$el.find('#widgetPreview').attr('style', "height:#{@model.get('height')}px;width:#{@model.get('width')}px;border-radius:4px;")
-    @$el.find('.embedCodeHtml').text("<iframe scrolling=\"no\" style=\"border-radius:4px\" src=\"#{@getIframeSrc()}\" style=\"height:#{@model.get('height')}px;width:#{@model.get('width')}px;\"></iframe>")
+    @$el.find('.embedCodeHtml').text("<iframe scrolling=\"no\" style=\"border-radius:4px;height:#{@model.get('height')}px;width:#{@model.get('width')}px;\" src=\"#{@getIframeSrc()}\" ></iframe>")
     @$el.find('.embedCode').show()
 
   getIframeSrc: () =>

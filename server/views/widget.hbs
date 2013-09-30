@@ -119,7 +119,7 @@
     {{#each events}}
 	
         <div class="eventRow">
-          <div class="eventImage"><img src="{{eventImage}}" /></div>
+          <div class="eventImage"><a href="#"><img src="{{eventImage}}" /></a></div>
           <div class="eventName accentColor">
     		<a>
     {{name}}<br />
@@ -128,14 +128,14 @@
           </div>
           <div class="detailDrawer">
             <p class="venueAddress"><strong>Address:</strong>{{address}}</p>
-    		<p class="description accentColor"><strong>Description:</strong>{{description}}</p>
-    		<p class="cost"><strong>Cost:</strong><span class="accentColor">{{cost}}</span></p>
+    		<p class="description"><strong>Description:</strong>{{description}}</p>
+    		<p class="cost"><strong>Cost:</strong><span>{{cost}}</span></p>
         {{#if link}}<p class="link"><strong>Web:</strong><span class="accentColor"><a target="_blank" href="{{link}}">Visit Website</a></span></p>{{/if}}
     	  </div>
     	<div class="eventDetails">
 
-              <span class="eventDate accentColor">{{dateDisplay}}</span><br />
-              <span class="eventTime accentColor">{{timeDisplay}}</span>
+              <span class="eventDate">{{dateDisplay}}</span><br />
+              <span class="eventTime">{{timeDisplay}}</span>
           </div>
     </div>
     {{/each}}
@@ -152,20 +152,33 @@
 $(document).ready(function() {
 (function($) {
   var allPanels = $('.detailDrawer').hide();
-	$('.eventName a').click(function() {
+	$('.eventName a').click(function(e) {
+    e.preventDefault();
     allPanels.slideUp();
     if($(this).parent().next().is(':visible'))
     {
-      $(this).parent().next().slideUp()
-    }else{    
+       $(this).parent().next().slideUp();
+    }else{   
      $(this).parent().next().slideDown();
+    }
+    return false;
+  });
+  $('.eventImage').click(function(e) {
+    e.preventDefault();
+    allPanels.slideUp();
+    if($(this).next().next().is(':visible'))
+    {
+       $(this).next().next().slideUp();
+    }else{
+     $(this).next().next().slideDown();
     }
     return false;
   });
 })
 (jQuery);
+
 });
 </script>
-<img class="promo" src="http://stage.hoopla.io/client/images/PoweredByHoopla.png">
+<a href="https://www.hoopla.io"><img class="promo" src="http://stage.hoopla.io/client/images/PoweredByHoopla.png"></a>
   </body>
 </html>

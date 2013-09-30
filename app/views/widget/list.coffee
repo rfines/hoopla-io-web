@@ -16,3 +16,5 @@ module.exports = class List extends ListView
   attach: ->
     super()
     @publishEvent 'activateNav', "myWidgets"
+    @subscribeEvent 'closeOthers',=>
+      @removeSubview 'newItem' if @subview 'newItem'

@@ -14,4 +14,4 @@ module.exports = class EditableList extends ListView
   
   duplicate: (data) =>
     n = data.clone()
-    @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : @collection, model : n}))  
+    @subview('newItem', new @EditView({container: @$el.find('.newItem'), collection : @collection, model : n}))  
