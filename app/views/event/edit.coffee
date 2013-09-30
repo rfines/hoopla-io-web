@@ -153,8 +153,8 @@ module.exports = class EventEditView extends View
       scrollDefaultTime : "12:00"
       step : 15
     if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().local().toDate()) if @model.getStartDate()
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().local().toDate()) if @model.getEndDate()
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate()) if @model.getStartDate()
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate()) if @model.getEndDate()
     @$el.find('.startTime').on 'changeTime', @predictEndTime
 
 
@@ -181,10 +181,12 @@ module.exports = class EventEditView extends View
   updateModel: =>
     if @$el.find('input.repeats:checked').val()
       @model.set
+        tzOffset : moment().zone()
         schedules: @getSchedules()
         fixedOccurrences :[]
     else
       @model.set
+        tzOffset : moment().zone()
         fixedOccurrences : @getFixedOccurrences()    
         schedules :[]
 
