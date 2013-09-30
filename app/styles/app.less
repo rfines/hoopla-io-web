@@ -21,7 +21,18 @@ body {
   background-color: @brand-success;
       margin: -90px auto 0;
       padding-top: 128px;
-  img {margin-bottom:15px;}
+  img.team {margin-bottom:15px;width:100%;}
+  .blogBio {
+    img {margin:0px 5px 0px 0px;}
+    border: 1px solid #888;
+        border-radius: 4px 4px 4px 4px;
+        margin-bottom: 20px;
+        padding:8px 5px 15px;
+        background-color:#D1E0E6;
+    strong {font-weight:normal;}
+    p {line-height:15px;}
+  }
+  hr {padding-bottom:0px;border-top: solid 1px @gray;margin:10px 0px;}
 }
 .howie-bg-404 {
   background:url(../images/howie-dream-404.jpg) center center no-repeat transparent;
@@ -531,7 +542,7 @@ font-family: 'museo';}
         margin-top: 20px;
         font-size: 1.8em;
         i {
-            margin-right: 10px;
+            margin-right: 5px;
             height: 30px;
         }
         .showmore {
