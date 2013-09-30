@@ -2,7 +2,7 @@ View = require 'views/base/view'
 ImageUtils = require 'utils/imageUtils'
 MediaList = require 'views/media/mediaLibraryPopover'
 ImageChooser = require 'views/common/imageChooser'
-
+AddressView = require 'views/address'
 module.exports = class InlineEdit extends View
   saving=false
   initialize: ->
@@ -47,6 +47,8 @@ module.exports = class InlineEdit extends View
       @$el.find('.default-image-actions').hide()
     if @isNew
       @$el.find('.change-image-btn').hide()
+    if @$el.find('.geoLocation').length >0
+      @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
 
 
   validate: ->

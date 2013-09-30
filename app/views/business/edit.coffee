@@ -17,7 +17,6 @@ module.exports = class BusinessEditView extends View
 
   attach: ->
     super
-    @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     links = @model.get('socialMediaLinks')
     if links?.length > 0
       @$el.find('.facebook').val(_.findWhere(links, {target:"Facebook"})?.url)
