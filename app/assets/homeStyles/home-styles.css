@@ -494,6 +494,7 @@ footer .circ-wrap a:hover {
 }
 /* NAVIGATION 
     =============================== */
+    .navbar-toggle {z-index:999;}
 .navbar .nav > li > a {
   font-family: 'quicksandbold';
   float: none;
@@ -953,10 +954,25 @@ min-height: 200px;
     left: auto;
     right: -20px;
   }
-
+  #topnav .upper-nav {
+      right: 28px;
+      top: 0;
+  }
 }
 @media (max-width: 480px) {
-
+  .justify {text-align: left;}
+  .steps {display:none;}
+  #topnav .upper-nav  {
+  position:static;
+  width: 100%;
+  }
+  #topnav .upper-nav a {
+      color: #92928E;
+      display: block;
+      float: none;
+      margin: 10px;
+      width: 100%;
+  }
 }
 /**************************** PRICE BOX BODY **************************/
 .pricing-table {
