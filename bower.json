@@ -46,6 +46,9 @@
     },
     "moment": {
       "main": "moment.js"
+    },
+    "spectrum" : {
+      "main": ["./spectrum.css", "./spectrum.js"]
     }
   }
 }
