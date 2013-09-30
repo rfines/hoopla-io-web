@@ -31,6 +31,7 @@ module.exports.show = (req, res) ->
       if body
         events = JSON.parse(body)
         events = _.map events, eventTransformer.transform
+        widget.height=widget.height-80
         data =
           development: CONFIG.development
           apiUrl : CONFIG.apiUrl

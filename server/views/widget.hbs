@@ -5,7 +5,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
     <style>
 	iframe {border:0px;overflow:hidden;border-radius:4px;}
-	body{width:99%;font-family:'Quicksand', "TrebuchetMS",sans-serif;
+	body{width:100%;font-family:'Quicksand', "TrebuchetMS",sans-serif;
 	 margin:0px;}
 	body.dark {background-color:#101010;}   
 	body.light {background-color: #f5f6f6;border:1px solid rgb(190, 190, 190);}   
@@ -19,6 +19,7 @@
 	div.eventImage {
 		width: 20%;
 		height: 20%;margin-right:10px;
+		float:left;
 		}
 	div.eventImage img {	
 		width: 100%;
@@ -42,20 +43,16 @@
 				color:#000;
 			}
 	div.eventDetails {
-		width: 20%;
-		height: 80px;
-		position: absolute;
-		right: 0px;
-		top: 10px;
+		clear: both;
+	    width: 95%;
+padding-top:4px;
 		
 		}
 	div.eventName {	
-		display: table;	
-		position: absolute;
-		width:55%;
-		left: 25%;
-		top: 28px;
-		font-weight:700;
+		display: table;
+		    float: left;
+		    font-weight: 700;
+		    width: 71%;
 		}	
 	div.eventName a {		
 		word-wrap: break-word;
@@ -63,6 +60,7 @@
 		vertical-align: middle;
 		text-decoration:underline;
 		cursor:pointer;
+		line-height: 1.3em;
 		}
 	.accentColor {
 		color:{{widget.accentColor}}!important;
@@ -81,6 +79,8 @@
 	.detailDrawer strong {margin-right:3px;}
 	.detailDrawer p.description {}
 	.eventTime {font-size:11px;}
+	.widgetfooter {padding:10px; text-align:center;}
+	body.light .widgetfooter img {box-shadow:1px 1px 0px #000;}
 	body.dark .widgetHeader {
 		padding:10px;
 		color:white;
@@ -122,8 +122,7 @@
           <div class="eventImage"><a href="#"><img src="{{eventImage}}" /></a></div>
           <div class="eventName accentColor">
     		<a>
-    {{name}}<br />
-          at {{hostName}}
+    {{name}} at {{hostName}}
     		</a>
           </div>
           <div class="detailDrawer">
@@ -134,14 +133,19 @@
     	  </div>
     	<div class="eventDetails">
 
+<<<<<<< Updated upstream
               <span class="eventDate accentColor">{{dateDisplay}}</span><br />
               <span class="eventTime accentColor">{{timeDisplay}}</span>
+=======
+              <span class="eventDate">{{dateDisplay}}</span>
+              <span class="eventTime">{{timeDisplay}}</span>
+>>>>>>> Stashed changes
           </div>
     </div>
     {{/each}}
 
 </div>
-
+<div class="widgetfooter"><a href="https://www.hoopla.io"><img class="promo" src="http://stage.hoopla.io/client/images/PoweredByHoopla.png" width="150" height="24"></a></div>
     {{#if development}}
     <script>
       window.brunch = window.brunch || {};
@@ -179,6 +183,6 @@ $(document).ready(function() {
 
 });
 </script>
-<a href="https://www.hoopla.io"><img class="promo" src="http://stage.hoopla.io/client/images/PoweredByHoopla.png"></a>
+
   </body>
 </html>
