@@ -40,7 +40,8 @@ module.exports = class UserRegisterView extends View
     else
       @showError "All fields are required", ['email', 'password', 'password-confirm']
 
-  showError: (msg, fields) =>    
+  showError: (msg, fields) =>   
+    @publishEvent 'stopWaiting' 
     @$el.find('.alert').show()
     if _.isObject(msg) and msg.message.indexOf('duplicate') > -1
       @$el.find('.message').text("#{@$el.find('.username').val()} is already used on hoopla.io.");
