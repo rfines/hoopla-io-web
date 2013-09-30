@@ -72,14 +72,15 @@ module.exports = class WidgetEditView extends View
   preview: () =>
     @updateModel()
     if @validate() and not @saving
-      console.log "Saving"
       @saving = true
       @model.save {}, {
         success: (err, doc) =>
-          console.log "Done Saving"
           @saving = false
           @publishEvent 'stopWaiting'
           @updatePreview()
+        error:(err) =>
+          @publishEvent 'stopWaiting'
+          @saving = false
       }
 
   updatePreview: () =>
@@ -87,6 +88,7 @@ module.exports = class WidgetEditView extends View
     @$el.find('#widgetPreview').attr('src', @getIframeSrc())
     @$el.find('#widgetPreview').attr('style', "height:#{@model.get('height')}px;width:#{@model.get('width')}px;border-radius:4px;")
     @$el.find('.embedCodeHtml').text("<iframe scrolling=\"no\" style=\"border-radius:4px;height:#{@model.get('height')}px;width:#{@model.get('width')}px;\" src=\"#{@getIframeSrc()}\" ></iframe>")
+    @$el.find('.widgetPreviewContainer').height(@model.get('height')).width(@model.get('width'))
     @$el.find('.embedCode').show()
 
   getIframeSrc: () =>
