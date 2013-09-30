@@ -27,3 +27,4 @@ module.exports = class ListItem extends EditableListItem
       @removeSubview 'inlineEdit'
     @delegate "click", ".duplicateButton", =>
       @publishEvent "#{@noun}:duplicate", @model
+ 
