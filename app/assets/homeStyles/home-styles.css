@@ -146,7 +146,7 @@ section {
   max-width: none;
 }
 .page-header {
-  padding-top: 10px;
+  padding-top: 30px;
 text-align: center;
 }
 .justify {
@@ -498,7 +498,7 @@ footer .circ-wrap a:hover {
 .navbar .nav > li > a {
   font-family: 'quicksandbold';
   float: none;
-  padding: 55px 15px 13px;
+  padding: 85px 15px 13px;
   color: #06a1af;
   text-decoration: none;
   text-shadow: none;
@@ -827,6 +827,7 @@ footer .circ-wrap a:hover {
       top: 3%;
       left: 2%;
     }
+  
 }
 #Publishers .container .row .btn-group p.lead a.btn {width:100%;}
 @media (max-width: 767px) {
@@ -934,7 +935,8 @@ background-color:#c5d645;
   margin-bottom: 30px;
 min-height: 200px;
 }
-.navbar-brand img.logo {margin-top:20px;}
+.navbar-brand img.logo {margin-top:20px;
+      width: 65%!important;}
 
 @media (max-width: 767px) {
   /* CIRCULE ICONS FIX SIXE FOR MOBILES */
@@ -968,7 +970,8 @@ min-height: 200px;
       }
 }
 @media (max-width: 579px) {
- 
+  .navbar-brand img.logo {
+        width: 65%!important;}
 }
 @media (max-width: 480px) {
   .justify {text-align: left;}
