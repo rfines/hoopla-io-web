@@ -192,14 +192,15 @@ module.exports = class EventEditView extends View
 
   getSchedules: =>
     startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
-    endTime = moment().startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))
+    endTime = moment().startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight')) 
     duration = (@$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight') - @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight')) / 60  
     s = 
       start: @startDate.getMoment().toDate().toISOString()
-      end: @endDate.getMoment().toDate().toISOString()
       duration : duration
       hour : startTime.hour()
       minute: startTime.minute()
+    if @endDate.getDate()
+      s.end = @endDate.getMoment().toDate().toISOString()
     if @model.get('recurrenceInterval') is 'MONTHLY' or @model.get('recurrenceInterval') is 'WEEKLY'
       dayOfWeek = []
       dayOfWeek.push 1 if @model.get('SUNDAY')
