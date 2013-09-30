@@ -934,10 +934,11 @@ background-color:#c5d645;
   margin-bottom: 30px;
 min-height: 200px;
 }
+.navbar-brand img.logo {margin-top:20px;}
 
-}
 @media (max-width: 767px) {
   /* CIRCULE ICONS FIX SIXE FOR MOBILES */
+  
   .circ-wrap {
     width: 58px;
     height: 58px;
@@ -962,8 +963,12 @@ min-height: 200px;
    .navbar-brand img.logo {
         width: 65%!important;
         margin-left: 15%;
+        margin-top:20px;
 
       }
+}
+@media (max-width: 579px) {
+ 
 }
 @media (max-width: 480px) {
   .justify {text-align: left;}
@@ -980,7 +985,8 @@ min-height: 200px;
       margin: 10px;
       width: 100%;
   }
-
+  .hero .problem {font-size:2.1em;}
+   }
   #head-top {
     margin-top: -20px;
     margin-bottom: -9px;
@@ -1005,20 +1011,24 @@ min-height: 200px;
           clear: left;
       }
       .navbar-brand img.logo {
-          width: 51%!important;
+          width: 61%!important;
           margin-left: 15%;
 
         }
+        .jumbotron {background-image: url('../images/landing/problem-bg-small.png');background-position: 0px 0px;
+        }
+        .navbar-brand img.logo {
+            margin-top: 20px;
+        }
 }
 @media (max-width: 320px) {
-
+  .jumbotron {background-image: url('../images/landing/problem-bg-small.png');background-position: 0px 0px;
+  }
   #topnav .upper-nav a.sign-in {
    display:none; 
   }
-  .navbar .navbar-brand img {
-    width: 61%;
-    margin-left: 15%;
-    
+  .navbar-brand img.logo {
+      margin-top: -20px;
   }
 }
 /**************************** PRICE BOX BODY **************************/
