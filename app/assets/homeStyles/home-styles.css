@@ -530,6 +530,7 @@ footer .circ-wrap a:hover {
   margin-right: 30px;
   max-width: 300px;
 }
+
 .navbar {
   -webkit-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 3px 0px rgba(0, 0, 0, 0.1);
@@ -958,6 +959,11 @@ min-height: 200px;
       right: 28px;
       top: 0;
   }
+   .navbar-brand img.logo {
+        width: 65%!important;
+        margin-left: 15%;
+
+      }
 }
 @media (max-width: 480px) {
   .justify {text-align: left;}
@@ -966,12 +972,53 @@ min-height: 200px;
   position:static;
   width: 100%;
   }
+  .navbar .navbar-brand {margin-right:0px!important;float:none; width: 253px;}
   #topnav .upper-nav a {
       color: #92928E;
       display: block;
       float: none;
       margin: 10px;
       width: 100%;
+  }
+
+  #head-top {
+    margin-top: -20px;
+    margin-bottom: -9px;
+  }
+
+  section {
+      padding-top: 145px;
+      width: 100%;
+  }
+  .btn-lg {font-size: 0.9em;
+      margin-bottom: 10px;
+      width: 98% !important;}
+      .box {
+          display: inline;
+      }
+      #Businesses h4 {
+          font-size: 21px;
+          line-height: 26px;
+          text-align: center;
+      }
+      #Businesses .how p.justify {
+          clear: left;
+      }
+      .navbar-brand img.logo {
+          width: 51%!important;
+          margin-left: 15%;
+
+        }
+}
+@media (max-width: 320px) {
+
+  #topnav .upper-nav a.sign-in {
+   display:none; 
+  }
+  .navbar .navbar-brand img {
+    width: 61%;
+    margin-left: 15%;
+    
   }
 }
 /**************************** PRICE BOX BODY **************************/
