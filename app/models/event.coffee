@@ -21,28 +21,25 @@ module.exports = class Event extends Model
 
   nextOccurrence: ->
     if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment.utc(_.first(@get('occurrences')).start)
+      m = moment(_.first(@get('occurrences')).start)
       return m
     return undefined
 
   nextOccurrenceEnd: ->
     if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment.utc(_.first(@get('occurrences')).end)
+      m = moment(_.first(@get('occurrences')).end)
       return m
     return undefined
 
   lastOccurrence: ->
     if @get('occurrences') and _.last(@get('occurrences'))
-      m = moment.utc(_.last(@get('occurrences')).start)
-      m.local()
+      m = moment(_.last(@get('occurrences')).start)
       return m
     else if @get('fixedOccurrences') and _.last(@get('fixedOccurrences'))
       m = moment(_.last(@get('fixedOccurrences')).end)
-      m.local()
       return m   
     else if @get('schedules') and @get('schedules').length > 0
       m = moment(_.first(@get('schedules')).end)
-      m.local()
       return m
     return undefined 
 

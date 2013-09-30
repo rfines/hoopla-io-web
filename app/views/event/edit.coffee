@@ -135,8 +135,8 @@ module.exports = class EventEditView extends View
       format: 'M-DD-YYYY'
       minDate: moment().toDate()      
     if not @model.isNew()
-      @startDate.setMoment @model.getEventStartDate()
-      $('.startDate').val(@model.getEventStartDate().format('M-DD-YYYY'))
+      @startDate.setMoment @model.getStartDate()
+      $('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
 
     @endDate = new Pikaday
       field: @$el.find('.endDate')[0]
@@ -153,8 +153,8 @@ module.exports = class EventEditView extends View
       scrollDefaultTime : "12:00"
       step : 15
     if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().add('minutes', moment().zone()).toDate()) if @model.getStartDate()
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().add('minutes', moment().zone()).toDate()) if @model.getEndDate()
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().local().toDate()) if @model.getStartDate()
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().local().toDate()) if @model.getEndDate()
     @$el.find('.startTime').on 'changeTime', @predictEndTime
 
 
