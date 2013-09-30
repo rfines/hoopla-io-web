@@ -21,13 +21,13 @@ module.exports = class Event extends Model
 
   nextOccurrence: ->
     if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment(_.first(@get('occurrences')).start)
+      m = moment.utc(_.first(@get('occurrences')).start)
       return m
     return undefined
 
   nextOccurrenceEnd: ->
     if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment(_.first(@get('occurrences')).end)
+      m = moment.utc(_.first(@get('occurrences')).end)
       return m
     return undefined
 
@@ -66,10 +66,10 @@ module.exports = class Event extends Model
 
   getStartDate: ->
     if @get('occurrences')?.length > 0
-      return moment(_.first(@get('occurrences')).start)
+      return moment.utc(_.first(@get('occurrences')).start)
     else
       if @get('schedules')?[0]
-        return moment(@get('schedules')[0].start)
+        return moment.utc(@get('schedules')[0].start)
       else
         return undefined
 
