@@ -2,6 +2,7 @@ CONFIG = require('config')
 _ = require 'lodash'
 url = require('url')
 http = require('http')
+https = require('https')
 
 
 handler = (req, res, method) ->
@@ -15,9 +16,11 @@ handler = (req, res, method) ->
       res.body = "Illegal Request Method"
       res.send
 
+
+
 handleGet = (req, res)->
   o = getOptions('GET', req)
-  creq = http.request(o, (cres) ->
+  creq = getHttpLib(o).request(o, (cres) ->
     res.writeHead cres.statusCode, cres.headers
     cres.on "data", (chunk) ->
       res.write chunk
@@ -34,7 +37,7 @@ handleGet = (req, res)->
 
 handlePost = (req, res)->
   o = getOptions('POST', req)
-  creq = http.request(o, (cres) ->
+  creq = getHttpLib(o).request(o, (cres) ->
     res.writeHead cres.statusCode, cres.headers
     cres.on "data", (chunk) ->
       res.write chunk
@@ -59,7 +62,7 @@ handlePost = (req, res)->
     
 handlePut = (req, res)->
   o = getOptions('PUT', req)
-  creq = http.request(o, (cres) ->
+  creq = getHttpLib(o).request(o, (cres) ->
     res.writeHead cres.statusCode, cres.headers
     cres.on "data", (chunk) ->
       res.write chunk
@@ -83,7 +86,7 @@ handlePut = (req, res)->
 
 handleDelete = (req, res) ->
   o = getOptions('DELETE', req)
-  creq = http.request(o, (cres) ->
+  creq = getHttpLib(o).request(o, (cres) ->
     res.writeHead cres.statusCode, cres.headers
     cres.on "data", (chunk) ->
       res.write chunk
@@ -118,6 +121,7 @@ getOptions = (method, req) ->
   url = require('url').parse("#{CONFIG.apiUrl}/#{newUrl.url}")
   auth = new Buffer("#{CONFIG.apiKey}:#{CONFIG.apiSecret}").toString('base64')
   o = 
+    protocol: url.protocol
     hostname: url.hostname
     port: url.port
     path: url.path
@@ -127,6 +131,11 @@ getOptions = (method, req) ->
   delete o.headers.host if o.headers.host
   return o
 
+getHttpLib = (o) ->
+  if o.protocol is 'https:'
+    return https
+  else
+    return http
 
 module.exports = 
   handler: handler
