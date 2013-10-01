@@ -47,6 +47,10 @@ app.get "/callbacks/oauthTwitterCallback", (req, res) ->
 app.get "/integrate/widget/:id", (req, res) ->
   widget.show(req, res)
 
+# Static images for email signatures purposes
+app.get "/3dots_email.png", (req, res) ->
+  res.redirect 301, "/client/images/3dots_email.png"
+
 app.get "/*", (req, res) ->
   data =
     development: CONFIG.development
