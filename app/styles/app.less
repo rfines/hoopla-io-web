@@ -209,6 +209,12 @@ label {
     color: #555454;
     font-weight:normal;
 }
+.helpTip {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
 form .has-error .form-control {box-shadow: inset 0 1px 15px #b94a48;
 border: 1px dashed #ECB0B0;}
 form .has-error label {font-family:'quicksandbold';}
@@ -254,6 +260,11 @@ i.deleteItem:hover {color: @red;}
 position: relative;
 top: 6px;}
 .chooser .thumbnail {padding: 23px 4px;border: 1px dashed #dddddd;background-color:transparent!important;}
+.image-controls {
+  a.helpTip {
+    color: @link-color;
+  }
+}
 .topNav {
     background-color: #fff;
     img.logo {
@@ -573,7 +584,6 @@ font-family: 'museo';}
     }
     .helpTip {
       color: #fff;
-      text-decoration: none;
     }
     .recurring-date {color: #fff;
     font-family: 'quicksandbold';}
@@ -1017,4 +1027,14 @@ a {
   background-repeat: no-repeat;
   background-position:50% 50%;
   background-color: rgba(0,0,0,0.8)
+}
+
+.tooltip-inner {
+  text-align:left;
+  ul {
+    padding: 10px;
+    li {
+      padding: 2px;
+    }
+  }
 }

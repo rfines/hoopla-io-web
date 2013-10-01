@@ -33,8 +33,8 @@ module.exports = class ImageChooser extends View
         extensions: "jpg,jpeg,gif,png,pdf"
       ],
       drop_element: 'uploadContainer'
-
     )
+    @$el.find('.helpTip').tooltip()
         
     @uploader.bind "Init", (up, params) =>
       if $('.uploadBtn').length >0
