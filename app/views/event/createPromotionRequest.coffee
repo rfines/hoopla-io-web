@@ -92,6 +92,8 @@ module.exports = class CreatePromotionReqeust extends View
     "click .facebookEventTab":"showFacebookEvent"
     "change .immediate-box":"immediateClick"
     "change .tw-immediate-box": "twitterImmediateClick"
+    "keyup .message": "updateFacebookPreviewText"
+    "keyup .tweetMessage":"updateTwitterPreivewText"
     
   initDatePickers: =>
     @startDate = new Pikaday
@@ -226,6 +228,7 @@ module.exports = class CreatePromotionReqeust extends View
   showFacebook: (e)=>
     if e
       e.preventDefault()
+    @publishEvent 'message:close'
     $('.twitterTab').removeClass('active')
     $('.facebookTab').addClass('active')
     $('.facebookEventTab').removeClass('active')
@@ -236,6 +239,7 @@ module.exports = class CreatePromotionReqeust extends View
   showFacebookEvent: (e)=>
     if e
       e.preventDefault()
+    @publishEvent 'message:close'
     $('.twitterTab').removeClass('active')
     $('.facebookTab').removeClass('active')
     $('.facebookEventTab').addClass('active')
@@ -253,6 +257,7 @@ module.exports = class CreatePromotionReqeust extends View
   showTwitter: (e)=>
     if e
       e.preventDefault()
+    @publishEvent 'message:close' 
     $('.facebookTab').removeClass('active')
     $('.twitterTab').addClass('active')
     $('.facebookEventTab').removeClass('active')
@@ -381,3 +386,9 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.datePicker').removeClass('error')
       @$el.find('.timepicker').removeClass('error')
     return valid
+  updateFacebookPreviewText:(e)=>
+    keyed = @$el.find('.message').val()
+    $(".preview-message.fb").html(keyed)
+  updateTwitterPreivewText:(e)=>
+    keyed = @$el.find('.tweetMessage').val()
+    $(".preview-message.tw").html(keyed)
