@@ -8,6 +8,7 @@ apiProxy = require('./server/apiProxy')
 app.configure ->
   if CONFIG.secure
     app.use (req, res, next) ->
+      console.log req
       return res.redirect("https://" + req.get("Host") + req.url)  unless req.secure
       next()
   app.set('view engine', 'hbs')
