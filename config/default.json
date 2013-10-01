@@ -25,5 +25,6 @@
   },
    "googleAnalytics" : {
     "code" : "UA-43137412-2"
-  }
+  },
+  "secure" : false
 }

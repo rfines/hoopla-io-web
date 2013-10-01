@@ -5,5 +5,6 @@
   "apiSecret": "6n0pRhok4WR8yx8VudUD7XshboNCz51oFXJvZA2y",
   "cloudinary" : {
     "cloudName" : "durin-software"
-  }
+  },
+  "secure" : true
 }

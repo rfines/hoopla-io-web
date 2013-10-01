@@ -6,6 +6,10 @@ widget = require('./server/widget')
 apiProxy = require('./server/apiProxy')
 
 app.configure ->
+  if CONFIG.secure
+    app.use (req, res, next) ->
+      return res.redirect("https://" + req.get("Host") + req.url)  unless req.secure
+      next()
   app.set('view engine', 'hbs')
   app.set('views', __dirname + '/server/views')
   app.use('/client', express.static(__dirname+'/public'))
