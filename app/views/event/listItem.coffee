@@ -39,6 +39,7 @@ module.exports = class ListItem extends ListItemView
     @subscribeEvent "#{@noun}:#{@model.id}:edit:close", =>
       $("#collapse#{@model.id}").collapse('hide')
       @removeSubview 'inlineEdit'
+      @render()
     @subscribeEvent "closeOthers", =>
       panels = $(".panel-collapse.in")
       _.each panels, (element, index,list)=>
