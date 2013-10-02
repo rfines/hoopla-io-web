@@ -143,7 +143,7 @@ input.form-control:focus, textarea.form-control:focus {
     box-shadow: 0px 0px 18px #12545A!important;
 }
 .newItem {margin-top:20px;}
-.modal-body img {max-width: 538px;max-height:558px;}
+.modal-body img {}
 .modal-header i.deleteItem {
 position: relative;
 left: 10px;
@@ -643,7 +643,6 @@ img.placeholderImage {width:125px;height:100px;}
 
 .well.initial-state {
   border: 2px dashed #ccc;
-  color: #999!important;
   border-radius: 34px;
   background-color: rgba(255,255,255,.5);
 
@@ -1018,6 +1017,17 @@ a {
   line-height: 1.5em;
 }
 @media (max-width: 767px) {
+  .topNav img.logo {
+      margin: 12px 0;
+      width:60%;
+  }
+.event-list h2 {
+  font-size:24px;
+}
+.event-list h3 {
+  font-size:18px;
+}
+
 .onboarding {
   display:block;
   width: 100%;
@@ -1040,4 +1050,24 @@ a {
       padding: 2px;
     }
   }
+}
+@media (max-width:480px){
+  .initial-state img {width:20%;}
+  .event-list h2 {
+      font-size: 14px;
+  }
+  .topNav img.logo {
+      margin: 12px 0;
+      width:38%;
+  }
+  .event-edit a#choose-image {
+      font-size: 1em;
+  }
+  .event-edit form .saveButton {
+      left: 0px;
+    }
+  .btn-success.createButton, .createButton.btn-success
+  {width:100%;}
+  #drop-target p:first-child {display:none;}
+  .library .pull-right {float:none!important;}
 }
