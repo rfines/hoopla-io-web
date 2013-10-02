@@ -474,7 +474,7 @@ color:#fff;
 .register-div {margin-bottom: 20px;}
 .register-form .radio label {color: #c5d645;}
 .userType {margin-bottom:20px;}
-.register-form label {color: #c5d645;font-family:'quicksandbook';}
+.register-form label {color: #fff;font-family:'quicksandbook';}
 /* FOOTER
     ================================*/
 footer {
@@ -834,7 +834,9 @@ footer .circ-wrap a:hover {
   
 }
 #Publishers .container .row .btn-group p.lead a.btn {width:100%;}
-
+.navbar .navbar-brand img {
+    width: 100%!important;
+}
 @media (max-width: 767px) {
   body {
     padding-right: 0px;
