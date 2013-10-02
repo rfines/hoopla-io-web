@@ -267,6 +267,10 @@ a.to-top {
   font-family:'museo';
   box-shadow:0px 0px 5px rgba(0,0,0,.7);
 }
+#foot-sec h4 {
+  color:#fff;
+  
+}
 /* SECTIONS
     ===========================*/
 nav.signup {
@@ -1017,6 +1021,7 @@ section {
       padding-top: 0px;
       width: 100%;
   }
+
   #Businesses .container .row.benefits {
       margin-top: 0px;
       padding: 0 5px;
@@ -1076,7 +1081,18 @@ section {
         .container.blog {
             background-color: #FFFFFF;
             margin: -90px auto 0;
-            padding-top: 118px;
+            padding: 118px 5px 0px 5px;
+        }
+        .container.blog .blogBio p {
+            line-height: 18px;
+            margin-top: 28px;
+        }
+        #foot-sec .social .circ-wrap {
+              margin: 0 auto;
+        }
+        #foot-sec h4 {
+          color:#292C37;
+          
         }
 }
 @media (max-width: 320px) {
