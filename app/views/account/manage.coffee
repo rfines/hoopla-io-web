@@ -26,8 +26,10 @@ module.exports = class Edit extends View
 
   saveUser: =>
     if not @model.validate()
+      console.log @model
       @model.save {}, {
         success: =>
+          Chaplin.mediator.publish 'stopWaiting'
           @$el.find('.message').show().addClass('alert-success').append("<div class='row'>Your account has been updated</div>")
       }
     else
