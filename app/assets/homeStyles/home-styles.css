@@ -62,6 +62,7 @@ you can use the generic selector below, but it's slower:
 .icon {width:110px;
 height:120px;
 margin:0px auto;}
+
 .time-money {
   background: url('../images/landing/hourglass-save-time.png') 0px 0px transparent no-repeat;
 }
@@ -134,11 +135,10 @@ header {
 }
 section {
   position: relative;
-  padding-top: 55px;
+  padding-top: 85px;
   padding-bottom: 80px;
   width: 100%;
   min-width: 100%;
-  margin-top: -5px;
 }
 .outer-container {
   margin: 0px;
@@ -173,7 +173,7 @@ text-align: center;
   -moz-border-radius: 0px;
   border-radius: 0px;
   padding-top: 110px;
-  margin-bottom: 15px!important;
+  margin-bottom: 8px!important;
 }
 #head-top .jumbotron h1 {
   text-shadow: 2px 2px 0px rgba(150, 150, 150, 0.65);
@@ -424,7 +424,8 @@ hr {
 hr,
 .page-header {
   border-color: rgba(250, 250, 250, 0.1);
-  padding-bottom:40px;
+  padding-bottom:20px;
+  margin-bottom:20px;
 }
 #Publishers p {
   color: #555555;
@@ -503,7 +504,7 @@ footer .circ-wrap a:hover {
 .navbar .nav > li > a {
   font-family: 'quicksandbold';
   float: none;
-  padding: 100px 15px 13px;
+  padding: 55px 15px 13px;
   color: #06a1af;
   text-decoration: none;
   text-shadow: none;
@@ -748,7 +749,9 @@ footer .circ-wrap a:hover {
 #myCarousel2 .item {min-height:370px;}
 
 #Publishers div.container div.row .box h3, #Businesses div.container div.row .box h3 {font-size:23px;}
-
+.navbar-brand img.logo {
+    margin-top: 0px!important;
+}
 /* @media width
   ====================================*/
   @media (max-width:1200px;){
@@ -794,49 +797,18 @@ footer .circ-wrap a:hover {
   #head-top {
     min-height: auto;
   }
-  #Businesses .how .circ-wrap{
-    width:112px;
-    height:112px;
-    border-radius:111px;
-    border:0px solid #fff;
-    float:left;
-     margin-right:10px;
-  }
-  #Businesses .how .box h3{
-  text-align:left; 
-  }
+
   #Businesses .how p.justify {
     font-size:1.2em;
   }
-  #Businesses .how .circ-wrap span {
-    font-size: 5.1em;
-    color: #fff;
-    position: relative;
-    top: -1%;
-    left: -5%;
-    text-shadow: 0px 0px 15px rgba(0,0,0,.2);
 
-    }
-   #Businesses .how .box {
-        margin-bottom: 20px;
-        height: 120px;
-    }
-    #Businesses .how .circ-wrap.promote span {
-      font-size: 5.1em;
-      top: 3%;
-      left: 2%;
-    }
-    #Businesses .how .circ-wrap.relax span {
-      font-size: 5.1em;
-      top: 3%;
-      left: 2%;
-    }
   
 }
 #Publishers .container .row .btn-group p.lead a.btn {width:100%;}
 .navbar .navbar-brand img {
-    width: 100%!important;
+    width: 81%!important;
 }
+
 @media (max-width: 767px) {
   body {
     padding-right: 0px;
@@ -922,9 +894,11 @@ text-align:left;
   }
 #Businesses .how .circ-wrap.create {
 background-color:rgb(30,181,194);
+display: none;
 }
 #Businesses .how .circ-wrap.promote {
 background-color:rgb(62,63,66);
+display: none;
 }
 #Businesses .how .circ-wrap.promote span {
 font-size: 5.1em;
@@ -938,6 +912,7 @@ left: 2%;
 }
 #Businesses .how .circ-wrap.relax {
 background-color:#c5d645;
+display: none;
 }
 .box {
   margin-bottom: 30px;
@@ -952,7 +927,7 @@ section {
 @media (max-width: 767px) {
   /* CIRCULE ICONS FIX SIXE FOR MOBILES */
   section {
-      padding-top: 0px;
+      padding-top: 115px;
       width: 100%;
   }
   .circ-wrap {
@@ -1002,8 +977,19 @@ section {
     #Businesses .container .row.benefits {
         margin-top: 0px;
     }
+    .steps p.lead {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
 }
 @media (max-width: 480px) {
+  .btn-lg {
+  font-size: 16px;
+  }
+  .steps p.lead {
+      font-size: 16px;
+      margin-bottom: 10px;
+  }
   .upper-nav a.sign-in {display:none!important;}
   #head-top .jumbotron h1 {
       font-size: 30px;
@@ -1050,10 +1036,9 @@ section {
   }
 
   section {
-      padding-top: 145px;
       width: 100%;
   }
-  .btn-lg {font-size: 0.9em;
+  .btn-lg {
       margin-bottom: 10px;
       width: 98% !important;}
       .box {
@@ -1096,6 +1081,8 @@ section {
           color:#292C37;
           
         }
+        .register .required {float:none!important;}
+        .register h3 {font-size:1.2em;}
 }
 @media (max-width: 320px) {
   .jumbotron {background-image: url('../images/landing/problem-bg-small.png');background-position: 0px 0px;
@@ -1107,7 +1094,7 @@ section {
       margin-top: -20px;
   }
   section {
-      padding-top:120px;
+      padding-top: 80px;
       width: 100%;
   }
    .page-header {
@@ -1303,3 +1290,8 @@ display: inline-block;
 -moz-transform: rotate(360deg);
 -o-transform: rotate(360deg);
 }
+.circ-wrap i:hover { 
+      display: inline-block;
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -o-transform: rotate(360deg);}
