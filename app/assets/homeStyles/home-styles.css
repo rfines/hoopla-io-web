@@ -433,7 +433,7 @@ hr,
 .page-header h2,
 .page-header h3 {
   font-weight: 100;
-  font-size: 46px;
+  font-size: 60px;
   line-height: 46px;
   color:#fff;
   text-shadow: 2px 1px 0px rgba(0,0,0,.5);
@@ -754,11 +754,17 @@ footer .circ-wrap a:hover {
 }
 /* @media width
   ====================================*/
-  @media (max-width:1200px;){
-
+  @media (min-width:1200px;){
+    .page-header h3, .page-header h2 {
+    font-size: 55px;
   }
+}
   
 @media (max-width: 979px) {
+ 
+   .page-header h3{
+    font-size: 46px;
+  }
   .steps p.lead {
 
     font-size: 20px;
@@ -810,6 +816,9 @@ footer .circ-wrap a:hover {
 }
 
 @media (max-width: 767px) {
+   .page-header h3{
+    font-size: 46px;
+  }
   body {
     padding-right: 0px;
     padding-left: 0px;
