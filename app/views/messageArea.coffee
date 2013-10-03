@@ -28,6 +28,5 @@ module.exports = class MessageArea extends View
       @$el.empty().html(text).slideDown()
       
   closeMessage: ()=>
-    console.log "sliding Up"
     if @$el.is(':visible')
       @$el.slideUp()
