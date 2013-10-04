@@ -35,6 +35,7 @@ module.exports = class EventEditView extends View
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
     @initSchedule()
+    $('.host').trigger("chosen:updated")
 
   initSchedule: =>
     if @model.get('schedules')?.length > 0
