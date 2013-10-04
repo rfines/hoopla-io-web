@@ -41,7 +41,9 @@
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Business Logo</label>
         <div class="well"  id="image-chooser-container">    
           <div class="profileImage">
-            <img src="{{imageUrl}}" class="currentImage"/>
+            {{#if imageUrl}}
+              <img src="{{imageUrl}}" class="currentImage"/>
+            {{/if}}
           </div>
           <div class="image-controls">
             <div class="imageChooser"></div>
