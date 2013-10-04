@@ -252,6 +252,7 @@ text-align: center;
 }
 #topnav .upper-nav a.btn-info {
             color:#fff;
+            width:auto;
 }
 #topnav a {
     font-family:'quicksandbold';
