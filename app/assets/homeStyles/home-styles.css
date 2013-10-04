@@ -252,7 +252,6 @@ text-align: center;
 }
 #topnav .upper-nav a.btn-info {
             color:#fff;
-            width:auto;
 }
 #topnav a {
     font-family:'quicksandbold';
@@ -1036,7 +1035,6 @@ section {
       display: block;
       float: none;
       margin: 10px;
-      width: 100%;
   }
   .hero .problem {font-size:2.1em;}
    }
