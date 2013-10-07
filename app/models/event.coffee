@@ -35,7 +35,7 @@ module.exports = class Event extends Model
     if @get('prevOccurrence')?.start
       return moment.utc(@get('prevOccurrence').start)
     else
-      return undefined
+      return @nextOccurrence()
 
   dateDisplayText: ->
     now = moment.utc()
