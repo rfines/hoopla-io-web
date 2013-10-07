@@ -20,28 +20,22 @@ module.exports = class Event extends Model
       pattern: "number"
 
   nextOccurrence: ->
-    if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment.utc(_.first(@get('occurrences')).start)
-      return m
-    return undefined
+    if @get('nextOccurrence')?.start
+      return moment.utc(@get('nextOccurrence').start)
+    else
+      return undefined
 
   nextOccurrenceEnd: ->
-    if @get('occurrences') and _.first(@get('occurrences'))
-      m = moment.utc(_.first(@get('occurrences')).end)
-      return m
-    return undefined
+    if @get('nextOccurrence')?.end
+      return moment.utc(@get('nextOccurrence').end)
+    else
+      return undefined
 
   lastOccurrence: ->
-    if @get('occurrences') and _.last(@get('occurrences'))
-      m = moment(_.last(@get('occurrences')).start)
-      return m
-    else if @get('fixedOccurrences') and _.last(@get('fixedOccurrences'))
-      m = moment(_.last(@get('fixedOccurrences')).end)
-      return m   
-    else if @get('schedules') and @get('schedules').length > 0
-      m = moment(_.first(@get('schedules')).end)
-      return m
-    return undefined 
+    if @get('prevOccurrence')?.start
+      return moment.utc(@get('prevOccurrence').start)
+    else
+      return undefined
 
   dateDisplayText: ->
     now = moment.utc()
@@ -59,7 +53,6 @@ module.exports = class Event extends Model
         else
           return @nextOccurrence().format('MM/DD/YYYY') || moment(@endDate).format('MM/DD/YYYY') || moment(@startDate).format('MM/DD/YYYY')
     else
-      console.log 'getting last occurrence'
       if @lastOccurrence()
         return @lastOccurrence().format('MM/DD/YYYY')
       else
@@ -72,16 +65,7 @@ module.exports = class Event extends Model
       if @get('schedules')?[0]
         return moment.utc(@get('schedules')[0].start)
       else
-        return undefined
-
-  getEventStartDate: ->
-    if @get('schedules')?[0]
-      return moment.utc(@get('schedules')[0].start)
-    else
-      if @get('occurrences')?.length > 0
-        return moment.utc(_.first(@get('occurrences')).start)
-      else
-        return undefined        
+        return undefined     
 
   getEndDate: ->
     if @get('occurrences')?.length > 0
@@ -93,6 +77,9 @@ module.exports = class Event extends Model
         return undefined  
 
   getSortDate: ->
+    if not @nextOccurrence() and not @lastOccurrence()
+      console.log @toJSON()
+    else
     return @nextOccurrence() || @lastOccurrence()
 
   imageUrl: (options) ->
