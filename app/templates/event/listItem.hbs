@@ -1,38 +1,66 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="row panel-title">
-      <div class="container">
-        <div class="row">      
-          <div class="col-md-2 col-sm-12 col-xs-12 col-lg-2 date">
+<div class="hidden-md hidden-lg">
+        <div class="row">
+<div class="pull-left col-sm-10 col-xs-10">
+			<div class="col-sm-3 hidden-xs event-image">
+    		    {{#if imageUrl}}
+            <img src="{{imageUrl}}" alt="{{name}} image" class=""/>
+            {{else}}
+    	     <img src="/client/images/image-placeholder-bg.png" class="placeholderImage"/>
+    	     {{/if}}
+          </div>  
+		 <div class="col-sm-8 col-xs-12 event-title">
+            <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
+          </div>
+		<div class="col-sm-8 col-xs-12 date">
             <p class="eventDate">{{dateText}}</p>
     		    <p class="eventTime">{{startTimeText}}</p>
             {{#if scheduleText}}
               <a class="scheduleText"><span class="glyphicon glyphicon-info-sign"></span>Additional Dates</a>
             {{/if}}
           </div>
-          <div class="col-md-2 col-sm-4 col-xs-4 col-lg-2  event-image">
+		<div class="col-sm-8 col-xs-12  business-name">{{businessName}}</div>
+		</div>
+		<div class="col-sm-1  col-xs-1 eventListActions">
+    		 	<a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>	    
+	            <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a>
+	           	{{#if allowPromotion}}
+	        	<a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="promoteItem glyphicon glyphicon-bullhorn"></i></a>
+	        	{{/if}}
+          </div>
+</div>  
+</div>
+<div class="hidden-sm hidden-xs">  
+          <div class="col-md-3 col-lg-3 date">
+            <p class="eventDate">{{dateText}}</p>
+    		    <p class="eventTime">{{startTimeText}}</p>
+            {{#if scheduleText}}
+              <a class="scheduleText"><span class="glyphicon glyphicon-info-sign"></span>Additional Dates</a>
+            {{/if}}
+          </div>
+          <div class="col-md-2 col-lg-2  event-image">
     		    {{#if imageUrl}}
             <img src="{{imageUrl}}" alt="{{name}} image" class="img-responsive"/>
             {{else}}
     	     <img src="/client/images/image-placeholder-bg.png" class="placeholderImage img-responsive"/>
     	     {{/if}}
           </div>
-          <div class="col-md-4 col-sm-8 col-xs-8 col-lg-4  event-title">
+          <div class="col-md-3 col-lg-3  event-title">
             <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
           </div>
-          <div class="col-md-2 col-sm-12 col-xs-12 col-lg-2 business-name">
-            {{businessName}}
-          </div>
-          <div class="col-md-2 col-sm-12 col-xs-12 col-lg-2 eventListActions">
-    		    {{#if allowPromotion}}
-            <a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="promoteItem glyphicon glyphicon-bullhorn"></i></a>
-            {{/if}}
+          <div class="col-sm-3 col-xs-3  business-name">{{businessName}}</div>
+          <div class="col-md-1 col-lg-1 eventListActions">
+ 			<a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>	    
             <a class="duplicateButton" title="Duplicate This Event"><img class="duplicateEvent" src="/client/images/duplicate.png"</a>
-            <a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
-          </div>               
+           	{{#if allowPromotion}}
+        	<a href="/event/{{_id}}/promote" class="promoteButton" title="Promote this Event"><i class="promoteItem glyphicon glyphicon-bullhorn"></i></a>
+        	{{/if}}
+          </div>  
+</div>             
         </div>
       </div>  
-    </div>
   </div>
   <div id="collapse{{_id}}" class="panel-collapse collapse">
     <div class="panel-body">

@@ -86,6 +86,7 @@ border-radius:4px;
 }
 
 .btn-success.createButton, .createButton.btn-success:hover  {font-size:20px;}
+.createButton.hidden-sm i {font-size:32px;}
 .preloader {
   position: fixed;
   width: 100%;
@@ -220,25 +221,25 @@ border: 1px dashed #ECB0B0;}
 form .has-error label {font-family:'quicksandbold';}
  i.deleteItem {
     color: @gray-light;
-    position: relative;
-    top: 7px;
-    left: 61px;
     font-size: 27px;
+    position: absolute;
+        top: 74px;
 }
  i.deleteItem.mediaLibrary {
     left: 15%;
 }
  i.promoteItem {
     color: @link-color;
-    position: relative;
-    top: 7px;
-    left: 30px;
+    position: absolute;
+        top: -5px;
     font-size: 27px;
 }
   i.promoteItem:hover{-webkit-transform: scale(1.2);}
-a.duplicateButton {  text-decoration: none;
-  left: 50px;
-  position: relative;}
+a.duplicateButton {  
+  position: absolute;
+     text-decoration: none;
+     top: 36px;
+  }
 i.deleteItem:hover {color: @red;}
   img.duplicateEvent, i.glyphicon-cloud-upload { -webkit-transition-duration: 0.8s;
     -moz-transition-duration: 0.8s;
@@ -447,8 +448,11 @@ a {
       .widget-edit {
         .row {margin-bottom: 15px;}
         hr {border-color:@gray-lighter;}
-        
+       
       }
+       a.duplicateButton {
+            top: 0px;
+        }
   form  .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
     padding: 15px;
     margin-left: -15px;
@@ -474,7 +478,8 @@ a {
   legend {color:@gray-dark;}
   }
 .account-manage .control-group {margin-bottom:15px;}
-.event-title, .business-name, .eventListActions {display: table;margin-top: 30px;}
+.event-title, .business-name, .eventListActions {display: table;}
+.eventListActions {text-align:center;position:relative;}
 .event-title a.inlineEditButton {word-wrap: break-word;
 display: table-cell;
 vertical-align: middle;font-size: 1.3em;
@@ -484,9 +489,13 @@ font-family: 'museo';}
   .newItem {margin-top:10px;}
   .event-image {text-align:center;}
   #accordion {}
-   .panel-default > .panel-heading {line-height: 40px;}
-   .list-options a {padding: 9px 12px;
-  }
+   .panel-default > .panel-heading {line-height: 25px;}
+   
+   .list-options {
+   a {
+     padding: 9px 12px;
+   }
+    }
   .event-list-controls {}
    
    .alert-container {padding-left: 0px!important;
@@ -522,16 +531,14 @@ font-family: 'museo';}
       font-family: 'quicksandbold';
       color: #06A1AF;
       margin: 13px 0px 0px 0px;
-      font-size: 1.6em;
+      font-size: 1.2em;
     }
     .eventTime {
-      font-size: 0.8em;
       color: #06A1AF;
       margin: 0px;
     }
     .scheduleText {
-      line-height:1em;
-      font-size: 0.8em;
+      line-height:.9em;
       text-decoration: none;
     }
     .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
@@ -1018,6 +1025,19 @@ a {
 .popover {
   line-height: 1.5em;
 }
+.list-options.hidden-xs {display:none;}
+@media (max-width:979px){
+  .event-title, .business-name, .eventListActions {
+      display: table;
+      margin-top: 0px;
+  }
+  .event-list .date {
+      text-align: left;
+      p {margin:0px 5px 0px 0px;display:inline;}
+      a.scheduleText {display:block;}
+  }
+.list-options.hidden-xs {display:none;}
+}
 @media (max-width: 767px) {
   .topNav img.logo {
       margin: 12px 0;
@@ -1029,12 +1049,27 @@ a {
 .event-list h3 {
   font-size:18px;
 }
-
+.event-list .promoteButton {display:none;}
+.event-title, .business-name, .eventListActions {
+    display: table;
+    margin-top: 0px;
+}
+.event-list i.deleteItem {
+    top: 49px;
+    left:24px;
+}
+a.duplicateButton {
+    top: 0px;
+    left:23px;
+}
 .onboarding {
   display:block;
   width: 100%;
   height: 120px;
   img {width:70px;height:70px;}
+}
+.promotion-selection {
+  display:none;
 }
 }
 #widgetPreview{
@@ -1043,7 +1078,7 @@ a {
   background-position:50% 50%;
   background-color: rgba(0,0,0,0.8)
 }
-
+.list-options.hidden-xs {display:none;}
 .tooltip-inner {
   text-align:left;
   ul {
@@ -1052,8 +1087,32 @@ a {
       padding: 2px;
     }
   }
+    .freshwidget-theme {display:none!important;}
+    .event-edit form .saveButton {
+        background: #C5D645;
+        height: auto;
+        left: 0px;
+        line-height: 20px;
+        position: relative;
+        top: 0px;
+        width: auto;
+    }
+    .event-list .event-edit form .edit-actions {
+        left: 0;
+        position: relative;
+        top: 0;
+    }
+    .radio, .checkbox {display:inline-block;}
 }
 @media (max-width:480px){
+      .radio, .checkbox {display:inline-block;}
+  .freshwidget-theme {display:none!important;}
+  .list-options.hidden-xs {display:inline;}
+  .event-list .promoteButton {display:none;}
+  .event-list .date {
+      text-align: left;
+      p {margin:5px 0px 0px 0px;display:block;}
+  }
   .initial-state img {width:20%;}
   .event-list h2 {
       font-size: 14px;
@@ -1072,4 +1131,18 @@ a {
   {width:100%;}
   #drop-target p:first-child {display:none;}
   .library .pull-right {float:none!important;}
+  .event-edit form .saveButton {
+      background: #C5D645;
+      height: auto;
+      left: 0px;
+      line-height: 20px;
+      position: relative;
+      top: 0px;
+      width: auto;
+  }
+  .event-list .event-edit form .edit-actions {
+      left: 0;
+      position: relative;
+      top: 0;
+  }
 }
