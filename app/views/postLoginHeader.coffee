@@ -72,3 +72,6 @@ module.exports = class HeaderView extends View
     locale = window.location
     return locale.href.replace(window.baseUrl, '')
     
+  $(document).on "click", ".navbar-collapse.in", (e) ->
+    $(this).removeClass("in").addClass "collapse"  if $(e.target).is("a")
+    

@@ -152,10 +152,11 @@
          </div>
          <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
       </div>
-      <div class="col-md-4 promotion-selection">
-        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />&nbsp;Post event to social media channels now</label>
+<hr>
+      <div class="col-md-4 promotion-selection hidden-xs">
+        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media</label>
       </div>
-      <div class="col-md-4 edit-actions">
+      <div class="col-md-4 hidden-xs edit-actions">
          <div><a type="cancel" class="btn btn-default pull-right cancel">Cancel</a>&nbsp;
          {{#if isNew}}
           <a type="submit" class="btn saveButton">Create</a>
@@ -163,6 +164,15 @@
           <a type="submit" class="btn saveButton">Update</a>
         {{/if}}
          </div>
+</div>
+		<div class="col-md-4 hidden-md hidden-sm hidden-lg edit-actions mobile">
+	         <div><a type="cancel" class="btn btn-default btn-block">Cancel</a>&nbsp;
+	         {{#if isNew}}
+	          <a type="submit" class="btn btn-success btn-block saveButton">Create</a>
+	        {{else}}
+	          <a type="submit" class="btn btn-success btn-block saveButton">Update</a>
+	        {{/if}}
+	         </div>
       </div>
     </div>
     </div>        
