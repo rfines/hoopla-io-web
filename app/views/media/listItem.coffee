@@ -16,8 +16,8 @@ module.exports = class ListItem extends ListItemView
   events:
     "click .thumbnail": "openModal"
     "click .enlarge":"openModal"
-    "click .trash" : "destroy"
-    "click .deleteItem":"closeModal"
+    "click .deleteItem.trash" : "destroy"
+    "click .closeModal":"closeModal"
     "click .modal-backdrop":"closeModal"
 
   destroy: (e) =>
@@ -39,8 +39,12 @@ module.exports = class ListItem extends ListItemView
   openModal:(e)=>
     e.preventDefault() if e
     $("#modal_#{@model.id}").modal({
-      keyboard:true
-    }).show()
+      keyboard:true,
+      backdrop:true,
+      show:true
+    })
   closeModal:(e)=>
     e.preventDefault() if e
-    $("#modal_#{@model.id}").modal('hide')
+    $("#modal_#{@model.id}").modal("hide")
+    $(".in").removeClass("in").addClass("fade")
+    console.log $(".modal-backdrop")

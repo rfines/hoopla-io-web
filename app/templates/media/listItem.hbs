@@ -1,7 +1,7 @@
 {{#if hasMedia}}
   <div class="col-sm-6 col-md-5 col-lg-4">
     <div class="well">
-        <a class="thumbnail" data-toggle="modal" data-target="#{{_id}}">
+        <a class="thumbnail" data-toggle="modal" data-target="#modal_#{{_id}}">
           <img data-src={{{thumbUrl}}} src={{{thumbUrl}}} class="media-item" alt="media image" />
         </a>
         <div class="caption" style="margin-top:4%">
@@ -14,7 +14,7 @@
               {{/if}}
             </div>
 
-            <div class="pull-right buttons"><a data-toggle="modal" data-target="#modal_{{_id}}" href="#modal_{{_id}}" class="enlarge"><i class="glyphicon glyphicon-search"></i></a>   <a href="#" class="deleteButton"><i class="deleteItem mediaLibrary glyphicon glyphicon-remove-circle"></i></a>
+            <div class="pull-right buttons"><a data-toggle="modal" data-target="#modal_{{_id}}" href="#modal_{{_id}}" class="enlarge"><i class="glyphicon glyphicon-search"></i></a>   <a href="#" class="deleteButton"><i class="deleteItem trash mediaLibrary glyphicon glyphicon-remove-circle"></i></a>
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-           <a href="#" class="pull-right" data-dismiss='modal'><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>
+           <a href="#" class="pull-right" data-dismiss='modal'><i class="closeModal glyphicon glyphicon-remove-circle"></i></a>
           {{#if imageName}}
             <h4 class="modal-title">{{imageName}}</h4>
           {{else}}
