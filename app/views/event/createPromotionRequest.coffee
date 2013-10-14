@@ -5,7 +5,6 @@ CreateFacebookEventView = require 'views/event/createFacebookEvent'
 AddressView = require 'views/address'
 MessageArea = require 'views/messageArea'
 
-
 module.exports = class CreatePromotionReqeust extends View
   template: require 'templates/event/createPromotionRequest'
   className: 'create-promotion-requests'
@@ -44,7 +43,11 @@ module.exports = class CreatePromotionReqeust extends View
     td.startDate = moment(@event.nextOccurrence()).format("h:mm a")
     td.fbPages= @fbPages
     td.previewText = @event.get('description')
-
+  
+    if @event.get('website')
+      td.defaultLink = @event.get('website')
+    else if @event.get('ticketUrl')?.length > 0
+      td.defaultLink = @event.get('ticketUrl')
     if not @fbPromoTarget
       td.showFb = false
     else
@@ -60,6 +63,7 @@ module.exports = class CreatePromotionReqeust extends View
       td.showTwitter = true
       td.twitterProfileImageUrl = @twitterImgUrl
       td.twitterHandle = @twitterHandle
+    console.log td
     td
   
   attach : ->
@@ -94,6 +98,7 @@ module.exports = class CreatePromotionReqeust extends View
     "change .tw-immediate-box": "twitterImmediateClick"
     "keyup .message": "updateFacebookPreviewText"
     "keyup .tweetMessage":"updateTwitterPreivewText"
+    "change .tw-image-box":"deductImageFromTotal"
     
   initDatePickers: =>
     @startDate = new Pikaday
@@ -178,8 +183,7 @@ module.exports = class CreatePromotionReqeust extends View
     else 
       Chaplin.mediator.publish 'stopWaiting'
       @publishEvent 'notify:publish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
-        
-  
+
   saveTwitter: (e)->
     e.preventDefault()
     successMessageAppend ="" 
@@ -189,11 +193,14 @@ module.exports = class CreatePromotionReqeust extends View
     time = $('.twStartTime').timepicker('getSecondsFromMidnight')
     now = moment().format('X')
     date = date.add('seconds', time)
+    med = undefined
+    if $('.tw-image-box').is(':checked')
+      med = @event.get('media')?[0]?._id
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
         promotionTime: moment().toDate().toISOString()
-        media: @event.get('media')?[0]?._id
+        media: med
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       pr.eventId = @event.id
@@ -210,7 +217,7 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
-        media: @event.get('media')?[0]?._id
+        media: med
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       scheduled.eventId = @event.id
@@ -302,11 +309,19 @@ module.exports = class CreatePromotionReqeust extends View
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
+    link = undefined
+    if @event.get('website').length >0
+      link = @event.get('website')
+    else if @event.get('ticketUrl').length >0
+      link = @event.get('ticketUrl')
+    name =@event.get(name)
+    if @event.get(name).length >74
+      name = @textCutter(70, @event.get('name'))
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
-      link:@event.get('website')
+      link:link
       caption:@event.get('name')
-      title: @event.get('name')
+      title: name
       startTime: moment(@event.nextOccurrence()).toDate().toISOString()
       promotionTime: date
       location: @event.get('location').address
@@ -392,3 +407,27 @@ module.exports = class CreatePromotionReqeust extends View
   updateTwitterPreivewText:(e)=>
     keyed = @$el.find('.tweetMessage').val()
     $(".preview-message.tw").html(keyed)
+
+  deductImageFromTotal:(e)->
+    e.preventDefault() if e
+    totalCount = parseInt($('.counter').html())
+    if $('.tw-image-box').is(':checked')
+      totalCount = totalCount-23
+      if totalCount <=0
+        $('.tweetMessage').addClass('alert alert-error')
+      else
+        $('.tweetMessage').removeClass('alert alert-error')
+        $('.counter').html(totalCount)
+    else
+      totalCount = totalCount+23
+      if totalCount <=0
+        $('.tweetMessage').addClass('alert alert-error')
+        $('.counter').addClass('alert alert-error')
+      else
+        $('.tweetMessage').removeClass('alert alert-error')
+        $('.counter').removeClass('alert alert-error')
+        $('.counter').html(totalCount)
+  textCutter : (i, text) ->
+    short = text.substr(0, i)
+    return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
+    short

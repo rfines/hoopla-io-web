@@ -38,13 +38,14 @@ module.exports = class ListItem extends ListItemView
     td
   openModal:(e)=>
     e.preventDefault() if e
-    $("#modal_#{@model.id}").modal({
+    selector= "#modal_#{@model.id}"
+    $("#{selector}").modal({
       keyboard:true,
       backdrop:true,
       show:true
     })
   closeModal:(e)=>
     e.preventDefault() if e
-    $("#modal_#{@model.id}").modal("hide")
-    $(".in").removeClass("in").addClass("fade")
-    console.log $(".modal-backdrop")
+    selector= "#modal_#{@model.id}"
+    $("#{selector}").modal("hide")
+    

@@ -27,6 +27,11 @@ module.exports = class CreateFacebookEventView extends View
     td.coverPhoto = @promotionTarget.profileCoverPhoto
     td.dayOfWeek = moment(@model.nextOccurrence()).format("dddd")
     td.startDate = moment(@model.nextOccurrence()).format("h:mm a")
+    td.eventTitle =@model.get('name')
+    if @model.get('name').length >74
+      console.log "Cutting"
+      td.eventTitle = @textCutter(70,@model.get('name'))
+      console.log td.eventTitle
     td
 
   attach:()->
@@ -55,3 +60,7 @@ module.exports = class CreateFacebookEventView extends View
           @subview("facebookEventPages", new FacebookPagesView({model: @model, container : @$el.find('.event-pages'), options:options}))
         error:(err)=>
           return null
+  textCutter : (i, text) ->
+    short = text.substr(0, i)
+    return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
+    short
