@@ -65,6 +65,7 @@ module.exports = class InlineEdit extends View
     if @model.isNew
       @dispose()
       $("html, body").animate({ scrollTop: 0 }, "slow");
+      @publishEvent "closeOthers"
     else
       @publishEvent "#{@noun}:#{@model.id}:edit:close"
 
