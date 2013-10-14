@@ -54,7 +54,7 @@ module.exports = class WidgetEditView extends View
 
   events:
     'click .saveButton' : 'save'
-    'click .cancelButton':'cancel' 
+    'click .cancelButton':'cancel'
 
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
