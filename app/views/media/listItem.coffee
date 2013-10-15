@@ -34,7 +34,7 @@ module.exports = class ListItem extends ListItemView
     td = super
     td.thumbUrl = $.cloudinary.url(ImageUtils.getId(td.url), {crop: 'fill', height: 163, width: 266})
     td.fullUrl = td.url
-    td.hasMedia = Chaplin.datastore.media?.length > 0
+    td.hasMedia = Chaplin.datastore.media?.models.length > 0
     td
   openModal:(e)=>
     e.preventDefault() if e
