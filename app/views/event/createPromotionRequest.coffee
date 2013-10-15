@@ -314,9 +314,9 @@ module.exports = class CreatePromotionReqeust extends View
       link = @event.get('website')
     else if @event.get('ticketUrl')?.length >0
       link = @event.get('ticketUrl')
-    name =@event.get(name)
-    if @event.get(name).length >74
-      name = @textCutter(70, @event.get('name'))
+    name =@event.get('name')
+    if name.length >74
+      name = @textCutter(65 name)
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
       link:link
