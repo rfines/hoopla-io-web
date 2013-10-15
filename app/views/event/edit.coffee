@@ -27,6 +27,7 @@ module.exports = class EventEditView extends View
     @initSocialMediaPromotion()
     @initTimePickers()
     @initDatePickers()
+    @initLocation()
     @delegate 'click', '.showMediaLibrary', @showMediaLibrary
     @delegate 'click', '.addressButton', @chooseCustomVenue
     @delegate 'submit', 'form', (e)->
@@ -100,7 +101,16 @@ module.exports = class EventEditView extends View
     @model.set 'SATURDAY', true if _.contains(schedule.dayOfWeek, 7) 
 
                 
-
+  initLocation:()=>
+    if not @model.get('host')
+      @$el.find('.custom_venue').show()
+      @$el.find('.choose_venue').hide()
+      @$el.find('.hostAddress').val(@model.get('location')?.address)
+      @delegate 'click', '.switch_venue', ->
+        @$el.find('.custom_venue').hide()
+        @$el.find('.choose_venue').show()
+        @$el.find('.hostAddress').val('')
+      
   positionPopover:()=>
     $('.popover.bottom').css('top', '60px')  
 
@@ -166,6 +176,7 @@ module.exports = class EventEditView extends View
 
 
   chooseCustomVenue: =>
+    console.log "enter custom venue"
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       if @$el.find('#map-canvas').length <=0
         @$el.find('.popover-content').html("<div class='addressPopover'></div>")
@@ -176,10 +187,25 @@ module.exports = class EventEditView extends View
     @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
+      console.log @model.get('location')?.address
+      console.log @subview('addressPopover').location?.address
       if @$el.find('.popover-content').is(':visible')
         @$el.find('.addressButton').popover('hide')
+        if @subview('addressPopover').location?.address and not @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()
+          @$el.find('.choose_venue').hide()
+          @$el.find('.custom_venue').show()
+          @$el.find('.hostAddress').val(@subview('addressPopover').location?.address)
+        else
+          @$el.find('.custom_venue').hide()
+          @$el.find('.choose_venue').show()
+    @delegate 'click', '.switch_venue', ->
+      @$el.find('.custom_venue').hide()
+      @$el.find('.choose_venue').show()
+      @$el.find('.hostAddress').val('')
+        
 
   updateModel: =>
+    @address()
     if @$el.find('input.repeats:checked').val()
       @model.set
         tzOffset : moment().zone()
@@ -247,3 +273,8 @@ module.exports = class EventEditView extends View
       $('.promotion-selection').show()
     else
       $('.promotion-selection').hide()
+  address:()=>
+    if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address.toString()!=@model.get('location')?.address.toString()
+      @model.set
+        location: @subview('addressPopover').location
+        host:undefined

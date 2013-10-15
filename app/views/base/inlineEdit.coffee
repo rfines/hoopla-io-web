@@ -105,4 +105,4 @@ module.exports = class InlineEdit extends View
     e.preventDefault()
     @$el.find('.currentImage').hide()
     @$el.find('.image-controls').show()
-    @$el.find('.default-image-actions').hide()          
+    @$el.find('.default-image-actions').hide()        
