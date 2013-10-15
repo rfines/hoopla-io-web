@@ -310,9 +310,9 @@ module.exports = class CreatePromotionReqeust extends View
       at = @pageAccessToken
     date = moment().toDate().toISOString()
     link = undefined
-    if @event.get('website').length >0
+    if @event.get('website')?.length >0
       link = @event.get('website')
-    else if @event.get('ticketUrl').length >0
+    else if @event.get('ticketUrl')?.length >0
       link = @event.get('ticketUrl')
     name =@event.get(name)
     if @event.get(name).length >74

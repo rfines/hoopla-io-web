@@ -29,9 +29,7 @@ module.exports = class CreateFacebookEventView extends View
     td.startDate = moment(@model.nextOccurrence()).format("h:mm a")
     td.eventTitle =@model.get('name')
     if @model.get('name').length >74
-      console.log "Cutting"
       td.eventTitle = @textCutter(70,@model.get('name'))
-      console.log td.eventTitle
     td
 
   attach:()->
