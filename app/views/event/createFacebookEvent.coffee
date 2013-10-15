@@ -13,6 +13,10 @@ module.exports = class CreateFacebookEventView extends View
   promotionTarget = {}
   promotionRequest = {}
   fbPages = []
+
+  events: 
+    "change .pageSelection": "setImage"
+
   initialize:(options)=>
     super(options)
     @business = options.options.business
@@ -56,9 +60,30 @@ module.exports = class CreateFacebookEventView extends View
             event: @event
             pages:@fbPages
           @subview("facebookEventPages", new FacebookPagesView({model: @model, container : @$el.find('.event-pages'), options:options}))
+          @setImage()
         error:(err)=>
           return null
+
+  setImage: (data) ->
+    x = _.find @fbPages, (item) =>
+      item.id is @$el.find('.pageSelection option:selected').val()
+    if not x
+      x = @fbPages?[0]
+    $.ajax
+      url: "https://graph.facebook.com/#{x.id}/?fields=cover"
+      type: 'GET'
+      success: (response, body) =>
+        if response?.cover?.source
+          $('.event-page-preview img').attr('src', response?.cover?.source)
+        else
+          $('.event-page-preview img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+      error: =>
+        $('.event-page-preview img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+
   textCutter : (i, text) ->
     short = text.substr(0, i)
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
     short
+
+
+#
