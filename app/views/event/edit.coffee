@@ -176,7 +176,6 @@ module.exports = class EventEditView extends View
 
 
   chooseCustomVenue: =>
-    console.log "enter custom venue"
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       if @$el.find('#map-canvas').length <=0
         @$el.find('.popover-content').html("<div class='addressPopover'></div>")
@@ -187,8 +186,6 @@ module.exports = class EventEditView extends View
     @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
-      console.log @model.get('location')?.address
-      console.log @subview('addressPopover').location?.address
       if @$el.find('.popover-content').is(':visible')
         @$el.find('.addressButton').popover('hide')
         if @subview('addressPopover').location?.address and not @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()

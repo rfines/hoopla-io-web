@@ -63,7 +63,6 @@ module.exports = class CreatePromotionReqeust extends View
       td.showTwitter = true
       td.twitterProfileImageUrl = @twitterImgUrl
       td.twitterHandle = @twitterHandle
-    console.log td
     td
   
   attach : ->
@@ -254,9 +253,6 @@ module.exports = class CreatePromotionReqeust extends View
       business:@business
       promotionTarget:@fbPromoTarget
     @subview("facebookEvent", new CreateFacebookEventView({model: @event, container : @$el.find('.facebook-event-preview')[0], options:options}))
-    @subview('event-address', new AddressView({container : @$el.find('.event-map'), model : @model}))  
-    $('input.address').remove()
-    $('label[for=address]').remove()
     $('#facebookEventPanel').show()
     $('#facebookPanel').hide()
     $('#twitterPanel').hide()

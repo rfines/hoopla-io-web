@@ -38,9 +38,12 @@ module.exports = class CreateFacebookEventView extends View
 
   attach:()->
     super()
-    @subview('event-address', new AddressView({container : @$el.find('.event-map'), model : @model}))  
-    $('input.address').remove()
-    $('label[for=address]').remove()
+    setTimeout(()=>
+      @subview('event-address', new AddressView({container : @$el.find('#map'), model : @model}))
+      $('input.address').remove()
+      $('label[for=address]').remove() 
+    ,100) 
+    
     @getFacebookPages(@promotionTarget)
 
   getFacebookPages:(promoTarget)=>
@@ -84,6 +87,3 @@ module.exports = class CreateFacebookEventView extends View
     short = text.substr(0, i)
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
     short
-
-
-#

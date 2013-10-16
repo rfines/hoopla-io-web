@@ -77,9 +77,6 @@ module.exports = class Event extends Model
         return undefined  
 
   getSortDate: ->
-    if not @nextOccurrence() and not @lastOccurrence()
-      console.log @toJSON()
-    else
     return @nextOccurrence() || @lastOccurrence()
 
   imageUrl: (options) ->

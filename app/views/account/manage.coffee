@@ -26,7 +26,6 @@ module.exports = class Edit extends View
 
   saveUser: =>
     if not @model.validate()
-      console.log @model
       @model.save {}, {
         success: =>
           Chaplin.mediator.publish 'stopWaiting'

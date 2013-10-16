@@ -10,9 +10,8 @@ module.exports = class AddressView extends View
       @template = options.template
     super(options)
 
-
   attach: =>
-    super
+    super()
     if @model.has 'location'
       @$el.find('.address').val(@model.get('location').address)
       @showGeo(@model.get('location'))
