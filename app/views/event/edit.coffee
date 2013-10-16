@@ -102,7 +102,7 @@ module.exports = class EventEditView extends View
 
                 
   initLocation:()=>
-    if not @model.get('host')
+    if not @model.get('host') and not @isNew
       @$el.find('.custom_venue').show()
       @$el.find('.choose_venue').hide()
       @$el.find('.hostAddress').val(@model.get('location')?.address)
