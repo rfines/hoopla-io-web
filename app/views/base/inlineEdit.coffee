@@ -48,7 +48,9 @@ module.exports = class InlineEdit extends View
     if @isNew
       @$el.find('.change-image-btn').hide()
     if @$el.find('.geoLocation').length >0
-      @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
+      setTimeout(()=>
+        @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
+      , 100)
 
 
   validate: ->
