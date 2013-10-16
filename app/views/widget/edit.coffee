@@ -16,7 +16,7 @@ module.exports = class WidgetEditView extends View
     super
     @$el.find('.embedCode').hide()
     @$el.find('#widgetPreview').hide()
-    @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
+    #@subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
     $('.widgetType').on 'change', (e) =>
       widgetType = @$el.find('input[name=widgetType]:checked').val()
       if widgetType is 'event-by-location'
