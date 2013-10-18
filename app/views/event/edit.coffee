@@ -164,8 +164,8 @@ module.exports = class EventEditView extends View
       scrollDefaultTime : "12:00"
       step : 15
     if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().add('minutes', moment().zone()).toDate()) if @model.getStartDate()
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().add('minutes', moment().zone()).toDate()) if @model.getEndDate()
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().add('minutes', @model.get('tzOffset')).toDate()) if @model.getStartDate()
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().add('minutes', @model.get('tzOffset')).toDate()) if @model.getEndDate()
     @$el.find('.startTime').on 'changeTime', @predictEndTime
 
 
