@@ -209,8 +209,9 @@ module.exports = class EventEditView extends View
         schedules: @getSchedules()
         fixedOccurrences :[]
     else
+      zone = momen(@getFixedOccurrences()?[0].start).zone()
       @model.set
-        tzOffset : moment().zone()
+        tzOffset : zone
         fixedOccurrences : @getFixedOccurrences()    
         schedules :[]
 
