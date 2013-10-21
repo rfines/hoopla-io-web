@@ -272,7 +272,7 @@ module.exports = class EventEditView extends View
     else
       $('.promotion-selection').hide()
   address:()=>
-    if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address.toString()!=@model.get('location')?.address.toString()
+    if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
       @model.set
         location: @subview('addressPopover').location
-        host:undefined
+      @model.unset('host') if @model.has('host')
