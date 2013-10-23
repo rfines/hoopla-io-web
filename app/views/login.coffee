@@ -12,8 +12,8 @@ module.exports = class Login extends View
     'keyup .password': 'submitOnEnter'
     'keyup #loginModal': 'submitOnEnter'
 
-  initialize: ->
-    super
+  initialize: (@options)->
+    super(@options)
     @model = new User()
 
   attach: ->
