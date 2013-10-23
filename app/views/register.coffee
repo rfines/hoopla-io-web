@@ -25,7 +25,10 @@ module.exports = class Register extends View
     if params?.email
       @$el.find('.username').val(params.email)
     if params?.message
-      @showError {message: params.message}
+      if params.message is 'Validation failed'
+        @showError "All fields are required", ['email', 'password', 'password-confirm']
+      else
+        @showError {message: params.message}
 
   register: (e) ->
     e.preventDefault()
