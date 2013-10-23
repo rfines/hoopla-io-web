@@ -1,7 +1,6 @@
 View = require 'views/base/view'
 template = require 'templates/site'
 FooterView = '/views/footer'
-LoginPopover = require 'views/loginPopover'
 ForgotPassword = require 'views/forgotPassword'
 ResetPassword = require 'views/reset-password'
 
@@ -16,23 +15,9 @@ module.exports = class SiteView extends View
     footer: '#footer'
   template: template
 
-  events:
-    'click .sign-in' : 'login'
-
   listen:
-    'showLogin mediator' : 'login'
     'showForgotPassword mediator' : 'forgotPassword'
     'showResetPassword mediator' : 'resetPassword'
-
-  initialize: ->
-    super
-    console.log 'init'
-
-  login: (e) ->
-    console.log 'show login'
-    e.preventDefault() if e
-    @subview('loginPopover', new LoginPopover({container: $('#loginModal .modal-content')}))  
-    $('#loginModal').modal('show')
 
   forgotPassword: (e) ->
     console.log 'forgot password listener triggered'
