@@ -7,7 +7,8 @@
     "cloudName" : "hu3y2dnvf"
   },
   "robotsFile" : "prod.robots.hbs",
-  "baseUrl":"https://www.hoopla.io/",
+  "baseUrl":"https://dashboard.hoopla.io/",
+  "wpUrl" : "http://www.hoopla.io",
   "facebook":{
     "key":"1414344922112968",
     "secret":"72123805ad815bfb5b34c3a2d608edd7"

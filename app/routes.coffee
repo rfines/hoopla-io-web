@@ -1,11 +1,5 @@
 module.exports = (match) ->
-  match '', 'home#home'
-  match 'blog', 'home#blog'
-  match 'Businesses', 'home#home', params: {goto : 'Businesses'}
-  match 'Publishers', 'home#home', params: {goto : 'Publishers'}
-  match 'About', 'home#home', params: {goto : 'About'}
-  match 'Contact', 'home#home', params: {goto : 'Contact'}
-  match 'register', 'home#home', params: {goto : 'Contact'}
+  match '', 'event#list'
 
   # Marketing/Pre-Login Routes
   match 'signUp', 'home#home', params: {signup : true}
@@ -23,14 +17,15 @@ module.exports = (match) ->
   match 'widget', 'widget#create'
   match 'widget/:id', 'widget#edit'
   match 'account', 'account#manage'
-  match 'password/reset', 'home#home', params: { showResetPassword: true}
+  match 'password/reset', 'login#login', params: { showResetPassword: true}
   match 'event/:id/promote', 'event#promote'
 
 
   # login/logout
-  match 'login', 'home#home', params: { showLogin: true }
+  match 'register', 'login#register'
+  match 'login', 'login#login'
   match 'logout', 'login#logout'
-  match 'forgotPassword', 'home#home', params: { showForgotPassword: true }
+  match 'forgotPassword', 'login#login', params: { showForgotPassword: true }
 
   #demo route
   match 'image', 'home#index'

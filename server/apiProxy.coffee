@@ -3,6 +3,7 @@ _ = require 'lodash'
 url = require('url')
 http = require('http')
 https = require('https')
+request = require 'request'
 
 
 handler = (req, res, method) ->
@@ -137,5 +138,20 @@ getHttpLib = (o) ->
   else
     return http
 
+register = (body, cb) ->
+  auth = new Buffer("#{CONFIG.apiKey}:#{CONFIG.apiSecret}").toString('base64')
+  o = {
+    url : require('url').parse("#{CONFIG.apiUrl}/user")
+    json : body
+    auth : {user: CONFIG.apiKey, pass: CONFIG.apiSecret, sendImmediately: true}
+  }
+  request.post o, (err, response, body) ->
+    if not err
+      o.url = require('url').parse("#{CONFIG.apiUrl}/tokenRequest")
+      request.post o, (err, response, body) ->
+        cb(body)
+
 module.exports = 
   handler: handler
+  request : request
+  register: register

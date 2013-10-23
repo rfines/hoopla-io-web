@@ -1,7 +1,6 @@
 SiteView = require 'views/site-view'
 Controller = require 'controllers/base/preLoginController'
 HomePageView = require 'views/home'
-BlogView = require 'views/blog'
 ErrorView = require 'views/error'
 
 module.exports = class HomeController extends Controller
@@ -22,11 +21,6 @@ module.exports = class HomeController extends Controller
 
   compositions: =>
     @compose 'site', SiteView
-    
-  blog: (params)->
-    template = require('templates/blog')
-    @view = new BlogView
-      region:'main'
 
   error: (params) ->
     template = require('templates/error')

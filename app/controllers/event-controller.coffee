@@ -3,16 +3,17 @@ Event = require 'models/event'
 PromoRequest = require 'models/promotionRequest'
 module.exports = class EventController extends Controller
   list: (params) ->
-    EventList = require 'views/event/list'
-    Chaplin.datastore.loadEssential 
-      success: =>
-        @view = new EventList
-          region: 'main'
-          collection : Chaplin.datastore.event
-          filterer: (item, index) ->
-            item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
-          params:params
-          options: 'future'                
+    if Chaplin.datastore.user
+      EventList = require 'views/event/list'
+      Chaplin.datastore.loadEssential 
+        success: =>
+          @view = new EventList
+            region: 'main'
+            collection : Chaplin.datastore.event
+            filterer: (item, index) ->
+              item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
+            params:params
+            options: 'future'                
             
 
   past: ->

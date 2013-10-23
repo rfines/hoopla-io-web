@@ -24,12 +24,18 @@ module.exports = class SiteView extends View
     'showForgotPassword mediator' : 'forgotPassword'
     'showResetPassword mediator' : 'resetPassword'
 
+  initialize: ->
+    super
+    console.log 'init'
+
   login: (e) ->
+    console.log 'show login'
     e.preventDefault() if e
     @subview('loginPopover', new LoginPopover({container: $('#loginModal .modal-content')}))  
     $('#loginModal').modal('show')
 
   forgotPassword: (e) ->
+    console.log 'forgot password listener triggered'
     e.preventDefault() if e
     @subview('forgotPasswordModal', new ForgotPassword({container: $('#forgotPasswordModal .modal-content')}))  
     $('#forgotPasswordModal').modal('show')  

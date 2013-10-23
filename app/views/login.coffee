@@ -1,8 +1,8 @@
-template = require 'templates/loginPopover'
+template = require 'templates/login'
 View = require 'views/base/view'
 User = require 'models/user'
 
-module.exports = class LoginPopover extends View
+module.exports = class Login extends View
   template: template
 
   events:
@@ -19,6 +19,8 @@ module.exports = class LoginPopover extends View
   attach: ->
     super
     @$el.find('.password').focus()
+    @publishEvent 'showForgotPassword' if @options.showForgotPassword
+    @publishEvent 'showResetPassword' if @options.showResetPassword     
 
    submitOnEnter:(e)=>
     code = (if e.keyCode then e.keyCode else e.which)
@@ -49,7 +51,7 @@ module.exports = class LoginPopover extends View
       }
     else
       @$el.find('.alert').empty()
-      @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>")    
+      @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>")
 
   forgotPassword: (e) ->
     e.preventDefault() if e

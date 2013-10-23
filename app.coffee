@@ -51,6 +51,20 @@ app.get "/integrate/widget/:id", (req, res) ->
 app.get "/3dots_email.png", (req, res) ->
   res.redirect 301, "/client/images/3dots_email.png"
 
+app.post "/register", (req, res) ->
+  apiProxy.register req.body, (auth) ->
+    data =
+      development: CONFIG.development
+      apiUrl : CONFIG.apiUrl
+      cloudinary : CONFIG.cloudinary
+      facebookClientId: CONFIG.facebook.key
+      baseUrl : CONFIG.baseUrl
+      wpUrl : CONFIG.wpUrl
+      googleAnalytics : CONFIG.googleAnalytics
+      user : auth.user
+      authToken : auth.authToken
+    res.render "index.hbs", data
+
 app.get "/*", (req, res) ->
   data =
     development: CONFIG.development
@@ -58,6 +72,7 @@ app.get "/*", (req, res) ->
     cloudinary : CONFIG.cloudinary
     facebookClientId: CONFIG.facebook.key
     baseUrl : CONFIG.baseUrl
+    wpUrl : CONFIG.wpUrl
     googleAnalytics : CONFIG.googleAnalytics
   res.render "index.hbs", data
 
