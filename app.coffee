@@ -52,18 +52,22 @@ app.get "/3dots_email.png", (req, res) ->
   res.redirect 301, "/client/images/3dots_email.png"
 
 app.post "/register", (req, res) ->
-  apiProxy.register req.body, (auth) ->
-    data =
-      development: CONFIG.development
-      apiUrl : CONFIG.apiUrl
-      cloudinary : CONFIG.cloudinary
-      facebookClientId: CONFIG.facebook.key
-      baseUrl : CONFIG.baseUrl
-      wpUrl : CONFIG.wpUrl
-      googleAnalytics : CONFIG.googleAnalytics
-      user : auth.user
-      authToken : auth.authToken
-    res.render "index.hbs", data
+  apiProxy.register req.body, (err, auth) ->
+    if err
+      console.log err
+      res.redirect "/register?email=#{req.body.email}&message=#{err}"
+    else
+      data =
+        development: CONFIG.development
+        apiUrl : CONFIG.apiUrl
+        cloudinary : CONFIG.cloudinary
+        facebookClientId: CONFIG.facebook.key
+        baseUrl : CONFIG.baseUrl
+        wpUrl : CONFIG.wpUrl
+        googleAnalytics : CONFIG.googleAnalytics
+        user : auth.user
+        authToken : auth.authToken
+      res.render "index.hbs", data
 
 app.get "/*", (req, res) ->
   data =

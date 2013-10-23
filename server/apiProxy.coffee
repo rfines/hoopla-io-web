@@ -139,17 +139,23 @@ getHttpLib = (o) ->
     return http
 
 register = (body, cb) ->
-  auth = new Buffer("#{CONFIG.apiKey}:#{CONFIG.apiSecret}").toString('base64')
   o = {
     url : require('url').parse("#{CONFIG.apiUrl}/user")
     json : body
     auth : {user: CONFIG.apiKey, pass: CONFIG.apiSecret, sendImmediately: true}
   }
   request.post o, (err, response, body) ->
-    if not err
-      o.url = require('url').parse("#{CONFIG.apiUrl}/tokenRequest")
-      request.post o, (err, response, body) ->
-        cb(body)
+    if err
+      cb err, null
+    else
+      console.log response.statusCode
+      if response.statusCode is 500
+        console.log 'fail'
+        cb body.message, null
+      else
+        o.url = require('url').parse("#{CONFIG.apiUrl}/tokenRequest")
+        request.post o, (err, response, body) ->
+          cb null, body
 
 module.exports = 
   handler: handler
