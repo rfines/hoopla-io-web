@@ -18,7 +18,7 @@
     "request_token_url":"https://api.twitter.com/oauth/request_token",
     "authorize_url": "https://api.twitter.com/oauth/authorize",
     "access_token_url":"https://api.twitter.com/oauth/access_token",
-    "callback_url": "http://stage.hoopla.io/callbacks/oauthTwitterCallback"
+    "callback_url": "https://dashboard-stage.hoopla.io/callbacks/oauthTwitterCallback"
   },
   "secure" : true
 }
