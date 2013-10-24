@@ -45,7 +45,7 @@ module.exports.transform = (event) ->
     cost = "$#{event.cost}"
   o = {
     name : event.name
-    eventImage : event.media?[0]?.url || 'http://placehold.it/100x100'
+    eventImage : event.media?[0]?.url || '/client/images/widget-image-placeholder.gif'
     dateDisplay : dateDisplayText(event)
     timeDisplay : timeDisplayText(event)
     cost:cost
