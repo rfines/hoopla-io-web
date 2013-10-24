@@ -15,6 +15,7 @@ body {
     height: 100%;
     background-attachment: fixed;
 }
+.strong {font-family:'quicksandbold';}
 .container.blog {
   background-color: #fff;
   h1 {color:@brand-primary;}
@@ -182,20 +183,36 @@ iframe {border:0px;overflow:hidden;max-width: 470px;margin-top: 31px;min-height:
 h1, h2, h3, h4, h5 {font-family:'museo';}
 
 ///Forms////
+.register-form {padding: 10px 15px 50px 15px;
+background-color: rgb(69, 70, 66);
+border-radius: 19px;
+color:#fff;
+}
+.register-div {margin-bottom: 20px;}
+.register-form .radio label {color: #c5d645;}
+.userType {margin-bottom:20px;}
+.register-form label {color: #fff;font-family:'quicksandbook';}
+.messaging {
+  h3, h4 {text-align:center;}
+  h3 {color:@brand-primary;}
+  hr {border: 1px dashed @brand-primary;}
+  height:100%;background-color:#fff!important;box-shadow: 0px -2px 13px #06A1AF inset!important;padding:40px 20px!important;margin-left:20px;}
 
 img.sign-in {
   width:300px;
-  margin:200px auto 0px auto;
+  margin:6% auto 20px auto;
   display: block;
 }
+img.howie {position:absolute;right:0px;bottom:-3px;width:90px;}
 .topNav .form-signin a {
   font-size:.8em;
   position: relative;
   color:#fff;
   bottom: -6px;}
+
   .form-signin {
-    width: 480px;
-    margin: 10px auto 0px auto;
+    min-width: 320px;
+    margin: 0px auto 0px auto;
     padding: 20px 40px 40px 40px!important;
 
     .row {
