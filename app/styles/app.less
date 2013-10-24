@@ -180,10 +180,12 @@ iframe {border:0px;overflow:hidden;max-width: 470px;margin-top: 31px;min-height:
     100% {-webkit-transform: scale(1.0, 1.0); }
 }
 h1, h2, h3, h4, h5 {font-family:'museo';}
+
 ///Forms////
+
 img.sign-in {
   width:300px;
-  margin:250px auto 0px auto;
+  margin:200px auto 0px auto;
   display: block;
 }
 .topNav .form-signin a {
@@ -195,7 +197,7 @@ img.sign-in {
     width: 480px;
     margin: 10px auto 0px auto;
     padding: 20px 40px 40px 40px!important;
-   
+
     .row {
      margin-bottom:20px;
       }
@@ -1097,6 +1099,12 @@ a.duplicateButton {
     top: 0px;
     left:23px;
 }
+
+img.sign-in {
+  width:300px;
+  margin:20px auto 0px auto;
+  display: block;
+}
 .onboarding {
   display:block;
   width: 100%;
@@ -1139,8 +1147,14 @@ a.duplicateButton {
     }
     .radio, .checkbox {display:inline-block;}
 }
-@media (max-width:480px){
-      .radio, .checkbox {display:inline-block;}
+@media (max-width:480px)
+{
+  
+.form-signin {
+    width: 99%!important;
+    margin: 0px;
+  }
+  .radio, .checkbox {display:inline-block;}
   .freshwidget-theme {display:none!important;}
   .list-options.hidden-xs {display:inline;}
   .event-list .promoteButton {display:none;}
@@ -1180,11 +1194,12 @@ a.duplicateButton {
       position: relative;
       top: 0;
   }
-}
+
 
 #resetPasswordModal {
   input {
     width: 100%;
     max-width: 400px;
   }
+}
 }
