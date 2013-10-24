@@ -33,9 +33,9 @@ module.exports = class Register extends View
   register: (e) ->
     e.preventDefault()
     @clearErrors()
-    uname = @$el.find('.username').val()
-    pword = @$el.find('.password').val()
-    pwordconfirm =@$el.find('.password-confirm').val()
+    uname = @$el.find('.username:visible').val()
+    pword = @$el.find('.password:visible').val()
+    pwordconfirm = @$el.find('.password-confirm:visible').val()
     if uname and pword and pwordconfirm
       if pword != pwordconfirm
         @showError "Passwords do not match.", ['password', 'password-confirm']
