@@ -47,11 +47,11 @@ module.exports = class Login extends View
         onError: (msg) =>
           @publishEvent 'stopWaiting'
           @$el.find('.alert').empty()
-          @$el.find('.alert').addClass('alert-danger').html("<span class='error'>#{msg}</span>")              
+          @$el.find('.alert').addClass('alert-danger').html("<span class='error'>#{msg}</span>").show()              
       }
     else
       @$el.find('.alert').empty()
-      @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>")
+      @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>").show()
 
   forgotPassword: (e) ->
     e.preventDefault() if e
