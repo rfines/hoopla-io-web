@@ -77,9 +77,11 @@ module.exports = class Business extends Model
   imageUrl: (options) ->
     media = @get('media')
     if media?.length > 0
-      return $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: options.height, width: options.width})  
+      imgUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: options.height, width: options.width})  
+      imgUrl = imgUrl.replace("w_#{options.width}", "w_#{options.width},f_auto")
+      return imgUrl
     else
-      return undefined
+      return undefined     
 
   clone: ->
     json = @toJSON()
