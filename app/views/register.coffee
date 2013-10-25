@@ -7,7 +7,7 @@ module.exports = class Register extends View
   autoRender: false
 
   events:
-    'click .btn' : 'register'
+    'click .btn.signUp' : 'register'
 
   initialize: ->
     super
