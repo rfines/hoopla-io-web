@@ -22,8 +22,10 @@
             {{/if}}
           </div>
           <div class="col-sm-8 col-xs-12  business-name">
-            {{businessName}}  
-             <br /> Hosted at {{hostName}}              
+            {{businessName}}
+            {{#if hostName}}  
+              <br /> Hosted at {{hostName}}
+            {{/if}}            
           </div>
         </div>
         <div class="col-sm-1  col-xs-1 eventListActions">
@@ -54,7 +56,9 @@
         <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
       </div>
       <div class="col-sm-3 col-xs-3  business-name">{{businessName}}
-      <br /> Hosted at {{hostName}}
+        {{#if hostName}}  
+          <br /> Hosted at {{hostName}}
+        {{/if}}  
       </div>
       <div class="col-md-1 col-lg-1 eventListActions">
         <a class="deleteButton" title="Delete This Event"><i class="deleteItem glyphicon glyphicon-remove-circle"></i></a>	    
