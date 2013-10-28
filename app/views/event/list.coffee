@@ -13,6 +13,10 @@ module.exports = class List extends ListView
   listRoute : 'myEvents'
   allowCreate = false
 
+  initialize: (options) ->
+    super(options)
+    @timeFilter = options.timeFilter
+
   attach: ->
     super()
     @subscribeEvent 'closeOthers',=>
@@ -25,12 +29,13 @@ module.exports = class List extends ListView
     else if @params?.success
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'success', @params.success 
-    if location.pathname.split('/').indexOf('past') > -1
-      @$el.find('.pastEvents').addClass('active')
-      @$el.find('.futureEvents').removeClass('active')
+    if @timeFilter is 'past' 
+      @$el.find('.pastEvents').addClass('btn-info').removeClass('btn-default')
+      @$el.find('.futureEvents').addClass('btn-default').removeClass('btn-info')
     else
-      @$el.find('.pastEvents').removeClass('active')
-      @$el.find('.futureEvents').addClass('active')
+      console.log 'future'
+      @$el.find('.futureEvents').addClass('btn-info').removeClass('btn-default')
+      @$el.find('.pastEvents').addClass('btn-default').removeClass('btn-info')    
   
   getTemplateData:->
     td = super()

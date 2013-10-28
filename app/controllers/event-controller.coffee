@@ -13,7 +13,7 @@ module.exports = class EventController extends Controller
             filterer: (item, index) ->
               item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
             params:params
-            options: 'future'                
+            timeFilter: 'future'                
             
 
   past: ->
@@ -27,7 +27,7 @@ module.exports = class EventController extends Controller
           collection : collection
           filterer: (item, index) ->
             not item.nextOccurrence() or item.nextOccurrence().isBefore(moment())
-          options: 'past'  
+          timeFilter: 'past'  
                 
   promote: (params) ->
     CreatePromotionRequest = require 'views/event/createPromotionRequest'
