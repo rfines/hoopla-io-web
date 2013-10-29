@@ -19,10 +19,12 @@ module.exports = class ListItem extends ListItemView
     else
       td.imageUrl = ""
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
-    if @model.get('host')
+    if @model.has('host')
       hName = Chaplin.datastore.venue.get(@model.get('host')).get('name')
-      if hName != td.businessName
-        td.hostName = hName
+      if hName and hName != td.businessName
+        td.hosted = "#{hName}"
+        td.created = "#{td.businessName}"
+
     if Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets').length <= 0
       td.allowPromotion = false
     else
