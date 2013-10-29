@@ -22,19 +22,12 @@
             {{/if}}
           </div>
           <div class="col-sm-8 col-xs-12  business-name">
-<<<<<<< HEAD
-            {{businessName}}
-            {{#if hostName}}  
-              <br /> Hosted at {{hostName}}
-            {{/if}}            
-=======
             {{#if hosted}}  
               <strong>Venue: </strong>{{hosted}}
               <strong>Created by: </strong>{{created}}
             {{else}}
               {{businessName}}
             {{/if}}        
->>>>>>> rob
           </div>
         </div>
         <div class="col-sm-1  col-xs-1 eventListActions">
@@ -64,18 +57,12 @@
       <div class="col-md-3 col-lg-3  event-title">
         <a class="inlineEditButton" data-toggle="collapse" title="Click to edit this event" data-parent="#accordion" href="#collapse{{_id}}">{{name}}</a>
       </div>
-<<<<<<< HEAD
-      <div class="col-sm-3 col-xs-3  business-name">{{businessName}}
-        {{#if hostName}}  
-          <br /> Hosted at {{hostName}}
-=======
       <div class="col-sm-3 col-xs-3  business-name">
         {{#if hosted}}  
           <strong>Venue: </strong>{{hosted}}
           <strong>Created by: </strong>{{created}}
         {{else}}
           {{businessName}}
->>>>>>> rob
         {{/if}}  
       </div>
       <div class="col-md-1 col-lg-1 eventListActions">
