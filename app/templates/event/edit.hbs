@@ -3,10 +3,12 @@
   <form class="form-inline" role="form">
     <div class="row">
       <div class="col-8">
+
         {{#if isNew}}
         <legend><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event <span class="required text pull-right">*required</span></legend>
         {{else}}
         <legend><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit Event <span class="required text pull-right">*required</span></legend>
+<hr>
         {{/if}}
         {{#if isNew}}
         <div class="col-md-4 {{#if hasSingleBusiness}}hide{{/if}}">
@@ -102,11 +104,11 @@
               <option value="{{id}}">{{attributes.name}}</option>
             {{/each}}                
           </select>
-          <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address"><i class="glyphicon glyphicon-plus pull-right"></i></a> 
+          <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="right" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
         </div>
         <div class="custom_venue" style="display:none">
           <input type="text" class="form-control hostAddress" name="hostAddress" />
-          <a class="venueButton" data-toggle="tooltip" title="Click here to choose a venue from a list."><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
+          <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
         </div>
       </div>
         
@@ -121,7 +123,7 @@
       </div>            
     </div>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-5">
         <div>
           <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
           <textarea class="form-control description" name="description" placeholder="Description"></textarea>
@@ -157,26 +159,23 @@
 
          </div>
          <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
+        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label>
       </div>
-<hr>
-      <div class="col-md-4 promotion-selection hidden-xs">
-        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media</label>
-      </div>
-      <div class="col-md-4 hidden-xs edit-actions">
-         <div><a type="cancel" class="btn btn-default pull-right cancel">Cancel</a>&nbsp;
+      <div class="col-md-3 col-sm-4 hidden-xs controls">
+         <div><a type="cancel" class="btn btn-default cancel pull-right">Cancel</a>&nbsp;
          {{#if isNew}}
-          <a type="submit" class="btn saveButton">Create</a>
+          <a type="submit" class="btn saveButton pull-right">Create</a>
         {{else}}
-          <a type="submit" class="btn saveButton">Update</a>
+          <a type="submit" class="btn saveButton pull-right">Update</a>
         {{/if}}
          </div>
 </div>
-		<div class="col-md-4 hidden-md hidden-sm hidden-lg edit-actions mobile">
-	         <div><a type="cancel" class="btn btn-default btn-block">Cancel</a>&nbsp;
+		<div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
+	         <div><a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
 	         {{#if isNew}}
-	          <a type="submit" class="btn btn-success btn-block saveButton">Create</a>
+	          <a type="submit" class="btn btn-success btn-block">Create</a>
 	        {{else}}
-	          <a type="submit" class="btn btn-success btn-block saveButton">Update</a>
+	          <a type="submit" class="btn btn-success btn-block">Update</a>
 	        {{/if}}
 	         </div>
       </div>
@@ -193,7 +192,7 @@
       </div>
       <div class="modal-body library-contents">
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer btn-group">
         <button type="button" class="btn btn-info">Save changes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>

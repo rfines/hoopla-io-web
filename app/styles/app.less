@@ -581,7 +581,11 @@ font-family: 'museo';}
     .row div {
         margin-bottom: 10px!important;
     }
-    
+    .row {position:relative;}
+    }
+    div.controls {position: absolute;
+    bottom: 0px;
+    right: 0px;
     }
     h2 {
         font-family: 'museo';
@@ -596,7 +600,7 @@ font-family: 'museo';}
     }
     .eventDate {
       font-family: 'quicksandbold';
-      color: #06A1AF;
+      color: @gray;
       margin: 13px 0px 0px 0px;
       font-size: 1.2em;
     }
@@ -799,6 +803,11 @@ img.placeholderImage {width:125px;height:100px;}
     }
    
     form {
+      .promotion-selection label {font-family:'quicksand';font-weight:normal;}
+       input.promote-checkbox {margin-right: 8px;
+       position: relative;
+       bottom: 2px;}
+        label .tooltip {font-family: 'quicksand'; font-weight:normal;min-width:90px!important;}
         margin-left: 40px;
         .row div {
             margin-bottom: 23px;
@@ -806,11 +815,23 @@ img.placeholderImage {width:125px;height:100px;}
         i {
             margin-right: 10px;
             opacity: 0.5;
+            color:#fff;
         }
-        i.glyphicon-plus {
+        input.hostAddress {width:90%!important;}
+        i.glyphicon-plus, i.glyphicon-minus {
             opacity: 1.0;
             font-size: 1.2em;
         }
+         a.venueButton{
+           position: relative;
+           bottom: -5px;
+           left: 6PX; 
+         }
+          a.addressButton {
+            position: relative;
+            bottom: 0px;
+            left: 6PX; 
+          }
         .well {
             border: 1px dashed #BEBDBD;
             margin-bottom: 3px;
@@ -822,21 +843,19 @@ img.placeholderImage {width:125px;height:100px;}
           font-style: italic;
         }
         .saveButton {
-            position: relative;
-            top: -100px;
+           
             width: 94px;
             height: 136px;
             left: 151px;
             line-height: 202px;
-            background: url('/client/images/publish_no_howie.png') 0px 0px no-repeat transparent;
+            background: url('/client/images/publish_update_howie.png') 0px -145px no-repeat transparent;
         }
         .saveButton:hover {
-            position: relative;
-            top: -100px;
             width: 94px;
             height: 136px;
-            background: url('/client/images/publish_howie.png') 0px 0px no-repeat transparent;
+            background: url('/client/images/publish_update_howie.png') 0px 0px no-repeat transparent;
         }
+        a.cancel {position:relative;bottom:-100px;}
         img.currentImage {
           width: 100%;
           margin-bottom: 9px;
@@ -865,7 +884,7 @@ img.placeholderImage {width:125px;height:100px;}
             }
         }
        
-        .edit-actions{position:relative;top:85px;left:10px;}
+        .edit-actions{}
     }
 }
  .no-bottom-margin div {margin-bottom:8px!important;}
@@ -1101,6 +1120,7 @@ border-color: @gray-dark;}
 margin-left:0px;
     height: auto;
     }
+
   .event-title, .business-name, .eventListActions {
       display: table;
       margin-top: 0px;
@@ -1111,6 +1131,10 @@ margin-left:0px;
       a.scheduleText {display:block;}
   }
 .list-options.hidden-xs {display:none;}
+.event-edit div.controls {float:none;
+  position:relative;
+  left:70%;
+}
 }
 @media (max-width: 767px) {
   .topNav img.logo {
@@ -1123,6 +1147,16 @@ margin-left:0px;
 .event-list h3 {
   font-size:18px;
 }
+.event-edit form a.venueButton {
+position: relative;
+bottom: 28px;
+left: 0PX;
+}
+.event-edit div.controls {float:none;
+  position:relative;
+  left:0%;
+}
+.event-edit form a.cancel {position:relative;bottom:0px;}
 .event-list .promoteButton {display:none;}
 .event-title, .business-name, .eventListActions {
     display: table;
