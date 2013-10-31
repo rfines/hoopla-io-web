@@ -36,8 +36,9 @@ module.exports = class Login extends View
     if uname and pword
       @publishEvent 'startWaiting'
       @model.getToken uname, pword, {
-        onSuccess: =>
-          console.log 'success'
+        onSuccess: =>  
+          @setIdentity()
+          @publishEvent "trackEvent", 'Login'
           $('#loginModal').modal('hide')
           if Chaplin.datastore.business.hasNone()
             Chaplin.helpers.redirectTo {url: 'myBusinesses'}
@@ -52,6 +53,13 @@ module.exports = class Login extends View
     else
       @$el.find('.alert').empty()
       @$el.find('.alert').addClass('alert-danger').html("<span class='error'>A username and password is required</span>").show()
+
+  setIdentity: =>
+    mixpanel.identify(Chaplin.datastore.user.get('email'));
+    mixpanel.people.set({
+        "$email": Chaplin.datastore.user.get('email')
+        "$last_login": new Date().toISOString()
+    });      
 
   forgotPassword: (e) ->
     e.preventDefault() if e

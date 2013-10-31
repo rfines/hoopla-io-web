@@ -33,6 +33,7 @@ module.exports = class User extends Model
           user.id = body.user
           user.fetch
             success: =>
+              Chaplin.datastore.user = user
               @loginSuccess(user, options)
         error: (body,response, xHr) =>
           if body.responseText
@@ -45,6 +46,7 @@ module.exports = class User extends Model
     Chaplin.datastore.loadEssential
       success: =>
         if options?.onSuccess
+          console.log 'onSuccess'
           options.onSuccess()
         else
           if Chaplin.datastore.business.hasNone()

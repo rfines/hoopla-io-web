@@ -260,6 +260,9 @@ module.exports = class EventEditView extends View
     @publishEvent 'stopWaiting'
     if $('.promote-checkbox').is(':checked')
       if @isNew
+        tracking = {"email" : Chaplin.datastore.user.get('email')}
+        tracking["#{@noun}-name"] = @model.get('name')
+        @publishEvent 'trackEvent', "create-#{@noun}", tracking      
         @collection.add @model
         @publishEvent '#{@noun}:created', @model
       Chaplin.helpers.redirectTo {url: "/event/#{@model.id}/promote"}

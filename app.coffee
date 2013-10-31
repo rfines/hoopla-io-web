@@ -67,6 +67,8 @@ app.post "/register", (req, res) ->
         googleAnalytics : CONFIG.googleAnalytics
         user : auth.user
         authToken : auth.authToken
+        userEmail : req.body.email
+        mixPanelToken : CONFIG.mixPanelToken
       res.render "index.hbs", data
 
 app.get "/*", (req, res) ->
@@ -78,6 +80,7 @@ app.get "/*", (req, res) ->
     baseUrl : CONFIG.baseUrl
     wpUrl : CONFIG.wpUrl
     googleAnalytics : CONFIG.googleAnalytics
+    mixPanelToken : CONFIG.mixPanelToken
   res.render "index.hbs", data
 
 app.listen(port);

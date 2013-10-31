@@ -97,6 +97,9 @@ module.exports = class InlineEdit extends View
     @publishEvent 'stopWaiting'
     $("html, body").animate({ scrollTop: 0 }, "slow");
     if @isNew
+      tracking = {"email" : Chaplin.datastore.user.get('email')}
+      tracking["#{@noun}-name"] = @model.get('name')
+      @publishEvent 'trackEvent', "create-#{@noun}", tracking    
       @collection.add @model
       @publishEvent "#{@noun}:created", @model
       @dispose()

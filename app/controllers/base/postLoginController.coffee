@@ -20,7 +20,8 @@ module.exports = class PostLoginController extends Chaplin.Controller
           user.id = $.cookie('user')
           user.fetch
             success: =>
-              Chaplin.datastore.user = user
+              Chaplin.datastore.user = user   
+              @setIdentity()           
               @compositions()
               @publishEvent 'navigation:loggedIn'
             error: =>
@@ -28,9 +29,16 @@ module.exports = class PostLoginController extends Chaplin.Controller
       else
         @goToLogin()
     else
-      console.log 'here we go'
+      @setIdentity()
       @compositions()
       @publishEvent 'navigation:loggedIn'
+
+  setIdentity: =>
+    mixpanel.identify(Chaplin.datastore.user.get('email'));
+    mixpanel.people.set({
+        "$email": Chaplin.datastore.user.get('email')
+        "$last_login": new Date().toISOString()
+    });
 
   compositions: =>
     @compose 'site', SiteView

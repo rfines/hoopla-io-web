@@ -11,9 +11,15 @@ module.exports = class Register extends View
 
   initialize: ->
     super
-    if window.user and window.authToken
+    if window.user and window.authToken and window.userEmail
       $.cookie('token', window.authToken, path: '/')
       $.cookie('user', window.user, path: '/')
+      mixpanel.identify(window.userEmail);
+      mixpanel.people.set({
+        "$email": window.userEmail
+        "$last_login": new Date().toISOString()
+      });
+      @publishEvent 'trackEvent', 'Register'
       window.location = '/'
     else
       @model = new User()
@@ -47,7 +53,13 @@ module.exports = class Register extends View
           email: uname
           password: pword
         @model.save  {}, {
-          success: (model, response, options)-> 
+          success: (model, response, options)=> 
+            mixpanel.identify(uname);
+            mixpanel.people.set({
+              "$email": uname
+              "$last_login": new Date().toISOString()
+            });
+            @publishEvent 'trackEvent', 'Register'          
             model.getToken uname, pword    
           error: (err, xhr, options) => 
             @showError xhr.responseJSON

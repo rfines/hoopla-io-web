@@ -18,6 +18,7 @@ module.exports = class SiteView extends View
   listen:
     'showForgotPassword mediator' : 'forgotPassword'
     'showResetPassword mediator' : 'resetPassword'
+    'trackEvent mediator' : 'trackEvent'
 
   forgotPassword: (e) ->
     console.log 'forgot password listener triggered'
@@ -29,3 +30,6 @@ module.exports = class SiteView extends View
     e.preventDefault() if e
     @subview('resetPasswordModal', new ResetPassword({container: $('#resetPasswordModal .modal-content')}))  
     $('#resetPasswordModal').modal('show')        
+
+  trackEvent: (event, data) ->
+    mixpanel.track(event, data)
