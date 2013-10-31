@@ -48,6 +48,12 @@ module.exports = class Register extends View
           password: pword
         @model.save  {}, {
           success: (model, response, options)-> 
+            window.Intercom('boot', {
+                app_id: 'ee8e4a26afa4da9fcff7ba287e0cb56a2e616c75',
+                email: uname,
+                created_at: new Date().toISOString()
+              }
+            );
             model.getToken uname, pword    
           error: (err, xhr, options) => 
             @showError xhr.responseJSON
