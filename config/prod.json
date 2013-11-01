@@ -24,5 +24,7 @@
   "googleAnalytics" : {
     "code" : "UA-43137412-1"
   },
-  "secure" : true
+  "secure" : true,
+  "mixPanelToken" : "1402b949835bbf82c9a72a01a4fa8962"
 }  
+
