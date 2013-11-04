@@ -61,8 +61,11 @@ module.exports = class Register extends View
             });
             @publishEvent 'trackEvent', 'Register'          
             model.getToken uname, pword    
-          error: (err, xhr, options) => 
-            @showError xhr.responseJSON
+          error: (err, xhr, options) =>
+            if xhr.responseJSON?.message is 'Validation failed'
+              @showError 'A valid email address is required.'
+            else
+              @showError xhr.responseJSON
         }
     else
       @showError "All fields are required", ['email', 'password', 'password-confirm']
