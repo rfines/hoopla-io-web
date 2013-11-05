@@ -203,7 +203,6 @@ module.exports = class EventEditView extends View
 
   updateModel: =>
     @address()
-    console.log @$el.find("textarea[name='description']").val()
     if @$el.find('input.repeats:checked').val()
       @model.set
         tzOffset : moment().zone()

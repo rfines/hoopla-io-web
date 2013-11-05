@@ -71,21 +71,15 @@ module.exports = class InlineEdit extends View
         placeholderText: 'Description'
         cleanUp:true
       )
-      console.log editor
-      editor.on 'change:composer', (text)->
-        console.log text
-        el = $("textarea[name=description]")
-        console.log editor.getValue()
-        console.log el
-        if el
-          el.text(editor.getValue())
-
+      
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
-    console.log @model.validate()
     if @model.validate()
       for x in _.keys(@model.validate())
-        @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
+        if x is 'description'
+          $('.description-container').addClass('has-error')
+        else
+          @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
       return false
     else
       return true    
@@ -102,7 +96,6 @@ module.exports = class InlineEdit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
-    console.log @validate()
     if @validate() and not @saving
       @saving = true
       if @hasMedia and $("#filelist div").length > 0
