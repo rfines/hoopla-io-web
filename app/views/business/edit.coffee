@@ -27,6 +27,8 @@ module.exports = class BusinessEditView extends View
   updateModel: ->
     @setSmLinks()
     @setLocation()
+    @model.set
+      description : @$el.find("textarea[name='description']").val()
 
   setLocation: ()->
     @model.set
