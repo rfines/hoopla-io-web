@@ -203,17 +203,21 @@ module.exports = class EventEditView extends View
 
   updateModel: =>
     @address()
+    console.log @$el.find("textarea[name='description']").val()
     if @$el.find('input.repeats:checked').val()
       @model.set
         tzOffset : moment().zone()
         schedules: @getSchedules()
         fixedOccurrences :[]
+        description : @$el.find("textarea[name='description']").val()
     else
       zone = moment(@getFixedOccurrences()?[0].start).zone()
       @model.set
         tzOffset : zone
         fixedOccurrences : @getFixedOccurrences()    
         schedules :[]
+        description : @$el.find("textarea[name='description']").val()
+
 
   getSchedules: =>
     startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
