@@ -51,10 +51,38 @@ module.exports = class InlineEdit extends View
       setTimeout(()=>
         @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
       , 100)
+    if @$el.find('#description-textarea').length >0
+      wysihtml5ParserRules = tags:
+        strong: { "rename_tag": "b" }
+        b: 1
+        i: 1
+        em: 1
+        br:1
+        p:1
+        div: 1
+        span: 1
+        ul: 1
+        li: 1
 
+      editor = new wysihtml5.Editor("description-textarea",
+        toolbar: "toolbar"
+        parserRules: wysihtml5ParserRules
+        autoLink:false
+        placeholderText: 'Description'
+        cleanUp:true
+      )
+      console.log editor
+      editor.on 'change:composer', (text)->
+        console.log text
+        el = $("textarea[name=description]")
+        console.log editor.getValue()
+        console.log el
+        if el
+          el.text(editor.getValue())
 
   validate: ->
     @$el.find('.has-error').removeClass('has-error')
+    console.log @model.validate()
     if @model.validate()
       for x in _.keys(@model.validate())
         @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
@@ -74,6 +102,7 @@ module.exports = class InlineEdit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
+    console.log @validate()
     if @validate() and not @saving
       @saving = true
       if @hasMedia and $("#filelist div").length > 0

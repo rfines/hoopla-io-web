@@ -16,8 +16,15 @@
       <div class="geoLocation">
       </div> 
       <div>
-        <label><i class="glyphicon glyphicon-pencil"></i>Business Description<span class="required">*</span></label>
-        <textarea id="description-textarea"  name="description" class="form-control description" placeholder="Enter your description ..."></textarea>     
+        <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
+        <div id="toolbar" style="display: none;">
+            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B">Bold</a> 
+            <a class="btn btn-small btn-default" data-wysihtml5-command="italic" title="CTRL+I">  Italic</a>
+            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on">List</a>
+            <a class="btn btn-small btn-default" data-wysihtml5-command="insertSpeech">Speech</a>
+          </div>
+        
+        <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
       </div>          
       <div>
         <label class=""><i class="glyphicon glyphicon-globe"></i>Business Website</label>
