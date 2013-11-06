@@ -118,21 +118,22 @@
         <input type="text" name="cost" value="0" class="form-control" placeholder="0.00"/>
       </div>
       <div class="col-md-2">
-        <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticketing Link</label>
-        <input type="text" name="ticketUrl" class="form-control" placeholder="Ticketing Link"/>        
+        <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
+        <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
       </div>            
     </div>
     <div class="row">
       <div class="col-md-5">
         <div class="description-container">
         <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
- <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;">
-            <div class="btn-group">
-            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B">Bold</a> 
-            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I">  Italic</a>
-            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on">List</a>
-            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech">Speech</a></div>
-
+ <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;margin-bottom:0px;">
+ 		<nav class="nav navbar-form"> 
+			<div class="btn-group pull-right">
+            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B" title="Bold Text"><i class="glyphicon glyphicon-bold"></i></a> 
+            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I" title="Italicize Text"><i class="glyphicon glyphicon-italic"></i></a>
+            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on" title="Create a List"><i class="glyphicon glyphicon-list"></i></a>
+            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech" title="Dictate your event description"><img class="microphone" src="/client/images/microphone_icon.png"></a>
+		</nav>
           </div>
 
           <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
@@ -141,11 +142,11 @@
         	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
           <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
         </div>
-        <div>
+        <div class="col-md-6 col-sm-12 event-contact">
       		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
   	      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
       	</div>
-      	<div>
+      	<div class="col-md-6 col-sm-12 event-phone">
   			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
   		    <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
     		</div>
@@ -165,10 +166,11 @@
             <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
             {{/if}}
           </div>
-
+			
          </div>
          <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
-        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label>
+        
+<label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label>
       </div>
       <div class="col-md-3 col-sm-4 hidden-xs controls">
          <div><a type="cancel" class="btn btn-default cancel pull-right">Cancel</a>&nbsp;
