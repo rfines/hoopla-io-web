@@ -5,7 +5,7 @@
       <div class="col-8">
 
         {{#if isNew}}
-        <legend><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event <span class="required text pull-right">*required</span></legend>
+        <legend>Create New Event <span class="required text pull-right">*required</span></legend>
         {{else}}
         <legend><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit Event <span class="required text pull-right">*required</span></legend>
 <hr>
@@ -137,19 +137,9 @@
           </div>
 
           <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
+
         </div>     
-        <div class="event-website">
-        	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-          <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
-        </div>
-        <div class="col-md-6 col-sm-12 event-contact">
-      		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-  	      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-      	</div>
-      	<div class="col-md-6 col-sm-12 event-phone">
-  			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-  		    <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-    		</div>
+       
       </div>
       <div class="col-md-4" id="image-chooser-container">
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
@@ -170,24 +160,39 @@
          </div>
          <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
         
-<label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label>
+
       </div>
-      <div class="col-md-3 col-sm-4 hidden-xs controls">
-         <div><a type="cancel" class="btn btn-default cancel pull-right">Cancel</a>&nbsp;
+      <div class="col-md-3 controls">
+	 <div class="event-website">
+        	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+          <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+        </div>
+        <div class="event-contact">
+      		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+  	      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+      	</div>
+      	<div class="event-phone">
+  			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+  		    <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+    		</div>
+         <div>
+<div><label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label></div>
          {{#if isNew}}
-          <a type="submit" class="btn saveButton pull-right">Create</a>
+          <a type="submit" class="btn saveButton pull-right hidden-xs">Create</a>
         {{else}}
-          <a type="submit" class="btn saveButton pull-right">Update</a>
+          <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
         {{/if}}
+<a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
          </div>
 </div>
 		<div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
-	         <div><a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
+	         <div>
 	         {{#if isNew}}
 	          <a type="submit" class="btn btn-success btn-block">Create</a>
 	        {{else}}
 	          <a type="submit" class="btn btn-success btn-block">Update</a>
 	        {{/if}}
+	<a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
 	         </div>
       </div>
     </div>

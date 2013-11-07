@@ -577,7 +577,6 @@ a {
     border-top-left-radius: 4px;
     margin:0px;
 }
-
 iframe body.wysihtml5-editor {
   font-family:'quicksand'!important;
   border:1px solid rgb(204,204,204)!important;
@@ -595,6 +594,7 @@ iframe.wysihtml5-sandbox {
 }
 .event-edit iframe {
 font-family:'quicksand';
+margin-bottom: 10px!important;
 }
 .account-manage {
   margin-top: 25px;
@@ -618,6 +618,11 @@ font-family: 'museo';}
    a {
      padding: 9px 12px;
    }
+   a.btn-default {
+      padding: 9px 12px;
+      color:@gray-light;
+      opacity:.6;
+    }
     }
   .event-list-controls {}
    
@@ -630,8 +635,9 @@ font-family: 'museo';}
    font-size: 1.2em;}
    
   .event-edit form {
+    legend{margin-bottom: 40px;}
     .edit-actions{position:relative;top:90px;left:0px;}
-   textarea.description {height: 101px;}
+   textarea.description {height: 154px;margin-bottom:20px!important;}
     margin-left:0px!important;
     padding:15px;
     .row div {
@@ -639,9 +645,7 @@ font-family: 'museo';}
     }
     .row {position:relative;}
     }
-    div.controls {position: absolute;
-    bottom: 0px;
-    right: 0px;
+    div.controls {
     }
     h2 {
         font-family: 'museo';
@@ -846,8 +850,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         color: #999;
     }
 }
-.event-contact {padding-left:0px;}
-.event-phone {padding-right:0px;}
+
 .event-edit {
     h2 {
         font-family: 'museo';
@@ -945,7 +948,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
     }
 }
  .no-bottom-margin div {margin-bottom:8px!important;}
-#drop-target p span {font-size:2em;font-family:'museoLight'; color:@gray-light;}
+#drop-target p span {font-size:1.3em;font-family:'museoLight'; color:@brand-primary;}
 #drop-target p em {font-family:'museoLight'; color:@gray-light;}
 .business-edit {
     .form-group {
@@ -1189,18 +1192,13 @@ margin-left:0px;
       a.scheduleText {display:block;}
   }
 .list-options.hidden-xs {display:none;}
-.event-edit div.controls {float:none;
-  position:relative;
-  left:70%;
-}
 }
 @media (max-width: 767px) {
   .topNav img.logo {
       margin: 12px 0;
            width:25%;
   }
-.event-contact {padding-right:0px;}
-.event-phone {padding-left:0px;}
+
 .event-list h2 {
   font-size:24px;
 }
@@ -1212,10 +1210,7 @@ position: relative;
 bottom: 28px;
 left: 0PX;
 }
-.event-edit div.controls {float:none;
-  position:relative;
-  left:0%;
-}
+
 .event-edit form a.cancel {position:relative;bottom:0px;}
 .event-list .promoteButton {display:none;}
 .event-title, .business-name, .eventListActions {
