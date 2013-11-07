@@ -15,7 +15,7 @@ module.exports = class ListItem extends ListItemView
     td.startTimeText = "#{@model.nextOccurrence()?.format("h:mm A")} - #{@model.nextOccurrenceEnd()?.format("h:mm A")}"
     if @model.get('media')?.length >0
       td.imageUrl =$.cloudinary.url(ImageUtils.getId( @model.get('media')[0]?.url), {crop: 'fill', height: 100, width: 125})
-      td.imageUrl = td.imageUrl.replace('w_125', 'w_125,f_auto')
+      td.imageUrl = td.imageUrl.replace('w_125', 'w_125,f_auto,q_85')
     else
       td.imageUrl = ""
     td.businessName = Chaplin.datastore.business.get(@model.get('business')).get('name')
