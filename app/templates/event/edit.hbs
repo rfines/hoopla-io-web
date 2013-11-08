@@ -5,9 +5,9 @@
       <div class="col-8">
 
         {{#if isNew}}
-        <legend><img src="/client/images/icon-magic-wand.png">&nbsp;Create New Event <span class="required text pull-right">*required</span></legend>
+        <legend>Create New Event <span class="required text pull-right">*required</span></legend>
         {{else}}
-        <legend><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit Event <span class="required text pull-right">*required</span></legend>
+        <legend>Edit Event <span class="required text pull-right">*required</span></legend>
 <hr>
         {{/if}}
         {{#if isNew}}
@@ -118,37 +118,28 @@
         <input type="text" name="cost" value="0" class="form-control" placeholder="0.00"/>
       </div>
       <div class="col-md-2">
-        <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticketing Link</label>
-        <input type="text" name="ticketUrl" class="form-control" placeholder="Ticketing Link"/>        
+        <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
+        <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
       </div>            
     </div>
     <div class="row">
       <div class="col-md-5">
         <div class="description-container">
         <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
- <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;">
-            <div class="btn-group">
-            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B">Bold</a> 
-            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I">  Italic</a>
-            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on">List</a>
-            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech">Speech</a></div>
-
+ <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;margin-bottom:0px;">
+ 		<nav class="nav navbar-form"> 
+			<div class="btn-group pull-right">
+            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B" title="Bold Text"><i class="glyphicon glyphicon-bold"></i></a> 
+            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I" title="Italicize Text"><i class="glyphicon glyphicon-italic"></i></a>
+            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on" title="Create a List"><i class="glyphicon glyphicon-list"></i></a>
+            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech" title="Dictate your event description"><img class="microphone" src="/client/images/microphone_icon.png"></a>
+		</nav>
           </div>
 
           <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
+<div><label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label></div>
         </div>     
-        <div class="event-website">
-        	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-          <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
-        </div>
-        <div>
-      		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-  	      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-      	</div>
-      	<div>
-  			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-  		    <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-    		</div>
+       
       </div>
       <div class="col-md-4" id="image-chooser-container">
         <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
@@ -165,27 +156,43 @@
             <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
             {{/if}}
           </div>
-
+			
          </div>
          <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
-        <label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label>
+        
+
       </div>
-      <div class="col-md-3 col-sm-4 hidden-xs controls">
-         <div><a type="cancel" class="btn btn-default cancel pull-right">Cancel</a>&nbsp;
+      <div class="col-md-3 controls">
+	 <div class="event-website">
+        	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+          <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+        </div>
+        <div class="event-contact">
+      		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+  	      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+      	</div>
+      	<div class="event-phone">
+  			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+  		    <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+    		</div>
+         <div>
+
          {{#if isNew}}
-          <a type="submit" class="btn saveButton pull-right">Create</a>
+          <a type="submit" class="btn saveButton pull-right hidden-xs">Create</a>
         {{else}}
-          <a type="submit" class="btn saveButton pull-right">Update</a>
+          <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
         {{/if}}
+<a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
          </div>
 </div>
 		<div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
-	         <div><a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
+	         <div>
 	         {{#if isNew}}
 	          <a type="submit" class="btn btn-success btn-block">Create</a>
 	        {{else}}
 	          <a type="submit" class="btn btn-success btn-block">Update</a>
 	        {{/if}}
+	<a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
 	         </div>
       </div>
     </div>

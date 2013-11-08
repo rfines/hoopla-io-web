@@ -3,7 +3,7 @@ html {
     height: 100%;
 }
 body {
-    font-family: 'quicksandbook';
+    font-family: 'quicksand';
     background: #a0d8e8; /* Old browsers */
     background: -moz-radial-gradient(center, ellipse cover, #a0d8e8 0%, #52c5e5 48%, #00aec1 100%); /* FF3.6+ */
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#a0d8e8), color-stop(48%,#52c5e5), color-stop(100%,#00aec1)); /* Chrome,Safari4+ */
@@ -85,7 +85,7 @@ border-radius:4px;
 }
 
 .btn-success.createButton, .createButton.btn-success:hover  {font-size:20px;}
-.createButton.hidden-sm i {font-size:32px;}
+.createButton.hidden-sm i {font-size:32px;color: #fff;}
 .preloader {
   position: fixed;
   width: 100%;
@@ -152,7 +152,11 @@ font-size:20px;
 }
 .signUpArea .page-header{border-bottom:0px;}
 .page-title h2 {color:@brand-success;line-height:30px;margin-top:12px;font-family:'museoLight';}
-iframe {border:0px;overflow:hidden;max-width: 470px;margin-top: 31px;min-height: 360px;}
+.widget-list iframe {border:0px;overflow:hidden;max-width: 470px;margin-top: 31px;min-height: 360px;}
+.widget-list i.deleteItem {
+top: 10px;
+right: 55px;
+}
 .popover {padding-bottom: 10px;}
 #site-container {min-height: 100%;}
 .register.container {margin-top:60px;}
@@ -282,10 +286,17 @@ label {
     text-decoration: none;
   }
 }
-form .has-error .form-control {box-shadow: inset 0 1px 15px #b94a48;
-border: 1px dashed #ECB0B0;}
-form .has-error {box-shadow: inset 0 1px 15px #b94a48;
-border: 2px dashed #ECB0B0;}
+form .form-control {border:2px solid #fff;}
+
+form .has-error input,form .has-error select, form .has-error iframe,form .has-error div.chosen-drop {
+  box-shadow: inset 0 1px 15px #b94a48!important;
+  border: 2px solid #ECB0B0;
+  }
+
+form .has-error ul input{
+  box-shadow: inset 0 0px 0px transparent!important;
+  border: 0px dashed #ECB0B0!important;
+  }
 form .has-error label {font-family:'quicksandbold';}
  i.deleteItem {
     color: @gray-light;
@@ -542,6 +553,53 @@ a {
   }
  }
 }
+.event-edit form  #toolbar i {
+  color:#06A1AF;
+  font-size: 1.2em;
+  margin-right:0px;
+  opacity:1.0;
+}
+.event-edit form  #toolbar i:hover, .event-edit form  #toolbar a:hover {
+  color:@gray-dark;
+}
+
+#toolbar .navbar-form {
+    .btn {
+      border-top:0px;border-bottom:0px;
+      padding: 5px 12px 3px 12px;
+    }
+    .btn:first-child {
+      border-top-left-radius: 0px!important;
+      border-bottom-left-radius: 0px!important;
+    }
+    .btn:nth-last-child(1) {
+      border-top-right-radius: 4px!important;
+    }
+    background-color: #fff;
+    padding-right: 0px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    margin:0px;
+}
+iframe body.wysihtml5-editor {
+  font-family:'quicksand'!important;
+  border:1px solid rgb(204,204,204)!important;
+  background:transparent!important;
+  }
+iframe.wysihtml5-sandbox {
+      box-shadow: 0px 0px 0px #000000!important;
+      outline:none!important;
+      border-top-right-radius: 0px!important;
+       border-top-left-radius: 0px!important;
+      border:1px solid rgb(204,204,204)!important;
+  }
+.event-edit form .row div#toolbar, .event-list .event-edit form .row div.btn-group{
+  margin-bottom:0px!important;
+}
+.event-edit iframe {
+font-family:'quicksand';
+margin-bottom: 10px!important;
+}
 .account-manage {
   margin-top: 25px;
   legend {}
@@ -564,6 +622,11 @@ font-family: 'museo';}
    a {
      padding: 9px 12px;
    }
+   a.btn-default {
+      padding: 9px 12px;
+      color:@gray-light;
+      opacity:.6;
+    }
     }
   .event-list-controls {}
    
@@ -576,8 +639,10 @@ font-family: 'museo';}
    font-size: 1.2em;}
    
   .event-edit form {
+    legend{margin-bottom: 40px;}
+    .recurringScheduleDetails {box-shadow: 0px -2px 13px #5d5f5f inset; padding: 20px 0px;margin-bottom:10px;}
     .edit-actions{position:relative;top:90px;left:0px;}
-   textarea.description {height: 101px;}
+   textarea.description {height: 154px;margin-bottom:20px!important;}
     margin-left:0px!important;
     padding:15px;
     .row div {
@@ -585,9 +650,7 @@ font-family: 'museo';}
     }
     .row {position:relative;}
     }
-    div.controls {position: absolute;
-    bottom: 0px;
-    right: 0px;
+    div.controls {
     }
     h2 {
         font-family: 'museo';
@@ -614,10 +677,11 @@ font-family: 'museo';}
       line-height:.9em;
       text-decoration: none;
     }
+    .panel-body {padding:0px!important;}
     .panel-default > .panel-heading + .panel-collapse .panel-body, .form-inline {
         background-color: #06A1AF;
         box-shadow: 0px -2px 13px #5D5F5F inset;
-        padding:0px;
+        padding:0px!important;
         label {
             color: #fff;
         }
@@ -692,7 +756,7 @@ font-family: 'museo';}
 }
 .business-edit {
    a#choose-image {
-      font-size:1.6em;
+      font-size:1.2em;
     	font-family: 'museoLight';
     }
   
@@ -792,6 +856,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         color: #999;
     }
 }
+
 .event-edit {
     h2 {
         font-family: 'museo';
@@ -806,7 +871,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
       .promotion-selection label {font-family:'quicksand';font-weight:normal;}
        input.promote-checkbox {margin-right: 8px;
        position: relative;
-       bottom: 2px;}
+       bottom: 2px;display:inline;}
         label .tooltip {font-family: 'quicksand'; font-weight:normal;min-width:90px!important;}
         margin-left: 40px;
         .row div {
@@ -820,21 +885,22 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         input.hostAddress {width:90%!important;}
         i.glyphicon-plus, i.glyphicon-minus {
             opacity: 1.0;
-            font-size: 1.2em;
+           font-size: 0.9em;
         }
          a.venueButton{
            position: relative;
            bottom: -5px;
-           left: 6PX; 
+           left: 6px; 
          }
           a.addressButton {
             position: relative;
             bottom: 0px;
-            left: 6PX; 
+            left: 6px; 
           }
         .well {
             border: 1px dashed #BEBDBD;
             margin-bottom: 3px;
+             padding: 19px 19px 31px;
             
         }
         a.showMediaLibrary {
@@ -888,7 +954,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
     }
 }
  .no-bottom-margin div {margin-bottom:8px!important;}
-#drop-target p span {font-size:2em;font-family:'museoLight'; color:@gray-light;}
+#drop-target p span {font-size:1.3em;font-family:'museoLight'; color:@brand-primary;}
 #drop-target p em {font-family:'museoLight'; color:@gray-light;}
 .business-edit {
     .form-group {
@@ -1108,7 +1174,8 @@ a {
 background-color: #b94a48;
 border-color: @gray-dark;}
 .alert {display:none;}
-.alert.alert-success,.alert.alert-danger,.alert.alert-info, {display:inline-block;}
+.alert.alert-success,.alert.alert-danger,.alert.alert-info, {display:inline-block;font-family: 'museoLight';
+padding: 9px;}
 .modal-content .alert.alert-success,.modal-content .alert.alert-danger,.modal-content .alert.alert-info, {display:block;}
 /*Popovers */
 .popover {
@@ -1131,16 +1198,17 @@ margin-left:0px;
       a.scheduleText {display:block;}
   }
 .list-options.hidden-xs {display:none;}
-.event-edit div.controls {float:none;
-  position:relative;
-  left:70%;
-}
 }
 @media (max-width: 767px) {
+  .glyphicon-plus, i.glyphicon-minus {
+      opacity: 1.0;
+     font-size: 1.3em!important;
+  }
   .topNav img.logo {
       margin: 12px 0;
            width:25%;
   }
+
 .event-list h2 {
   font-size:24px;
 }
@@ -1152,10 +1220,7 @@ position: relative;
 bottom: 28px;
 left: 0PX;
 }
-.event-edit div.controls {float:none;
-  position:relative;
-  left:0%;
-}
+
 .event-edit form a.cancel {position:relative;bottom:0px;}
 .event-list .promoteButton {display:none;}
 .event-title, .business-name, .eventListActions {

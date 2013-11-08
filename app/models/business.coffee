@@ -78,7 +78,7 @@ module.exports = class Business extends Model
     media = @get('media')
     if media?.length > 0
       imgUrl = $.cloudinary.url(ImageUtils.getId(media[0].url), {crop: 'fill', height: options.height, width: options.width})  
-      imgUrl = imgUrl.replace("w_#{options.width}", "w_#{options.width},f_auto")
+      imgUrl = imgUrl.replace("w_#{options.width}", "w_#{options.width},f_auto,q_85")
       return imgUrl
     else
       return undefined     
