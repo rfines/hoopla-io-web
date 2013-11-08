@@ -28,5 +28,11 @@
     "code" : "UA-43137412-2"
   },
   "secure" : false,
-  "mixPanelToken" : "fb1ffd84c9db9197e343b6270c3af6dc"
+  "mixPanelToken" : "fb1ffd84c9db9197e343b6270c3af6dc",
+  "monitoring": {
+    "enabled" : false,
+    "newrelic" : {
+      "licenseKey" : "5ff3e1b955ca5ebe756611df2159ed07e4edc03d"
+    }
+  } 
 }

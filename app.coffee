@@ -1,4 +1,6 @@
 CONFIG = require('config')
+if CONFIG.monitoring.enabled
+  require('newrelic')
 express = require("express")
 app = express()
 port = process.env.PORT || 3000
