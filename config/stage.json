@@ -20,5 +20,11 @@
     "access_token_url":"https://api.twitter.com/oauth/access_token",
     "callback_url": "https://dashboard-stage.hoopla.io/callbacks/oauthTwitterCallback"
   },
-  "secure" : true
+  "secure" : true,
+  "monitoring": {
+    "enabled" : true,
+    "newrelic" : {
+      "licenseKey" : "5ff3e1b955ca5ebe756611df2159ed07e4edc03d"
+    }
+  } 
 }
