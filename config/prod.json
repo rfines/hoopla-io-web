@@ -25,6 +25,12 @@
     "code" : "UA-43137412-1"
   },
   "secure" : true,
-  "mixPanelToken" : "1402b949835bbf82c9a72a01a4fa8962"
+  "mixPanelToken" : "1402b949835bbf82c9a72a01a4fa8962",
+  "monitoring": {
+    "enabled" : true,
+    "newrelic" : {
+      "licenseKey" : "0ec4ea9f55789659e4d48543beaa08795dae8968"
+    }
+  } 
 }  
 
