@@ -1,5 +1,5 @@
 {
-  "author": "Your Name",
+  "author": "Hoopla.io",
   "name": "package-name",
   "description": "Package description",
   "version": "0.0.1",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "brunch": "1.7.x",
-    "bower": "1.0.x",
+    "bower": "1.2.x",
     "coffee-script": "1.6.3",
     "javascript-brunch": ">= 1.0 < 1.8",
     "coffee-script-brunch": ">= 1.0 < 1.8",
@@ -32,7 +32,7 @@
     "request": "~2.27.0",
     "moment": "~2.1.0",
     "oauth": "~0.9.10",
-    "newrelic": "~1.1.0"
+    "newrelic": "~1.1.x"
   },
   "devDependencies": {}
 }
