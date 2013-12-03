@@ -32,7 +32,7 @@
     "request": "~2.27.0",
     "moment": "~2.1.0",
     "oauth": "~0.9.10",
-    "newrelic": "~1.1.0"
+    "newrelic": "~1.1.x"
   },
   "devDependencies": {}
 }
