@@ -29,7 +29,11 @@ module.exports.show = (req, res) ->
         res.send 500
         res.end()
       if body
-        events = JSON.parse(body)
+        events = []
+        try
+          events = JSON.parse(body)
+        catch e
+          events = body
         events = _.map events, eventTransformer.transform
         widget.height=widget.height-80
         data =
