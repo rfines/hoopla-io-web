@@ -44,8 +44,23 @@ module.exports.show = (req, res) ->
             widget: widget
           res.render "widget.hbs", data
         catch e
-          res.end()
-          
+          if body and body.length > 0
+            events = body
+            events = _.map events, eventTransformer.transform
+            widget.height=widget.height-80
+            data =
+              development: CONFIG.development
+              apiUrl : CONFIG.apiUrl
+              cloudinary : CONFIG.cloudinary
+              facebookClientId: CONFIG.facebook.key
+              baseUrl : CONFIG.baseUrl
+              events: events
+              widget: widget
+            res.render "widget.hbs", data
+            res.end()
+          else
+            res.send 200
+            res.end()
       else
         res.end()
 
