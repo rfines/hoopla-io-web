@@ -45,6 +45,7 @@ module.exports.show = (req, res) ->
           res.render "widget.hbs", data
         catch e
           res.end()
+          
       else
         res.end()
 
