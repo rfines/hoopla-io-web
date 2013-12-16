@@ -32,19 +32,19 @@ module.exports.show = (req, res) ->
         events = []
         try
           events = JSON.parse(body)
+          events = _.map events, eventTransformer.transform
+          widget.height=widget.height-80
+          data =
+            development: CONFIG.development
+            apiUrl : CONFIG.apiUrl
+            cloudinary : CONFIG.cloudinary
+            facebookClientId: CONFIG.facebook.key
+            baseUrl : CONFIG.baseUrl
+            events: events
+            widget: widget
+          res.render "widget.hbs", data
         catch e
-          events = body
-        events = _.map events, eventTransformer.transform
-        widget.height=widget.height-80
-        data =
-          development: CONFIG.development
-          apiUrl : CONFIG.apiUrl
-          cloudinary : CONFIG.cloudinary
-          facebookClientId: CONFIG.facebook.key
-          baseUrl : CONFIG.baseUrl
-          events: events
-          widget: widget
-        res.render "widget.hbs", data
+          res.end()
       else
         res.end()
 
