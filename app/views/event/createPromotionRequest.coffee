@@ -139,7 +139,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr = new PromotionRequest
         message: message
         link:link
-        caption:@event.get('name')
+        caption:@event.get('description')
         title: @event.get('name')
         pageId: page
         pageAccessToken:@pageAccessToken
@@ -159,7 +159,7 @@ module.exports = class CreatePromotionReqeust extends View
     else if time? > 0 
       d= moment(date).toDate().toISOString()
       if now >= moment(d).format('X')
-        successMessageAppend = "You chose a date in the past, your message will go out immediately."
+        successMessageAppend = "You chose a date or time in the past, your message will go out immediately."
       scheduled= new PromotionRequest
         message: message
         link:link
@@ -316,7 +316,7 @@ module.exports = class CreatePromotionReqeust extends View
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
       link:link
-      caption:@event.get('name')
+      caption:@event.get('description')
       title: name
       startTime: moment(@event.nextOccurrence()).toDate().toISOString()
       promotionTime: date

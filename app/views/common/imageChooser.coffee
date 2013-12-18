@@ -76,7 +76,7 @@ module.exports = class ImageChooser extends View
         $("#" + @file.id).html "0%"
         file.status = plupload.FAILED
         @publishEvent "message:publish", "error", "The image was not added to your media library."
-        @media = null
+        @media = undefined
 
     @uploader.init()
 
