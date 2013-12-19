@@ -100,6 +100,7 @@ module.exports = class InlineEdit extends View
       @saving = true
       if @hasMedia and $("#filelist div").length > 0
         @subview('imageChooser').uploadQueue (media) =>
+          console.log @model
           @model.set 
             'media': [media]
           @model.save {}, {
