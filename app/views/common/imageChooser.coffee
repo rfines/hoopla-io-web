@@ -44,6 +44,7 @@ module.exports = class ImageChooser extends View
 
     @uploader.bind "FilesAdded", (up, files) =>
       $('#choose-image').attr('disabled', true)
+      console.log files
       $.each files, (i, file) =>
         @file = file
         $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <a class='remove-button'>Remove</a>" + "</div>"
