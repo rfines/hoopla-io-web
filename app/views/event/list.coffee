@@ -51,14 +51,16 @@ module.exports = class List extends ListView
     @hideInitialStage()
     @publishEvent "closeOthers"
     EventEdit = require 'views/event/edit'
+    EventCreate = require 'views/event/create'
     newEvent = new Event()
     @removeSubview('newItem') if @subview('newItem')
+    console.log EventCreate
     if Chaplin.datastore.business.hasOne()
       newEvent.set 
         'business' : Chaplin.datastore.business.first().id
         'host' : Chaplin.datastore.business.first().id
         'location' : Chaplin.datastore.business.first().get('location')          
-    @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))
+    @subview('newItem', new EventCreate({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))
 
   duplicate: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");

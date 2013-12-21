@@ -14,7 +14,7 @@ module.exports = class EventController extends Controller
               item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
             params:params
             timeFilter: 'future'                
-            
+
 
   past: ->
     EventList = require 'views/event/list'

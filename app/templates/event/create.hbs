@@ -1,0 +1,318 @@
+<div class="row">
+  <form class="form-inline" role="form">
+    <div class="formContainer">
+      <div class="row">
+        <div class="col-xs-6">
+          {{#if isNew}}
+            <legend>Create New Event <span class="required text pull-right">*required</span></legend>
+          {{else}}
+            <legend>Edit Event <span class="required text pull-right">*required</span></legend>
+            <hr>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5 col-xs-6 col-sm-6 col-lg-3">
+          <div class="progress progress-striped active">
+            <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+              <span class="sr-only">45% Complete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepOnePanel">
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="row">
+              <div class="col-8">
+                {{#if isNew}}
+                <div class="col-md-4 {{#if hasSingleBusiness}}hide{{/if}}">
+                  <label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
+                  <select name="business" class="business select-chosen form-control">
+                    {{#each businesses}}
+                    <option value="{{id}}">{{attributes.name}}</option>
+                    {{/each}}      
+                  </select>
+                </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-5">
+                <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
+                <input type="text" class="form-control name" name="name" placeholder="Event Name">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-5 address-finder">
+                <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
+                <div class="choose_venue">
+                  <select type="text/input" name="host" class="form-control host select-chosen">
+                    {{#each businesses}}
+                    <option value="{{id}}">{{attributes.name}}</option>
+                    {{/each}}
+                    {{#each venues}}
+                    <option value="{{id}}">{{attributes.name}}</option>
+                    {{/each}}                
+                  </select>
+                  <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="right" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
+                </div>
+                <div class="custom_venue" style="display:none">
+                  <input type="text" class="form-control hostAddress" name="hostAddress" />
+                  <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label for="start"><i class="glyphicon glyphicon-calendar"></i>When<span class="required">*</span></label>
+                <input type="text" class="form-control datePicker startDate" name="start"  placeholder="Event Date">
+              </div>
+              <div class="col-md-3">
+                <input type="checkbox" name="recurring" class="repeats"/> <label>Repeats</label>
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time<span class="required">*</span></label>
+                <input type="text" class="form-control timepicker startTime" name="startTime"  placeholder="Start Time">
+              </div>
+              <div class="col-md-3">
+                <label for="endTime"><i class="glyphicon glyphicon-time"></i>End Time</label>
+                <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="End Time">
+              </div>
+            </div>
+            <div class="row recurringScheduleDetails">
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="recurrenceInterval"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
+                  <select name="recurrenceInterval" class="form-control">
+                    <option value="DAILY">Every Day</option>
+                    <option value="WEEKLY">Weekly</option>
+                    <option value="MONTHLY">Monthly</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label for="end"><i class="glyphicon glyphicon-calendar"></i>Until<span class="required">*</span></label>
+                  <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 dayOfWeekCountContainer">
+                  <label for="dayOfWeekCount">On the</label>
+                  <select name="dayOfWeekCount" class="form-control">
+                    <option value="1">First</option>
+                    <option value="2">Second</option>
+                    <option value="3">Third</option>
+                    <option value="4">Fourth</option>
+                    <option value="0">Last</option>
+                  </select>
+                </div>
+                <div class="col-md-2 dayOfWeekContainer">
+                  <input type="checkbox" name="MONDAY" value="2" /> <label>Monday</label><br />
+                  <input type="checkbox" name="TUESDAY" value="3" /> <label>Tuesday</label><br />
+                  <input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
+                  <input type="checkbox" name="THURSDAY" value="5" /> <label>Thursday</label><br />
+                </div>
+                <div class="col-md-2 dayOfWeekContainer">
+                  <input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
+                  <input type="checkbox" name="SATURDAY" value="7" /> <label>Saturday</label><br />
+                  <input type="checkbox" name="SUNDAY" value="1" /> <label>Sunday</label><br />        
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
+                <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99." data-placement="right"></a></label>
+                <input type="text" name="cost" value="0" class="form-control" placeholder="0.00"/>
+              </div>
+              <div class="col-md-3">
+                <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
+                <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
+              </div>
+          </div>
+          <div class="row">
+            <div class="pull-right"><button type="button" class="btn btn-default nextStepOne">Next</button></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <div class="row">
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img data-src="holder.js/300x200" alt="...">
+                <div class="caption">
+                  <h3 class="previewName">Event name</h3>
+                  <p class="date">Friday December 27, 2013</p>
+                  <dl>
+                    <dt>Start</dt>
+                    <dd></dd>
+                    <dt>End</dt>
+                    <dd></dd>
+                    <dt>Venue</dt>
+                    <dd></dd>
+                    <dt>Cost</dt>
+                    <dd></dd>
+                    <dt>Map & Directions</dt>
+                    <dd></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="stepTwoPanel" style="display:none;">
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="description-container">
+                  <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
+                  <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style"display: none;margin-bottom:0px;">
+                  <nav class="nav navbar-form">
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B" title="Bold Text"><i class="glyphicon glyphicon-bold"></i></a> 
+                      <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I" title="Italicize Text"><i class="glyphicon glyphicon-italic"></i></a>
+                      <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on" title="Create a List"><i class="glyphicon glyphicon-list"></i></a>
+                      <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech" title="Dictate your event description"><img class="microphone" src="/client/images/microphone_icon.png"></a>
+                  </nav>
+                  </div>
+                  <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
+                </div>
+              </div>
+              </div>
+              <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="image-chooser-container">
+                <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
+                <div style="display:inline;;margin-bottom:0px!important;">
+                  <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
+                </div>
+                <div class="well">
+                  {{#if imageUrl}}      
+                  <img src="{{imageUrl}}" class="currentImage" />
+                  {{/if}}
+                  <div class="image-controls">
+                    <div class="imageChooser"></div>
+                    {{#if hasMedia}}
+                    <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
+            <div class="pull-right"><button type="button" class="btn btn-default nextStepTwo">Next</button></div>
+            <div class="pull-left"><button type="button" class="btn btn-default stepTwoBack">Back</button></div>
+            </div>
+          </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="row">
+            <div class="col-xs-6">
+              <div class="thumbnail">
+                <img data-src="holder.js/300x200" alt="...">
+                <div class="caption">
+                  <h3 class="previewName">Event name</h3>
+                  <p class="date">Friday December 27, 2013</p>
+                  <dl>
+                    <dt>Start</dt>
+                    <dd></dd>
+                    <dt>End</dt>
+                    <dd></dd>
+                    <dt>Venue</dt>
+                    <dd></dd>
+                    <dt>Cost</dt>
+                    <dd></dd>
+                    <dt>Map & Directions</dt>
+                    <dd></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="stepThreePanel" style="display:none;">
+        <div class="row">
+          <div class="col-md-4 gray-tags">
+            <div class="gray-tags">
+              <label for="tags">Event Categories
+              <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
+              </label>
+              <select class="form-control select-chosen" multiple="true" name="tags">
+                {{#each eventTags}}
+                <option value="{{attributes.slug}}">{{attributes.text}}</option>
+                {{/each}}
+              </select>
+
+            </div>
+            <div class="event-website">
+              <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+              <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+            </div>
+            <div class="event-contact">
+              <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+              <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+            </div>
+            <div class="event-phone">
+              <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+              <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="pull-left"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
+          <div class="pull-right"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
+        </div>
+        <div class="row">
+              <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
+            <div class="pull-right"><button type="button" class="btn btn-default submit">Publish</button></div>
+            <div class="pull-left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
+            </div>
+          </div>
+      </div>
+      <div>
+        {{#if isNew}}
+        <a type="submit" class="btn saveButton pull-right hidden-xs">Create</a>
+        {{else}}
+        <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
+        {{/if}}
+        <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
+      </div>
+    </div>
+    <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
+      <div>
+        {{#if isNew}}
+          <a type="submit" class="btn btn-success btn-block">Create</a>
+        {{else}}
+          <a type="submit" class="btn btn-success btn-block">Update</a>
+        {{/if}}
+        <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
+      </div>
+    </div>
+</div>      
+</form>
+</div>
+<div class="modal fade" id="media-library-popover-{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4>My Media Library</h4>
+      </div>
+      <div class="modal-body library-contents">
+      </div>
+      <div class="modal-footer btn-group">
+        <button type="button" class="btn btn-info">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
