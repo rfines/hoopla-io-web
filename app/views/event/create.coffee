@@ -260,16 +260,25 @@ module.exports = class EventCreateView extends View
       @model.unset('host') if @model.has('host')
   showStepTwo:(e)=>
     e.preventDefault() if e
+    @updateProgress('33')
     @closeAll(e)
     $('.stepTwoPanel').show()
   showStepThree:(e)=>
     e.preventDefault() if e
+    @updateProgress('66')
     @closeAll(e)
     $('.stepThreePanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
+    @updateProgress('0')
     @closeAll(e)
     $('.stepOnePanel').show()
   closeAll:(e)=>
     e.preventDefault() if e
     $('.stepOnePanel, .stepTwoPanel, .stepThreePanel').hide()
+  updateProgress:(newValue)=>
+    if newValue
+      bar = @$el.find('.progress-bar')?[0]
+      if bar
+        console.log bar
+        bar.style.width = "#{newValue}%"
