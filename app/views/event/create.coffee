@@ -43,6 +43,10 @@ module.exports = class EventCreateView extends View
     @initSchedule()
     $('.host').trigger("chosen:updated")
     $('.stepOnePanel').show()
+    $("#myTab a").click (e) ->
+      e.preventDefault()
+      $(this).tab "show"
+
 
 
   initSchedule: =>
@@ -280,5 +284,6 @@ module.exports = class EventCreateView extends View
     if newValue
       bar = @$el.find('.progress-bar')?[0]
       if bar
-        console.log bar
         bar.style.width = "#{newValue}%"
+        sr = $('.sr-complete').innerHtml = "#{newValue} % Complete"
+        console.log sr 
