@@ -16,7 +16,7 @@
         <div class="col-md-5 col-xs-6 col-sm-6 col-lg-3">
           <div class="progress progress-striped active">
             <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <span class="sr-only complete">0% Complete</span>
+              <span class="sr-only sr-complete">0% Complete</span>
             </div>
           </div>
         </div>
@@ -241,42 +241,92 @@
       </div>
       <div class="stepThreePanel" style="display:none;">
         <div class="row">
-          <div class="col-md-4 gray-tags">
+          <div class="col-xs-6">
             <div class="gray-tags">
-              <label for="tags">Event Categories
-              <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
-              </label>
-              <select class="form-control select-chosen" multiple="true" name="tags">
-                {{#each eventTags}}
-                <option value="{{attributes.slug}}">{{attributes.text}}</option>
-                {{/each}}
-              </select>
+              <div class="gray-tags">
+                <label for="tags">Event Categories
+                <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
+                </label>
+                <select class="form-control select-chosen" multiple="true" name="tags">
+                  {{#each eventTags}}
+                  <option value="{{attributes.slug}}">{{attributes.text}}</option>
+                  {{/each}}
+                </select>
 
+              </div>
+              <div class="event-website">
+                <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+                <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+              </div>
+              <div class="event-contact">
+                <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+                <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+              </div>
+              <div class="event-phone">
+                <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+                <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+              </div>
             </div>
-            <div class="event-website">
-              <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-              <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
-            </div>
-            <div class="event-contact">
-              <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-              <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-            </div>
-            <div class="event-phone">
-              <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-              <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-            </div>
+
+            <div class="row">
+            
+              <div class="pull-left"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
+              <div class="pull-right"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
+
           </div>
-        </div>
-        <div class="row">
-          <div class="pull-left"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
-          <div class="pull-right"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
-        </div>
-        <div class="row">
-              <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
+          <div class="row">
+            <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
             <div class="pull-right"><button type="button" class="btn btn-default submit">Publish</button></div>
             <div class="pull-left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
             </div>
           </div>
+
+
+          </div>
+          
+          <div class="col-xs-6">
+          <div class="preview-container" style="background-color:white;">
+          <div class="preview-header"><h3>Previews</h3></div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+              <li><a href="#web" data-toggle="tab">Web</a></li>
+              <li><a href="#facebook" data-toggle="tab">Facebook</a></li>
+              <li><a href="#twitter" data-toggle="tab">Twitter</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade in active" id="web">
+                <div class="row">
+                  <div class="col-xs-5">
+                    <div class="thumbnail">
+                      <img data-src="holder.js/300x200" alt="...">
+                      <div class="caption">
+                        <h3 class="previewName">Event name</h3>
+                        <p class="date">Friday December 27, 2013</p>
+                        <dl>
+                          <dt>Start</dt>
+                          <dd></dd>
+                          <dt>End</dt>
+                          <dd></dd>
+                          <dt>Venue</dt>
+                          <dd></dd>
+                          <dt>Cost</dt>
+                          <dd></dd>
+                          <dt>Map & Directions</dt>
+                          <dd></dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="facebook">
+                <p> some cool facebook preview will go here</p>
+              </div>
+              <div class="tab-pane fade" id="twitter"><p>a cool twitter preview will go here</p></div>
+            </div>
+          </div>
+          </div>
+        </div>
       </div>
       <div>
         {{#if isNew}}
