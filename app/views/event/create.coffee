@@ -19,6 +19,7 @@ module.exports = class EventCreateView extends View
     'click .nextStepTwo':'showStepThree'
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
+    'keyup .name':'updateNamePreviewText'
   getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
@@ -47,7 +48,18 @@ module.exports = class EventCreateView extends View
       e.preventDefault()
       $(this).tab "show"
 
-
+    $(".business.select-chosen").chosen().change (e, params) ->
+      # params.selected and params.deselected will now contain the values of the
+      # or deselected elements.
+      el =$('#venue_preview')
+      console.log el[0]
+      b = Chaplin.datastore.business.get(params.selected)?.get('name')
+      console.log el,b
+      el.innerHtml = b
+      return true
+    $(".host.select-chosen").chosen().change (e, params) ->
+      $('.venue_preview').innerHtml = Chaplin.datastore.business.get(params.selected)?.get('name')
+      return true
 
   initSchedule: =>
     if @model.get('schedules')?.length > 0
@@ -286,4 +298,11 @@ module.exports = class EventCreateView extends View
       if bar
         bar.style.width = "#{newValue}%"
         sr = $('.sr-complete').innerHtml = "#{newValue} % Complete"
-        console.log sr 
+  updateNamePreviewText:(e)=>
+    keyed = @$el.find('.name').val()
+    el = $(".previewName")
+    if el.length >1
+      _.each el, (item, index, list)=>
+        item.text(keyed)
+    else
+      el.text(keyed)
