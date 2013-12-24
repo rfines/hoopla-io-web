@@ -3,6 +3,7 @@ View = require 'views/base/inlineEdit'
 Event = require 'models/event'
 AddressView = require 'views/address'
 MediaMixin = require 'views/mixins/mediaMixin'
+TwitterPromo = require 'views/event/twitterPromotion'
 
 module.exports = class EventCreateView extends View
   className: 'event-create'
@@ -21,6 +22,7 @@ module.exports = class EventCreateView extends View
     'click .stepThreeBack':'showStepTwo'
     'keyup .name':'updateNamePreviewText'
     'keyup .cost' : "updateCostPreviewText"
+    'keyup .description' : "updateDescriptionPreviews"
 
   getTemplateData: =>
     td = super()
@@ -44,6 +46,7 @@ module.exports = class EventCreateView extends View
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
     @initSchedule()
+
     $('.host').trigger("chosen:updated")
     $('.stepOnePanel').show()
     $("#myTab a").click (e) ->
@@ -70,6 +73,13 @@ module.exports = class EventCreateView extends View
         if keyed.length >0
           el.innerText = "#{b}"
   
+  initTwitterPromotion : =>
+    @model.attributes.description = @$el.find('.description').val()
+    @subview 'twitterPromo', new TwitterPromo({
+              container : @$el.find('.twitter_container')
+              template: require('templates/event/createTwitterPromotionRequest')
+              data:@model
+              })
 
   initSchedule: =>
     if @model.get('schedules')?.length > 0
@@ -280,14 +290,21 @@ module.exports = class EventCreateView extends View
 
   postSave:()=>
     @publishEvent 'stopWaiting'
-    if $('.promote-checkbox').is(':checked')
-      if @isNew
-        tracking = {"email" : Chaplin.datastore.user.get('email')}
-        tracking["#{@noun}-name"] = @model.get('name')
-        @publishEvent 'trackEvent', "create-#{@noun}", tracking      
-        @collection.add @model
-        @publishEvent '#{@noun}:created', @model
-      Chaplin.helpers.redirectTo {url: "/event/#{@model.id}/promote"}
+    data={}
+    data.event = @model 
+    tracking = {"email" : Chaplin.datastore.user.get('email')}
+    tracking["#{@noun}-name"] = @model.get('name')
+    @publishEvent 'trackEvent', "create-#{@noun}", tracking      
+    @collection.add @model
+    @publishEvent '#{@noun}:created', @model
+    if $('.promote-checkbox-twitter').is(':checked')
+      data.twitter=true
+      @publishEvent "event:promoteTwitter", data
+    if $('.promote-checkbox-facebook').is(':checked')
+      data.facebook = true
+      @publishEvent "event:promoteFacebook", data
+    #Chaplin.helpers.redirectTo {url: "/event/#{@model.id}/promote"}
+    
     else
       super()
 
@@ -310,6 +327,7 @@ module.exports = class EventCreateView extends View
     e.preventDefault() if e
     @updateProgress('66')
     @closeAll(e)
+    @initTwitterPromotion()
     $('.stepThreePanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -394,3 +412,11 @@ module.exports = class EventCreateView extends View
         el.innerText = keyed
       else
         el.innerText = "FREE"
+  updateDescriptionPreviews:(e)=>
+    keyed = @$el.find('.decription').val();
+    el = $(".decription_preview")
+    _.each el, (item, index, list)=>
+      if(keyed.length >0)
+        item.innerText = keyed
+      else
+        item.innerText = "Default message"
