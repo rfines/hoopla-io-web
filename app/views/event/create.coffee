@@ -20,6 +20,7 @@ module.exports = class EventCreateView extends View
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
     'keyup .name':'updateNamePreviewText'
+
   getTemplateData: =>
     td = super()
     td.businesses = Chaplin.datastore.business.models
@@ -49,17 +50,25 @@ module.exports = class EventCreateView extends View
       $(this).tab "show"
 
     $(".business.select-chosen").chosen().change (e, params) ->
-      # params.selected and params.deselected will now contain the values of the
-      # or deselected elements.
-      el =$('#venue_preview')
-      console.log el[0]
+      el =$('.venue_preview')
       b = Chaplin.datastore.business.get(params.selected)?.get('name')
-      console.log el,b
-      el.innerHtml = b
-      return true
+      if el.length >1
+        _.each el, (item, index, list)=>
+            item.innerText = "#{b}"
+      else
+        if keyed.length >0
+          el.innerText = "#{b}"
+              
     $(".host.select-chosen").chosen().change (e, params) ->
-      $('.venue_preview').innerHtml = Chaplin.datastore.business.get(params.selected)?.get('name')
-      return true
+      el =$('.venue_preview')
+      b = Chaplin.datastore.business.get(params.selected)?.get('name')
+      if el.length >1
+        _.each el, (item, index, list)=>
+            item.innerText = "#{b}"
+      else
+        if keyed.length >0
+          el.innerText = "#{b}"
+  
 
   initSchedule: =>
     if @model.get('schedules')?.length > 0
@@ -158,7 +167,8 @@ module.exports = class EventCreateView extends View
     @startDate = new Pikaday
       field: @$el.find('.startDate')[0]
       format: 'M-DD-YYYY'
-      minDate: moment().toDate()      
+      minDate: moment().toDate()
+      onSelect: "updateCalendarDateText"   
     if not @model.isNew()
       @startDate.setMoment @model.getStartDate()
       $('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
@@ -303,6 +313,26 @@ module.exports = class EventCreateView extends View
     el = $(".previewName")
     if el.length >1
       _.each el, (item, index, list)=>
-        item.text(keyed)
+        if(keyed.length >0)
+          item.innerText = keyed
+        else
+          item.innerText = "Event name"
     else
-      el.text(keyed)
+      if keyed.length >0
+        el.innerText = keyed
+      else
+        el.innerText = "Event name"
+  updateCalendarDateText:(e)=>
+    keyed = @$el.find('.startDate').val()
+    el = $(".date")
+    if el.length >1
+      _.each el, (item, index, list)=>
+        if(keyed.length >0)
+          item.innerText = moment(keyed).calendar()
+        else
+          item.innerText = moment().calendar()
+    else
+      if keyed.length >0
+        el.innerText = moment(keyed).calendar()
+      else
+        el.innerText = moment().calendar()
