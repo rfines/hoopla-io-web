@@ -20,6 +20,7 @@ module.exports = class EventCreateView extends View
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
     'keyup .name':'updateNamePreviewText'
+    'keyup .cost' : "updateCostPreviewText"
 
   getTemplateData: =>
     td = super()
@@ -168,34 +169,50 @@ module.exports = class EventCreateView extends View
       field: @$el.find('.startDate')[0]
       format: 'M-DD-YYYY'
       minDate: moment().toDate()
-      onSelect: "updateCalendarDateText"   
-    if not @model.isNew()
-      @startDate.setMoment @model.getStartDate()
-      $('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
-      @endDate = new Pikaday
-      field: @$el.find('.endDate')[0]
-      format: 'M-DD-YYYY'
-      minDate: moment().toDate()      
-    if @model.get('schedules')?[0]?.end
-      ed = moment(@model.get('schedules')?[0]?.end)
-      @endDate.setMoment ed
-      $('.endDate').val(ed.format('M-DD-YYYY'))      
+      onSelect: @updateCalendarDateText
 
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : "12:00"
       step : 15
-    if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().add('minutes', @model.get('tzOffset')).toDate()) if @model.getStartDate()
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().add('minutes', @model.get('tzOffset')).toDate()) if @model.getEndDate()
     @$el.find('.startTime').on 'changeTime', @predictEndTime
-
+    @$el.find('.endTime').on 'changeTime', @updateTimePreviewText
 
   predictEndTime: =>
+    st = @$el.find('.startTime').timepicker('getSecondsFromMidnight')
+    s= @$el.find('.startDate').val()
+    if not s
+      s = moment()
     if not @$el.find('.endTime').val()
-      st = @$el.find('.startTime').timepicker('getSecondsFromMidnight')
-      @$el.find('.endTime').timepicker('setTime', st+(60*60)) 
+      @$el.find('.endTime').timepicker('setTime', st+(60*60))
+    startTime = moment(s).startOf('day').add('seconds', st)
+    startDate = startTime.calendar()
+    startel = $(".start_time_preview")
+    el = $('.date')
+    if startel.length >1
+      _.each startel, (item, index, list)=>
+        if startTime
+          item.innerText = startTime.format('h:mm a')
+        else
+          item.innerText = moment().format('h:mm a')
+      if startDate
+        _.each el, (item, index, list)=>
+          if startDate
+            item.innerText = startDate
+          else
+            item.innerText = moment().calendar()
+    else
+      if startTime
+        startel.innerText = startTime.format('h:mm a')
+      else
+        startel.innerText = moment().format('h:mm a') 
+      if startDate
+        el.innerText = startDate
+      else
+        el.innerText = moment().calendar()
+
+
   chooseCustomVenue: =>
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       if @$el.find('#map-canvas').length <=0
@@ -323,16 +340,57 @@ module.exports = class EventCreateView extends View
       else
         el.innerText = "Event name"
   updateCalendarDateText:(e)=>
-    keyed = @$el.find('.startDate').val()
-    el = $(".date")
+    s = @$el.find('.startDate').val()
+    if not s
+      s = moment()
+    time = @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight')
+    if not time
+      time = moment()
+      i = moment().startOf('day')
+      secs = time.diff(i)
+      time=secs
+    startTime = moment(s).startOf('day').add('seconds',time ) 
+    if startTime
+      el = $(".date")
+      if el.length >1
+        _.each el, (item, index, list)=>
+          if startTime
+            item.innerText = startTime.calendar()
+          else
+            item.innerText = moment().calendar()
+      else
+        if startTime
+          el.innerText = startTime.calendar()
+        else
+          el.innerText = moment().calendar()
+  updateTimePreviewText:(e)=>
+    s = @$el.find('.startDate').val()
+    if not s
+      s = moment()
+    endTime = moment(s).startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))    
+    endel = $(".end_time_preview")
+    if endel.length >1
+      _.each endel, (item, index, list)=>
+        if endTime
+          item.innerText = endTime.format('h:mm a')
+        else
+          item.innerText = moment().format('h:mm a')
+    else
+      if endTime
+        endel.innerText =endTime.format('h:mm a')
+      else
+        endel.innerText = moment().format('h:mm a')
+  updateCostPreviewText:(e)=>
+    keyed = "$#{@$el.find('.cost').val()}"
+    el = $(".cost_preview")
     if el.length >1
       _.each el, (item, index, list)=>
         if(keyed.length >0)
-          item.innerText = moment(keyed).calendar()
+          item.innerText = keyed
         else
-          item.innerText = moment().calendar()
+          item.innerText = "FREE"
     else
       if keyed.length >0
-        el.innerText = moment(keyed).calendar()
+        el.innerText = keyed
       else
-        el.innerText = moment().calendar()
+        el.innerText = "FREE"
