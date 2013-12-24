@@ -45,6 +45,7 @@ module.exports = class ImageChooser extends View
     @uploader.bind "FilesAdded", (up, files) =>
       $('#choose-image').attr('disabled', true)
       console.log files
+
       $.each files, (i, file) =>
         @file = file
         $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <a class='remove-button'>Remove</a>" + "</div>"
@@ -97,4 +98,20 @@ module.exports = class ImageChooser extends View
     td = super()
     td.standAloneUpload = @standAloneUpload
     td.showControls = @showControls
-    td  
+    td
+
+  handleFiles = (file) ->
+      imageType = /image.*/
+      reader = new FileReader()
+      if file.type.match(imageType)
+        imgs = $(".imagePreview")
+        _.each imgs, (img, index, list)=>
+          img = $('#imagePreview')
+          img.classList.add "previewThumb"
+          img.file = file
+          reader.onload = ((aImg) ->
+            (e) ->
+              aImg.src = e.target.result
+          )(img)
+          reader.readAsDataURL file
+          
