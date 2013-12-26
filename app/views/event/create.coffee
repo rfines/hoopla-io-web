@@ -4,12 +4,16 @@ Event = require 'models/event'
 AddressView = require 'views/address'
 MediaMixin = require 'views/mixins/mediaMixin'
 TwitterPromo = require 'views/event/twitterPromotion'
+FbPromo = require 'views/event/facebookPromotion'
 
 module.exports = class EventCreateView extends View
   className: 'event-create'
   template: template
   listRoute: 'myEvents'
   noun : 'event'
+  twPromoTarget =undefined
+  fbPromoTarget =undefined
+  start_date = undefined
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -55,23 +59,31 @@ module.exports = class EventCreateView extends View
 
     $(".business.select-chosen").chosen().change (e, params) ->
       el =$('.venue_preview')
-      b = Chaplin.datastore.business.get(params.selected)?.get('name')
+      b = Chaplin.datastore.business.get(params.selected)
+      name = b?.get('name')
+      @twPromoTarget =_.find(b?.get('promotionTargets'), (item) =>
+        return item.accountType is 'TWITTER'
+      )
+      @fbPromoTarget =_.find(b?.get("promotionTargets"), (item) =>
+        return item.accountType is 'FACEBOOK'
+      )
       if el.length >1
         _.each el, (item, index, list)=>
-            item.innerText = "#{b}"
+            item.innerText = "#{name}"
       else
-        if keyed.length >0
-          el.innerText = "#{b}"
+        if name.length >0
+          el.innerText = "#{name}"
               
     $(".host.select-chosen").chosen().change (e, params) ->
       el =$('.venue_preview')
-      b = Chaplin.datastore.business.get(params.selected)?.get('name')
+      b = Chaplin.datastore.business.get(params.selected)
+      name = b?.get('name')
       if el.length >1
         _.each el, (item, index, list)=>
-            item.innerText = "#{b}"
+            item.innerText = "#{name}"
       else
-        if keyed.length >0
-          el.innerText = "#{b}"
+        if name.length >0
+          el.innerText = "#{name}"
   
   initTwitterPromotion : =>
     @model.attributes.description = @$el.find('.description').val()
@@ -80,7 +92,14 @@ module.exports = class EventCreateView extends View
               template: require('templates/event/createTwitterPromotionRequest')
               data:@model
               })
-
+  initFacebookPromotion : =>
+    @model.attributes.description = @$el.find('description').val()
+    @model.attributes.startDate = start_date
+    @subview 'facebookPromo', new FbPromo({
+      container:@$el.find('.facebook_container')
+      template: require('templates/event/createFacebookPromotionRequest')
+      data:@model
+    })
   initSchedule: =>
     if @model.get('schedules')?.length > 0
       @$el.find('.repeats').attr('checked', true)
@@ -328,6 +347,7 @@ module.exports = class EventCreateView extends View
     @updateProgress('66')
     @closeAll(e)
     @initTwitterPromotion()
+    @initFacebookPromotion()
     $('.stepThreePanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -367,8 +387,9 @@ module.exports = class EventCreateView extends View
       i = moment().startOf('day')
       secs = time.diff(i)
       time=secs
-    startTime = moment(s).startOf('day').add('seconds',time ) 
+    startTime = moment(s)
     if startTime
+      start_date = startTime
       el = $(".date")
       if el.length >1
         _.each el, (item, index, list)=>

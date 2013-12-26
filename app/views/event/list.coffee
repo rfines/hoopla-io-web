@@ -54,7 +54,6 @@ module.exports = class List extends ListView
     EventCreate = require 'views/event/create'
     newEvent = new Event()
     @removeSubview('newItem') if @subview('newItem')
-    console.log EventCreate
     if Chaplin.datastore.business.hasOne()
       newEvent.set 
         'business' : Chaplin.datastore.business.first().id
