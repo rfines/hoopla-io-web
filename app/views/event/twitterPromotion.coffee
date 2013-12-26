@@ -10,17 +10,16 @@ module.exports = class CreatePromotionReqeust extends View
   noun: 'promotion'
   twitterImgUrl=undefined
   twitterHandle = undefined
-  twPromoTarget = {}
-  existing: false
+  twPromoTarget = undefined
 
   initialize:(options) ->
-    super(options)
-    console.log options  
+    super(options)  
     @event = options.data
     @business = Chaplin.datastore.business.get(@event.get('business')) 
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
       )
+    console.log @twPromoTarget
     @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
     @twitterImgUrl = @twPromoTarget?.profileImageUrl
     @twitterHandle =  @twPromoTarget?.profileName 
@@ -33,6 +32,8 @@ module.exports = class CreatePromotionReqeust extends View
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
     td.twitterHandle = @twitterHandle
+    if not @twPromoTarget
+      td.showTwitter = false
     td
   
   attach : ->
@@ -56,6 +57,9 @@ module.exports = class CreatePromotionReqeust extends View
     "change .tw-immediate-box": "twitterImmediateClick"
     "keyup .tweetMessage":"updateTwitterPreivewText"
     "change .tw-image-box":"deductImageFromTotal"
+    "click .showTweetFormBtn":"showTweetForm"
+    "change .tw-cusLink-box": "showLinkBox"
+    'change .tw-lrLink-box':"hideLinkBox"
     
   initDatePickers: =>
     @startDate = new Pikaday
@@ -215,3 +219,13 @@ module.exports = class CreatePromotionReqeust extends View
     short = text.substr(0, i)
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
     short
+  showTweetForm :(e)=>
+    e.preventDefault() if e
+    @$el.find('.promoRequestFormTwitter').slideDown()
+  showLinkBox:(e)=>
+    e.preventDefault() if e
+    @$el.find(".inputLink").slideDown()
+  hideLinkBox:(e)=>
+    e.preventDefault() if e
+    @$el.find(".inputLink").slideUp()
+  

@@ -1,0 +1,69 @@
+{{#if showFb}}
+<div class="col-xs-12 col-lg-8" id="facebookPanel">
+  <div class="row">
+    <h4>Preview</h4>
+    <div class="col-xs-8 col-lg-8 facebook-preview">
+      <div class="preview-content">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{{facebookProfileImageUrl}}" alt="facebook profile picture">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">{{facebookProfileName}}</h4>
+          </div>
+        </div>
+        <p class="preview-message fb">{{previewText}}</p>
+      </div>
+    </div>
+  </div>
+  <form class="promoRequestFormFacebook">      
+    <div class="row">
+      <h4>Edit Post</h4>
+      <div class="col-sm-7 col-lg-6 pages">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8"><label for="link-input"><i class="glyphicon glyphicon-link"></i>Event Link</label><input type="url" value="{{defaultLink}}" class="form-control link-input" /></div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="description"><i class="glyphicon glyphicon-pencil"></i>Status Message</label>
+        <textarea class="form-control span3 message" rows="5" name="message" placeholder="Status Message...">{{previewText}}</textarea>
+      </div>
+      <div class="col-md-4">
+      </div> 
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <p class="checkbox">
+          <label for="immediate">Post Immediately
+            <input type="checkbox" class="immediate-box" value="fbImmediate"> 
+          </label>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 postDate">
+        <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
+        <input type="text" class="form-control datePicker promoDate" name="date">
+        
+      </div>
+      <div class="col-md-3 postStartTime">
+        <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
+        <input type="text" class="form-control timepicker startTime" name="startTime">
+      </div>
+      <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Submit</button>
+      <button type="button" class="btn btn-default cancelBtn">Cancel</button>
+    </div>
+  </form>
+</div>
+{{else}}
+  <div class="col-xs-12 col-lg-8">
+    <div class="row">
+      <h3>Not Authenticated for Facebook</h3>
+      <div class="promotionTargets col-sm-12 col-xs-12 authPanel">
+        <p class="social-connection fb-not-auth"><a class="facebook socialNotConnected" id="{{event_id}}" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Connect this channel</a></p>
+      </div>
+    </div>
+  </div>
+{{/if}}

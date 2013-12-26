@@ -19,7 +19,8 @@
     "Backbone.ModelBinder": "1.0.4",
     "pikaday": "1.1.0",
     "jquery-timepicker-jt": "1.2.14",
-    "spectrum": "1.1.2"
+    "spectrum": "1.1.2",
+    "underscore.string": "~2.3.3"
   },
   "overrides": {
     "backbone": {
@@ -47,8 +48,11 @@
     "moment": {
       "main": "moment.js"
     },
-    "spectrum" : {
-      "main": ["./spectrum.css", "./spectrum.js"]
+    "spectrum": {
+      "main": [
+        "./spectrum.css",
+        "./spectrum.js"
+      ]
     }
   }
 }
