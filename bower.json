@@ -19,8 +19,7 @@
     "Backbone.ModelBinder": "1.0.4",
     "pikaday": "~1.1.0",
     "jquery-timepicker-jt": "~1.2.4",
-    "spectrum": "~1.1.1",
-    "underscore.string": "~2.3.3"
+    "spectrum": "~1.1.1"
   },
   "overrides": {
     "backbone": {

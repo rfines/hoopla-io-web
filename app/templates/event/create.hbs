@@ -1,5 +1,5 @@
 <div class="row">
-  <form class="form-inline" role="form">
+  <form class="form-inline form-create" role="form">
     <div class="formContainer">
       <div class="row">
         <div class="col-xs-6">
@@ -145,7 +145,7 @@
                 <img class="imagePreview" src="holder.js/300x200" alt="...">
                 <div class="caption">
                  <h3 class="previewName">Event name</h3>
-                        <p class="date">Friday December 27, 2013</p>
+                        <p class="date_preview">Friday December 27, 2013</p>
                         <dl>
                           <dt>Start</dt>
                           <dd><span class="start_time_preview"></span></dd>
@@ -219,7 +219,7 @@
                 <img class="imagePreview" src="http://placehold.it/300x200" alt="Preview Image location">
                 <div class="caption">
                   <h3 class="previewName">Event name</h3>
-                        <p class="date">Friday December 27, 2013</p>
+                        <p class="date_preview">Friday December 27, 2013</p>
                         <dl>
                           <dt>Start</dt>
                           <dd><span class="start_time_preview"></span></dd>
@@ -256,7 +256,7 @@
               </div>
               <div class="event-website">
                 <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-                <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+                <input type="url" class="form-control website" name="website"  placeholder="Event Website"/>
               </div>
               <div class="event-contact">
                 <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
@@ -269,14 +269,14 @@
             </div>
 
             <div class="row">
-            
-              <div class="pull-left"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
-              <div class="pull-right"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
+              <div class="pull-left twitter_box"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
+              
+              <div class="pull-right facebook_box"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
 
           </div>
           <div class="row">
             <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
-            <div class="pull-right"><button type="button" class="btn btn-default submit">Publish</button></div>
+            <div class="pull-right"><button type="submit" class="btn btn-default saveButton submit">Publish</button></div>
             <div class="pull-left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
             </div>
           </div>
@@ -301,7 +301,7 @@
                       <img class="imagePreview" data-src="http://plachold.it/300x200" alt="...">
                       <div class="caption">
                         <h3><p class="previewName">Event name</p></h3>
-                        <p class="date">Friday December 27, 2013</p>
+                        <p class="date_preview">Friday December 27, 2013</p>
                         <dl class="dl-horizontal">
                           <dt>Start</dt>
                           <dd><span class="start_time_preview"></span></dd>
@@ -331,28 +331,10 @@
               </div>
             </div>
           </div>
-          </div>
         </div>
       </div>
-      <div>
-        {{#if isNew}}
-        <a type="submit" class="btn saveButton pull-right hidden-xs">Create</a>
-        {{else}}
-        <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
-        {{/if}}
-        <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
-      </div>
     </div>
-    <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
-      <div>
-        {{#if isNew}}
-          <a type="submit" class="btn btn-success btn-block">Create</a>
-        {{else}}
-          <a type="submit" class="btn btn-success btn-block">Update</a>
-        {{/if}}
-        <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
-      </div>
-    </div>
+  </div>
 </div>      
 </form>
 </div>
