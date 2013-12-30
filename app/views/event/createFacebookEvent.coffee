@@ -16,6 +16,7 @@ module.exports = class CreateFacebookEventView extends View
 
   events: 
     "change .pageSelection": "setImage"
+    "event:postFacebookEvent":"postEvent"
 
   initialize:(options)=>
     super(options)
@@ -87,3 +88,89 @@ module.exports = class CreateFacebookEventView extends View
     short = text.substr(0, i)
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
     short
+
+  saveFbEvent:(e)=>
+    e.preventDefault()
+    Chaplin.mediator.publish 'startWaiting'
+    page=$('.event-pages>.facebook-pages>.pageSelection').val()
+    @pageAccessToken = _.find(@fbPages, (item)=>
+      return item.id is page
+      )?.access_token
+    at = @fbPromoTarget.accessToken
+    if @pageAccessToken
+      at = @pageAccessToken
+    date = moment().toDate().toISOString()
+    link = undefined
+    if @event.get('website')?.length >0
+      link = @event.get('website')
+    else if @event.get('ticketUrl')?.length >0
+      link = @event.get('ticketUrl')
+    name =@event.get('name')
+    if name.length >74
+      name = @textCutter(65,name)
+    pr = new PromotionRequest
+      pushType: "FACEBOOK-EVENT"
+      link:link
+      caption:@event.get('description')
+      title: name
+      startTime: moment(@event.nextOccurrence()).toDate().toISOString()
+      promotionTime: date
+      location: @event.get('location').address
+      pageId:page
+      ticket_uri: @event.get('ticketUrl')
+      pageAccessToken: @pageAccessToken
+      promotionTarget: @fbPromoTarget._id
+      media: @event.get('media')?[0]?._id
+    pr.eventId = @event.id
+    pr.save {},{
+      success: (model, response, options)=>
+        Chaplin.mediator.publish 'stopWaiting'
+        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+      error: (model, xhr, options)->
+        Chaplin.mediator.publish 'stopWaiting'
+        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+      }
+  saveFbEventNoForm:( page)=>
+    Chaplin.mediator.publish 'startWaiting'
+    page=page
+    @pageAccessToken = _.find(@fbPages, (item)=>
+      return item.id is page
+      )?.access_token
+    at = @fbPromoTarget.accessToken
+    if @pageAccessToken
+      at = @pageAccessToken
+    date = moment().toDate().toISOString()
+    link = undefined
+    if @event.get('website')?.length >0
+      link = @event.get('website')
+    else if @event.get('ticketUrl')?.length >0
+      link = @event.get('ticketUrl')
+    name =@event.get('name')
+    if name.length >74
+      name = @textCutter(65,name)
+    pr = new PromotionRequest
+      pushType: "FACEBOOK-EVENT"
+      link:link
+      caption:@event.get('description')
+      title: name
+      startTime: moment(@event.nextOccurrence()).toDate().toISOString()
+      promotionTime: date
+      location: @event.get('location').address
+      pageId:page
+      ticket_uri: @event.get('ticketUrl')
+      pageAccessToken: @pageAccessToken
+      promotionTarget: @fbPromoTarget._id
+      media: @event.get('media')?[0]?._id
+    pr.eventId = @event.id
+    pr.save {},{
+      success: (model, response, options)=>
+        Chaplin.mediator.publish 'stopWaiting'
+        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+      error: (model, xhr, options)->
+        Chaplin.mediator.publish 'stopWaiting'
+        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+      }
+  postEvent:(data)=>
+    page = data.pageId
+    @event = data.event
+    @saveFbEventNoForm page

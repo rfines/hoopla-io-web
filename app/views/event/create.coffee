@@ -14,6 +14,7 @@ module.exports = class EventCreateView extends View
   twPromoTarget =undefined
   fbPromoTarget =undefined
   start_date = undefined
+  addr_str = undefined
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -27,6 +28,7 @@ module.exports = class EventCreateView extends View
     'keyup .name':'updateNamePreviewText'
     'keyup .cost' : "updateCostPreviewText"
     'keyup .description' : "updateDescriptionPreviews"
+    'keyup .website':"updateWebsitePreviews"
 
   getTemplateData: =>
     td = super()
@@ -44,7 +46,7 @@ module.exports = class EventCreateView extends View
     @initLocation()
     @delegate 'click', '.showMediaLibrary', @showMediaLibrary
     @delegate 'click', '.addressButton', @chooseCustomVenue
-    @delegate 'submit', 'form', (e)->
+    @delegate 'submit', 'form.form-create', (e)->
       e.preventDefault()    
     @$el.find('.business').on 'change', @changeBusiness
     @$el.find('.host').on 'change', @changeHost     
@@ -67,12 +69,22 @@ module.exports = class EventCreateView extends View
       @fbPromoTarget =_.find(b?.get("promotionTargets"), (item) =>
         return item.accountType is 'FACEBOOK'
       )
+      if not @twPromoTarget
+        $('.twitter_box').hide()
+      else
+        $('.twitter_box').show()
+      if not @fbPromoTarget
+        $('.facebook_box').hide()
+      else
+        $('.facebook_box').show() 
       if el.length >1
         _.each el, (item, index, list)=>
             item.innerText = "#{name}"
       else
         if name.length >0
           el.innerText = "#{name}"
+      addr_str = b.get('location')
+      console.log addr_str
               
     $(".host.select-chosen").chosen().change (e, params) ->
       el =$('.venue_preview')
@@ -84,22 +96,38 @@ module.exports = class EventCreateView extends View
       else
         if name.length >0
           el.innerText = "#{name}"
-  
+      el = $('.map_preview')
+      if el.length > 1
+        _.each el, (item, index, list)=>
+          item.innerText = "#{b?.get('location')?.address}"
+      else
+        el.innerText = "#{b?.get('location')?.address}"
+      addr_str= b.get('location')
+      console.log addr_str
+
+
   initTwitterPromotion : =>
-    @model.attributes.description = @$el.find('.description').val()
+    @model.set
+      description : @$el.find('.description').val()
+      location: addr_str
+    console.log addr_str
     @subview 'twitterPromo', new TwitterPromo({
               container : @$el.find('.twitter_container')
               template: require('templates/event/createTwitterPromotionRequest')
               data:@model
               })
   initFacebookPromotion : =>
-    @model.attributes.description = @$el.find('description').val()
-    @model.attributes.startDate = start_date
+    @model.set
+      description :@$el.find('.description').val()
+      startDate : start_date 
+      location : addr_str
+    console.log addr_str
     @subview 'facebookPromo', new FbPromo({
       container:@$el.find('.facebook_container')
       template: require('templates/event/createFacebookPromotionRequest')
       data:@model
     })
+
   initSchedule: =>
     if @model.get('schedules')?.length > 0
       @$el.find('.repeats').attr('checked', true)
@@ -218,7 +246,7 @@ module.exports = class EventCreateView extends View
     startTime = moment(s).startOf('day').add('seconds', st)
     startDate = startTime.calendar()
     startel = $(".start_time_preview")
-    el = $('.date')
+    el = $('.date_preview')
     if startel.length >1
       _.each startel, (item, index, list)=>
         if startTime
@@ -259,6 +287,7 @@ module.exports = class EventCreateView extends View
           @$el.find('.choose_venue').hide()
           @$el.find('.custom_venue').show()
           @$el.find('.hostAddress').val(@subview('addressPopover').location?.address)
+          addr_str = @subview('addressPopover').location
         else
           @$el.find('.custom_venue').hide()
           @$el.find('.choose_venue').show()
@@ -308,7 +337,6 @@ module.exports = class EventCreateView extends View
     }]
 
   postSave:()=>
-    @publishEvent 'stopWaiting'
     data={}
     data.event = @model 
     tracking = {"email" : Chaplin.datastore.user.get('email')}
@@ -318,15 +346,33 @@ module.exports = class EventCreateView extends View
     @publishEvent '#{@noun}:created', @model
     if $('.promote-checkbox-twitter').is(':checked')
       data.twitter=true
+      data.callback  = @promoteTwitterCallback
       @publishEvent "event:promoteTwitter", data
-    if $('.promote-checkbox-facebook').is(':checked')
+    else if $('.facebook-checkbox').is(':checked')
       data.facebook = true
+      data.callback  = @promoteFacebookCallback
       @publishEvent "event:promoteFacebook", data
-    #Chaplin.helpers.redirectTo {url: "/event/#{@model.id}/promote"}
-    
     else
-      super()
-
+      window.location.reload(false)
+    
+  promoteTwitterCallback:(result)=>
+    if result.err
+      console.log result.err
+    else
+      if $('.facebook-checkbox').is(':checked')
+        data={}
+        data.event = @model 
+        data.facebook = true
+        data.callback  = @promoteFacebookCallback
+        @publishEvent "event:promoteFacebook", data
+      else
+        window.location.reload(false)
+  promoteFacebookCallback:(result)=>
+    if result.err
+      console.log result.err
+    else
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      window.location.reload(false)
   showPromote:(show)=>
     if show
       $('.promotion-selection').show()
@@ -357,6 +403,23 @@ module.exports = class EventCreateView extends View
   closeAll:(e)=>
     e.preventDefault() if e
     $('.stepOnePanel, .stepTwoPanel, .stepThreePanel').hide()
+
+  updateModel: =>
+    console.log addr_str
+    if @$el.find('input.repeats:checked').val()
+      @model.set
+        tzOffset : moment().zone()
+        schedules: @getSchedules()
+        fixedOccurrences :[]
+        description : @$el.find("textarea[name='description']").val()
+    else
+      zone = moment(@getFixedOccurrences()?[0].start).zone()
+      @model.set
+        tzOffset : zone
+        fixedOccurrences : @getFixedOccurrences()    
+        schedules :[]
+        description : @$el.find("textarea[name='description']").val()
+
   updateProgress:(newValue)=>
     if newValue
       bar = @$el.find('.progress-bar')?[0]
@@ -381,16 +444,14 @@ module.exports = class EventCreateView extends View
     s = @$el.find('.startDate').val()
     if not s
       s = moment()
-    time = @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight')
+    time = $("input[name='startTime']").timepicker('getSecondsFromMidnight')
     if not time
-      time = moment()
-      i = moment().startOf('day')
-      secs = time.diff(i)
-      time=secs
-    startTime = moment(s)
+      startTime = moment(s)
+    else
+      startTime = moment(s).startOf('day').add('seconds',time)
     if startTime
       start_date = startTime
-      el = $(".date")
+      el = $(".date_preview")
       if el.length >1
         _.each el, (item, index, list)=>
           if startTime
@@ -435,9 +496,17 @@ module.exports = class EventCreateView extends View
         el.innerText = "FREE"
   updateDescriptionPreviews:(e)=>
     keyed = @$el.find('.decription').val();
-    el = $(".decription_preview")
-    _.each el, (item, index, list)=>
-      if(keyed.length >0)
-        item.innerText = keyed
-      else
-        item.innerText = "Default message"
+    data={
+      selector:".message"
+      value:keyed
+    }
+    @publishEvent 'updateFacebookPreview', data
+  updateWebsitePreviews:(e)=>
+    e.preventDefault() if e
+    keyed = @$el.find('.website').val()
+    data = {
+      selector:'.link-input'
+      value: keyed
+
+    }
+    @publishEvent 'updateFacebookPreview', data

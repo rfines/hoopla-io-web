@@ -5,6 +5,7 @@ ImageChooser = require 'views/common/imageChooser'
 AddressView = require 'views/address'
 module.exports = class InlineEdit extends View
   saving=false
+
   initialize: ->
     super()
     @isNew = @model.isNew()
@@ -96,22 +97,23 @@ module.exports = class InlineEdit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
-    if @validate() and not @saving
-      @saving = true
+    console.log @validate()
+    console.log @model
+    if @validate() and not saving
+      saving = true
       if @hasMedia and $("#filelist div").length > 0
         @subview('imageChooser').uploadQueue (media) =>
-          console.log media
           @model.set 
             'media': [media]
           @model.save {}, {
             success: =>
-              @saving = false
+              saving = false
               @postSave() if @postSave
           }
       else
         @model.save {}, {
             success: =>
-              @saving = false
+              saving = false
               @postSave() if @postSave
         }    
 

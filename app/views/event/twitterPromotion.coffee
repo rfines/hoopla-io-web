@@ -23,7 +23,8 @@ module.exports = class CreatePromotionReqeust extends View
     @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
     @twitterImgUrl = @twPromoTarget?.profileImageUrl
     @twitterHandle =  @twPromoTarget?.profileName 
-    @model = new PromotionRequest()
+    if not @model
+      @model = new PromotionRequest()
     
     
   getTemplateData: ->
@@ -60,7 +61,13 @@ module.exports = class CreatePromotionReqeust extends View
     "click .showTweetFormBtn":"showTweetForm"
     "change .tw-cusLink-box": "showLinkBox"
     'change .tw-lrLink-box':"hideLinkBox"
+    "event:promoteTwitter mediator":"sendTweet"
     
+  sendTweet:(data)=>
+    @event = data.event
+    @$el.find('.promoRequestFormTwitter').submit()
+
+
   initDatePickers: =>
     @startDate = new Pikaday
       field: @$el.find('.promoDate')[0]
@@ -92,6 +99,11 @@ module.exports = class CreatePromotionReqeust extends View
     now = moment().format('X')
     date = date.add('seconds', time)
     med = undefined
+    link=""
+    if $('#linkLr').is(':checked')
+      link = "http://www.localruckus.com/event/#{@event.id}"
+    else if $('#linkCustom').is(':checked')
+      link = $('.customLinkBox').val() 
     if $('.tw-image-box').is(':checked')
       med = @event.get('media')?[0]?._id
     if immediate.is(':checked')
@@ -99,6 +111,7 @@ module.exports = class CreatePromotionReqeust extends View
         message: message
         promotionTime: moment().toDate().toISOString()
         media: med
+        link:link
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       pr.eventId = @event.id
@@ -116,6 +129,7 @@ module.exports = class CreatePromotionReqeust extends View
         message: message
         promotionTime: moment(date).toDate().toISOString()
         media: med
+        link:link
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       scheduled.eventId = @event.id

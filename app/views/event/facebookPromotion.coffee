@@ -20,6 +20,7 @@ module.exports = class FacebookPromotion extends View
   initialize:(options) ->
     super(options)
     @event = options.data
+    console.log @event
     @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'FACEBOOK'
@@ -27,7 +28,7 @@ module.exports = class FacebookPromotion extends View
     if @event.get('business') is @event.get('host')
       @location = @business.get('location')?.address
     else
-      @location = Chaplin.datastore.get(@event.get('host')?)?.get('location')?.address
+      @location = Chaplin.datastore.business.get(@event.get('host')?)?.get('location')?.address
     @facebookImgUrl = @fbPromoTarget?.profileImageUrl
     @facebookProfileName = @fbPromoTarget?.profileName
     @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
@@ -68,9 +69,8 @@ module.exports = class FacebookPromotion extends View
     @initDatePickers()
     @initTimePickers()
     @getFacebookPages(@fbPromoTarget) if @fbPromoTarget
+    @subscribeEvent "updateFacebookPreview",@updatePreview
    
-    
-
   events: 
     "click .facebookPostBtn": "saveFacebook"
     "click .createFbEventBtn":"saveFbEvent"
@@ -79,7 +79,21 @@ module.exports = class FacebookPromotion extends View
     "click .facebookEventTab":"showFacebookEvent"
     "change .immediate-box":"immediateClick"
     "keyup .message": "updateFacebookPreviewText"
-    
+    "click .editPostBtn":"showPostForm"
+    "event:promoteFacebook":"promoteFb"
+
+  promoteFb:(data)=>
+    @event = data.event
+    @$el.find('.promoRequestFormFacebook').submit()
+
+  updatePreview:(data)=>
+    if data.selector and not data.html
+      @$el.find(data.selector).val(data.value)
+    else if data.selector and data.html
+      @$el.find(data.selector).innerHtml(data.value)
+    else if data.key
+      @event[data.key] = data.value
+
   initDatePickers: =>
     @startDate = new Pikaday
       field: @$el.find('.promoDate')[0]
@@ -97,7 +111,6 @@ module.exports = class FacebookPromotion extends View
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   saveFacebook:(e) ->
-    Chaplin.mediator.publish 'startWaiting'
     e.preventDefault()
     message = $('.message').val()
     successMessageAppend ="" 
@@ -304,3 +317,6 @@ module.exports = class FacebookPromotion extends View
     short = text.substr(0, i)
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
     short
+  showPostForm:(e)=>
+    e.preventDefault() if e
+    @$el.find('.form_container').slideToggle()
