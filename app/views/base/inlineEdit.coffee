@@ -5,7 +5,8 @@ ImageChooser = require 'views/common/imageChooser'
 AddressView = require 'views/address'
 module.exports = class InlineEdit extends View
   saving=false
-
+  description = ""
+  editor = undefined
   initialize: ->
     super()
     @isNew = @model.isNew()
@@ -65,13 +66,14 @@ module.exports = class InlineEdit extends View
         ul: 1
         li: 1
 
-      editor = new wysihtml5.Editor("description-textarea",
+      @editor = new wysihtml5.Editor("description-textarea",
         toolbar: "toolbar"
         parserRules: wysihtml5ParserRules
         autoLink:false
         placeholderText: 'Description'
         cleanUp:true
       )
+
       
   validate: ->
     @$el.find('.has-error').removeClass('has-error')

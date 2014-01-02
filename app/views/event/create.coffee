@@ -15,16 +15,21 @@ module.exports = class EventCreateView extends View
   fbPromoTarget =undefined
   start_date = undefined
   addr_str = undefined
+  fbFinsihed = false
+  twFinished = false
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
+    $('.stepFourPanel').hide()
     @extend @, new MediaMixin()
     super()
   events:
     'click .nextStepOne':'showStepTwo'
     'click .nextStepTwo':'showStepThree'
+    'click .nextStepThree':'showStepFour'
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
+    'click .stepFourBack':'showStepThree'
     'keyup .name':'updateNamePreviewText'
     'keyup .cost' : "updateCostPreviewText"
     'keyup .description' : "updateDescriptionPreviews"
@@ -54,7 +59,8 @@ module.exports = class EventCreateView extends View
     @subscribeEvent 'notify:fbPublished', @removeForm
     @subscribeEvent 'notify:twPublished', @removeForm
     @initSchedule()
-
+    @editor.on('change', @storeDescription)
+  
     $('.host').trigger("chosen:updated")
     $('.stepOnePanel').show()
     $("#myTab a").click (e) ->
@@ -122,7 +128,9 @@ module.exports = class EventCreateView extends View
         el.innerText = "#{b?.get('location')?.address}"
       addr_str= b.get('location')
 
-
+  storeDescription:()=>
+    @description = $('.description').val()
+    @updateDescriptionPreviews()
   initTwitterPromotion : =>
     @model.set
       description : @$el.find('.description').val()
@@ -401,19 +409,26 @@ module.exports = class EventCreateView extends View
       @model.unset('host') if @model.has('host')
   showStepTwo:(e)=>
     e.preventDefault() if e
-    @updateProgress('33')
+    @updateProgress('step2')
     @closeAll(e)
     $('.stepTwoPanel').show()
   showStepThree:(e)=>
     e.preventDefault() if e
-    @updateProgress('66')
+    @updateProgress('step3')
     @closeAll(e)
     @initTwitterPromotion()
     @initFacebookPromotion()
     $('.stepThreePanel').show()
+  showStepFour:(e)=>
+    e.preventDefault() if e
+    @updateProgress('step4')
+    @closeAll(e)
+    @initTwitterPromotion()
+    @initFacebookPromotion()
+    $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
-    @updateProgress('0')
+    @updateProgress('step1')
     @closeAll(e)
     $('.stepOnePanel').show()
   closeAll:(e)=>
@@ -437,10 +452,10 @@ module.exports = class EventCreateView extends View
 
   updateProgress:(newValue)=>
     if newValue
-      bar = @$el.find('.progress-bar')?[0]
-      if bar
-        bar.style.width = "#{newValue}%"
-        sr = $('.sr-complete').innerHtml = "#{newValue} % Complete"
+      if $('.progress')
+        $('.progress').removeClass('step1').removeClass('step2').removeClass('step3').removeClass('step4')
+        $('.progress').addClass(newValue)
+  
   updateNamePreviewText:(e)=>
     keyed = @$el.find('.name').val()
     el = $(".previewName")
@@ -510,11 +525,19 @@ module.exports = class EventCreateView extends View
       else
         el.innerText = "FREE"
   updateDescriptionPreviews:(e)=>
-    keyed = @$el.find('.decription').val();
+    keyed = @$el.find('.description').val();
+    console.log keyed
+    dEl = $(".description_preview")
+    if dEl.length > 1
+      _.each dEl, (item, index, list)=>
+        item.innerText = keyed
+    else
+      dEl.innerText = keyed
     data={
       selector:".message"
       value:keyed
     }
+
     @publishEvent 'updateFacebookPreview', data
   updateWebsitePreviews:(e)=>
     e.preventDefault() if e
@@ -531,6 +554,14 @@ module.exports = class EventCreateView extends View
       @fbFinished = result.fbPublished
     if result and result.twPublished
       @twFinished = result.twPublished
+    console.log @twFinished
+    console.log @fbFinished
     if @fbFinished is true and @twFinished is true
+      @publishEvent "closeOthers"
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+    else if @twFinished is true and $('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked')
+      @publishEvent "closeOthers"
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+    else if @fbFinished is true and $('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
