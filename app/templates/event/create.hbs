@@ -1,30 +1,15 @@
 <div class="row">
   <form class="form-inline form-create" role="form">
     <div class="formContainer">
-      <div class="row">
-        <div class="col-xs-6">
-          {{#if isNew}}
-            <legend>Create New Event <span class="required text pull-right">*required</span></legend>
-          {{else}}
-            <legend>Edit Event <span class="required text pull-right">*required</span></legend>
-            <hr>
-          {{/if}}
-        </div>
-      </div>
+      
 
       <div class="row">
-        <div class="col-md-5 col-xs-6 col-sm-6 col-lg-3">
-          <div class="progress progress-striped active">
-            <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <span class="sr-only sr-complete">0% Complete</span>
-            </div>
+          <div class="progress step1">
           </div>
         </div>
-      </div>
-      <div class="stepOnePanel">
+      <div class="stepOnePanel steps">
         <div class="row">
-          <div class="col-xs-6">
-            <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 content-entry">
               <div class="col-8">
                 {{#if isNew}}
                 <div class="col-md-4 {{#if hasSingleBusiness}}hide{{/if}}">
@@ -37,15 +22,16 @@
                 </div>
                 {{/if}}
               </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-5">
+ <div class="row">
+            <div class="col-md-12">
+
                 <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
                 <input type="text" class="form-control name" name="name" placeholder="Event Name">
-              </div>
             </div>
-            <div class="row">
-              <div class="col-xs-5 address-finder">
+</div>
+ <div class="row">
+            <div class="col-md-12">
+              <div class="address-finder">
                 <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
                 <div class="choose_venue">
                   <select type="text/input" name="host" class="form-control host select-chosen">
@@ -64,29 +50,29 @@
                 </div>
               </div>
             </div>
+</div>
             <div class="row">
-              <div class="col-md-3">
+				<div class="col-md-4">
                 <label for="start"><i class="glyphicon glyphicon-calendar"></i>When<span class="required">*</span></label>
                 <input type="text" class="form-control datePicker startDate" name="start"  placeholder="Event Date">
-              </div>
-              <div class="col-md-3">
-                <input type="checkbox" name="recurring" class="repeats"/> <label>Repeats</label>
-              </div>
-              
-            </div>
-            <div class="row">
-              <div class="col-md-3">
+</div>
+       
+              <div class="col-md-4">
                 <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time<span class="required">*</span></label>
                 <input type="text" class="form-control timepicker startTime" name="startTime"  placeholder="Start Time">
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label for="endTime"><i class="glyphicon glyphicon-time"></i>End Time</label>
                 <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="End Time">
               </div>
             </div>
-            <div class="row recurringScheduleDetails">
+<div class="row">
+	 <div class="col-md-12">
+        <input type="checkbox" name="recurring" class="repeats"/> <label>Is this a repeating event?</label>
+      </div>
+            <div class="recurringScheduleDetails">
               <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                   <label for="recurrenceInterval"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
                   <select name="recurrenceInterval" class="form-control">
                     <option value="DAILY">Every Day</option>
@@ -94,35 +80,39 @@
                     <option value="MONTHLY">Monthly</option>
                   </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                   <label for="end"><i class="glyphicon glyphicon-calendar"></i>Until<span class="required">*</span></label>
                   <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-2 dayOfWeekCountContainer">
+                <div class="col-md-3 dayOfWeekCountContainer">
                   <label for="dayOfWeekCount">On the</label>
                   <select name="dayOfWeekCount" class="form-control">
-                    <option value="1">First</option>
+                    <option value="1" selected >First</option>
                     <option value="2">Second</option>
                     <option value="3">Third</option>
                     <option value="4">Fourth</option>
                     <option value="0">Last</option>
                   </select>
                 </div>
-                <div class="col-md-2 dayOfWeekContainer">
+                <div class="col-md-3 dayOfWeekContainer">
                   <input type="checkbox" name="MONDAY" value="2" /> <label>Monday</label><br />
                   <input type="checkbox" name="TUESDAY" value="3" /> <label>Tuesday</label><br />
-                  <input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
+<input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
+				</div>
+				<div class="col-md-3 dayOfWeekContainer">
                   <input type="checkbox" name="THURSDAY" value="5" /> <label>Thursday</label><br />
-                </div>
-                <div class="col-md-2 dayOfWeekContainer">
-                  <input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
+				<input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
                   <input type="checkbox" name="SATURDAY" value="7" /> <label>Saturday</label><br />
+                </div>
+				<div class="col-md-3 dayOfWeekContainer">
+                  
                   <input type="checkbox" name="SUNDAY" value="1" /> <label>Sunday</label><br />        
                 </div>
               </div>
             </div>
+</div>
             <div class="row">
               <div class="col-md-3">
                 <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
@@ -134,15 +124,15 @@
                 <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
               </div>
           </div>
-          <div class="row">
-            <div class="pull-right"><button type="button" class="btn btn-default nextStepOne">Next</button></div>
+          <div class="row controls">
+            <div class="right"><button type="button" class="btn btn-success nextStepOne">Next</button></div>
+			<div class="left"><button type="cancel" class="btn btn-default cancel">Cancel</button></div>
           </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 preview">
               <div class="thumbnail">
-                <img class="imagePreview" src="holder.js/300x200" alt="...">
+<div class="preview-header"><h4>-Event Preview-</h4></div>
+                <img class="imagePreview" src="http://placehold.it/300x200" alt="Preview Image location">
                 <div class="caption">
                  <h3 class="previewName">Event name</h3>
                         <p class="date_preview">Friday December 27, 2013</p>
@@ -157,19 +147,18 @@
                           <dd><span class="cost_preview">FREE</span></dd>
                           <dt>Map & Directions</dt>
                           <dd><span class="map_preview"></span></dd>
+						<dt>Description</dt>
+                          <dd><span class="description_preview"></span></dd>
                         </dl>
                 </div>
-              </div>
             </div>
           </div>
         </div>
         </div>
-      </div>
-      <div class="stepTwoPanel" style="display:none;">
+      <div class="stepTwoPanel steps" style="display:none;">
         <div class="row">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 content-entry">
+              <div class="col-md-12">
                 <div class="description-container">
                   <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
                   <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style"display: none;margin-bottom:0px;">
@@ -181,15 +170,13 @@
                       <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech" title="Dictate your event description"><img class="microphone" src="/client/images/microphone_icon.png"></a>
                   </nav>
                   </div>
-                  <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
+                  <textarea class="form-control description" name="description" placeholder="Enter event description here" id="description-textarea"></textarea>
                 </div>
               </div>
-              </div>
-              <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="image-chooser-container">
+              <div class="col-md-12" id="image-chooser-container">
                 <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
                 <div style="display:inline;;margin-bottom:0px!important;">
-                  <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
+                  <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image for best results across media channels.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
                 </div>
                 <div class="well">
                   {{#if imageUrl}}      
@@ -204,18 +191,15 @@
                 </div>
                 <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
-            <div class="pull-right"><button type="button" class="btn btn-default nextStepTwo">Next</button></div>
-            <div class="pull-left"><button type="button" class="btn btn-default stepTwoBack">Back</button></div>
-            </div>
+            <div class="row controls">
+
+            <div class="right"><button type="button" class="btn btn-success nextStepTwo">Next</button></div>
+            <div class="left"><button type="button" class="btn btn-default stepTwoBack">Back</button></div>
           </div>
           </div>
-          <div class="col-xs-6">
-            <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6  preview">
               <div class="thumbnail">
+<div class="preview-header"><h4>-Event Preview-</h4></div>
                 <img class="imagePreview" src="http://placehold.it/300x200" alt="Preview Image location">
                 <div class="caption">
                   <h3 class="previewName">Event name</h3>
@@ -231,19 +215,19 @@
                           <dd><span class="cost_preview">FREE</span></dd>
                           <dt>Map & Directions</dt>
                           <dd><span class="map_preview"></span></dd>
+						<dt>Description</dt>
+                          <dd><span class="description_preview"></span></dd>
                         </dl>
-                </div>
-              </div>
             </div>
           </div>
         </div>
         </div>
       </div>
-      <div class="stepThreePanel" style="display:none;">
+      <div class="stepThreePanel steps" style="display:none;">
         <div class="row">
-          <div class="col-xs-6">
-            <div class="gray-tags">
-              <div class="gray-tags">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 content-entry">
+            <div class="row">
+              <div class="gray-tags col-md-12	">
                 <label for="tags">Event Categories
                 <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
                 </label>
@@ -254,18 +238,24 @@
                 </select>
 
               </div>
-              <div class="event-website">
+</div>
+<div class="row">
+              <div class="event-website col-md-12">
                 <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
                 <input type="url" class="form-control website" name="website"  placeholder="Event Website"/>
               </div>
-              <div class="event-contact">
+			</div>
+			<div class="row">
+              <div class="event-contact col-md-12">
                 <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
                 <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-              </div>
-              <div class="event-phone">
+             	</div>
+				<div class="row">
+              <div class="event-phone col-md-12">
                 <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
                 <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
               </div>
+</div>
             </div>
 
             <div class="row">
@@ -274,19 +264,19 @@
               <div class="pull-right facebook_box"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
 
           </div>
-          <div class="row">
-            <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
-            <div class="pull-right"><button type="submit" class="btn btn-default saveButton submit">Publish</button></div>
-            <div class="pull-left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
-            </div>
+          <div class="row controls">
+
+            <div class="right"><button type="submit" class="btn btn-success btn-lg saveButton submit">Publish</button></div>
+            <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
+
           </div>
 
 
           </div>
           
-          <div class="col-xs-6">
-          <div class="preview-container" style="background-color:white;">
-          <div class="preview-header"><h3>Previews</h3></div>
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 preview-container preview">
+<div class="thumbnail">
+          <div class="preview-header"><h4>-Event Preview-</h4></div>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
               <li class="web_tab"><a href="#web" data-toggle="tab">Web</a></li>
@@ -295,9 +285,8 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane fade in active" id="web">
-                <div class="row">
-                  <div class="col-xs-5">
-                    <div class="thumbnail">
+                  <div class="col-xs-12">
+                    <div class="">
                       <img class="imagePreview" data-src="http://plachold.it/300x200" alt="...">
                       <div class="caption">
                         <h3><p class="previewName">Event name</p></h3>
@@ -313,10 +302,11 @@
                           <dd><span class="cost_preview">FREE</span></dd>
                           <dt>Map & Directions</dt>
                           <dd><span class="map_preview"></span></dd>
+						<dt>Description</dt>
+                          <dd><span class="description_preview"></span></dd>
                         </dl>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="facebook">
@@ -328,6 +318,7 @@
                 <div class="twitter_container">
                   
                 </div>
+ </div>
               </div>
             </div>
           </div>

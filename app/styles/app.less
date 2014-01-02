@@ -276,7 +276,7 @@ legend {
 }
 
 label {
-    font-family: 'quicksandbold';
+    font-family: 'quicksand';
     color: #555454;
     font-weight:normal;
 }
@@ -1182,6 +1182,65 @@ padding: 9px;}
   line-height: 1.5em;
 }
 .list-options.hidden-xs {display:none;}
+.steps {padding-bottom: 20px;
+  i.glyphicon {margin-right:5px;}
+  .recurringScheduleDetails 
+  {
+    .row {margin-top:0px!important;}
+    background-color: transparent;
+    border-radius: 0px 0px 8px 8px;
+    padding: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.4) inset;
+
+    label {font-size:.8em;}
+
+  }
+.content-entry .row {margin-top:15px;}
+  .content-entry, .preview 
+      {
+        min-height: 550px;
+        position: relative;
+        margin-top:10px;
+      }
+    .preview  .thumbnail:first-child {
+      min-height:478px;
+      h4 {text-align:center;color:@gray-light; font-family:'museoLight';}
+      }
+    .content-entry div.col-md-12 {}
+  .controls {
+    position:absolute;
+    bottom:45px;
+    width:100%;
+    .right{position:absolute;right:20px}
+    .left{position:absolute;left:20px}
+  }
+}
+.event-list .progress {margin-top:10px!important;}
+.progress.step1 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px 0px no-repeat transparent;
+  width:900px;
+  height:50px;
+  margin:0px auto;
+}
+.progress.step2 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px -57px no-repeat transparent;
+  width:900px;
+   height:50px;
+    margin:0px auto;
+}
+.progress.step3 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px -116px no-repeat transparent;
+  width:900px;
+   height:50px;
+    margin:0px auto;
+}
+.progress.step4 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px -174px no-repeat transparent;
+  width:900px;
+   height:50px;
+    margin:0px auto;
+}
+.choose_venue .addressButton {color:#fff; font-size:1.5em;}
 @media (max-width:979px){
   .messaging {
 margin-left:0px;
@@ -1198,6 +1257,32 @@ margin-left:0px;
       a.scheduleText {display:block;}
   }
 .list-options.hidden-xs {display:none;}
+.progress.step1 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px 0px no-repeat transparent;
+  width:90%;
+  height:37px;
+  margin:0px auto;
+  background-size: cover;
+}
+.progress.step2 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px -57px no-repeat transparent;
+  width:90%;
+   height:37px;
+    margin:0px auto;
+}
+.progress.step3 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px -116px no-repeat transparent;
+  width:90%;
+   height:37px;
+    margin:0px auto;
+}
+.progress.step4 {
+  background: url('/client/images/steps-panel-sprite.gif') 0px -174px no-repeat transparent;
+  width:90%;
+   height:40px;
+    margin:0px auto;
+}
+
 }
 @media (max-width: 767px) {
   .glyphicon-plus, i.glyphicon-minus {
@@ -1294,10 +1379,37 @@ img.sign-in {
         top: 0;
     }
     .radio, .checkbox {display:inline-block;}
+    .progress.step1 {
+      background: url('/client/images/steps-panel-sprite.gif') 0px 0px no-repeat transparent;
+      width:90%;
+      height:28px;
+      margin:0px auto;
+      background-size: cover;
+    }
+    .progress.step2 {
+      background: url('/client/images/steps-panel-sprite.gif') 0px -57px no-repeat transparent;
+      width:90%;
+       height:28px;
+        margin:0px auto;
+    }
+    .progress.step3 {
+      background: url('/client/images/steps-panel-sprite.gif') 0px -116px no-repeat transparent;
+      width:90%;
+       height:28px;
+        margin:0px auto;
+    }
+    .progress.step4 {
+      background: url('/client/images/steps-panel-sprite.gif') 0px -174px no-repeat transparent;
+      width:90%;
+       height:28px;
+        margin:0px auto;
+    }
+      .progress, .preview {display:inline;}
 }
+
 @media (max-width:480px)
 {
-  
+  .progress, .preview {display:none;}
 .form-signin {
     width: 99%!important;
     margin: 0px;
