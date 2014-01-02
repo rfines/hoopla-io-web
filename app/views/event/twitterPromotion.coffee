@@ -19,10 +19,11 @@ module.exports = class CreatePromotionReqeust extends View
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
       )
-    console.log @twPromoTarget
     @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
+    @subscribeEvent "event:promoteTwitter", @sendTweet
     @twitterImgUrl = @twPromoTarget?.profileImageUrl
     @twitterHandle =  @twPromoTarget?.profileName 
+
     if not @model
       @model = new PromotionRequest()
     
@@ -33,7 +34,9 @@ module.exports = class CreatePromotionReqeust extends View
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
     td.twitterHandle = @twitterHandle
-    if not @twPromoTarget
+    if @twPromoTarget
+      td.showTwitter = true
+    else
       td.showTwitter = false
     td
   
@@ -61,11 +64,12 @@ module.exports = class CreatePromotionReqeust extends View
     "click .showTweetFormBtn":"showTweetForm"
     "change .tw-cusLink-box": "showLinkBox"
     'change .tw-lrLink-box':"hideLinkBox"
-    "event:promoteTwitter mediator":"sendTweet"
+  
     
   sendTweet:(data)=>
     @event = data.event
-    @$el.find('.promoRequestFormTwitter').submit()
+    console.log "submitting twitter form"
+    $('.promoRequestFormTwitter').submit()
 
 
   initDatePickers: =>
@@ -91,6 +95,7 @@ module.exports = class CreatePromotionReqeust extends View
 
   saveTwitter: (e)->
     e.preventDefault()
+    console.log "Saving twitter promotion"
     successMessageAppend ="" 
     message = $('.tweetMessage').val()
     immediate = $('.tw-immediate-box')
@@ -117,10 +122,17 @@ module.exports = class CreatePromotionReqeust extends View
       pr.eventId = @event.id
       pr.save {},{
         success:(response, doc)=>
-            Chaplin.mediator.publish 'stopWaiting'
-            @publishEvent 'notify:publish', "Your Twitter event promotion will go out as soon as possible."
+          Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent 'notify:publish', "Your Twitter event promotion will go out as soon as possible."
+          resp = {}
+          resp.twPublished = true
+          @publishEvent 'notify:twPublished', resp
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
+          response = {}
+          response.twPublished = false
+          response.error = error
+          @publishEvent 'notify:fbPublished', response
       }
     else if time? > 0 
       if date and now >= moment(date).format('X')
@@ -137,8 +149,15 @@ module.exports = class CreatePromotionReqeust extends View
         success:(response, doc) =>
           Chaplin.mediator.publish 'stopWaiting'
           @publishEvent 'notify:publish', "Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
-        error:(response,err)=>
+          resp = {}
+          resp.twFinished = true
+          @publishEvent 'notify:twPublished', resp
+        error:(err)=>
           Chaplin.mediator.publish 'stopWaiting'
+          response = {}
+          response.twFinished = false
+          response.error = err
+          @publishEvent 'notify:twPublished', response
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'

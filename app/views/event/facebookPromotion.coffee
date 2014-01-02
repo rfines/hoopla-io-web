@@ -20,7 +20,6 @@ module.exports = class FacebookPromotion extends View
   initialize:(options) ->
     super(options)
     @event = options.data
-    console.log @event
     @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'FACEBOOK'
@@ -70,21 +69,20 @@ module.exports = class FacebookPromotion extends View
     @initTimePickers()
     @getFacebookPages(@fbPromoTarget) if @fbPromoTarget
     @subscribeEvent "updateFacebookPreview",@updatePreview
+    @subscribeEvent "event:promoteFacebook", @promoteFb
    
   events: 
+    "submit .promoRequestFormFacebook": "saveFacebook"
     "click .facebookPostBtn": "saveFacebook"
     "click .createFbEventBtn":"saveFbEvent"
     "click .cancelBtn":"cancel"
-    "click .facebookTab" : "showFacebook"
-    "click .facebookEventTab":"showFacebookEvent"
     "change .immediate-box":"immediateClick"
     "keyup .message": "updateFacebookPreviewText"
     "click .editPostBtn":"showPostForm"
-    "event:promoteFacebook":"promoteFb"
 
   promoteFb:(data)=>
     @event = data.event
-    @$el.find('.promoRequestFormFacebook').submit()
+    $('.promoRequestFormFacebook').submit()
 
   updatePreview:(data)=>
     if data.selector and not data.html
@@ -141,9 +139,17 @@ module.exports = class FacebookPromotion extends View
         success:(item)=>
           Chaplin.mediator.publish 'stopWaiting'
           @publishEvent 'notify:publish', 'Your Facebook event promotion will magically appear shortly.'
+          response = {}
+          response.fbFinished = true
+          @publishEvent 'notify:fbPublished', response
 
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
+          response = {}
+          response.fbFinished = false
+          response.error = error
+          @publishEvent 'notify:fbPublished', response
+        
       }    
     else if time? > 0 
       d= moment(date).toDate().toISOString()
@@ -165,34 +171,19 @@ module.exports = class FacebookPromotion extends View
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'
           @publishEvent 'notify:publish', "Your Facebook event promotion has been scheduled for #{moment(d).format("ddd, MMM D YYYY h:mm A")}. #{successMessageAppend}"
+          resp = {}
+          resp.fbPublished = true
+          @publishEvent 'notify:fbPublished', resp
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
+          response = {}
+          response.fbPublished = false
+          response.error = error
+          @publishEvent 'notify:fbPublished', response
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'
       @publishEvent 'notify:publish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
-        
-  showFacebook: (e)=>
-    if e
-      e.preventDefault()
-    @publishEvent 'message:close'
-    $('.facebookTab').addClass('active')
-    $('.facebookEventTab').removeClass('active')
-    $('#facebookPanel').show()
-    $('#facebookEventPanel').hide() 
-
-  showFacebookEvent: (e)=>
-    if e
-      e.preventDefault()
-    @publishEvent 'message:close'
-    $('.facebookTab').removeClass('active')
-    $('.facebookEventTab').addClass('active')
-    options=
-      business:@business
-      promotionTarget:@fbPromoTarget
-    @subview("facebookEvent", new CreateFacebookEventView({model: @event, container : @$el.find('.facebook-event-preview')[0], options:options}))
-    $('#facebookEventPanel').show()
-    $('#facebookPanel').hide()
 
   getFacebookPages:(promoTarget)=>
     if promoTarget.accessToken
@@ -283,12 +274,11 @@ module.exports = class FacebookPromotion extends View
 
   showCreatedMessage: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    if _.isObject data
-      if data.type
-        @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
-      else
-        @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
-    else if _.isString(data)
+    if _.isObject(data) and data.type
+      @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
+    else
+      @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href="##{data.id}">View</a>"
+    if _.isString(data)
       @publishEvent 'message:publish', 'success', "#{data}"
 
   validate: (message, immediate, date, time)=>
@@ -318,5 +308,6 @@ module.exports = class FacebookPromotion extends View
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
     short
   showPostForm:(e)=>
-    e.preventDefault() if e
+    if e
+      e.preventDefault
     @$el.find('.form_container').slideToggle()

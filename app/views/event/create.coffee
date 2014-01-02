@@ -51,6 +51,8 @@ module.exports = class EventCreateView extends View
     @$el.find('.business').on 'change', @changeBusiness
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
+    @subscribeEvent 'notify:fbPublished', @removeForm
+    @subscribeEvent 'notify:twPublished', @removeForm
     @initSchedule()
 
     $('.host').trigger("chosen:updated")
@@ -84,7 +86,6 @@ module.exports = class EventCreateView extends View
         if name.length >0
           el.innerText = "#{name}"
       addr_str = b.get('location')
-      console.log addr_str
               
     $(".host.select-chosen").chosen().change (e, params) ->
       el =$('.venue_preview')
@@ -103,14 +104,12 @@ module.exports = class EventCreateView extends View
       else
         el.innerText = "#{b?.get('location')?.address}"
       addr_str= b.get('location')
-      console.log addr_str
 
 
   initTwitterPromotion : =>
     @model.set
       description : @$el.find('.description').val()
       location: addr_str
-    console.log addr_str
     @subview 'twitterPromo', new TwitterPromo({
               container : @$el.find('.twitter_container')
               template: require('templates/event/createTwitterPromotionRequest')
@@ -121,7 +120,6 @@ module.exports = class EventCreateView extends View
       description :@$el.find('.description').val()
       startDate : start_date 
       location : addr_str
-    console.log addr_str
     @subview 'facebookPromo', new FbPromo({
       container:@$el.find('.facebook_container')
       template: require('templates/event/createFacebookPromotionRequest')
@@ -344,35 +342,36 @@ module.exports = class EventCreateView extends View
     @publishEvent 'trackEvent', "create-#{@noun}", tracking      
     @collection.add @model
     @publishEvent '#{@noun}:created', @model
-    if $('.promote-checkbox-twitter').is(':checked')
+    console.log "event created setting up promotions"
+    console.log $('.twitter-checkbox').is(':checked')
+    if $('.twitter-checkbox').is(':checked')
       data.twitter=true
       data.callback  = @promoteTwitterCallback
+      console.log "calling twitter promotions"
       @publishEvent "event:promoteTwitter", data
-    else if $('.facebook-checkbox').is(':checked')
+    if $('.facebook-checkbox').is(':checked')
       data.facebook = true
       data.callback  = @promoteFacebookCallback
       @publishEvent "event:promoteFacebook", data
-    else
-      window.location.reload(false)
+    if !$('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
+      r = {}
+      r.fbPublished = true
+      r.twPublished=true
+      @removeForm r
     
   promoteTwitterCallback:(result)=>
     if result.err
       console.log result.err
     else
-      if $('.facebook-checkbox').is(':checked')
-        data={}
-        data.event = @model 
-        data.facebook = true
-        data.callback  = @promoteFacebookCallback
-        @publishEvent "event:promoteFacebook", data
-      else
-        window.location.reload(false)
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+
   promoteFacebookCallback:(result)=>
     if result.err
       console.log result.err
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      window.location.reload(false)
+      
+
   showPromote:(show)=>
     if show
       $('.promotion-selection').show()
@@ -405,7 +404,6 @@ module.exports = class EventCreateView extends View
     $('.stepOnePanel, .stepTwoPanel, .stepThreePanel').hide()
 
   updateModel: =>
-    console.log addr_str
     if @$el.find('input.repeats:checked').val()
       @model.set
         tzOffset : moment().zone()
@@ -510,3 +508,12 @@ module.exports = class EventCreateView extends View
 
     }
     @publishEvent 'updateFacebookPreview', data
+
+  removeForm:(result)=>
+    if result and result.fbPublished
+      @fbFinished = result.fbPublished
+    if result and result.twPublished
+      @twFinished = result.twPublished
+    if @fbFinished is true and @twFinished is true
+      @publishEvent "closeOthers"
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
