@@ -1182,34 +1182,42 @@ padding: 9px;}
   line-height: 1.5em;
 }
 .list-options.hidden-xs {display:none;}
-.steps {padding-bottom: 20px;
+.steps {
+  padding-bottom: 20px;
   i.glyphicon {margin-right:5px;}
   .recurringScheduleDetails 
   {
-    .row {margin-top:0px!important;}
+    .row {}
     background-color: transparent;
     border-radius: 0px 0px 8px 8px;
-    padding: 5px;
+    padding: 10px;
     box-shadow: 0px 0px 10px rgba(0,0,0,.4) inset;
 
-    label {font-size:.8em;}
+    .dayOfWeekContainer label {font-size:.9em;}
 
   }
 .content-entry .row {margin-top:15px;}
+.content-entry iframe.wysihtml5-sandbox {height:100px!important;}
   .content-entry, .preview 
       {
-        min-height: 638px;
+        min-height: 550px;
         position: relative;
         margin-top:10px;
       }
-    .preview  .thumbnail:first-child {
+    .preview  {
+      h3.previewName {text-align:center;margin-bottom:5px;}
+      .date_preview {text-align:center;}
+      .thumbnail:first-child {
       min-height:478px;
       h4 {text-align:center;color:@gray-light; font-family:'museoLight';}
+      dd {line-height:2;}
+      }
       }
     .content-entry div.col-md-12 {}
   .controls {
-    position:absolute;
+    position:relative;
     bottom:45px;
+    height:50px;
     width:100%;
     .right{position:absolute;right:20px}
     .left{position:absolute;left:20px}

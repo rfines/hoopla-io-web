@@ -80,86 +80,92 @@
                     <option value="MONTHLY">Monthly</option>
                   </select>
                 </div>
+				<div class="col-md-4 dayOfWeekCountContainer">
+	                  <label for="dayOfWeekCount">On the</label>
+	                  <select name="dayOfWeekCount" class="form-control">
+	                    <option value="1">First</option>
+	                    <option value="2">Second</option>
+	                    <option value="3">Third</option>
+	                    <option value="4">Fourth</option>
+	                    <option value="0">Last</option>
+	                  </select>
+	                </div>
                 <div class="col-md-4">
                   <label for="end"><i class="glyphicon glyphicon-calendar"></i>Until<span class="required">*</span></label>
-                  <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
+                  <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">  
+				          
                 </div>
+				
               </div>
               <div class="row">
-                <div class="col-md-3 dayOfWeekCountContainer">
-                  <label for="dayOfWeekCount">On the</label>
-                  <select name="dayOfWeekCount" class="form-control">
-                    <option value="1" selected >First</option>
-                    <option value="2">Second</option>
-                    <option value="3">Third</option>
-                    <option value="4">Fourth</option>
-                    <option value="0">Last</option>
-                  </select>
-                </div>
+               
                 <div class="col-md-3 dayOfWeekContainer">
                   <input type="checkbox" name="MONDAY" value="2" /> <label>Monday</label><br />
                   <input type="checkbox" name="TUESDAY" value="3" /> <label>Tuesday</label><br />
-<input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
+			
 				</div>
 				<div class="col-md-3 dayOfWeekContainer">
+					<input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
                   <input type="checkbox" name="THURSDAY" value="5" /> <label>Thursday</label><br />
+</div>
+	<div class="col-md-3 dayOfWeekContainer">
 				<input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
                   <input type="checkbox" name="SATURDAY" value="7" /> <label>Saturday</label><br />
                 </div>
 				<div class="col-md-3 dayOfWeekContainer">
-                  
                   <input type="checkbox" name="SUNDAY" value="1" /> <label>Sunday</label><br />        
                 </div>
               </div>
             </div>
 </div>
-            <div class="row">
-              <div class="col-md-6 col-sm-6">
-                <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
-                <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99, and should represent the lowest cost available." data-placement="right"></a></label>
-                <input type="text" name="cost" value="0" class="cost form-control" placeholder="0.00"/>
-              </div>
-              <div class="col-md-6 col-sm-6">
-                <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
-                <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
-              </div>
-          </div>
-          <div class="row controls">
-            <div class="right"><button type="button" class="btn btn-success nextStepOne">Next</button></div>
-			<div class="left"><button type="cancel" class="btn btn-default cancel">Cancel</button></div>
-          </div>
+            
+          
         </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 preview">
               <div class="thumbnail">
 <div class="preview-header"><h4>-Event Preview-</h4></div>
-                <img class="imagePreview" src="http://placehold.it/300x200" alt="Preview Image location">
+                <img class="imagePreview" src="http://placehold.it/200x100" alt="Preview Image location">
                 <div class="caption">
                  <h3 class="previewName">Event name</h3>
                         <p class="date_preview">Friday December 27, 2013</p>
                         <dl>
-                          <dt>Start</dt>
-                          <dd><span class="start_time_preview"></span></dd>
-                          <dt>End</dt>
-                          <dd><span class="end_time_preview"></span></dd>
-                          <dt>Venue</dt>
-                          <dd><span class="venue_preview"></span></dd>
-                          <dt>Cost</dt>
-                          <dd><span class="cost_preview">FREE</span></dd>
-                          <dt>Map & Directions</dt>
-                          <dd><span class="map_preview"></span></dd>
-						<dt>Description</dt>
-                          <dd><span class="description_preview"></span></dd>
+                          <dd><strong>Starts:</strong> <span class="start_time_preview"></span></dd>
+
+                          <dd><strong>Ends:</strong> <span class="end_time_preview"></span></dt>
+
+                          <dd><strong>Venue/Location:</strong> <span class="venue_preview"></span></dd>
+
+                      
+                          <dd><strong>Address:</strong><span class="map_preview"></span></dd>
+  
+						
                         </dl>
                 </div>
             </div>
           </div>
+			<div class="row controls">
+	            <div class="right"><button type="button" class="btn btn-success nextStepOne">Next</button></div>
+				<div class="left"><button type="cancel" class="btn btn-default cancel">Cancel</button></div>
+	          </div>
         </div>
+	
         </div>
       <div class="stepTwoPanel steps" style="display:none;">
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 content-entry">
-              <div class="col-md-12">
-                <div class="description-container">
+			<div class="row">
+            <div class="col-md-6 col-sm-6">
+              <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
+              <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99, and should represent the lowest cost available." data-placement="right"></a></label>
+              <input type="text" name="cost" value="0" class="cost form-control" placeholder="0.00"/>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
+              <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
+            </div>
+        </div>
+              <div class="row">
+                <div class="col-md-12 description-container">
                   <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
                   <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style"display: none;margin-bottom:0px;">
                   <nav class="nav navbar-form">
@@ -173,7 +179,8 @@
                   <textarea class="form-control description" name="description" placeholder="Enter event description here" id="description-textarea"></textarea>
                 </div>
               </div>
-              <div class="col-md-12" id="image-chooser-container">
+              <div class="row" id="image-chooser-container">
+				<div class="col-md-12">
                 <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
                 <div style="display:inline;;margin-bottom:0px!important;">
                   <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image for best results across media channels.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
@@ -191,36 +198,32 @@
                 </div>
                 <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
               </div>
-            <div class="row controls">
-
-            <div class="right"><button type="button" class="btn btn-success nextStepTwo">Next</button></div>
-            <div class="left"><button type="button" class="btn btn-default stepTwoBack">Back</button></div>
-          </div>
+</div>
+            
           </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6  preview">
               <div class="thumbnail">
 <div class="preview-header"><h4>-Event Preview-</h4></div>
-                <img class="imagePreview" src="http://placehold.it/300x200" alt="Preview Image location">
+                <img class="imagePreview" src="http://placehold.it/200x100" alt="Preview Image location">
                 <div class="caption">
                   <h3 class="previewName">Event name</h3>
                         <p class="date_preview">Friday December 27, 2013</p>
                         <dl>
-                          <dt>Start</dt>
-                          <dd><span class="start_time_preview"></span></dd>
-                          <dt>End</dt>
-                          <dd><span class="end_time_preview"></span></dd>
-                          <dt>Venue</dt>
-                          <dd><span class="venue_preview"></span></dd>
-                          <dt>Cost</dt>
-                          <dd><span class="cost_preview">FREE</span></dd>
-                          <dt>Map & Directions</dt>
-                          <dd><span class="map_preview"></span></dd>
-						<dt>Description</dt>
-                          <dd><span class="description_preview"></span></dd>
+                          <dd><strong>Start:</strong><span class="start_time_preview"></span></dd>
+                          <dd><strong>End:</strong><span class="end_time_preview"></span></dd>
+                          <dd><strong>Venue:</strong><span class="venue_preview"></span></dd>
+                          <dd><strong>Cost:</strong><span class="cost_preview">FREE</span></dd>
+                          <dd><strong>Address:</strong><span class="map_preview"></span></dd>
+                          <dd><strong>Description</strong><span class="description_preview"></span></dd>
                         </dl>
             </div>
           </div>
         </div>
+		<div class="row controls">
+
+        <div class="right"><button type="button" class="btn btn-success nextStepTwo">Next</button></div>
+        <div class="left"><button type="button" class="btn btn-default stepTwoBack">Back</button></div>
+      </div>
         </div>
       </div>
       <div class="stepThreePanel steps" style="display:none;">
@@ -266,29 +269,25 @@
             <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
           </div>
         </div>
+          </div>
+
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 preview-container preview">
             <div class="thumbnail">
               <div class="preview-header"><h4>-Event Preview-</h4></div>
                 <div class="web">
                   <div class="col-xs-12">
                     <div class="">
-                      <img class="imagePreview" data-src="http://plachold.it/300x200" alt="...">
+                      <img class="imagePreview" data-src="http://plachold.it/200x100" alt="...">
                       <div class="caption">
-                        <h3><p class="previewName">Event name</p></h3>
+                        <h3 class="previewName">Event name</h3>
                         <p class="date_preview">Friday December 27, 2013</p>
-                        <dl class="dl-horizontal">
-                          <dt>Start</dt>
-                          <dd><span class="start_time_preview"></span></dd>
-                          <dt>End</dt>
-                          <dd><span class="end_time_preview"></span></dd>
-                          <dt>Venue</dt>
-                          <dd><span id="venue_preview"></span></dd>
-                          <dt>Cost</dt>
-                          <dd><span class="cost_preview">FREE</span></dd>
-                          <dt>Map & Directions</dt>
-                          <dd><span class="map_preview"></span></dd>
-                          <dt>Description</dt>
-                          <dd><span class="description_preview"></span></dd>
+                        <dl>
+                         <dd><strong>Start:</strong><span class="start_time_preview"></span></dd>
+                          <dd><strong>End:</strong><span class="end_time_preview"></span></dd>
+                          <dd><strong>Venue:</strong><span class="venue_preview"></span></dd>
+                          <dd><strong>Cost:</strong><span class="cost_preview">FREE</span></dd>
+                          <dd><strong>Address:</strong><span class="map_preview"></span></dd>
+                          <dd><strong>Description</strong><span class="description_preview"></span></dd>
                         </dl>
                       </div>
                     </div>
@@ -359,7 +358,14 @@
         </div>
       </div>
       </div>
-      
+		 <div class="row controls">
+
+            <div class="right"><button type="submit" class="btn btn-success btn-lg saveButton submit">Publish</button></div>
+            <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>      
