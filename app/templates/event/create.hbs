@@ -10,9 +10,10 @@
       <div class="stepOnePanel steps">
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 content-entry">
+              
               <div class="row">
                 {{#if isNew}}
-                <div class="col-md-6 {{#if hasSingleBusiness}}hide{{/if}}">
+                <div class="col-md-6 {{#if hasSingleBusiness}}hide{{/if}} business-container">
                   <label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
                   <select name="business" class="business select-chosen form-control">
                     {{#each businesses}}
@@ -21,7 +22,8 @@
                   </select>
                 </div>
                 {{/if}}
-              </div>
+              
+            </div>
  <div class="row">
             <div class="col-md-12">
 
@@ -31,6 +33,7 @@
 </div>
  <div class="row">
             <div class="col-md-12">
+            <div class="host-container">
               <div class="address-finder">
                 <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
                 <div class="choose_venue">
@@ -48,6 +51,7 @@
                   <input type="text" class="form-control hostAddress" name="hostAddress" />
                   <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
                 </div>
+              </div>
               </div>
             </div>
 </div>
@@ -260,10 +264,6 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="pull-left twitter_box"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
-            <div class="pull-right facebook_box"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
-          </div>
           <div class="row controls">
             <div class="right"><button type="button" class="btn btn-success btn-lg nextStepThree">Next</button></div>
             <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
@@ -358,12 +358,7 @@
         </div>
       </div>
       </div>
-		 <div class="row controls">
-
-            <div class="right"><button type="submit" class="btn btn-success btn-lg saveButton submit">Publish</button></div>
-            <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
-
-          </div>
+		 
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ module.exports = class EventCreateView extends View
   template: template
   listRoute: 'myEvents'
   noun : 'event'
+  model:Event
   twPromoTarget =undefined
   fbPromoTarget =undefined
   start_date = undefined
@@ -22,6 +23,7 @@ module.exports = class EventCreateView extends View
     $('.stepThreePanel').hide()
     $('.stepFourPanel').hide()
     @extend @, new MediaMixin()
+    @model = new Event() if not @model
     super()
   events:
     'click .nextStepOne':'showStepTwo'
@@ -45,6 +47,7 @@ module.exports = class EventCreateView extends View
   attach: =>
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
+    console.log @model
     @initSocialMediaPromotion()
     @initTimePickers()
     @initDatePickers()
@@ -67,7 +70,7 @@ module.exports = class EventCreateView extends View
       e.preventDefault()
       $(this).tab "show"
     if Chaplin.datastore.business.length is 1
-      @event.business = Chaplin.datastore.business[0]
+      @model.business = Chaplin.datastore.business[0]
       @twPromoTarget =_.find(@event.business.get('promotionTargets'), (item) =>
         return item.accountType is 'TWITTER'
       )
@@ -82,7 +85,7 @@ module.exports = class EventCreateView extends View
         $('.facebook_box').hide()
       else
         $('.facebook_box').show()
-      addr_str = @event.business.get('location') 
+      addr_str = @model.business.get('location')
     else  
       $(".business.select-chosen").chosen().change (e, params) ->
         el =$('.venue_preview')
@@ -109,6 +112,7 @@ module.exports = class EventCreateView extends View
           if name.length >0
             el.innerText = "#{name}"
         addr_str = b.get('location')
+        console.log addr_str
               
     $(".host.select-chosen").chosen().change (e, params) ->
       el =$('.venue_preview')
@@ -127,7 +131,8 @@ module.exports = class EventCreateView extends View
       else
         el.innerText = "#{b?.get('location')?.address}"
       addr_str= b.get('location')
-
+      console.log addr_str
+  
   storeDescription:()=>
     @description = $('.description').val()
     @updateDescriptionPreviews()
@@ -409,23 +414,29 @@ module.exports = class EventCreateView extends View
       @model.unset('host') if @model.has('host')
   showStepTwo:(e)=>
     e.preventDefault() if e
-    @updateProgress('step2')
-    @closeAll(e)
-    $('.stepTwoPanel').show()
+    @model.set
+      location: addr_str
+    if @partialValidate()
+      @updateProgress('step2')
+      @closeAll(e)
+      $('.stepTwoPanel').show()
   showStepThree:(e)=>
     e.preventDefault() if e
-    @updateProgress('step3')
-    @closeAll(e)
-    @initTwitterPromotion()
-    @initFacebookPromotion()
-    $('.stepThreePanel').show()
+    @model.set
+      description: $('.description').val()
+      location: addr_str
+    if @partialValidate() 
+      @updateProgress('step3')
+      @closeAll(e)
+      $('.stepThreePanel').show()
   showStepFour:(e)=>
     e.preventDefault() if e
-    @updateProgress('step4')
-    @closeAll(e)
-    @initTwitterPromotion()
-    @initFacebookPromotion()
-    $('.stepFourPanel').show()
+    if @partialValidate()
+      @updateProgress('step4')
+      @closeAll(e)
+      @initTwitterPromotion()
+      @initFacebookPromotion()
+      $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
     @updateProgress('step1')
@@ -433,7 +444,7 @@ module.exports = class EventCreateView extends View
     $('.stepOnePanel').show()
   closeAll:(e)=>
     e.preventDefault() if e
-    $('.stepOnePanel, .stepTwoPanel, .stepThreePanel').hide()
+    $('.stepOnePanel, .stepTwoPanel, .stepThreePanel, .stepFourPanel').hide()
 
   updateModel: =>
     if @$el.find('input.repeats:checked').val()

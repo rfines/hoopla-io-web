@@ -7,7 +7,7 @@ module.exports = class Event extends Model
 
   validation :
     name:
-      required: true        
+      required: true      
     description:
       required: true
     location:
