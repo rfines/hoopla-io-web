@@ -1,8 +1,6 @@
 <div class="row">
   <form class="form-inline form-create" role="form">
     <div class="formContainer">
-      
-
       <div class="row">
           <div class="progress step1">
           </div>
@@ -10,9 +8,10 @@
       <div class="stepOnePanel steps">
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 content-entry">
+              
               <div class="row">
                 {{#if isNew}}
-                <div class="col-md-6 {{#if hasSingleBusiness}}hide{{/if}}">
+                <div class="col-md-6 {{#if hasSingleBusiness}}hide{{/if}} business-container">
                   <label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
                   <select name="business" class="business select-chosen form-control">
                     {{#each businesses}}
@@ -21,7 +20,8 @@
                   </select>
                 </div>
                 {{/if}}
-              </div>
+              
+            </div>
  <div class="row">
             <div class="col-md-12">
 
@@ -31,6 +31,7 @@
 </div>
  <div class="row">
             <div class="col-md-12">
+            <div class="host-container">
               <div class="address-finder">
                 <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
                 <div class="choose_venue">
@@ -48,6 +49,7 @@
                   <input type="text" class="form-control hostAddress" name="hostAddress" />
                   <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
                 </div>
+              </div>
               </div>
             </div>
 </div>
@@ -242,34 +244,29 @@
 
               </div>
             </div>
-          <div class="row">
-
-		              <div class="event-website col-md-12">
-		                <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-		                <input type="url" class="form-control website" name="website"  placeholder="Event Website"/>
-		              </div>
-					</div>
-					<div class="row">
-		              <div class="event-contact col-md-6">
-		                <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-		                <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-						</div>
-		              <div class="event-phone col-md-6">
-		                <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-		                <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-		              </div>
-
-		            </div>
-
-		            <div class="row"><hr><h5 class="white col-md-12">When publishing this event to Local Ruckus and your web calendar in step 4, you can also post immediately to your social media channels:</h5>
-		              <div class="facebook_box col-md-6"> <div class="channel-icon"></div><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />&nbsp;Post the details of this event to my Facebook Timeline when publishing.&nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="You can use our default Facebook post content or customize to your needs before publishing. To ensure your event is well publicized to your social networks, we recommend scheduling additional Facebook posts from the event dashboard." data-placement="top" data-html='true'></a></label>
-		</div>
-
-		<div class="twitter_box col-md-6"><div class="channel-icon"></div><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />&nbsp;Publish a Tweet about this event to my feed when publishing. &nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="You can use our default tweet content or customize to your needs before publishing. To ensure your event is well publicized to your social networks, we recommend scheduling additional tweets from the event dashboard." data-placement="top" data-html='true'></a></label>
-
-		</div>
-
-		          </div>
+            <div class="row">
+              <div class="event-website col-md-12">
+                <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+                <input type="url" class="form-control website" name="website"  placeholder="Event Website"/>
+              </div>
+      			</div>
+      			<div class="row">
+              <div class="event-contact col-md-12">
+                <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+                <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+             	</div>
+    				<div class="row">
+              <div class="event-phone col-md-12">
+                <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+                <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+              </div>
+            </div>
+          </div>
+          <div class="row controls">
+            <div class="right"><button type="button" class="btn btn-success btn-lg nextStepThree">Next</button></div>
+            <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
+          </div>
+        </div>
           </div>
 
 
@@ -369,6 +366,7 @@
 	            <div class="left"><button type="button" class="btn btn-default stepFourBack">Back</button></div>
 	          </div>
       </div>
+
         </div>
       </div>
     </div>

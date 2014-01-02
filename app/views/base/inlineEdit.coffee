@@ -85,7 +85,40 @@ module.exports = class InlineEdit extends View
           @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
       return false
     else
-      return true    
+      return true 
+  partialValidate:() ->
+    @$el.find('.has-error').removeClass('has-error')
+    isValid = true
+    console.log
+    if @model.validate()
+      for x in _.keys(@model.validate())
+        if x is 'description' and $('.description-container').is(':visible')
+          $('.description-container').addClass('has-error')
+          isValid = false
+        else if x is 'location'
+          $(".business-container, .host-container").addClass('has-error')
+          isValid = false
+          console.log "location"
+          console.log @model
+        else
+          el= @$el.find("input[name=#{x}], textarea[name=#{x}]")
+          if el.parent().is(":visible") is true
+            @$el.find("input[name=#{x}], textarea[name=#{x}]").parent().addClass('has-error')
+            isValid = false
+      if $('.startDate').is(':visible')
+        v = $('.startDate').val()
+        if not v or v.length is 0
+          $('.startDate').parent().addClass('has-error')
+          isValid = false
+      if $('.startTime').is(':visible')
+        v = $('.startTime').val()
+        if not v
+          $('.startTime').parent().addClass('has-error')
+          isValid= false
+
+      return isValid
+    else
+      return isValid   
   
   cancel: (e)=>
     e.preventDefault() if e
