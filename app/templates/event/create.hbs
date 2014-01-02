@@ -242,33 +242,37 @@
 
               </div>
             </div>
-            <div class="row">
-              <div class="event-website col-md-12">
-                <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-                <input type="url" class="form-control website" name="website"  placeholder="Event Website"/>
-              </div>
-      			</div>
-      			<div class="row">
-              <div class="event-contact col-md-12">
-                <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-                <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-             	</div>
-    				<div class="row">
-              <div class="event-phone col-md-12">
-                <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-                <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-              </div>
-            </div>
-          </div>
           <div class="row">
-            <div class="pull-left twitter_box"><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />Twitter</label></div>
-            <div class="pull-right facebook_box"><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />Facebook</label></div>
+
+		              <div class="event-website col-md-12">
+		                <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+		                <input type="url" class="form-control website" name="website"  placeholder="Event Website"/>
+		              </div>
+					</div>
+					<div class="row">
+		              <div class="event-contact col-md-6">
+		                <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+		                <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+						</div>
+		              <div class="event-phone col-md-6">
+		                <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+		                <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+		              </div>
+
+		            </div>
+
+		            <div class="row"><hr><h5 class="white col-md-12">When publishing this event to Local Ruckus and your web calendar in step 4, you can also post immediately to your social media channels:</h5>
+		              <div class="facebook_box col-md-6"> <div class="channel-icon"></div><label class="form-label"><input type="checkbox" class="checkbox facebook-checkbox" />&nbsp;Post the details of this event to my Facebook Timeline when publishing.&nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="You can use our default Facebook post content or customize to your needs before publishing. To ensure your event is well publicized to your social networks, we recommend scheduling additional Facebook posts from the event dashboard." data-placement="top" data-html='true'></a></label>
+		</div>
+
+		<div class="twitter_box col-md-6"><div class="channel-icon"></div><label class="form-label"><input type="checkbox" class="checkbox twitter-checkbox" />&nbsp;Publish a Tweet about this event to my feed when publishing. &nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="You can use our default tweet content or customize to your needs before publishing. To ensure your event is well publicized to your social networks, we recommend scheduling additional tweets from the event dashboard." data-placement="top" data-html='true'></a></label>
+
+		</div>
+
+		          </div>
           </div>
-          <div class="row controls">
-            <div class="right"><button type="button" class="btn btn-success btn-lg nextStepThree">Next</button></div>
-            <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
-          </div>
-        </div>
+
+
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 preview-container preview">
             <div class="thumbnail">
               <div class="preview-header"><h4>-Event Preview-</h4></div>
@@ -299,6 +303,12 @@
                 </div>
               </div>
             </div>
+				<div class="row controls">
+
+		        <div class="right"><button type="button" class="btn btn-success nextStepFour">Next</button></div>
+		        <div class="left"><button type="button" class="btn btn-default stepThreeBack">Back</button></div>
+		      </div>
+		        </div>
           </div>
         </div>
         <div class="stepFourPanel" style="display:none;">
@@ -319,19 +329,13 @@
                     <div class="caption">
                       <h3><p class="previewName">Event name</p></h3>
                       <p class="date_preview">Friday December 27, 2013</p>
-                      <dl class="dl-horizontal">
-                        <dt>Start</dt>
-                        <dd><span class="start_time_preview"></span></dd>
-                        <dt>End</dt>
-                        <dd><span class="end_time_preview"></span></dd>
-                        <dt>Venue</dt>
-                        <dd><span id="venue_preview"></span></dd>
-                        <dt>Cost</dt>
-                        <dd><span class="cost_preview">FREE</span></dd>
-                        <dt>Map & Directions</dt>
-                        <dd><span class="map_preview"></span></dd>
-                        <dt>Description</dt>
-                        <dd><span class="description_preview"></span></dd>
+                    	<dl>
+                       <dd><strong>Start:</strong><span class="start_time_preview"></span></dd>
+                        <dd><strong>End:</strong><span class="end_time_preview"></span></dd>
+                        <dd><strong>Venue:</strong><span class="venue_preview"></span></dd>
+                        <dd><strong>Cost:</strong><span class="cost_preview">FREE</span></dd>
+                        <dd><strong>Address:</strong><span class="map_preview"></span></dd>
+                        <dd><strong>Description</strong><span class="description_preview"></span></dd>
                       </dl>
                     </div>
                   </div>
@@ -362,7 +366,8 @@
         </div>
       </div>
       </div>
-
+        </div>
+      </div>
     </div>
 
   </div>
