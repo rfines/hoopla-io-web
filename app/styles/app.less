@@ -357,7 +357,6 @@ top: 6px;}
     }
     a {
         font-size: 1.1em;
-        margin: 0px 10px 0px 0px;
     }
     .top-nav-links {
         position: relative;
@@ -1196,7 +1195,9 @@ padding: 9px;}
     .dayOfWeekContainer label {font-size:.9em;}
 
   }
-.content-entry .row {margin-top:15px;}
+.content-entry { .row {margin-top:15px;}
+.panel label.form-label {color:#000!important;}
+}
 .content-entry iframe.wysihtml5-sandbox {height:100px!important;}
   .content-entry, .preview 
       {
@@ -1213,7 +1214,8 @@ padding: 9px;}
       dd {line-height:2;}
       }
       }
-    .content-entry div.col-md-12 {}
+    .content-entry .facebook_box .channel-icon {width:100px;height:100px;margin:0px auto 15px auto; background:url(/client/images/facebook_twitter_sprite.png) 0px 0px no-repeat transparent;}
+    .content-entry .twitter_box .channel-icon{width:100px;height:100px;margin:0px auto 15px auto; background:url(/client/images/facebook_twitter_sprite.png) -125px 0px no-repeat transparent;}
   .controls {
     position:relative;
     bottom:45px;
@@ -1222,6 +1224,7 @@ padding: 9px;}
     .right{position:absolute;right:20px}
     .left{position:absolute;left:20px}
   }
+  .chosen-choices .search-field, .chosen-choices .search-field input {width:100%!important;}
 }
 .event-list .progress {margin-top:10px!important;}
 .progress.step1 {
@@ -1249,6 +1252,9 @@ padding: 9px;}
     margin:0px auto;
 }
 .choose_venue .addressButton {color:#fff; font-size:1.5em;}
+
+
+
 @media (max-width:979px){
   .messaging {
 margin-left:0px;
@@ -1293,6 +1299,11 @@ margin-left:0px;
 
 }
 @media (max-width: 767px) {
+  
+  .header .navbar-inverse {
+      background-color: #fff;
+      .navbar-toggle {background-color:#52c5e5 ;}
+    }
   .glyphicon-plus, i.glyphicon-minus {
       opacity: 1.0;
      font-size: 1.3em!important;
