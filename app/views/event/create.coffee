@@ -60,15 +60,12 @@ module.exports = class EventCreateView extends View
     $("#myTab a").click (e) ->
       e.preventDefault()
       $(this).tab "show"
-
-    $(".business.select-chosen").chosen().change (e, params) ->
-      el =$('.venue_preview')
-      b = Chaplin.datastore.business.get(params.selected)
-      name = b?.get('name')
-      @twPromoTarget =_.find(b?.get('promotionTargets'), (item) =>
+    if Chaplin.datastore.business.length is 1
+      @event.business = Chaplin.datastore.business[0]
+      @twPromoTarget =_.find(@event.business.get('promotionTargets'), (item) =>
         return item.accountType is 'TWITTER'
       )
-      @fbPromoTarget =_.find(b?.get("promotionTargets"), (item) =>
+      @fbPromoTarget =_.find(@event.business.get("promotionTargets"), (item) =>
         return item.accountType is 'FACEBOOK'
       )
       if not @twPromoTarget
@@ -78,14 +75,34 @@ module.exports = class EventCreateView extends View
       if not @fbPromoTarget
         $('.facebook_box').hide()
       else
-        $('.facebook_box').show() 
-      if el.length >1
-        _.each el, (item, index, list)=>
-            item.innerText = "#{name}"
-      else
-        if name.length >0
-          el.innerText = "#{name}"
-      addr_str = b.get('location')
+        $('.facebook_box').show()
+      addr_str = @event.business.get('location') 
+    else  
+      $(".business.select-chosen").chosen().change (e, params) ->
+        el =$('.venue_preview')
+        b = Chaplin.datastore.business.get(params.selected)
+        name = b?.get('name')
+        @twPromoTarget =_.find(b?.get('promotionTargets'), (item) =>
+          return item.accountType is 'TWITTER'
+        )
+        @fbPromoTarget =_.find(b?.get("promotionTargets"), (item) =>
+          return item.accountType is 'FACEBOOK'
+        )
+        if not @twPromoTarget
+          $('.twitter_box').hide()
+        else
+          $('.twitter_box').show()
+        if not @fbPromoTarget
+          $('.facebook_box').hide()
+        else
+          $('.facebook_box').show() 
+        if el.length >1
+          _.each el, (item, index, list)=>
+              item.innerText = "#{name}"
+        else
+          if name.length >0
+            el.innerText = "#{name}"
+        addr_str = b.get('location')
               
     $(".host.select-chosen").chosen().change (e, params) ->
       el =$('.venue_preview')
