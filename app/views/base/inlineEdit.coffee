@@ -107,12 +107,22 @@ module.exports = class InlineEdit extends View
         if not v or v.length is 0
           $('.startDate').parent().addClass('has-error')
           isValid = false
+        else if not moment(v).isValid()
+          $('.startDate').parent().addClass('has-error')
+          isValid=false
       if $('.startTime').is(':visible')
+        now=moment().format("MM-DD-YYYY")
         v = $('.startTime').val()
+        console.log v
+        console.log now
+        nowTimes = moment("#{now} #{v}", "MM-DD-YYYY hh:mma")
+        console.log nowTimes
         if not v
           $('.startTime').parent().addClass('has-error')
           isValid= false
-
+        else if not nowTimes.isValid()
+          $('.startTime').parent().addClass('has-error')
+          isValid = false
       return isValid
     else
       return isValid   

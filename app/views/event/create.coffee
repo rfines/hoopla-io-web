@@ -486,9 +486,9 @@ module.exports = class EventCreateView extends View
           item.innerText = "Event name"
     else
       if keyed.length >0
-        el.innerText = keyed
+        el[0].innerText = keyed
       else
-        el.innerText = "Event name"
+        el[0].innerText = "Event name"
   updateCalendarDateText:(e)=>
     s = @$el.find('.startDate').val()
     if not s
@@ -509,9 +509,9 @@ module.exports = class EventCreateView extends View
             item.innerText = moment().calendar()
       else
         if startTime
-          el.innerText = startTime.calendar()
+          el[0].innerText = startTime.calendar()
         else
-          el.innerText = moment().calendar()
+          el[0].innerText = moment().calendar()
   updateTimePreviewText:(e)=>
     s = @$el.find('.startDate').val()
     if not s
@@ -526,9 +526,9 @@ module.exports = class EventCreateView extends View
           item.innerText = moment().format('h:mm a')
     else
       if endTime
-        endel.innerText =endTime.format('h:mm a')
+        endel[0].innerText =endTime.format('h:mm a')
       else
-        endel.innerText = moment().format('h:mm a')
+        endel[0].innerText = moment().format('h:mm a')
   updateCostPreviewText:(e)=>
     keyed = "$#{@$el.find('.cost').val()}"
     el = $(".cost_preview")
@@ -540,9 +540,9 @@ module.exports = class EventCreateView extends View
           item.innerText = "FREE"
     else
       if keyed.length >0
-        el.innerText = keyed
+        el[0].innerText = keyed
       else
-        el.innerText = "FREE"
+        el[0].innerText = "FREE"
   updateDescriptionPreviews:(e)=>
     keyed = @$el.find('.description').val();
     console.log keyed
@@ -551,7 +551,7 @@ module.exports = class EventCreateView extends View
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
     else
-      dEl.innerText = keyed
+      dEl[0].innerText = keyed
     data={
       selector:".message"
       value:keyed
@@ -569,7 +569,7 @@ module.exports = class EventCreateView extends View
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
     else
-      dEl.innerText = keyed
+      dEl[0].innerText = keyed
     data = {
       selector:'.link-input'
       value: keyed
@@ -587,7 +587,7 @@ module.exports = class EventCreateView extends View
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
     else
-      dEl.innerText = keyed
+      dEl[0].innerText = keyed
 
   updateTagPreviews:(e)=>
     e.preventDefault() if e
@@ -596,7 +596,6 @@ module.exports = class EventCreateView extends View
     console.log keyed
     _.each keyed, (ele, index,list)=>
       text = _.find Chaplin.datastore.eventTag.models, (item)=>
-        console.log item.get('slug')
         return item.get('slug') == ele
       if text
         tagsText.push text.get('text')
@@ -605,7 +604,8 @@ module.exports = class EventCreateView extends View
       _.each dEl, (item, index, list)=>
         item.innerText = tagsText.join(', ')
     else
-      dEl.innerText = tagsText.join(', ')
+      console.log dEl
+      dEl[0].innerText = tagsText.join(', ')
 
   updatePhonePreviews:(e)=>
     e.preventDefault() if e
@@ -617,18 +617,16 @@ module.exports = class EventCreateView extends View
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
     else
-      dEl.innerText = keyed
+      dEl[0].innerText = keyed
   updateContactPreviews:(e)=>
     e.preventDefault() if e
     keyed = @$el.find('.contact').val()
     dEl = $(".contact_preview")
-    console.log keyed
-    console.log dEl
     if dEl.length > 1
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
     else
-      dEl.innerText = keyed
+      dEl[0].innerText = keyed
   removeForm:(result)=>
     if result and result.fbPublished
       @fbFinished = result.fbPublished
