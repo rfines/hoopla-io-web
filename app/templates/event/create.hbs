@@ -165,7 +165,7 @@
             </div>
             <div class="col-md-6 col-sm-6">
               <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
-              <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
+              <input type="text" name="ticketUrl" class="form-control ticket" placeholder="Ticket Link"/>        
             </div>
         </div>
               <div class="row">
@@ -238,7 +238,7 @@
                 <label for="tags">Event Categories
                 <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
                 </label>
-                <select class="form-control select-chosen" multiple="true" name="tags">
+                <select class="form-control select-chosen tags" multiple="true" name="tags">
                   {{#each eventTags}}
                   <option value="{{attributes.slug}}">{{attributes.text}}</option>
                   {{/each}}
@@ -255,11 +255,11 @@
 					<div class="row">
 		              <div class="event-contact col-md-6">
 		                <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-		                <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+		                <input type="text" class="form-control contact" name="contactName"  placeholder="Event Contact"/>
 						</div>
 		              <div class="event-phone col-md-6">
 		                <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-		                <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+		                <input type="phone" class="form-control phone" name="contactPhone"  placeholder="Event Phone"/>
 		              </div>
 
 		            </div>
@@ -341,17 +341,22 @@
                 </div>
 				<div class="col-md-5 col-md-offset-1">
 				<dl>
-				<dd>Event Categories:&nbsp;<span class=""></span></dd>
-				<dd>Ticketing Link:&nbsp;<span class=""></span></dd>
-				<dd>Event Website Link:&nbsp;<span class=""></span></dd>
-				<dd>Event Contact:&nbsp;<span class=""></span></dd>
-				<dd>Event Phone:&nbsp;<span class=""></span></dd>
+				<dd>Event Categories:&nbsp;<span class="tags_preview"></span></dd>
+				<dd>Ticketing Link:&nbsp;<span class="ticket_preview"></span></dd>
+				<dd>Event Website Link:&nbsp;<span class="website_preview"></span></dd>
+				<dd>Event Contact:&nbsp;<span class="contact_preview"></span></dd>
+				<dd>Event Phone:&nbsp;<span class="phone_preview"></span></dd>
 				
 				</dl>
 				</div>
 </div>
               <div class="tab-pane fade" id="facebook">
                 <div class="facebook_container">
+                  
+                </div>
+              </div>
+              <div class="tab-pane fade" id="facebook-event">
+                <div class="facebook_event_container">
                   
                 </div>
               </div>

@@ -5,6 +5,7 @@ AddressView = require 'views/address'
 MediaMixin = require 'views/mixins/mediaMixin'
 TwitterPromo = require 'views/event/twitterPromotion'
 FbPromo = require 'views/event/facebookPromotion'
+FbEventPromo = require 'views/event/createFacebookEvent'
 
 module.exports = class EventCreateView extends View
   className: 'event-create'
@@ -32,10 +33,15 @@ module.exports = class EventCreateView extends View
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
     'click .stepFourBack':'showStepThree'
+    'change .tags':'updateTagPreviews'
+    'keyup .website':'updateWebsitePreviews'
+    'keyup .ticket':'updateTicketPreviews'
     'keyup .name':'updateNamePreviewText'
     'keyup .cost' : "updateCostPreviewText"
     'keyup .description' : "updateDescriptionPreviews"
-    'keyup .website':"updateWebsitePreviews"
+    'keyup .phone': 'updatePhonePreviews'
+    'keyup .contact':'updateContactPreviews'
+    
 
   getTemplateData: =>
     td = super()
@@ -59,6 +65,7 @@ module.exports = class EventCreateView extends View
     @$el.find('.business').on 'change', @changeBusiness
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
+    @subscribeEvent 'updateImagePreviews', @updateImagePreviews
     @subscribeEvent 'notify:fbPublished', @removeForm
     @subscribeEvent 'notify:twPublished', @removeForm
     @initSchedule()
@@ -132,14 +139,17 @@ module.exports = class EventCreateView extends View
         el.innerText = "#{b?.get('location')?.address}"
       addr_str= b.get('location')
       console.log addr_str
-  
+  updateImagePreviews:(image)=>
+    iEl = $('.imagePreview')
+    if iEl.length >1
+      _.each iEl, (item, index, list)=>
+        item.src =  image.get('url')
+    else
+      iEl.src= image.get('url')
   storeDescription:()=>
     @description = $('.description').val()
     @updateDescriptionPreviews()
   initTwitterPromotion : =>
-    @model.set
-      description : @$el.find('.description').val()
-      location: addr_str
     @subview 'twitterPromo', new TwitterPromo({
               container : @$el.find('.twitter_container')
               template: require('templates/event/createTwitterPromotionRequest')
@@ -147,15 +157,20 @@ module.exports = class EventCreateView extends View
               })
   initFacebookPromotion : =>
     @model.set
-      description :@$el.find('.description').val()
       startDate : start_date 
-      location : addr_str
     @subview 'facebookPromo', new FbPromo({
       container:@$el.find('.facebook_container')
       template: require('templates/event/createFacebookPromotionRequest')
       data:@model
     })
-
+  initFacebookEventPromotion : =>
+    @model.set
+      startDate : start_date 
+    @subview 'facebookEventPromo', new FbEventPromo({
+      container:@$el.find('.facebook_event_container')
+      template: require('templates/event/createFacebookEvent')
+      data:@model
+    })
   initSchedule: =>
     if @model.get('schedules')?.length > 0
       @$el.find('.repeats').attr('checked', true)
@@ -238,12 +253,6 @@ module.exports = class EventCreateView extends View
       $("#media-library-popover-").modal()
     else
       $("#media-library-popover-#{@model.id}").modal()
-  showMediaLibrary: (e) =>
-    e.stopPropagation()
-    if @model.isNew()
-      $("#media-library-popover-").modal()
-    else
-      $("#media-library-popover-#{@model.id}").modal()
 
   initSocialMediaPromotion: =>
     shouldShow = @model.get('business') and Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets')?.length > 0
@@ -255,7 +264,6 @@ module.exports = class EventCreateView extends View
       format: 'M-DD-YYYY'
       minDate: moment().toDate()
       onSelect: @updateCalendarDateText
-
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
@@ -550,9 +558,18 @@ module.exports = class EventCreateView extends View
     }
 
     @publishEvent 'updateFacebookPreview', data
+
   updateWebsitePreviews:(e)=>
     e.preventDefault() if e
-    keyed = @$el.find('.website').val()
+    keyed = $('.website').val()
+    dEl = $(".website_preview")
+    console.log keyed
+    console.log dEl
+    if dEl.length > 1
+      _.each dEl, (item, index, list)=>
+        item.innerText = keyed
+    else
+      dEl.innerText = keyed
     data = {
       selector:'.link-input'
       value: keyed
@@ -560,6 +577,58 @@ module.exports = class EventCreateView extends View
     }
     @publishEvent 'updateFacebookPreview', data
 
+  updateTicketPreviews:(e)=>
+    e.preventDefault() if e
+    keyed = $('.ticket').val()
+    dEl = $(".ticket_preview")
+    console.log keyed
+    console.log dEl
+    if dEl.length > 1
+      _.each dEl, (item, index, list)=>
+        item.innerText = keyed
+    else
+      dEl.innerText = keyed
+
+  updateTagPreviews:(e)=>
+    e.preventDefault() if e
+    tagsText = []
+    keyed = @$el.find('.tags').val()
+    console.log keyed
+    _.each keyed, (ele, index,list)=>
+      text = _.find Chaplin.datastore.eventTag.models, (item)=>
+        console.log item.get('slug')
+        return item.get('slug') == ele
+      if text
+        tagsText.push text.get('text')
+    dEl = $(".tags_preview")
+    if dEl.length > 1
+      _.each dEl, (item, index, list)=>
+        item.innerText = tagsText.join(', ')
+    else
+      dEl.innerText = tagsText.join(', ')
+
+  updatePhonePreviews:(e)=>
+    e.preventDefault() if e
+    keyed = @$el.find('.phone').val()
+    dEl = $(".phone_preview")
+    console.log keyed
+    console.log dEl
+    if dEl.length > 1
+      _.each dEl, (item, index, list)=>
+        item.innerText = keyed
+    else
+      dEl.innerText = keyed
+  updateContactPreviews:(e)=>
+    e.preventDefault() if e
+    keyed = @$el.find('.contact').val()
+    dEl = $(".contact_preview")
+    console.log keyed
+    console.log dEl
+    if dEl.length > 1
+      _.each dEl, (item, index, list)=>
+        item.innerText = keyed
+    else
+      dEl.innerText = keyed
   removeForm:(result)=>
     if result and result.fbPublished
       @fbFinished = result.fbPublished

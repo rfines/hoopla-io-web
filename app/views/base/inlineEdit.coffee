@@ -89,7 +89,6 @@ module.exports = class InlineEdit extends View
   partialValidate:() ->
     @$el.find('.has-error').removeClass('has-error')
     isValid = true
-    console.log
     if @model.validate()
       for x in _.keys(@model.validate())
         if x is 'description' and $('.description-container').is(':visible')
@@ -98,8 +97,6 @@ module.exports = class InlineEdit extends View
         else if x is 'location'
           $(".business-container, .host-container").addClass('has-error')
           isValid = false
-          console.log "location"
-          console.log @model
         else
           el= @$el.find("input[name=#{x}], textarea[name=#{x}]")
           if el.parent().is(":visible") is true
