@@ -1,10 +1,9 @@
 {{#if showFb}}
 <div class="col-md-12" id="facebookPanel">
-  <div class="row">
-    <h4>Facebook Post Preview</h4>
-    <div class="col-sm-7 col-lg-6 pages">
+  <div class="col-md-6">
+    <div class="row pages">
         </div>
-    <div class="col-xs-8 col-lg-8 facebook-preview">
+    <div class="row facebook-preview">
       <div class="preview-content">
         <div class="media">
           <a class="pull-left" href="#">
@@ -13,35 +12,37 @@
           <div class="media-body">
             <h4 class="media-heading">{{facebookProfileName}}</h4>
           </div>
+<div class="preview-message fb">{{previewText}}</div>
         </div>
-        <p class="preview-message fb">{{previewText}}</p>
+        
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="buttons">
+	<div class="buttons">
       <button type="button" class="btn btn-success editPostBtn">Customize this post</button>
     </div>
   </div>
-  <div class="form_container" style="display:none">
+  
+    
+  
+  <div class="form_container col-md-6" style="display:none">
     <form class="promoRequestFormFacebook">      
       <div class="row">
-        <h4>Edit Post</h4>
-        
+
+               <h4>Customize Post</h4>
       </div>
       <div class="row">
-        <div class="col-md-8"><label for="link-input"><i class="glyphicon glyphicon-link"></i>Event Link</label><input type="url" value="{{defaultLink}}" class="form-control link-input" /></div>
+        <div><label for="link-input"><i class="glyphicon glyphicon-link"></i>Event Link</label><input type="url" value="{{defaultLink}}" class="form-control link-input" /></div>
       </div>
       <div class="row">
-        <div class="col-md-8">
+        <div>
           <label for="description"><i class="glyphicon glyphicon-pencil"></i>Status Message</label>
           <textarea class="form-control span3 message" rows="5" name="message" placeholder="Status Message...">{{previewText}}</textarea>
         </div>
-        <div class="col-md-4">
+        <div>
         </div> 
       </div>
       <div class="row">
-        <div class="col-md-8">
+        <div>
           <p class="checkbox">
             <label for="immediate">Post Immediately
               <input type="checkbox" class="immediate-box" value="fbImmediate"> 
@@ -50,12 +51,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3 postDate">
+        <div class="col-md-6 postDate">
           <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
           <input type="text" class="form-control datePicker promoDate" name="date">
           
         </div>
-        <div class="col-md-3 postStartTime">
+        <div class="col-md-6 postStartTime">
           <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
           <input type="text" class="form-control timepicker startTime" name="startTime">
         </div>

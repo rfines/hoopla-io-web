@@ -1,8 +1,10 @@
 {{#if fbPages.length}}
+<div class="row">
 <label for="pageSelection"><i class="glyphicon glyphicon-user"></i>Post to this page:</label>
 <select class="chozn chozn-select pageSelection">
   {{#each fbPages}}
     <option value={{id}} >{{name}}</option>
   {{/each}}
 </select>
+</div>
 {{/if}}
