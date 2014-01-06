@@ -1,7 +1,7 @@
 {{#if showTwitter}}
 <div class="col-xs-12 col-lg-12" id="twitterPanel">
-  <div class="row">
-    <div class="col-md-6 offset-md-6 twitter-preview">
+    <div class="col-md-6">
+<div class="twitter-preview">
       <div class="preview-content">
         <div class="media">
           <a class="pull-left" href="#">
@@ -13,24 +13,25 @@
           </div>
         </div>    
       </div>
+	
     </div>
-</div>
-    <div class="row">
-      <div class="buttons">
+	<div class="buttons col-md-6">
         <button type="button" class="btn btn-success showTweetFormBtn">Customize this Tweet</button>
       </div>
-    </div>
-  </div>
+</div>
+<div class="col-md-6">
    <form class="promoRequestFormTwitter" style="display:none">
-   <div class="row">
-    <div class="col-md-8">
+	 <div class="row">
+
+              <h4>Customize Tweet</h4>
+     </div>
+    <div class="row">
       <label for="description"><i class="glyphicon glyphicon-pencil"></i>Tweet</label>
       <textarea class="form-control span3 tweetMessage description_preview" name="message" placeholder="Tweet">{{previewText}}</textarea>
       <p class="help-block"><span class="counter"></span> characters remaining.</p>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
+  <div class="row">	
+
       
       <div class="radio">
         <label>
@@ -47,7 +48,7 @@
       <div class="inputLink" style="display:none">
         <input type="url" class="form-control customLinkBox" name="linkBox" placeholder="http://www.somelink.com/" />
       </div>
-    </div>
+
   </div>
   <div class="row">
     <div class="checkbox">
@@ -55,11 +56,13 @@
           <input type="checkbox" class="tw-immediate-box" checked="checked" value="twImmediate"> 
         </label>  
       </div>
-    <div class="col-md-3 twPostDate">
+</div>
+<div class="row">
+    <div class="col-md-6 twPostDate">
       <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
       <input type="text" class="form-control datePicker twPromoDate" name="date">      
     </div>
-    <div class="col-md-3 twPostTime">
+    <div class="col-md-6 twPostTime">
       <label for="startTime"><i class="glyphicon glyphicon-time"></i>Time</label>
       <input type="text" class="form-control timepicker twStartTime" name="startTime"></div>
       <div class="form-actions col-md-4" style="display:none">
@@ -67,7 +70,9 @@
           <button type="button" class="btn btn-default cancelBtn">Cancel</button>
       </div>
     </div>
+</div>
   </form>
+</div>
 </div>
 {{else}}
   <div class="col-xs-12 col-lg-8" id="twitterAuthPanel">
