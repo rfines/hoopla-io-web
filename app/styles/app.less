@@ -1060,7 +1060,7 @@ a {
       h4, span {color:@brand-success;}
     }
 }
-
+#facebookPanel input, #facebookPanel select, #facebookPanel textArea{border:1px solid #CCC7C7;}
 .facebook-preview  {
   font-family:'lucida grande', tahoma, verdana, arial, sans-serif;
   padding-bottom: 20px;
@@ -1078,10 +1078,11 @@ a {
       border-radius: 3px;
       height: 40px;
     }
-    h4 {color:#3b5998;font-family:'lucida grande', tahoma, verdana, arial, sans-serif;font-size: .9em;
-    font-weight: bold;}
-    .preview-message {font-family:'lucida grande', tahoma, verdana, arial, sans-serif;color:#37404e;font-size:.9em;margin-top:10px;}
+    h4 {color:#3b5998!important;font-family:'lucida grande', tahoma, verdana, arial, sans-serif!important;font-size: .9em!important;
+    font-weight: bold!important;text-align:left!important;}
+    .preview-message {font-family:'lucida grande', tahoma, verdana, arial, sans-serif!important;color:#37404e!important;font-size:.9em!important;}
     }
+    .media-body {display: inline;}
 }
 .event-page-preview  {
   h4 {font-family:'lucida grande', tahoma, verdana, arial, sans-serif;font-size: 1.2em;
@@ -1211,6 +1212,7 @@ padding: 9px;}
         margin-top:10px;
       }
     .preview  {
+      .facebook-pages {margin:25px 0px 15px 0px;}
       h3.previewName {text-align:center;margin-bottom:5px;}
       .date_preview {text-align:center;}
       .thumbnail:first-child {
@@ -1218,22 +1220,26 @@ padding: 9px;}
       h4 {text-align:center;color:@gray-light; font-family:'museoLight';}
       dd {line-height:2;}
       dd span {font-family:'quicksandbold';color:@gray;}
-      .imagePreview {width:200px;margin:0px auto;display:block;max-height: 150px;}
+      .imagePreview {margin:0px auto;display:block;max-height: 150px;}
       }
+      .event-list .form-inline label {color:#000;}
       }
-    .content-entry .facebook_box .channel-icon {width:50px;height:50px;margin:0px auto 15px auto; background:url(/client/images/facebook_twitter_sprite.png) 0px 0px no-repeat transparent;}
-    .content-entry .twitter_box .channel-icon{width:50px;height:50px;margin:0px auto 15px auto; background:url(/client/images/facebook_twitter_sprite.png) -65px 0px no-repeat transparent;}
+      .content-entry .facebook_box {margin-top:20px;}
+    .content-entry .facebook_box .channel-icon {width:30px;height:30px;margin:0px 15px 15px 0px; background:url(/client/images/facebook_twitter_sprite.png) 0px 0px no-repeat transparent;float:left;background-size:cover;}
+    .content-entry .twitter_box .channel-icon{width:30px;height:30px;margin-right:15px; background:url(/client/images/facebook_twitter_sprite.png) -38px 0px no-repeat transparent;float:left;background-size:cover;}
   .controls {
     position:relative;
-    bottom:35px;
-    height:50px;
+    bottom:38px;
+    height:20px;
     width:100%;
     .right{position:absolute;right:20px}
     .left{position:absolute;left:20px}
   }
   .chosen-choices .search-field, .chosen-choices .search-field input {}
-  .chosen-choices .search-field, .chosen-choices .search-field input {width:100%!important;}
+  .chosen-choices .search-field, .chosen-choices .search-field input {}
 }
+ .event-list .form-inline .preview label {color:#000;}
+.stepFourPanel.steps .preview .thumbnail:first-child .imagePreview {width:auto;margin:0px auto;display:block;max-height: 250px;}
 .event-list .progress {margin-top:15px!important;}
 .progress.step1 {
   background: url('/client/images/steps-panel-sprite.gif') 0px 0px no-repeat transparent;
