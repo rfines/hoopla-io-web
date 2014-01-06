@@ -27,11 +27,24 @@
   <div class="form_container col-md-6" style="display:none">
     <form class="promoRequestFormFacebook">      
       <div class="row">
-
-               <h4>Customize Post</h4>
+        <h4>Customize Post</h4>
       </div>
       <div class="row">
-        <div><label for="link-input"><i class="glyphicon glyphicon-link"></i>Event Link</label><input type="url" value="{{defaultLink}}" class="form-control link-input" /></div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="linkRadios" id="linkLR" value="lr" checked class="fb-lrLink-box">
+            <i class="glyphicon glyphicon-transfer"></i>Include link to Local Ruckus event page
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="linkRadios" id="linkCustom" value="custom" class="fb-cusLink-box">
+            <i class="glyphicon glyphicon-transfer"></i>Include my own link
+          </label>
+        </div>
+        <div class="inputLink" style="display:none">
+          <input type="url" class="form-control customLinkBox" value="{{defaultLink}}" name="linkBox" placeholder="http://www.somelink.com/" />
+        </div>
       </div>
       <div class="row">
         <div>
@@ -42,26 +55,32 @@
         </div> 
       </div>
       <div class="row">
-        <div>
-          <p class="checkbox">
-            <label for="immediate">Post Immediately
-              <input type="checkbox" class="immediate-box" value="fbImmediate"> 
+        <div class="col-md-8">
+          <div class="radio">
+            <label>
+              <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="fb-immediate-box">
+              <i class="glyphicon glyphicon-transfer"></i>Post Immediately
             </label>
-          </p>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="schedRadios" id="scheduled" value="sch" class="fb-scheduled-box">
+              <i class="glyphicon glyphicon-calendar"></i>Schedule the post for later.
+            </label>
+          </div>
+          <div class="row inputTimes" style="display:none">
+            <div class="col-md-3 postDate">
+              <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
+              <input type="text" class="form-control datePicker promoDate" name="date">
+            </div>
+            <div class="col-md-3 postStartTime">
+              <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
+              <input type="text" class="form-control timepicker startTime" name="startTime">
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6 postDate">
-          <label for="start"><i class="glyphicon glyphicon-calendar"></i>When</label>
-          <input type="text" class="form-control datePicker promoDate" name="date">
-          
-        </div>
-        <div class="col-md-6 postStartTime">
-          <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time</label>
-          <input type="text" class="form-control timepicker startTime" name="startTime">
-        </div>
-        
-      </div>
+      
     </form>
   </div>
 </div>

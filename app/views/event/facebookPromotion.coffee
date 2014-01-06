@@ -43,12 +43,14 @@ module.exports = class FacebookPromotion extends View
     td.dayOfWeek = moment(next).format("dddd")
     td.startDate = moment(next).format("h:mm a")
     td.fbPages= @fbPages
-    td.previewText = @event.get('description')
-  
+    bName = Chaplin.datastore.business.get(@event.get('business'))
+    l = ""
     if @event.get('website')
-      td.defaultLink = @event.get('website')
-    else if @event.get('ticketUrl')?.length > 0
-      td.defaultLink = @event.get('ticketUrl')
+      l = @event.get("website")
+    else if @event.get("ticketUrl")
+      l = @event.get("ticketUrl")
+    td.previewText = "#{@event.get('name')} hosted by #{bName?.get('name')} at #{bName.get('location').address}. Check out more details at #{l}"
+    td.defaultLink = l
     if not @fbPromoTarget
       td.showFb = false
       callbackUrl = "#{window.baseUrl}callbacks/facebook?businessId=#{@model.business}"
@@ -76,9 +78,11 @@ module.exports = class FacebookPromotion extends View
     "click .facebookPostBtn": "saveFacebook"
     "click .createFbEventBtn":"saveFbEvent"
     "click .cancelBtn":"cancel"
-    "change .immediate-box":"immediateClick"
+    "change .fb-immediate-box":"immediateClick"
     "keyup .message": "updateFacebookPreviewText"
     "click .editPostBtn":"showPostForm"
+    "change .fb-cusLink-box": "showLinkBox"
+    'change .fb-lrLink-box':"hideLinkBox"
 
   promoteFb:(data)=>
     @event = data.event
@@ -102,7 +106,7 @@ module.exports = class FacebookPromotion extends View
       $('.promoDate').val(@model.date.format('M-DD-YYYY'))
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
-      scrollDefaultTime : "12:00"
+      scrollDefaultTime : moment().format("hh:mm a")
       step : 15
     if not @model.isNew()
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
@@ -112,8 +116,12 @@ module.exports = class FacebookPromotion extends View
     e.preventDefault()
     message = $('.message').val()
     successMessageAppend ="" 
-    link =  $('.link-input').val()
-    immediate = $('.immediate-box')
+    if $('#linkLr').is(':checked')
+      link = "http://www.localruckus.com/event/#{@event.id}"
+    else if $('#linkCustom').is(':checked')
+      link = $('.customLinkBox').val()
+    immediate = $('.fb-immediate-box')
+    console.log immediate
     date = @startDate.getMoment()
     time = $('.startTime').timepicker('getSecondsFromMidnight')
     date = date.add('seconds', time)
@@ -222,11 +230,10 @@ module.exports = class FacebookPromotion extends View
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
-    link = undefined
-    if @event.get('website')?.length >0
-      link = @event.get('website')
-    else if @event.get('ticketUrl')?.length >0
-      link = @event.get('ticketUrl')
+    if $('#linkLr').is(':checked')
+      link = "http://www.localruckus.com/event/#{@event.id}"
+    else if $('#linkCustom').is(':checked')
+      link = $('.customLinkBox').val()
     name =@event.get('name')
     if name.length >74
       name = @textCutter(65,name)
@@ -258,19 +265,17 @@ module.exports = class FacebookPromotion extends View
     Chaplin.helpers.redirectTo {url: '/myEvents'}
 
   immediateClick:()->
-    element = $('.immediate-box')
+    element = $('.fb-immediate-box')
     if element.is(':checked')
       @hideFbDates()
     else
       @showFbDates()
 
   hideFbDates:()->
-    @$el.find('.postStartTime').hide()
-    @$el.find('.postDate').hide()
+    @$el.find('.inputTimes').hide()
 
   showFbDates:()->
-    @$el.find('.postStartTime').show()
-    @$el.find('.postDate').show()
+    @$el.find('.inputTimes').show()
 
   showCreatedMessage: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -311,3 +316,9 @@ module.exports = class FacebookPromotion extends View
     if e
       e.preventDefault
     @$el.find('.form_container').slideToggle()
+  showLinkBox:(e)=>
+    e.preventDefault() if e
+    @$el.find(".inputLink").slideDown()
+  hideLinkBox:(e)=>
+    e.preventDefault() if e
+    @$el.find(".inputLink").slideUp()
