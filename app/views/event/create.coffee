@@ -21,6 +21,7 @@ module.exports = class EventCreateView extends View
   fbFinsihed = undefined
   twFinished = undefined
   fbEventCreated = undefined
+  ops = undefined
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -426,7 +427,7 @@ module.exports = class EventCreateView extends View
     @publishEvent 'trackEvent', "create-#{@noun}", tracking      
     @collection.add @model
     @publishEvent '#{@noun}:created', @model
-    ops = {}
+    @ops = {}
     if @fbPromoTarget
       if $('.facebook-event-box').is(':checked')
         ops.fbEvent =  @callFacebookEventPromotion
