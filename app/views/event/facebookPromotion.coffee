@@ -49,7 +49,7 @@ module.exports = class FacebookPromotion extends View
       l = @event.get("website")
     else if @event.get("ticketUrl")
       l = @event.get("ticketUrl")
-    td.previewText = "#{@event.get('name')} hosted by #{bName?.get('name')} at #{@event.get('location').address}. Check out more details at #{l}"
+    td.previewText = "#{@event.get('name')}  hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}. Check out more details at #{l}"
     td.defaultLink = l
     if not @fbPromoTarget
       td.showFb = false
@@ -85,8 +85,10 @@ module.exports = class FacebookPromotion extends View
     'change .fb-lrLink-box':"hideLinkBox"
 
   promoteFb:(data)=>
+    console.log "promote fb"
+    console.log data
     @event = data.event
-    $('.promoRequestFormFacebook').submit()
+    @saveFacebook data.callback
 
   updatePreview:(data)=>
     if data.selector and not data.html

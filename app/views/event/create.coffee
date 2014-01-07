@@ -6,7 +6,6 @@ MediaMixin = require 'views/mixins/mediaMixin'
 TwitterPromo = require 'views/event/twitterPromotion'
 FbPromo = require 'views/event/facebookPromotion'
 FbEventPromo = require 'views/event/createFacebookEvent'
-async = require 'async'
 
 module.exports = class EventCreateView extends View
   className: 'event-create'
@@ -36,7 +35,7 @@ module.exports = class EventCreateView extends View
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
     'click .stepFourBack':'showStepThree'
-    'change .twitter-checkbox':'toggleTwitterTab'
+    'change .twitter-checkbox':'toggleTwTab'
     'change .facebook-event-box':'toggleFbEventTab'
     'change .facebook-checkbox':'toggleFbTab'
     'change .tags':'updateTagPreviews'
@@ -169,12 +168,13 @@ module.exports = class EventCreateView extends View
     @description = $('.description').val()
     @updateDescriptionPreviews()
 
-  toggleTwitterTab:(e)=>
+  toggleTwTab:(e)=>
+    e.preventDefault() if e
     if $('.twitter-checkbox').is(':checked')
-      $('.twitter_tab_a').removeClass('disabled')
+      $('.twitter_tab_a, .twitter_tab').removeClass('disabled')
       @initTwitterPromotion()
     else
-      $('.twitter_tab_a').addClass('disabled')
+      $('.twitter_tab_a, .twitter_tab').addClass('disabled')
   
   initTwitterPromotion : =>
     @subview 'twitterPromo', new TwitterPromo({
@@ -184,11 +184,12 @@ module.exports = class EventCreateView extends View
       })
   
   toggleFbTab:(e)=>
+    e.preventDefault() if e
     if $('.facebook-checkbox').is(':checked')
-      $('.fb_tab').removeClass('disabled')
+      $('.fb_tab_a, .facebook_tab').removeClass('disabled')
       @initFacebookPromotion()
     else
-      $('.fb_tab_a').addClass('disabled')
+      $('.fb_tab_a, .facebook_tab').addClass('disabled')
 
   initFacebookPromotion :()=>
     @model.set
@@ -200,10 +201,10 @@ module.exports = class EventCreateView extends View
     })
   toggleFbEventTab:(e)=>
     if $('.facebook-event-box').is(':checked')
-      $('.fbEvent_tab_a').removeClass('disabled')
-      @initFacebookPromotion()
+      $('.fbEvent_tab_a, .facebook_event_tab').removeClass('disabled')
+      @initFacebookEventPromotion()
     else
-      $('.fbEvent_tab_a').addClass('disabled')
+      $('.fbEvent_tab_a, .facebook_event_tab').addClass('disabled')
   initFacebookEventPromotion :()=>
     @model.set
       startDate : start_date 
@@ -421,7 +422,6 @@ module.exports = class EventCreateView extends View
     }]
 
   postSave:()=>
-    
     tracking = {"email" : Chaplin.datastore.user.get('email')}
     tracking["#{@noun}-name"] = @model.get('name')
     @publishEvent 'trackEvent', "create-#{@noun}", tracking      
@@ -430,26 +430,28 @@ module.exports = class EventCreateView extends View
     @ops = {}
     if @fbPromoTarget
       if $('.facebook-event-box').is(':checked')
-        ops.fbEvent =  @callFacebookEventPromotion
+        @ops.fbEvent =  @callFacebookEventPromotion
       if $('.facebook-checkbox').is(':checked')
-        ops.fbPost =  @callFacebookPromotion
+        @ops.fbPost =  @callFacebookPromotion
     if @twPromoTarget
       if $('.twitter-checkbox').is(':checked')
-        ops.twPost = @callTwitterPromotion
-    if _.size ops > 0
-      async.parallel(ops,@finalCallback)
+        @ops.twPost = @callTwitterPromotion
+    console.log async
+    console.log @ops
+    if !_.isEmpty @ops
+      async.parallel(@ops,@finalCallback)
     else
       @twFinished = true
       @fbEventCreated = true
       @fbFinished = true
       @removeForm 
     
-  callTwitterPromotion:()=>
+  callTwitterPromotion:(callback)=>
     data={}
     data.event = @model 
     data.twitter=true
     data.promotionTarget = @fbPromoTarget
-    data.callback  = @promoteTwitterCallback
+    data.callback  = callback
     @publishEvent "event:promoteTwitter", data
   promoteTwitterCallback:(result)=>
     if result.err
@@ -459,11 +461,11 @@ module.exports = class EventCreateView extends View
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
       @twFinished=true
-  callFacebookPromotion:=>
+  callFacebookPromotion:(callback)=>
     data={}
     data.event = @model 
     data.facebook = true
-    data.callback  = @promoteFacebookCallback
+    data.callback  =callback
     @publishEvent "event:promoteFacebook", data
   promoteFacebookCallback:(result)=>
     if result.err
@@ -472,11 +474,11 @@ module.exports = class EventCreateView extends View
       @publishEvent 'notify:publish', "There was a problem creating the facebook post."
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @fbFinished =true
-  callFacebookEventPromotion:=>
+      @fbFinished = true
+  callFacebookEventPromotion:(callback)=>
     data={}
     data.event = @model 
-    data.callback =  @promoteEventCallback
+    data.callback =  callback
     @publishEvent "facebook:publishEvent", data 
   promoteEventCallback:(result)=>
     if result.err
@@ -490,9 +492,25 @@ module.exports = class EventCreateView extends View
   finalCallback:(err, results)=>
     if err
       console.log err
+      @fbEventCreated = false
+      @fbFinished = false
+      @twFinished = false
+      @publishEvent 'notify:publish', "There was a problem creating the social media promotions."
     else
       Chaplin.mediator.publish 'stopWaiting'
-      @removeForm
+      if results.fbEvent
+        @fbEventCreated = true
+      else
+        @fbEventCreated = undefined
+      if results.fbPost
+        @fbFinished = true
+      else
+        @fbFinished = undefined
+      if results.twPost
+        @twFinished = true
+      else
+        @twFinished = undefined
+      @removeForm results
 
   showPromote:(show)=>
     if show
@@ -523,11 +541,9 @@ module.exports = class EventCreateView extends View
     if @partialValidate()
       @updateProgress('step4')
       @closeAll(e)
-      if @twPromoTarget
-        @toggleTwTab
-      if @fbPromotarget
-        @toggleFbTab
-        @toggleFbEventTab
+      @toggleTwTab()
+      @toggleFbTab()
+      @toggleFbEventTab()
       $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -709,17 +725,48 @@ module.exports = class EventCreateView extends View
         item.innerText = "#{addr}"
     else
       el.innerText = "#{addr}"
-  removeForm:()=>
-    if @fbFinished is true and @twFinished is true and @eventPublished
-      @publishEvent "closeOthers"
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-    else if @twFinished is true and $('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked')
-      @publishEvent "closeOthers"
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-    else if @fbFinished is true and $('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
-      @publishEvent "closeOthers"
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-    else if !$('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked')
-      @publishEvent "closeOthers"
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @publishEvent 'stopWaiting'
+  removeForm:(results)=>
+    if _.size(@ops) == 3
+      if @twFinished and @twFinished is true and @fbFinished and @fbFinished is true and @fbEventCreated and @fbEventCreated is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+    else if @ops.fbEvent and @ops.fbPost
+      if @fbEventCreated is true and @fbFinished is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+    else if @ops.fbEvent and @ops.twPost
+      if @twFinished is true and @fbEventCreated is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+    else if @ops.fbPost and @ops.twPost 
+      if @fbFinished is true and @twFinished is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+    else if @ops.fbPost
+      if @fbFinished is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+    else if @ops.twPost 
+      if @twFinished is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+    else if @ops.fbEvent 
+      if @fbEventCreated is true
+        @publishEvent "closeOthers"
+        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      else
+        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
+           
+    @publishEvent 'stopWaiting'
