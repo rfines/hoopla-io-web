@@ -91,7 +91,6 @@ module.exports = class InlineEdit extends View
     isValid = true
     if @model.validate()
       for x in _.keys(@model.validate())
-        console.log @model
         if x is 'description' and $('.description-container').is(':visible')
           $('.description-container').addClass('has-error')
           isValid = false
@@ -137,8 +136,6 @@ module.exports = class InlineEdit extends View
   save: (e) ->
     e.preventDefault() 
     @updateModel()
-    console.log @validate()
-    console.log @model
     if @validate() and not saving
       saving = true
       if @hasMedia and $("#filelist div").length > 0

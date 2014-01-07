@@ -174,8 +174,6 @@ module.exports = class CreateFacebookEventView extends View
         cb xhr, mod
       }
   postEvent:(data)=>
-    console.log "fb event save"
-    console.log data
     page = data.pageId
     @event = data.event
     @model = @event

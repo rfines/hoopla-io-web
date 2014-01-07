@@ -68,8 +68,6 @@ module.exports = class CreatePromotionReqeust extends View
   
     
   sendTweet:(data)=>
-    console.log "sendTweet"
-    console.log data
     @event = data.event
     @saveTwitter(data.callback)
 

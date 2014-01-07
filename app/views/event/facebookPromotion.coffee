@@ -85,8 +85,6 @@ module.exports = class FacebookPromotion extends View
     'change .fb-lrLink-box':"hideLinkBox"
 
   promoteFb:(data)=>
-    console.log "promote fb"
-    console.log data
     @event = data.event
     @saveFacebook data.callback
 
