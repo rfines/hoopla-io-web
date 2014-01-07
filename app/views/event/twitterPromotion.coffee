@@ -30,7 +30,7 @@ module.exports = class CreatePromotionReqeust extends View
     
   getTemplateData: ->
     td = super()
-    td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')} at #{@event.get('location').address}."
+    td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}."
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
     td.twitterHandle = @twitterHandle
@@ -68,6 +68,8 @@ module.exports = class CreatePromotionReqeust extends View
   
     
   sendTweet:(data)=>
+    console.log "sendTweet"
+    console.log data
     @event = data.event
     @saveTwitter(data.callback)
 
