@@ -130,7 +130,6 @@ module.exports = class FacebookPromotion extends View
     page = $('.pages>.facebook-pages>.pageSelection').val()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page).access_token
-    
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
@@ -219,47 +218,6 @@ module.exports = class FacebookPromotion extends View
     currentPreviewMessage = $('.preview-message').html()
     currentPreviewMessage= currentPreviewMessage + code
     $('.preview-message').html(currentPreviewMessage)
-
-  saveFbEvent:(e)=>
-    e.preventDefault()
-    Chaplin.mediator.publish 'startWaiting'
-    page=$('.event-pages>.facebook-pages>.pageSelection').val()
-    @pageAccessToken = _.find(@fbPages, (item)=>
-      return item.id is page
-      )?.access_token
-    at = @fbPromoTarget.accessToken
-    if @pageAccessToken
-      at = @pageAccessToken
-    date = moment().toDate().toISOString()
-    if $('#linkLr').is(':checked')
-      link = "http://www.localruckus.com/event/#{@event.id}"
-    else if $('#linkCustom').is(':checked')
-      link = $('.customLinkBox').val()
-    name =@event.get('name')
-    if name.length >74
-      name = @textCutter(65,name)
-    pr = new PromotionRequest
-      pushType: "FACEBOOK-EVENT"
-      link:link
-      caption:@event.get('description')
-      title: name
-      startTime: moment(@event.nextOccurrence()).toDate().toISOString()
-      promotionTime: date
-      location: @event.get('location').address
-      pageId:page
-      ticket_uri: @event.get('ticketUrl')
-      pageAccessToken: @pageAccessToken
-      promotionTarget: @fbPromoTarget._id
-      media: @event.get('media')?[0]?._id
-    pr.eventId = @event.id
-    pr.save {},{
-      success: (model, response, options)=>
-        Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
-      error: (model, xhr, options)->
-        Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
-      }
   
   cancel:(e)->
     e.preventDefault()

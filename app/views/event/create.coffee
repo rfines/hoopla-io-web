@@ -19,6 +19,7 @@ module.exports = class EventCreateView extends View
   addr_str = undefined
   fbFinsihed = false
   twFinished = false
+  eventPublished = false
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -166,7 +167,7 @@ module.exports = class EventCreateView extends View
               template: require('templates/event/createTwitterPromotionRequest')
               data:@model
               })
-  initFacebookPromotion : =>
+  initFacebookPromotion :()=>
     @model.set
       startDate : start_date 
     @subview 'facebookPromo', new FbPromo({
@@ -174,7 +175,7 @@ module.exports = class EventCreateView extends View
       template: require('templates/event/createFacebookPromotionRequest')
       data:@model
     })
-  initFacebookEventPromotion : =>
+  initFacebookEventPromotion :()=>
     @model.set
       startDate : start_date 
     data={
@@ -399,34 +400,58 @@ module.exports = class EventCreateView extends View
     @collection.add @model
     @publishEvent '#{@noun}:created', @model
     if @fbPromoTarget
-      @publishEvent "event:postFacebookEvent", data
-    if $('.twitter-checkbox').is(':checked')
-      data.twitter=true
-      data.callback  = @promoteTwitterCallback
-      @publishEvent "event:promoteTwitter", data
-    if $('.facebook-checkbox').is(':checked')
-      data.facebook = true
-      data.callback  = @promoteFacebookCallback
-      @publishEvent "event:promoteFacebook", data
-    if !$('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
-      r = {}
-      r.fbPublished = true
-      r.twPublished=true
+      console.log "creating facebook event"
+      cb = (err,result)=>
+        if err
+          console.log err
+        else
+          @eventPublished = result.success
+          console.log "inside event callback"
+          if $('.twitter-checkbox').is(':checked')
+            data.twitter=true
+            data.promotionTarget = @fbPromoTarget
+            data.callback  = @promoteTwitterCallback
+            @publishEvent "event:promoteTwitter", data
+          if $('.facebook-checkbox').is(':checked')
+            data.facebook = true
+            data.callback  = @promoteFacebookCallback
+            @publishEvent "event:promoteFacebook", data
+          if !$('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
+            r = {}
+            r.fbPublished = true
+            r.twPublished=true
+            @removeForm r
 
-      @removeForm r
+      data.callback =  cb
+      @publishEvent "facebook:publishEvent", data
+    
+    
     
   promoteTwitterCallback:(result)=>
     if result.err
       console.log result.err
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      @twPublished=true
 
   promoteFacebookCallback:(result)=>
     if result.err
       console.log result.err
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      @fbPublished =true
       
+  promoteEventCallback:(result)=>
+    if result.err
+      console.log err
+    else
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      if !$('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
+        r = {}
+        r.fbPublished = undefined
+        r.twPublished= undefined
+        r.eventPublished = true
+        @removeForm r
 
   showPromote:(show)=>
     if show
@@ -642,11 +667,14 @@ module.exports = class EventCreateView extends View
     else
       el.innerText = "#{addr}"
   removeForm:(result)=>
-    if result and result.fbPublished
-      @fbFinished = result.fbPublished
-    if result and result.twPublished
-      @twFinished = result.twPublished
-    if @fbFinished is true and @twFinished is true
+    if result
+      if result.fbPublished
+        @fbFinished = result.fbPublished
+      if result.twPublished
+        @twFinished = result.twPublished
+      if result.eventPublished
+        @eventPublished=true
+    if @fbFinished is true and @twFinished is true and @eventPublished
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
     else if @twFinished is true and $('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked')
@@ -655,7 +683,7 @@ module.exports = class EventCreateView extends View
     else if @fbFinished is true and $('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-    else if !$('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked') and result.fbEvent
+    else if !$('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked')
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
       @publishEvent 'stopWaiting'

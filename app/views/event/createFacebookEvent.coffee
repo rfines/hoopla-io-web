@@ -15,7 +15,7 @@ module.exports = class CreateFacebookEventView extends View
 
   events: 
     "change .pageSelection": "setImage"
-    "event:postFacebookEvent":"postEvent"
+    
 
   initialize:(options)=>
     super(options)
@@ -33,9 +33,10 @@ module.exports = class CreateFacebookEventView extends View
     td.coverPhoto = @promotionTarget.profileCoverPhoto
     td.dayOfWeek = moment(@model.get("startDate")).format("dddd")
     td.startDate = moment(@model.get('startDate')).format("h:mm a")
-    td.eventTitle =@model.get('name')
     if @model.get('name').length >74
       td.eventTitle = @textCutter(70,@model.get('name'))
+    else
+      td.eventTitle =@model.get('name')
     td
 
   attach:()->
@@ -45,7 +46,7 @@ module.exports = class CreateFacebookEventView extends View
       $('input.address').remove()
       $('label[for=address]').remove() 
     ,100) 
-    
+    @subscribeEvent "facebook:publishEvent",@postEvent
     @getFacebookPages(@promotionTarget)
 
   getFacebookPages:(promoTarget)=>
@@ -79,11 +80,11 @@ module.exports = class CreateFacebookEventView extends View
       type: 'GET'
       success: (response, body) =>
         if response?.cover?.source
-          $('.event-page-preview img').attr('src', response?.cover?.source)
+          $('.facebook-cover-image').attr('src', response?.cover?.source)
         else
-          $('.event-page-preview img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+          $('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
       error: =>
-        $('.event-page-preview img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+        $('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
 
   textCutter : (i, text) ->
     short = text.substr(0, i)
@@ -112,7 +113,7 @@ module.exports = class CreateFacebookEventView extends View
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
       link:link
-      caption:@model.get('description')
+      caption:@stripHtml(@model.get('description'))
       title: name
       startTime: moment(@event.nextOccurrence()).toDate().toISOString()
       promotionTime: date
@@ -120,24 +121,22 @@ module.exports = class CreateFacebookEventView extends View
       pageId:page
       ticket_uri: @model.get('ticketUrl')
       pageAccessToken: @pageAccessToken
-      promotionTarget: @fbPromoTarget._id
+      promotionTarget: @promotionTarget._id
       media: @model.get('media')?[0]?._id
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
         Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       error: (mod, xhr, options)->
         Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       }
-  saveFbEventNoForm:(page, id)=>
-    Chaplin.mediator.publish 'startWaiting'
+  saveFbEventNoForm:(page, cb)=>
+    console.log "saving fb event promo request"
     page=page
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
-    at = @fbPromoTarget.accessToken
+    at = @promotionTarget.accessToken
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
@@ -152,7 +151,7 @@ module.exports = class CreateFacebookEventView extends View
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
       link:link
-      caption:@event.get('description')
+      caption:@stripHtml(@event.get('description'))
       title: name
       startTime: moment(@event.get("startDate")).toDate().toISOString()
       promotionTime: date
@@ -160,19 +159,24 @@ module.exports = class CreateFacebookEventView extends View
       pageId:page
       ticket_uri: @event.get('ticketUrl')
       pageAccessToken: @pageAccessToken
-      promotionTarget: @fbPromoTarget._id
+      promotionTarget: @promotionTarget._id
       media: @event.get('media')?[0]?._id
     pr.eventId = @event.id
     pr.save {},{
       success: (mod, response, options)=>
         Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+        cb null,mod
       error: (mod, xhr, options)->
         Chaplin.mediator.publish 'stopWaiting'
-        @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
+        cb xhr, mod
       }
   postEvent:(data)=>
+    console.log data
     page = data.pageId
     @event = data.event
     @model = @event
-    @saveFbEventNoForm page
+    @saveFbEventNoForm page, data.callback
+
+  stripHtml:(text)=>
+    result = text.replace(/(<([^>]+)>)/ig,"")
+    return result

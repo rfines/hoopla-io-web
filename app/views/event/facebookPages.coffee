@@ -1,8 +1,9 @@
 View = require 'views/base/view'
 PromotionRequest = require 'models/promotionRequest'
+template =  require('templates/event/facebookPages')
 
 module.exports = class FacebookPagesView extends View
-  template: require 'templates/event/facebookPages'
+  template: template
   className: 'facebook-pages'
   event: {}
   business: {}
