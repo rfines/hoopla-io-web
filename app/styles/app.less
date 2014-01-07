@@ -286,7 +286,7 @@ label {
     text-decoration: none;
   }
 }
-form .form-control, .chosen-container {border:2px solid #fff;border-radius:8px;}
+form .form-control, .chosen-container {border-radius:8px;}
 
 form .has-error input.form-control,form .has-error select, form .has-error iframe,form .has-error div.chosen-drop,form .has-error div.chosen-container-single{
   border: 2px solid #b94a48!important;
@@ -1095,21 +1095,22 @@ a {
   border: 1px solid #ccc;
   border-radius: 3px;
   min-height: 90px;
-  width:766px;
-  margin-left: 19px;
+  width:366px;
+  float:right;
+  margin-top:15px;
+
 
   i {
     color:@gray-light!important;
     
   }
   img {
-    width: 743px;
+    width: 343px;
     border-radius: 3px;
-    height: 260px;
+    height: 136px;
   }
   .event-times, .event-description {
-  width: 56%;
-  margin-left: 44%;
+
   border-top: 1px solid @gray-lighter;
   
   .event-day, .event-weather {
@@ -1135,8 +1136,8 @@ a {
     padding:8px 0px;
   }
   #map-canvas {
-    width:418px!important;
-    height:138px!important;
+    width:100%!important;
+    height:102px!important;
     float:right;
   }
 }
@@ -1196,7 +1197,7 @@ padding: 9px;}
     .row {}
     background-color: transparent;
     border-radius: 0px 0px 8px 8px;
-    padding: 10px;
+    padding: 2px 10px;
     box-shadow: 0px 0px 10px rgba(0,0,0,.4) inset;
 
     .dayOfWeekContainer label {font-size:.9em;}
@@ -1205,8 +1206,16 @@ padding: 9px;}
 .content-entry { .row {margin-top:15px;}
 .panel label.form-label {color:#000!important;}
 }
-.social-media-choices {font-size:.9em;border-top:1px solid @gray-lighter; padding:8px 0px 0px 0px;
+.social-media-choices {font-size: .9em;
+padding: 8px 0px 0px 0px;
+position: relative;
+bottom: 47px;
   label {line-height: 24px;}
+  }
+  .nav-justified > li > a {
+  text-align: center;
+  background-color: #F8F5F5;
+  margin: 0px 2px;
   }
 .content-entry iframe.wysihtml5-sandbox {height:100px!important;}
   .content-entry, .preview 
@@ -1216,11 +1225,21 @@ padding: 9px;}
         margin-top:10px;
       }
     .preview  {
+      pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus,.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+      color: #ffffff;
+      background-color: #00aec1;
+      }
+      .nav > li.disabled > a {
+      color: #C9C5C5;
+      }
+      .thumbnail .caption {
+      padding: 0px 9px;}
+      dl {margin:0px;}
       .facebook-pages {margin:25px 0px 15px 0px;}
       h3.previewName {text-align:center;margin-bottom:5px;}
       .date_preview {text-align:center;}
       .thumbnail:first-child {
-      min-height:478px;
+      min-height:501px;
       h4 {text-align:center;color:@gray-light; font-family:'museoLight';}
       .event-page-preview h4 {text-align:left;color:black; font-family:'lucida grande', tahoma, verdana, arial, sans-serif;font-size:16px;}
       dd {line-height:2;}
@@ -1229,7 +1248,7 @@ padding: 9px;}
       line-height: 1.5;
       }
       dd span {font-family:'quicksandbold';color:@gray;}
-      .imagePreview {margin:0px auto;display:block;max-height: 150px;}
+      .imagePreview {margin:0px auto;display:block;max-height: 125px;}
       }
       .event-list .form-inline label {color:#000;}
       }
@@ -1247,7 +1266,7 @@ padding: 9px;}
   .chosen-choices .search-field, .chosen-choices .search-field input {}
   .chosen-choices .search-field, .chosen-choices .search-field input {}
 }
-
+.chosen-container-multi .chosen-choices li.search-field input.default {width:120%!important;}
  .event-list .form-inline .preview label {color:#000;}
 .stepFourPanel.steps .preview .thumbnail:first-child .imagePreview {width:auto;margin:0px auto;display:block;max-height: 250px;}
 .event-list .progress {margin-top:15px!important;}
