@@ -69,7 +69,7 @@ module.exports = class CreatePromotionReqeust extends View
     
   sendTweet:(data)=>
     @event = data.event
-    $('.promoRequestFormTwitter').submit()
+    @saveTwitter(data.callback)
 
 
   initDatePickers: =>
@@ -93,8 +93,7 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
-  saveTwitter: (e)->
-    e.preventDefault()
+  saveTwitter: (cb)->
     successMessageAppend ="" 
     message = $('.tweetMessage').val()
     immediate = $('.tw-immediate-box')
@@ -122,20 +121,17 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent 'notify:publish', "Your Twitter event promotion will go out as soon as possible."
           resp = {}
           resp.twPublished = true
-          @publishEvent 'notify:twPublished', resp
+          cb null, response
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.twPublished = false
           response.error = error
-          @publishEvent 'notify:fbPublished', response
+          cb error, response
       }
     else if time? > 0 
-      if date and now >= moment(date).format('X')
-        successMessageAppend = "You chose a date in the past so your message will go out immediately."
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
@@ -146,17 +142,14 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {},{
         success:(response, doc) =>
-          Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent 'notify:publish', "Your Twitter event promotion has been scheduled for #{moment(date).format("ddd, MMM D YYYY  h:mm A")}. #{successMessageAppend}"
           resp = {}
           resp.twFinished = true
-          @publishEvent 'notify:twPublished', resp
+          cb null, resp
         error:(err)=>
-          Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.twFinished = false
           response.error = err
-          @publishEvent 'notify:twPublished', response
+          cb err, response
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'

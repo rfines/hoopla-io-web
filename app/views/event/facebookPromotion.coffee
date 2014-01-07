@@ -112,8 +112,7 @@ module.exports = class FacebookPromotion extends View
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
-  saveFacebook:(e) ->
-    e.preventDefault()
+  saveFacebook:(cb) ->
     message = $('.message').val()
     successMessageAppend ="" 
     if $('#linkLr').is(':checked')
@@ -125,9 +124,11 @@ module.exports = class FacebookPromotion extends View
     time = $('.startTime').timepicker('getSecondsFromMidnight')
     date = date.add('seconds', time)
     now = moment().format('X')
-    page = $('.pages>.facebook-pages>.pageSelection').val()
+    page = @subview('facebookPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
-      return item.id is page).access_token
+      return item.id is page
+    )
+    @pageAccessToken = @pageAccessToken.access_token
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
@@ -144,23 +145,19 @@ module.exports = class FacebookPromotion extends View
       pr.save {}, {
         success:(item)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent 'notify:publish', 'Your Facebook event promotion will magically appear shortly.'
           response = {}
           response.fbFinished = true
-          @publishEvent 'notify:fbPublished', response
-
+          cb null, response
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbFinished = false
           response.error = error
-          @publishEvent 'notify:fbPublished', response
+          cb error, response
         
       }    
     else if time? > 0 
       d= moment(date).toDate().toISOString()
-      if now >= moment(d).format('X')
-        successMessageAppend = "You chose a date or time in the past, your message will go out immediately."
       scheduled= new PromotionRequest
         message: message
         link:link
@@ -176,20 +173,19 @@ module.exports = class FacebookPromotion extends View
       scheduled.save {}, {
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent 'notify:publish', "Your Facebook event promotion has been scheduled for #{moment(d).format("ddd, MMM D YYYY h:mm A")}. #{successMessageAppend}"
           resp = {}
-          resp.fbPublished = true
-          @publishEvent 'notify:fbPublished', resp
+          resp.fbFinished = true
+          cb null, resp
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbPublished = false
           response.error = error
-          @publishEvent 'notify:fbPublished', response
+          cb error, response
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent 'notify:publish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
+      @publishEvent 'notify:publish', {type:'error', message: "When do you want the Facebook magic to happen? Please tell us in the Facebook post tab."}
 
   getFacebookPages:(promoTarget)=>
     if promoTarget.accessToken

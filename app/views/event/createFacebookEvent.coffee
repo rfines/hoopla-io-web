@@ -27,6 +27,8 @@ module.exports = class CreateFacebookEventView extends View
   getTemplateData: ()->
     td = super()
     td.profileImgUrl = @promotionTarget.profileImageUrl
+    if @event.get('media').length >0
+      console.log @event.get('media')
     td.profileName = @promotionTarget.profileName
     td.eventAddress = @model.get('location').address
     td.defaultLink = @model.get('website')

@@ -6,6 +6,7 @@ MediaMixin = require 'views/mixins/mediaMixin'
 TwitterPromo = require 'views/event/twitterPromotion'
 FbPromo = require 'views/event/facebookPromotion'
 FbEventPromo = require 'views/event/createFacebookEvent'
+async = require 'async'
 
 module.exports = class EventCreateView extends View
   className: 'event-create'
@@ -17,9 +18,9 @@ module.exports = class EventCreateView extends View
   fbPromoTarget =undefined
   start_date = undefined
   addr_str = undefined
-  fbFinsihed = false
-  twFinished = false
-  eventPublished = false
+  fbFinsihed = undefined
+  twFinished = undefined
+  fbEventCreated = undefined
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -34,6 +35,9 @@ module.exports = class EventCreateView extends View
     'click .stepTwoBack':'showStepOne'
     'click .stepThreeBack':'showStepTwo'
     'click .stepFourBack':'showStepThree'
+    'change .twitter-checkbox':'toggleTwitterTab'
+    'change .facebook-event-box':'toggleFbEventTab'
+    'change .facebook-checkbox':'toggleFbTab'
     'change .tags':'updateTagPreviews'
     'keyup .website':'updateWebsitePreviews'
     'keyup .ticket':'updateTicketPreviews'
@@ -66,17 +70,19 @@ module.exports = class EventCreateView extends View
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
     @subscribeEvent 'updateImagePreviews', @updateImagePreviews
-    @subscribeEvent 'notify:fbPublished', @removeForm
-    @subscribeEvent 'notify:twPublished', @removeForm
-    @subscribeEvent 'notify:fbEventCreated', @removeForm
     @initSchedule()
     @editor.on('change', @storeDescription)
   
     $('.host').trigger("chosen:updated")
     $('.stepOnePanel').show()
-    $("#myTab a").click (e) ->
-      e.preventDefault()
-      $(this).tab "show"
+    $(".nav-pills a[data-toggle=tab]").on "click", (e) ->
+      if $(this).hasClass("disabled")
+        e.preventDefault()
+        false
+      else
+        e.preventDefault()
+        $(this).tab "show"
+      
     if Chaplin.datastore.business.length is 1
       @model.set
         business : Chaplin.datastore.business[0]
@@ -94,7 +100,7 @@ module.exports = class EventCreateView extends View
         $('.facebook_box').hide()
       else
         $('.facebook_box').show()
-      
+   
   updateImagePreviews:(image)=>
     iEl = $('.imagePreview')
     if iEl.length >1
@@ -161,12 +167,28 @@ module.exports = class EventCreateView extends View
   storeDescription:()=>
     @description = $('.description').val()
     @updateDescriptionPreviews()
+
+  toggleTwitterTab:(e)=>
+    if $('.twitter-checkbox').is(':checked')
+      $('.twitter_tab_a').removeClass('disabled')
+      @initTwitterPromotion()
+    else
+      $('.twitter_tab_a').addClass('disabled')
+  
   initTwitterPromotion : =>
     @subview 'twitterPromo', new TwitterPromo({
-              container : @$el.find('.twitter_container')
-              template: require('templates/event/createTwitterPromotionRequest')
-              data:@model
-              })
+      container : @$el.find('.twitter_container')
+      template: require('templates/event/createTwitterPromotionRequest')
+      data:@model
+      })
+  
+  toggleFbTab:(e)=>
+    if $('.facebook-checkbox').is(':checked')
+      $('.fb_tab').removeClass('disabled')
+      @initFacebookPromotion()
+    else
+      $('.fb_tab_a').addClass('disabled')
+
   initFacebookPromotion :()=>
     @model.set
       startDate : start_date 
@@ -175,6 +197,12 @@ module.exports = class EventCreateView extends View
       template: require('templates/event/createFacebookPromotionRequest')
       data:@model
     })
+  toggleFbEventTab:(e)=>
+    if $('.facebook-event-box').is(':checked')
+      $('.fbEvent_tab_a').removeClass('disabled')
+      @initFacebookPromotion()
+    else
+      $('.fbEvent_tab_a').addClass('disabled')
   initFacebookEventPromotion :()=>
     @model.set
       startDate : start_date 
@@ -392,66 +420,78 @@ module.exports = class EventCreateView extends View
     }]
 
   postSave:()=>
-    data={}
-    data.event = @model 
+    
     tracking = {"email" : Chaplin.datastore.user.get('email')}
     tracking["#{@noun}-name"] = @model.get('name')
     @publishEvent 'trackEvent', "create-#{@noun}", tracking      
     @collection.add @model
     @publishEvent '#{@noun}:created', @model
+    ops = {}
     if @fbPromoTarget
-      console.log "creating facebook event"
-      cb = (err,result)=>
-        if err
-          console.log err
-        else
-          @eventPublished = result.success
-          console.log "inside event callback"
-          if $('.twitter-checkbox').is(':checked')
-            data.twitter=true
-            data.promotionTarget = @fbPromoTarget
-            data.callback  = @promoteTwitterCallback
-            @publishEvent "event:promoteTwitter", data
-          if $('.facebook-checkbox').is(':checked')
-            data.facebook = true
-            data.callback  = @promoteFacebookCallback
-            @publishEvent "event:promoteFacebook", data
-          if !$('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
-            r = {}
-            r.fbPublished = true
-            r.twPublished=true
-            @removeForm r
-
-      data.callback =  cb
-      @publishEvent "facebook:publishEvent", data
+      if $('.facebook-event-box').is(':checked')
+        ops.fbEvent =  @callFacebookEventPromotion
+      if $('.facebook-checkbox').is(':checked')
+        ops.fbPost =  @callFacebookPromotion
+    if @twPromoTarget
+      if $('.twitter-checkbox').is(':checked')
+        ops.twPost = @callTwitterPromotion
+    if _.size ops > 0
+      async.parallel(ops,@finalCallback)
+    else
+      @twFinished = true
+      @fbEventCreated = true
+      @fbFinished = true
+      @removeForm 
     
-    
-    
+  callTwitterPromotion:()=>
+    data={}
+    data.event = @model 
+    data.twitter=true
+    data.promotionTarget = @fbPromoTarget
+    data.callback  = @promoteTwitterCallback
+    @publishEvent "event:promoteTwitter", data
   promoteTwitterCallback:(result)=>
     if result.err
       console.log result.err
+      @twFinished = false
+      @publishEvent 'notify:publish', "There was a problem creating the twitter tweet."
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @twPublished=true
-
+      @twFinished=true
+  callFacebookPromotion:=>
+    data={}
+    data.event = @model 
+    data.facebook = true
+    data.callback  = @promoteFacebookCallback
+    @publishEvent "event:promoteFacebook", data
   promoteFacebookCallback:(result)=>
     if result.err
       console.log result.err
+      @fbFinished = false
+      @publishEvent 'notify:publish', "There was a problem creating the facebook post."
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @fbPublished =true
-      
+      @fbFinished =true
+  callFacebookEventPromotion:=>
+    data={}
+    data.event = @model 
+    data.callback =  @promoteEventCallback
+    @publishEvent "facebook:publishEvent", data 
   promoteEventCallback:(result)=>
     if result.err
       console.log err
+      @fbEventCreated = false
+      @publishEvent 'notify:publish', "There was a problem creating the facebook event."
     else
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      if !$('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
-        r = {}
-        r.fbPublished = undefined
-        r.twPublished= undefined
-        r.eventPublished = true
-        @removeForm r
+      @fbEventCreated = true
+
+  finalCallback:(err, results)=>
+    if err
+      console.log err
+    else
+      Chaplin.mediator.publish 'stopWaiting'
+      @removeForm
 
   showPromote:(show)=>
     if show
@@ -482,9 +522,11 @@ module.exports = class EventCreateView extends View
     if @partialValidate()
       @updateProgress('step4')
       @closeAll(e)
-      @initTwitterPromotion()
-      @initFacebookPromotion()
-      @initFacebookEventPromotion()
+      if @twPromoTarget
+        @toggleTwTab
+      if @fbPromotarget
+        @toggleFbTab
+        @toggleFbEventTab
       $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -666,14 +708,7 @@ module.exports = class EventCreateView extends View
         item.innerText = "#{addr}"
     else
       el.innerText = "#{addr}"
-  removeForm:(result)=>
-    if result
-      if result.fbPublished
-        @fbFinished = result.fbPublished
-      if result.twPublished
-        @twFinished = result.twPublished
-      if result.eventPublished
-        @eventPublished=true
+  removeForm:()=>
     if @fbFinished is true and @twFinished is true and @eventPublished
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
