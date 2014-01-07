@@ -1205,6 +1205,9 @@ padding: 9px;}
 .content-entry { .row {margin-top:15px;}
 .panel label.form-label {color:#000!important;}
 }
+.social-media-choices {font-size:.9em;border-top:1px solid @gray-lighter; padding:8px 0px 0px 0px;
+  label {line-height: 24px;}
+  }
 .content-entry iframe.wysihtml5-sandbox {height:100px!important;}
   .content-entry, .preview 
       {
@@ -1219,6 +1222,7 @@ padding: 9px;}
       .thumbnail:first-child {
       min-height:478px;
       h4 {text-align:center;color:@gray-light; font-family:'museoLight';}
+      .event-page-preview h4 {text-align:left;color:black; font-family:'lucida grande', tahoma, verdana, arial, sans-serif;font-size:16px;}
       dd {line-height:2;}
       dd.description {height: 57px;
       overflow: scroll;
@@ -1230,8 +1234,8 @@ padding: 9px;}
       .event-list .form-inline label {color:#000;}
       }
       .content-entry .facebook_box {margin-top:20px;}
-    .content-entry .facebook_box .channel-icon {width:30px;height:30px;margin:0px 15px 15px 0px; background:url(/client/images/facebook_twitter_sprite.png) 0px 0px no-repeat transparent;float:left;background-size:cover;}
-    .content-entry .twitter_box .channel-icon{width:30px;height:30px;margin-right:15px; background:url(/client/images/facebook_twitter_sprite.png) -38px 0px no-repeat transparent;float:left;background-size:cover;}
+    .facebook_box .channel-icon, .facebook_event_box .channel-icon {width:30px;height:30px;margin:0px 15px 15px 0px; background:url(/client/images/facebook_twitter_sprite.png) 0px 0px no-repeat transparent;float:left;background-size:cover;}
+    .twitter_box .channel-icon{width:30px;height:30px;margin-right:15px; background:url(/client/images/facebook_twitter_sprite.png) -38px 0px no-repeat transparent;float:left;background-size:cover;}
   .controls {
     position:relative;
     bottom:38px;
@@ -1322,7 +1326,7 @@ margin-left:0px;
 
 }
 @media (max-width: 767px) {
-  .event-list .preview {display:none;}
+  .event-list .stepThreePanel,.event-list .stepTwoPanel, .event-list .stepOnePanel {display:none;}
   .header .navbar-inverse {
       background-color: #fff;
       .navbar-toggle {background-color:#52c5e5 ;}
