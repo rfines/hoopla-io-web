@@ -4,9 +4,9 @@ FacebookPagesView = require 'views/event/facebookPages'
 CreateFacebookEventView = require 'views/event/createFacebookEvent'
 AddressView = require 'views/address'
 MessageArea = require 'views/messageArea'
-
+template = require 'templates/event/createFacebookPromotionRequest'
 module.exports = class FacebookPromotion extends View
-  template: require 'templates/event/createFacebookPromotionRequest'
+  template: template
   className: 'create-promotion-requests'
   event: {}
   business: {}
@@ -76,7 +76,6 @@ module.exports = class FacebookPromotion extends View
   events: 
     "submit .promoRequestFormFacebook": "saveFacebook"
     "click .facebookPostBtn": "saveFacebook"
-    "click .createFbEventBtn":"saveFbEvent"
     "click .cancelBtn":"cancel"
     "change .fb-immediate-box":"immediateClick"
     "change .fb-scheduled-box":"scheduledClick"
@@ -122,7 +121,6 @@ module.exports = class FacebookPromotion extends View
     else if $('#linkCustom').is(':checked')
       link = $('.customLinkBox').val()
     immediate = $('.fb-immediate-box')
-    console.log immediate
     date = @startDate.getMoment()
     time = $('.startTime').timepicker('getSecondsFromMidnight')
     date = date.add('seconds', time)

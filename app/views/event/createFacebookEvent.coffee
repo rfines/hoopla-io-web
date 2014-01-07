@@ -131,7 +131,6 @@ module.exports = class CreateFacebookEventView extends View
         Chaplin.mediator.publish 'stopWaiting'
       }
   saveFbEventNoForm:(page, cb)=>
-    console.log "saving fb event promo request"
     page=page
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
@@ -171,7 +170,6 @@ module.exports = class CreateFacebookEventView extends View
         cb xhr, mod
       }
   postEvent:(data)=>
-    console.log data
     page = data.pageId
     @event = data.event
     @model = @event

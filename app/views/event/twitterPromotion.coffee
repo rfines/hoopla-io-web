@@ -95,7 +95,6 @@ module.exports = class CreatePromotionReqeust extends View
 
   saveTwitter: (e)->
     e.preventDefault()
-    console.log "Saving twitter promotion"
     successMessageAppend ="" 
     message = $('.tweetMessage').val()
     immediate = $('.tw-immediate-box')
