@@ -6,7 +6,6 @@ FacebookPagesView = require 'views/event/facebookPages'
 
 
 module.exports = class CreateFacebookEventView extends View
-  model:Event
   template: require 'templates/event/createFacebookEvent'
   className: 'create-facebook-event'
   business = {}
@@ -20,8 +19,10 @@ module.exports = class CreateFacebookEventView extends View
 
   initialize:(options)=>
     super(options)
-    @business = options.options.business
-    @promotionTarget = options.options.promotionTarget
+    if options and options.options
+      @model = options.options.event
+      @business = options.options.business
+      @promotionTarget = options.options.promotionTarget
     
   getTemplateData: ()->
     td = super()
@@ -30,8 +31,8 @@ module.exports = class CreateFacebookEventView extends View
     td.eventAddress = @model.get('location').address
     td.defaultLink = @model.get('website')
     td.coverPhoto = @promotionTarget.profileCoverPhoto
-    td.dayOfWeek = moment(@model.nextOccurrence()).format("dddd")
-    td.startDate = moment(@model.nextOccurrence()).format("h:mm a")
+    td.dayOfWeek = moment(@model.get("startDate")).format("dddd")
+    td.startDate = moment(@model.get('startDate')).format("h:mm a")
     td.eventTitle =@model.get('name')
     if @model.get('name').length >74
       td.eventTitle = @textCutter(70,@model.get('name'))
@@ -101,36 +102,36 @@ module.exports = class CreateFacebookEventView extends View
       at = @pageAccessToken
     date = moment().toDate().toISOString()
     link = undefined
-    if @event.get('website')?.length >0
-      link = @event.get('website')
-    else if @event.get('ticketUrl')?.length >0
-      link = @event.get('ticketUrl')
-    name =@event.get('name')
+    if @model.get('website')?.length >0
+      link = @model.get('website')
+    else if @model.get('ticketUrl')?.length >0
+      link = @model.get('ticketUrl')
+    name =@model.get('name')
     if name.length >74
       name = @textCutter(65,name)
     pr = new PromotionRequest
       pushType: "FACEBOOK-EVENT"
       link:link
-      caption:@event.get('description')
+      caption:@model.get('description')
       title: name
       startTime: moment(@event.nextOccurrence()).toDate().toISOString()
       promotionTime: date
-      location: @event.get('location').address
+      location: @model.get('location').address
       pageId:page
-      ticket_uri: @event.get('ticketUrl')
+      ticket_uri: @model.get('ticketUrl')
       pageAccessToken: @pageAccessToken
       promotionTarget: @fbPromoTarget._id
-      media: @event.get('media')?[0]?._id
-    pr.eventId = @event.id
+      media: @model.get('media')?[0]?._id
+    pr.eventId = @model.id
     pr.save {},{
-      success: (model, response, options)=>
+      success: (mod, response, options)=>
         Chaplin.mediator.publish 'stopWaiting'
         @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
-      error: (model, xhr, options)->
+      error: (mod, xhr, options)->
         Chaplin.mediator.publish 'stopWaiting'
         @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       }
-  saveFbEventNoForm:( page)=>
+  saveFbEventNoForm:(page, id)=>
     Chaplin.mediator.publish 'startWaiting'
     page=page
     @pageAccessToken = _.find(@fbPages, (item)=>
@@ -140,7 +141,7 @@ module.exports = class CreateFacebookEventView extends View
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
-    link = undefined
+    link = "http://localruckus.com/event/#{@event.id}"
     if @event.get('website')?.length >0
       link = @event.get('website')
     else if @event.get('ticketUrl')?.length >0
@@ -153,7 +154,7 @@ module.exports = class CreateFacebookEventView extends View
       link:link
       caption:@event.get('description')
       title: name
-      startTime: moment(@event.nextOccurrence()).toDate().toISOString()
+      startTime: moment(@event.get("startDate")).toDate().toISOString()
       promotionTime: date
       location: @event.get('location').address
       pageId:page
@@ -163,14 +164,15 @@ module.exports = class CreateFacebookEventView extends View
       media: @event.get('media')?[0]?._id
     pr.eventId = @event.id
     pr.save {},{
-      success: (model, response, options)=>
+      success: (mod, response, options)=>
         Chaplin.mediator.publish 'stopWaiting'
         @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
-      error: (model, xhr, options)->
+      error: (mod, xhr, options)->
         Chaplin.mediator.publish 'stopWaiting'
         @publishEvent 'notify:publish', 'Your event has been successfully created on Facebook. Please allow a few minutes for it to show up.'
       }
   postEvent:(data)=>
     page = data.pageId
     @event = data.event
+    @model = @event
     @saveFbEventNoForm page

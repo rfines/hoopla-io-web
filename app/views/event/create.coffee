@@ -53,7 +53,6 @@ module.exports = class EventCreateView extends View
   attach: =>
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
-    console.log @model
     @initSocialMediaPromotion()
     @initTimePickers()
     @initDatePickers()
@@ -68,6 +67,7 @@ module.exports = class EventCreateView extends View
     @subscribeEvent 'updateImagePreviews', @updateImagePreviews
     @subscribeEvent 'notify:fbPublished', @removeForm
     @subscribeEvent 'notify:twPublished', @removeForm
+    @subscribeEvent 'notify:fbEventCreated', @removeForm
     @initSchedule()
     @editor.on('change', @storeDescription)
   
@@ -77,11 +77,12 @@ module.exports = class EventCreateView extends View
       e.preventDefault()
       $(this).tab "show"
     if Chaplin.datastore.business.length is 1
-      @model.business = Chaplin.datastore.business[0]
-      @twPromoTarget =_.find(@event.business.get('promotionTargets'), (item) =>
+      @model.set
+        business : Chaplin.datastore.business[0]
+      @twPromoTarget =_.find(@model.business.get('promotionTargets'), (item) =>
         return item.accountType is 'TWITTER'
       )
-      @fbPromoTarget =_.find(@event.business.get("promotionTargets"), (item) =>
+      @fbPromoTarget =_.find(@model.business.get("promotionTargets"), (item) =>
         return item.accountType is 'FACEBOOK'
       )
       if not @twPromoTarget
@@ -92,53 +93,7 @@ module.exports = class EventCreateView extends View
         $('.facebook_box').hide()
       else
         $('.facebook_box').show()
-      addr_str = @model.business.get('location')
-    else  
-      $(".business.select-chosen").chosen().change (e, params) ->
-        el =$('.venue_preview')
-        b = Chaplin.datastore.business.get(params.selected)
-        name = b?.get('name')
-        @twPromoTarget =_.find(b?.get('promotionTargets'), (item) =>
-          return item.accountType is 'TWITTER'
-        )
-        @fbPromoTarget =_.find(b?.get("promotionTargets"), (item) =>
-          return item.accountType is 'FACEBOOK'
-        )
-        if not @twPromoTarget
-          $('.twitter_box').hide()
-        else
-          $('.twitter_box').show()
-        if not @fbPromoTarget
-          $('.facebook_box').hide()
-        else
-          $('.facebook_box').show() 
-        if el.length >1
-          _.each el, (item, index, list)=>
-              item.innerText = "#{name}"
-        else
-          if name.length >0
-            el.innerText = "#{name}"
-        addr_str = b.get('location')
-        console.log addr_str
-              
-    $(".host.select-chosen").chosen().change (e, params) ->
-      el =$('.venue_preview')
-      b = Chaplin.datastore.business.get(params.selected)
-      name = b?.get('name')
-      if el.length >1
-        _.each el, (item, index, list)=>
-            item.innerText = "#{name}"
-      else
-        if name.length >0
-          el.innerText = "#{name}"
-      el = $('.map_preview')
-      if el.length > 1
-        _.each el, (item, index, list)=>
-          item.innerText = "#{b?.get('location')?.address}"
-      else
-        el.innerText = "#{b?.get('location')?.address}"
-      addr_str= b.get('location')
-      console.log addr_str
+      
   updateImagePreviews:(image)=>
     iEl = $('.imagePreview')
     if iEl.length >1
@@ -146,6 +101,62 @@ module.exports = class EventCreateView extends View
         item.src =  image.get('url')
     else
       iEl.src= image.get('url')
+  changeBusiness: (evt, params) =>
+    b = Chaplin.datastore.business.get(params.selected)
+    @model.set 'business', params.selected
+    el =$('.venue_preview')
+    name = b?.get('name')
+    @twPromoTarget =_.find(b?.get('promotionTargets'), (item) =>
+      return item.accountType is 'TWITTER'
+    )
+    @fbPromoTarget =_.find(b?.get("promotionTargets"), (item) =>
+      return item.accountType is 'FACEBOOK'
+    )
+    if not @twPromoTarget
+      $('.twitter_box').hide()
+    else
+      $('.twitter_box').show()
+    if not @fbPromoTarget
+      $('.facebook_box').hide()
+    else
+      $('.facebook_box').show() 
+    if el.length >1
+      _.each el, (item, index, list)=>
+          item.innerText = "#{name}"
+    else
+      if name.length >0
+        el.innerText = "#{name}"
+    if not @model.has('host')
+      el = $(".map_preview")
+      @model.set 
+        'host': params.selected
+        'location' : b?.get('location')
+      if el.length > 1
+        _.each el, (item, index, list)=>
+          item.innerText = "#{b?.get('location')?.address}"
+      else
+        el.innerText = "#{b?.get('location')?.address}"
+      $('.host').trigger("chosen:updated")
+    @showPromote(b.get('promotionTargets')?.length > 0)
+  changeHost:  (evt, params) =>
+    el =$('.venue_preview')
+    b = Chaplin.datastore.venue.get(params.selected)
+    name = b?.get('name')
+    if el.length >1
+      _.each el, (item, index, list)=>
+          item.innerText = "#{name}"
+    else
+      if name.length >0
+        el.innerText = "#{name}"
+    el = $('.map_preview')
+    if el.length > 1
+      _.each el, (item, index, list)=>
+        item.innerText = "#{b?.get('location')?.address}"
+    else
+      el.innerText = "#{b?.get('location')?.address}"
+    @model.set 
+      'host' : params.selected
+      'location' : Chaplin.datastore.venue.get(params.selected).get('location')  
   storeDescription:()=>
     @description = $('.description').val()
     @updateDescriptionPreviews()
@@ -166,10 +177,15 @@ module.exports = class EventCreateView extends View
   initFacebookEventPromotion : =>
     @model.set
       startDate : start_date 
+    data={
+      event:@model
+      promotionTarget:@fbPromoTarget
+      business:Chaplin.datastore.business.get(@model.get('business'))
+    }
     @subview 'facebookEventPromo', new FbEventPromo({
-      container:@$el.find('.facebook_event_container')
+      container:$('.facebook_event_container')
       template: require('templates/event/createFacebookEvent')
-      data:@model
+      options:data
     })
   initSchedule: =>
     if @model.get('schedules')?.length > 0
@@ -267,7 +283,7 @@ module.exports = class EventCreateView extends View
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
-      scrollDefaultTime : "12:00"
+      scrollDefaultTime : moment().format("hh:mm a")
       step : 15
     @$el.find('.startTime').on 'changeTime', @predictEndTime
     @$el.find('.endTime').on 'changeTime', @updateTimePreviewText
@@ -319,11 +335,13 @@ module.exports = class EventCreateView extends View
     @delegate 'click', '.closeAddress', ->
       if @$el.find('.popover-content').is(':visible')
         @$el.find('.addressButton').popover('hide')
-        if @subview('addressPopover').location?.address and not @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()
+        if @subview('addressPopover').location?.address and @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()
           @$el.find('.choose_venue').hide()
           @$el.find('.custom_venue').show()
           @$el.find('.hostAddress').val(@subview('addressPopover').location?.address)
-          addr_str = @subview('addressPopover').location
+          @model.set
+            location: @subview('addressPopover').location
+          @updateAddressText @subview('addressPopover').location.address
         else
           @$el.find('.custom_venue').hide()
           @$el.find('.choose_venue').show()
@@ -380,12 +398,11 @@ module.exports = class EventCreateView extends View
     @publishEvent 'trackEvent', "create-#{@noun}", tracking      
     @collection.add @model
     @publishEvent '#{@noun}:created', @model
-    console.log "event created setting up promotions"
-    console.log $('.twitter-checkbox').is(':checked')
+    if @fbPromoTarget
+      @publishEvent "event:postFacebookEvent", data
     if $('.twitter-checkbox').is(':checked')
       data.twitter=true
       data.callback  = @promoteTwitterCallback
-      console.log "calling twitter promotions"
       @publishEvent "event:promoteTwitter", data
     if $('.facebook-checkbox').is(':checked')
       data.facebook = true
@@ -395,6 +412,7 @@ module.exports = class EventCreateView extends View
       r = {}
       r.fbPublished = true
       r.twPublished=true
+
       @removeForm r
     
   promoteTwitterCallback:(result)=>
@@ -422,8 +440,6 @@ module.exports = class EventCreateView extends View
       @model.unset('host') if @model.has('host')
   showStepTwo:(e)=>
     e.preventDefault() if e
-    @model.set
-      location: addr_str
     if @partialValidate()
       @updateProgress('step2')
       @closeAll(e)
@@ -432,7 +448,6 @@ module.exports = class EventCreateView extends View
     e.preventDefault() if e
     @model.set
       description: $('.description').val()
-      location: addr_str
     if @partialValidate() 
       @updateProgress('step3')
       @closeAll(e)
@@ -444,6 +459,7 @@ module.exports = class EventCreateView extends View
       @closeAll(e)
       @initTwitterPromotion()
       @initFacebookPromotion()
+      @initFacebookEventPromotion()
       $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -545,7 +561,6 @@ module.exports = class EventCreateView extends View
         el[0].innerText = "FREE"
   updateDescriptionPreviews:(e)=>
     keyed = @$el.find('.description').val();
-    console.log keyed
     dEl = $(".description_preview")
     if dEl.length > 1
       _.each dEl, (item, index, list)=>
@@ -563,8 +578,6 @@ module.exports = class EventCreateView extends View
     e.preventDefault() if e
     keyed = $('.website').val()
     dEl = $(".website_preview")
-    console.log keyed
-    console.log dEl
     if dEl.length > 1
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
@@ -581,8 +594,6 @@ module.exports = class EventCreateView extends View
     e.preventDefault() if e
     keyed = $('.ticket').val()
     dEl = $(".ticket_preview")
-    console.log keyed
-    console.log dEl
     if dEl.length > 1
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
@@ -593,7 +604,6 @@ module.exports = class EventCreateView extends View
     e.preventDefault() if e
     tagsText = []
     keyed = @$el.find('.tags').val()
-    console.log keyed
     _.each keyed, (ele, index,list)=>
       text = _.find Chaplin.datastore.eventTag.models, (item)=>
         return item.get('slug') == ele
@@ -604,15 +614,12 @@ module.exports = class EventCreateView extends View
       _.each dEl, (item, index, list)=>
         item.innerText = tagsText.join(', ')
     else
-      console.log dEl
       dEl[0].innerText = tagsText.join(', ')
 
   updatePhonePreviews:(e)=>
     e.preventDefault() if e
     keyed = @$el.find('.phone').val()
     dEl = $(".phone_preview")
-    console.log keyed
-    console.log dEl
     if dEl.length > 1
       _.each dEl, (item, index, list)=>
         item.innerText = keyed
@@ -627,13 +634,18 @@ module.exports = class EventCreateView extends View
         item.innerText = keyed
     else
       dEl[0].innerText = keyed
+  updateAddressText:(addr)=>
+    el = $('.map_preview')
+    if el.length > 1
+      _.each el, (item, index, list)=>
+        item.innerText = "#{addr}"
+    else
+      el.innerText = "#{addr}"
   removeForm:(result)=>
     if result and result.fbPublished
       @fbFinished = result.fbPublished
     if result and result.twPublished
       @twFinished = result.twPublished
-    console.log @twFinished
-    console.log @fbFinished
     if @fbFinished is true and @twFinished is true
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
@@ -643,3 +655,7 @@ module.exports = class EventCreateView extends View
     else if @fbFinished is true and $('.facebook-checkbox').is(':checked') and !$('.twitter-checkbox').is(':checked')
       @publishEvent "closeOthers"
       @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+    else if !$('.twitter-checkbox').is(':checked') and !$('.facebook-checkbox').is(':checked') and result.fbEvent
+      @publishEvent "closeOthers"
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
+      @publishEvent 'stopWaiting'
