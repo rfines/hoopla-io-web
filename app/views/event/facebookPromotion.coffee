@@ -49,7 +49,7 @@ module.exports = class FacebookPromotion extends View
       l = @event.get("website")
     else if @event.get("ticketUrl")
       l = @event.get("ticketUrl")
-    td.previewText = "#{@event.get('name')} hosted by #{bName?.get('name')} at #{bName.get('location').address}. Check out more details at #{l}"
+    td.previewText = "#{@event.get('name')} hosted by #{bName?.get('name')} at #{@event.get('location').address}. Check out more details at #{l}"
     td.defaultLink = l
     if not @fbPromoTarget
       td.showFb = false
@@ -79,6 +79,7 @@ module.exports = class FacebookPromotion extends View
     "click .createFbEventBtn":"saveFbEvent"
     "click .cancelBtn":"cancel"
     "change .fb-immediate-box":"immediateClick"
+    "change .fb-scheduled-box":"scheduledClick"
     "keyup .message": "updateFacebookPreviewText"
     "click .editPostBtn":"showPostForm"
     "change .fb-cusLink-box": "showLinkBox"
@@ -268,9 +269,15 @@ module.exports = class FacebookPromotion extends View
     element = $('.fb-immediate-box')
     if element.is(':checked')
       @hideFbDates()
-    else
+    
+  scheduledClick:(e)=>
+    e.preventDefault() if e
+    element = $('.fb-scheduled-box')
+    if element.is(':checked')
       @showFbDates()
-
+    else
+      @hideFbDates()
+      
   hideFbDates:()->
     @$el.find('.inputTimes').hide()
 

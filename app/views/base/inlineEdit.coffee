@@ -91,10 +91,11 @@ module.exports = class InlineEdit extends View
     isValid = true
     if @model.validate()
       for x in _.keys(@model.validate())
+        console.log @model
         if x is 'description' and $('.description-container').is(':visible')
           $('.description-container').addClass('has-error')
           isValid = false
-        else if x is 'location'
+        else if x is 'location' and not @model.get('location')
           $(".business-container, .host-container").addClass('has-error')
           isValid = false
         else
@@ -113,10 +114,7 @@ module.exports = class InlineEdit extends View
       if $('.startTime').is(':visible')
         now=moment().format("MM-DD-YYYY")
         v = $('.startTime').val()
-        console.log v
-        console.log now
         nowTimes = moment("#{now} #{v}", "MM-DD-YYYY hh:mma")
-        console.log nowTimes
         if not v
           $('.startTime').parent().addClass('has-error')
           isValid= false

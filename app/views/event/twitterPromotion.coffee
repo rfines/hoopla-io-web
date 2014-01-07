@@ -30,7 +30,7 @@ module.exports = class CreatePromotionReqeust extends View
     
   getTemplateData: ->
     td = super()
-    td.previewText = @event.get('description')
+    td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')} at #{@event.get('location').address}."
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
     td.twitterHandle = @twitterHandle
@@ -58,7 +58,8 @@ module.exports = class CreatePromotionReqeust extends View
     "submit form.promoRequestFormTwitter" : "saveTwitter"
     "click .cancelBtn":"cancel"
     "click .twitterTab" : "showTwitter"
-    "change .tw-immediate-box": "twitterImmediateClick"
+    "change .fb-immediate-box":"twitterImmediateClick"
+    "change .fb-scheduled-box":"scheduledClick"
     "keyup .tweetMessage":"updateTwitterPreivewText"
     "change .tw-image-box":"deductImageFromTotal"
     "click .showTweetFormBtn":"showTweetForm"
@@ -68,7 +69,6 @@ module.exports = class CreatePromotionReqeust extends View
     
   sendTweet:(data)=>
     @event = data.event
-    console.log "submitting twitter form"
     $('.promoRequestFormTwitter').submit()
 
 
@@ -87,7 +87,7 @@ module.exports = class CreatePromotionReqeust extends View
 
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
-      scrollDefaultTime : "12:00"
+      scrollDefaultTime : moment().format('hh:mm a')
       step : 15
     if not @model.isNew()
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
@@ -186,16 +186,23 @@ module.exports = class CreatePromotionReqeust extends View
   twitterImmediateClick:()->
     element = $('.tw-immediate-box')
     if element.is(':checked')
-      @hideTwitterDates()
+      @hideDates()
     else
-      @showTwitterDates()
-  showTwitterDates:()->
-    @$el.find('.twPostTime').show()
-    @$el.find('.twPostDate').show()
+      @showDates()
+    
+  scheduledClick:(e)=>
+    e.preventDefault() if e
+    element = $('.tw-scheduled-box')
+    if element.is(':checked')
+      @showDates()
+    else
+      @hideDates()
+      
+  hideDates:()->
+    @$el.find('.inputTimes').hide()
 
-  hideTwitterDates:()->
-    @$el.find('.twPostTime').hide()
-    @$el.find('.twPostDate').hide()
+  showDates:()->
+    @$el.find('.inputTimes').show()
 
   showCreatedMessage: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
