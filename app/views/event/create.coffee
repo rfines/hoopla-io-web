@@ -436,8 +436,6 @@ module.exports = class EventCreateView extends View
     if @twPromoTarget
       if $('.twitter-checkbox').is(':checked')
         @ops.twPost = @callTwitterPromotion
-    console.log async
-    console.log @ops
     if !_.isEmpty @ops
       async.parallel(@ops,@finalCallback)
     else
