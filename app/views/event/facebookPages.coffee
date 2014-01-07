@@ -15,6 +15,7 @@ module.exports = class FacebookPagesView extends View
   initialize:(options) ->
     super(options)
     @fbPages = options.options.pages
+    @pageId = _.first(@fbPages).id
   attach : ->
     super
   getTemplateData : ->
