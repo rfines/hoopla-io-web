@@ -98,9 +98,11 @@ module.exports = class EventCreateView extends View
         $('.twitter_box').show()
       if not @fbPromoTarget
         $('.facebook_box').hide()
+        $('.facebook_event_box').hide()
       else
         $('.facebook_box').show()
-   
+        $('.facebook_event_box').hide()
+  
   updateImagePreviews:(image)=>
     iEl = $('.imagePreview')
     if iEl.length >1
@@ -125,8 +127,14 @@ module.exports = class EventCreateView extends View
       $('.twitter_box').show()
     if not @fbPromoTarget
       $('.facebook_box').hide()
+      $('.facebook_event_box').hide()
     else
-      $('.facebook_box').show() 
+      $('.facebook_box').show()
+      $('.facebook_event_box').show()
+    if not @twPromoTarget and not @fbPromoTarget
+      $('.connect-help').show()
+    else
+      $('.connect-help').hide()
     if el.length >1
       _.each el, (item, index, list)=>
           item.innerText = "#{name}"
@@ -311,7 +319,14 @@ module.exports = class EventCreateView extends View
       format: 'M-DD-YYYY'
       minDate: moment().toDate()
       onSelect: @updateCalendarDateText
-
+    @endDate = new Pikaday
+      field: @$el.find('.endDate')[0]
+      format: 'M-DD-YYYY'
+      minDate: moment().toDate()      
+    if @model.get('schedules')?[0]?.end
+      ed = moment(@model.get('schedules')?[0]?.end)
+      @endDate.setMoment ed
+      $('.endDate').val(ed.format('M-DD-YYYY'))      
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : moment().format("hh:mm a")
@@ -380,6 +395,7 @@ module.exports = class EventCreateView extends View
       @$el.find('.custom_venue').hide()
       @$el.find('.choose_venue').show()
       @$el.find('.hostAddress').val('')
+
   getSchedules: =>
     startTime = moment().startOf('day').add('seconds', @$el.find("input[name='startTime']").timepicker('getSecondsFromMidnight'))
     endTime = moment().startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight')) 
@@ -542,6 +558,9 @@ module.exports = class EventCreateView extends View
       @toggleTwTab()
       @toggleFbTab()
       @toggleFbEventTab()
+      @updateModel()
+      if @model.get('schedules').length >0
+        @scheduleText
       $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -587,7 +606,7 @@ module.exports = class EventCreateView extends View
         el[0].innerText = keyed
       else
         el[0].innerText = "Event name"
-  updateCalendarDateText:(e)=>
+  updateCalendarDateText:(e, text)=>
     s = @$el.find('.startDate').val()
     if not s
       s = moment()
@@ -601,13 +620,17 @@ module.exports = class EventCreateView extends View
       el = $(".date_preview")
       if el.length >1
         _.each el, (item, index, list)=>
-          if startTime
+          if startTime and not text
             item.innerText = startTime.calendar()
+          else if text
+            item.innerText = text
           else
             item.innerText = moment().calendar()
       else
-        if startTime
+        if startTime and not text
           el[0].innerText = startTime.calendar()
+        else if text
+          el[0].innerText = text
         else
           el[0].innerText = moment().calendar()
   updateTimePreviewText:(e)=>
@@ -768,3 +791,29 @@ module.exports = class EventCreateView extends View
         @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
            
     @publishEvent 'stopWaiting'
+
+  scheduleText: () ->
+    out = ""
+    dayOrder =  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    dayCountOrder = ['Last', 'First', 'Second', 'Third', 'Fourth']
+    if @model.schedules?[0]
+      s = @model.schedules[0]
+      s.dayOfWeek = _.sortBy s.dayOfWeek, (i) ->
+        i    
+      endDate = moment(s.end)
+      if s.dayOfWeek?.length is 0 and s.dayOfWeekCount?.length is 0
+         out = 'Every Day'
+      else
+        days = _.map s.dayOfWeek, (i) ->
+          return dayOrder[i-1]
+        if s.dayOfWeekCount?.length > 0
+          out = "The #{dayCountOrder[s.dayOfWeekCount]} #{days.join(', ')} of the month"
+        else
+          out = "Every #{days.join(', ')}"
+        if s.end
+          out = "#{out} until #{endDate.format('MM/DD/YYYY')}"   
+        else
+          out = "#{out}"
+      @updateCalendarText(out)
+
+      

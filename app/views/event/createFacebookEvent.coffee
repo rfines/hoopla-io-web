@@ -27,7 +27,7 @@ module.exports = class CreateFacebookEventView extends View
   getTemplateData: ()->
     td = super()
     td.profileImgUrl = @promotionTarget.profileImageUrl
-    if @model.get('media').length >0
+    if @model.get('media')?.length > 0
       td.coverPhoto = @model.get('media')[0].url
     else
       td.coverPhoto = "http://placehold.it/200x300"
