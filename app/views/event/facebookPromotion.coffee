@@ -21,7 +21,7 @@ module.exports = class FacebookPromotion extends View
     super(options)
     @event = options.data
     @business = Chaplin.datastore.business.get(@event.get('business'))
-    @fbPromoTarget = _.find(@business.attributes.promotionTargets, (item) =>
+    @fbPromoTarget = _.find(@business.get('promotionTargets'), (item) =>
       return item.accountType is 'FACEBOOK'
       )
     if @event.get('business') is @event.get('host')
