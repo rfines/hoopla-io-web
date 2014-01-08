@@ -86,10 +86,13 @@ module.exports = class EventCreateView extends View
     if Chaplin.datastore.business.length is 1
       @model.set
         business : Chaplin.datastore.business[0]
-      @twPromoTarget =_.find(@model.business.get('promotionTargets'), (item) =>
+      console.log @model
+      b = Chaplin.datastore.business[0]
+      console.log b
+      @twPromoTarget =_.find(b.get('promotionTargets'), (item) =>
         return item.accountType is 'TWITTER'
       )
-      @fbPromoTarget =_.find(@model.business.get("promotionTargets"), (item) =>
+      @fbPromoTarget =_.find(b.get("promotionTargets"), (item) =>
         return item.accountType is 'FACEBOOK'
       )
       if not @twPromoTarget
