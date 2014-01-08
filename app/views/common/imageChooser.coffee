@@ -8,6 +8,7 @@ module.exports = class ImageChooser extends View
   file={}
   uploader = {}
   standAloneUpload = false
+  dropped = false
 
   initialize: (options)->
     super(options)
@@ -31,8 +32,7 @@ module.exports = class ImageChooser extends View
       filters: [
         title: "Image files"
         extensions: "jpg,jpeg,gif,png,pdf"
-      ],
-      drop_element: 'uploadContainer'
+      ]
     )
     @$el.find('.helpTip').tooltip()
         
@@ -47,9 +47,9 @@ module.exports = class ImageChooser extends View
       $.each files, (i, file) =>
         @file = file
         $("#filelist").append "<div id=\"" + file.id + "\">" + file.name + " (" + plupload.formatSize(file.size) + ") <a class='remove-button'>Remove</a>" + "</div>"
+      up.refresh()
       if @standAloneUpload is false and $('.imagePreview').length > 0
         @handleFiles()
-      up.refresh()
     
     @uploader.bind "UploadProgress", (up, file) =>
       if file.percent < 100
@@ -101,18 +101,20 @@ module.exports = class ImageChooser extends View
 
   handleFiles : () ->
     imageDataUrl = ""
-    input = $("input[type=file]")[0].files
-    imageType = /image.*/
-    reader = new FileReader()
-    file = input[0] 
-    if file.type.match(imageType)
-       reader.onload = (() ->
-          (e) ->
-            imageDataUrl = e.target.result
-            imgs = $(".imagePreview")
-            _.each imgs, (img, index, list)=>
-              img.file = file
-              img.src = imageDataUrl     
-        )()
-      reader.readAsDataURL file
+    input = []
+    if $("input[type=file]")[0].files and $("input[type=file]")[0].files.length > 0
+      input = $("input[type=file]")[0].files
+      file = input[0]
+      imageType = /image.*/
+      reader = new FileReader() 
+      if file?.type.match(imageType)
+         reader.onload = (() ->
+            (e) ->
+              imageDataUrl = e.target.result
+              imgs = $(".imagePreview")
+              _.each imgs, (img, index, list)=>
+                img.file = file
+                img.src = imageDataUrl     
+          )()
+        reader.readAsDataURL file
           
