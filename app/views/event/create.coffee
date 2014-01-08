@@ -183,6 +183,8 @@ module.exports = class EventCreateView extends View
       @initTwitterPromotion()
     else
       $('.twitter_tab_a, .twitter_tab').addClass('disabled')
+      if $('.twitter-preview').is(':visible')
+        $('.nav-pills a[href="#web"]').tab('show')
   
   initTwitterPromotion : =>
     @subview 'twitterPromo', new TwitterPromo({
@@ -198,6 +200,9 @@ module.exports = class EventCreateView extends View
       @initFacebookPromotion()
     else
       $('.fb_tab_a, .facebook_tab').addClass('disabled')
+      if $('.facebook-preview').is(':visible')
+        $('.nav-pills a[href="#web"]').tab('show')
+
 
   initFacebookPromotion :()=>
     @model.set
@@ -213,6 +218,9 @@ module.exports = class EventCreateView extends View
       @initFacebookEventPromotion()
     else
       $('.fbEvent_tab_a, .facebook_event_tab').addClass('disabled')
+      if $('.event-page-preview').is(':visible')
+        $('.nav-pills a[href="#web"]').tab('show')
+
   initFacebookEventPromotion :()=>
     @model.set
       startDate : start_date 
@@ -541,6 +549,11 @@ module.exports = class EventCreateView extends View
     if @partialValidate()
       @updateProgress('step2')
       @closeAll(e)
+      @updateModel()
+      console.log @model.get('schedules')
+      if @model.get('schedules')?.length >0
+        console.log "getting schedule text"
+        @scheduleText()
       $('.stepTwoPanel').show()
   showStepThree:(e)=>
     e.preventDefault() if e
@@ -558,9 +571,6 @@ module.exports = class EventCreateView extends View
       @toggleTwTab()
       @toggleFbTab()
       @toggleFbEventTab()
-      @updateModel()
-      if @model.get('schedules').length >0
-        @scheduleText
       $('.stepFourPanel').show()
   showStepOne:(e)=>
     e.preventDefault() if e
@@ -792,28 +802,25 @@ module.exports = class EventCreateView extends View
            
     @publishEvent 'stopWaiting'
 
-  scheduleText: () ->
+  scheduleText: () =>
     out = ""
     dayOrder =  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     dayCountOrder = ['Last', 'First', 'Second', 'Third', 'Fourth']
-    if @model.schedules?[0]
-      s = @model.schedules[0]
-      s.dayOfWeek = _.sortBy s.dayOfWeek, (i) ->
-        i    
-      endDate = moment(s.end)
-      if s.dayOfWeek?.length is 0 and s.dayOfWeekCount?.length is 0
-         out = 'Every Day'
+    s = @model.get('schedules')[0]
+    s.dayOfWeek = _.sortBy s.dayOfWeek, (i) ->
+      i    
+    endDate = moment(s.end)
+    if s.dayOfWeek?.length is 0 and s.dayOfWeekCount?.length is 0
+       out = "Every Day until #{endDate.format("MM/DD/YYYY") }"
+    else
+      days = _.map s.dayOfWeek, (i) ->
+        return dayOrder[i-1]
+      if s.dayOfWeekCount?.length > 0
+        out = "The #{dayCountOrder[s.dayOfWeekCount]} #{days.join(', ')} of the month"
       else
-        days = _.map s.dayOfWeek, (i) ->
-          return dayOrder[i-1]
-        if s.dayOfWeekCount?.length > 0
-          out = "The #{dayCountOrder[s.dayOfWeekCount]} #{days.join(', ')} of the month"
-        else
-          out = "Every #{days.join(', ')}"
-        if s.end
-          out = "#{out} until #{endDate.format('MM/DD/YYYY')}"   
-        else
-          out = "#{out}"
-      @updateCalendarText(out)
-
-      
+        out = "Every #{days.join(', ')}"
+      if s.end
+        out = "#{out} until #{endDate.format('MM/DD/YYYY')}"   
+      else
+        out = "#{out}"
+    @updateCalendarDateText(undefined,out)
