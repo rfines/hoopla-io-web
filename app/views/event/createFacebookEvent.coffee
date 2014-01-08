@@ -12,20 +12,24 @@ module.exports = class CreateFacebookEventView extends View
   promotionTarget = {}
   promotionRequest = {}
   fbPages = []
+  dashboard = false
 
   events: 
     "change .pageSelection": "setImage"
+    "click .createFbEventBtn":"saveFbEvent"
     
 
   initialize:(options)=>
     super(options)
     if options and options.options
       @model = options.options.event
+      @dashboard = options.options.edit if options.options.edit
       @business = options.options.business
       @promotionTarget = options.options.promotionTarget
     
   getTemplateData: ()->
     td = super()
+    td.showFormControls = @dashboard
     td.profileImgUrl = @promotionTarget.profileImageUrl
     if @model.get('media')?.length > 0
       td.coverPhoto = @model.get('media')[0].url

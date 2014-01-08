@@ -3,13 +3,20 @@ View = require 'views/base/inlineEdit'
 Event = require 'models/event'
 AddressView = require 'views/address'
 MediaMixin = require 'views/mixins/mediaMixin'
+FbPromo = require 'views/event/facebookPromotion'
+FbEventPromo = require 'views/event/createFacebookEvent'
+TwitterPromo = require 'views/event/twitterPromotion'
 
 module.exports = class EventEditView extends View
   className: 'event-edit'
   template: template
   listRoute: 'myEvents'
   noun : 'event'
-  
+  twPromoTarget = undefined
+  fbPromoTarget = undefined
+  business = undefined
+  promotionRequests = []
+
   initialize: ->
     @extend @, new MediaMixin()
     super()
@@ -36,8 +43,67 @@ module.exports = class EventEditView extends View
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
     @initSchedule()
+    if @model.get('promotionRequests')?.length >0
+      @getPromotionRequests()
     $('.host').trigger("chosen:updated")
 
+    $(".nav-pills a[data-toggle=tab]").on "click", (e) ->
+      if $(this).hasClass("disabled")
+        e.preventDefault()
+        false
+      else
+        e.preventDefault()
+        $(this).tab "show"
+
+  initSocialMediaPromotions:()=>
+    @business = Chaplin.datastore.business.get(@model.get('business'))
+    if @business and @business.get('promotionTargets')?.length >0
+      @twPromoTarget =_.find(@business.get('promotionTargets'), (item) =>
+        return item.accountType is 'TWITTER'
+      )
+      @fbPromoTarget =_.find(@business.get("promotionTargets"), (item) =>
+        return item.accountType is 'FACEBOOK'
+      )
+    if @fbPromoTarget
+      @subview 'facebookPromo', new FbPromo({
+        container:@$el.find('.facebook_container')
+        template: require('templates/event/createFacebookPromotionRequest')
+        data:@model
+        edit:true
+      })
+      data={
+        event:@model
+        promotionTarget:@fbPromoTarget
+        business:Chaplin.datastore.business.get(@model.get('business'))
+        edit:true
+      }
+      @subview 'facebookEventPromo', new FbEventPromo({
+        container:$('.facebook_event_container')
+        template: require('templates/event/createFacebookEvent')
+        options:data
+      })
+    else
+      $('.facebook_tab, .fb_tab_a, .fbEvent_tab_a, .facebook-event-tab').addClass('disabled')
+    if @twPromoTarget
+      @subview 'twitterPromo', new TwitterPromo({
+        container : @$el.find('.twitter_container')
+        template: require('templates/event/createTwitterPromotionRequest')
+        data:@model
+        edit:true
+        })
+    else
+      $('.twitter-tab, .twitter_tab_a').addClass('disabled')
+  getPromotionRequests:()=>
+    url = "http://localhost:3000/api/event/#{@model.id}/promotionRequests"
+    console.log url
+    $.ajax
+      type:'GET'
+      url:url
+      success: (response,xhr, body)=>
+        @promotionRequests = response
+        @initSocialMediaPromotions()
+      error:(error)=>
+        console.log error
   initSchedule: =>
     if @model.get('schedules')?.length > 0
       @$el.find('.repeats').attr('checked', true)

@@ -11,10 +11,12 @@ module.exports = class CreatePromotionReqeust extends View
   twitterImgUrl=undefined
   twitterHandle = undefined
   twPromoTarget = undefined
+  dashboard = false
 
   initialize:(options) ->
     super(options)  
     @event = options.data
+    @dashboard = options.edit if options.edit
     @business = Chaplin.datastore.business.get(@event.get('business')) 
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
@@ -30,6 +32,7 @@ module.exports = class CreatePromotionReqeust extends View
     
   getTemplateData: ->
     td = super()
+    td.showFormControls = @dashboard
     td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}."
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
@@ -55,7 +58,7 @@ module.exports = class CreatePromotionReqeust extends View
     
 
   events: 
-    "submit form.promoRequestFormTwitter" : "saveTwitter"
+    "click .twitterPostBtn" : "saveTwitter"
     "click .cancelBtn":"cancel"
     "click .twitterTab" : "showTwitter"
     "change .fb-immediate-box":"twitterImmediateClick"
@@ -94,6 +97,8 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   saveTwitter: (cb)->
+    if not cb
+      Chaplin.mediator.publish 'startWaiting'
     successMessageAppend ="" 
     message = $('.tweetMessage').val()
     immediate = $('.tw-immediate-box')
@@ -123,13 +128,19 @@ module.exports = class CreatePromotionReqeust extends View
           Chaplin.mediator.publish 'stopWaiting'
           resp = {}
           resp.twPublished = true
-          cb null, response
+          if cb
+            cb null, resp
+          else
+            @publishEvent "twitter:tweetPublished", "Your tweet will go out as soon as possible."
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.twPublished = false
           response.error = error
-          cb error, response
+          if cb
+            cb error, response
+          else
+            @publishEvent "twitter:tweetPublished", "There was an error posting your tweet."
       }
     else if time? > 0 
       scheduled= new PromotionRequest
@@ -144,12 +155,18 @@ module.exports = class CreatePromotionReqeust extends View
         success:(response, doc) =>
           resp = {}
           resp.twFinished = true
-          cb null, resp
+          if cb
+            cb null, resp
+          else
+            @publishEvent "twitter:tweetPublished", "Your tweet will go out at the scheduled time."
         error:(err)=>
           response = {}
           response.twFinished = false
           response.error = err
-          cb err, response
+          if cb
+            cb null, response
+          else
+            @publishEvent "twitter:tweetPublished", "An error occurred while posting your tweet."
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'

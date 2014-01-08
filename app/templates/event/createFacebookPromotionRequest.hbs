@@ -60,7 +60,11 @@
           <label for="startTime">Time</label>
           <input type="text" class="form-control timepicker startTime" name="startTime">
         </div>
-        
+        {{#if showFormControls}}
+      <div class="row controls">
+        <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Submit</button>
+      </div>
+      {{/if}}
       </div>
     </form>
   </div>

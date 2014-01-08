@@ -1,202 +1,259 @@
 
 <div class="row">
-  <form class="form-inline" role="form">
+  <form class="form-inline" role="form">  
     <div class="row">
-      <div class="col-8">
+      <div class="col-md-12 preview-container preview">
+        <div class="web-preview">
+          <div class="thumbnail">
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills nav-justified">
+              <li class="web_tab active"><a href="#web" data-toggle="tab">Web Preview</a></li>
+              <li class="facebook_tab"><a href="#facebook" data-toggle="tab" class="fb_tab_a" >Facebook Preview</a></li>
+              <li class="facebook_event_tab"><a href="#facebook-event" class="fbEvent_tab_a"  data-toggle="tab">Facebook Event Preview</a></li>
+              <li class="twitter_tab"><a href="#twitter" class="twitter_tab_a" data-toggle="tab">Twitter Preview</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade in active" id="web">
+                <div class="row">
+                  <div class="col-8">
+                    <legend>Edit Event <span class="required text pull-right">*required</span></legend>
+                    <hr>
+                  </div>   
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
+                    <input type="text" class="form-control name" name="name" placeholder="Event Name">
+                  </div>
+                  <div class="col-md-2">
+                    <label for="start"><i class="glyphicon glyphicon-calendar"></i>When<span class="required">*</span></label>
+                    <input type="text" class="form-control datePicker startDate" name="start"  placeholder="Event Date">
+                  </div>
+                  <div class="col-md-2">
+                    <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time<span class="required">*</span></label>
+                    <input type="text" class="form-control timepicker startTime" name="startTime"  placeholder="Start Time">
+                  </div>
+                  <div class="col-md-2">
+                    <label for="endTime"><i class="glyphicon glyphicon-time"></i>End Time</label>
+                    <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="End Time">
+                  </div>            
+                  <div class="col-md-2">
+                    <input type="checkbox" name="recurring" class="repeats"/> <label>Repeats</label>
+                  </div>
+                </div>
 
-        {{#if isNew}}
-        <legend>Create New Event <span class="required text pull-right">*required</span></legend>
-        {{else}}
-        <legend>Edit Event <span class="required text pull-right">*required</span></legend>
-<hr>
-        {{/if}}
-        {{#if isNew}}
-        <div class="col-md-4 {{#if hasSingleBusiness}}hide{{/if}}">
-  		    <label for="business"><i class="glyphicon glyphicon-ok"></i>For This Business</label>
-          <select name="business" class="business select-chosen form-control">
-            {{#each businesses}}
-              <option value="{{id}}">{{attributes.name}}</option>
-            {{/each}}      
-          </select>
-        </div>
-        {{/if}}
-      </div>   
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
-        <input type="text" class="form-control name" name="name" placeholder="Event Name">
-      </div>
-      <div class="col-md-2">
-        <label for="start"><i class="glyphicon glyphicon-calendar"></i>When<span class="required">*</span></label>
-        <input type="text" class="form-control datePicker startDate" name="start"  placeholder="Event Date">
-      </div>
-      <div class="col-md-2">
-        <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time<span class="required">*</span></label>
-        <input type="text" class="form-control timepicker startTime" name="startTime"  placeholder="Start Time">
-      </div>
-      <div class="col-md-2">
-        <label for="endTime"><i class="glyphicon glyphicon-time"></i>End Time</label>
-        <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="End Time">
-      </div>            
-      <div class="col-md-2">
-        <input type="checkbox" name="recurring" class="repeats"/> <label>Repeats</label>
-      </div>
-    </div>
+                <div class="row recurringScheduleDetails">
+                  <div class="col-md-2">
+                    <label for="recurrenceInterval"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
+                    <select name="recurrenceInterval" class="form-control">
+                      <option value="DAILY">Every Day</option>
+                      <option value="WEEKLY">Weekly</option>
+                      <option value="MONTHLY">Monthly</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="end"><i class="glyphicon glyphicon-calendar"></i>Until<span class="required">*</span></label>
+                    <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
+                  </div>
+                  <div class="col-md-2 dayOfWeekCountContainer">
+                    <label for="dayOfWeekCount">On the</label>
+                    <select name="dayOfWeekCount" class="form-control">
+                      <option value="1">First</option>
+                      <option value="2">Second</option>
+                      <option value="3">Third</option>
+                      <option value="4">Fourth</option>
+                      <option value="0">Last</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2 dayOfWeekContainer">
+                    <input type="checkbox" name="MONDAY" value="2" /> <label>Monday</label><br />
+                    <input type="checkbox" name="TUESDAY" value="3" /> <label>Tuesday</label><br />
+                    <input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
+                    <input type="checkbox" name="THURSDAY" value="5" /> <label>Thursday</label><br />
+                  </div>
+                  <div class="col-md-2 dayOfWeekContainer">
+                    <input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
+                    <input type="checkbox" name="SATURDAY" value="7" /> <label>Saturday</label><br />
+                    <input type="checkbox" name="SUNDAY" value="1" /> <label>Sunday</label><br />        
+                  </div>
+                </div>
 
-    <div class="row recurringScheduleDetails">
-      <div class="col-md-2">
-        <label for="recurrenceInterval"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
-        <select name="recurrenceInterval" class="form-control">
-          <option value="DAILY">Every Day</option>
-          <option value="WEEKLY">Weekly</option>
-          <option value="MONTHLY">Monthly</option>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <label for="end"><i class="glyphicon glyphicon-calendar"></i>Until<span class="required">*</span></label>
-        <input type="text" class="form-control datePicker endDate" name="end"  placeholder="Event Date">              
-      </div>
-      <div class="col-md-2 dayOfWeekCountContainer">
-        <label for="dayOfWeekCount">On the</label>
-        <select name="dayOfWeekCount" class="form-control">
-          <option value="1">First</option>
-          <option value="2">Second</option>
-          <option value="3">Third</option>
-          <option value="4">Fourth</option>
-          <option value="0">Last</option>
-        </select>
-      </div>
-      <div class="col-md-2 dayOfWeekContainer">
-        <input type="checkbox" name="MONDAY" value="2" /> <label>Monday</label><br />
-        <input type="checkbox" name="TUESDAY" value="3" /> <label>Tuesday</label><br />
-        <input type="checkbox" name="WEDNESDAY" value="4" /> <label>Wednesday</label><br />
-        <input type="checkbox" name="THURSDAY" value="5" /> <label>Thursday</label><br />
-      </div>
-      <div class="col-md-2 dayOfWeekContainer">
-        <input type="checkbox" name="FRIDAY" value="6" /> <label>Friday</label><br />
-        <input type="checkbox" name="SATURDAY" value="7" /> <label>Saturday</label><br />
-        <input type="checkbox" name="SUNDAY" value="1" /> <label>Sunday</label><br />        
-      </div>
-    </div>
-
-    <div class="row no-bottom-margin">
-      <div class="col-md-4 gray-tags">
-        <div class="gray-tags">
-          <label for="tags">Event Categories
-            <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
-          </label>
-          <select class="form-control select-chosen" multiple="true" name="tags">
-            {{#each eventTags}}
-              <option value="{{attributes.slug}}">{{attributes.text}}</option>
-            {{/each}}
-          </select>
-         </div>
-      </div>
-      <div class="col-md-4 address-finder">
-        <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
-       <div class="choose_venue"> 
-          <select type="text/input" name="host" class="form-control host select-chosen">
-            {{#each businesses}}
-              <option value="{{id}}">{{attributes.name}}</option>
-            {{/each}}
-            {{#each venues}}
-              <option value="{{id}}">{{attributes.name}}</option>
-            {{/each}}                
-          </select>
-          <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="right" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
+                <div class="row no-bottom-margin">
+                  <div class="col-md-4 gray-tags">
+                    <div class="gray-tags">
+                      <label for="tags">Event Categories
+                        <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
+                      </label>
+                      <select class="form-control select-chosen" multiple="true" name="tags">
+                        {{#each eventTags}}
+                          <option value="{{attributes.slug}}">{{attributes.text}}</option>
+                        {{/each}}
+                      </select>
+                     </div>
+                  </div>
+                  <div class="col-md-4 address-finder">
+                    <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
+                   <div class="choose_venue"> 
+                      <select type="text/input" name="host" class="form-control host select-chosen">
+                        {{#each businesses}}
+                          <option value="{{id}}">{{attributes.name}}</option>
+                        {{/each}}
+                        {{#each venues}}
+                          <option value="{{id}}">{{attributes.name}}</option>
+                        {{/each}}                
+                      </select>
+                      <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="right" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
+                    </div>
+                    <div class="custom_venue" style="display:none">
+                      <input type="text" class="form-control hostAddress" name="hostAddress" />
+                      <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
+                    </div>
+                  </div>
+                    
+                  <div class="col-md-2">
+                    <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
+                    <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99." data-placement="right"></a></label>
+                    <input type="text" name="cost" value="0" class="form-control" placeholder="0.00"/>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
+                    <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
+                  </div>            
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="description-container">
+                      <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
+                      <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;margin-bottom:0px;">
+                        <nav class="nav navbar-form"> 
+                          <div class="btn-group pull-right">
+                            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B" title="Bold Text"><i class="glyphicon glyphicon-bold"></i></a> 
+                            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I" title="Italicize Text"><i class="glyphicon glyphicon-italic"></i></a>
+                            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on" title="Create a List"><i class="glyphicon glyphicon-list"></i></a>
+                            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech" title="Dictate your event description"><img class="microphone" src="/client/images/microphone_icon.png"></a>
+                          </div>
+                        </nav>
+                      </div>
+                      <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
+                      <div><label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label></div>
+                    </div>     
+                   
+                  </div>
+                  <div class="col-md-4" id="image-chooser-container">
+                    <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
+                    <div style="display:inline;;margin-bottom:0px!important;">
+                      <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
+                    </div>
+                    <div class="well">
+                      {{#if imageUrl}}      
+                        <img src="{{imageUrl}}" class="currentImage" />
+                      {{/if}}
+                      <div class="image-controls">
+                        <div class="imageChooser"></div>
+                         {{#if hasMedia}}
+                        <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
+                        {{/if}}
+                      </div>
+                    </div>
+                    <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
+                  </div>
+                  <div class="col-md-3 controls">
+                    <div class="event-website">
+                      <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
+                      <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+                    </div>
+                    <div class="event-contact">
+                      <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
+                      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
+                    </div>
+                    <div class="event-phone">
+                      <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
+                      <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
+                    </div>
+                      <div>
+                        <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
+                        <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
+                      </div>
+                    </div>
+                    <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
+                      <div>
+                        <a type="submit" class="btn btn-success btn-block">Update</a>
+                        <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
+                      </div>
+                    </div>
+                  </div>
+                
+              
+                <h3 class="previewName">Event name</h3>
+                <p class="date_preview"></p>
+                <div class="col-md-6 col-sm-6">
+                  <div class=""> 
+                    <div class="caption">
+                      <dl>
+                        <dd>Start:&nbsp;<span class="start_time_preview"></span>&nbsp;&nbsp;End:&nbsp;<span class="end_time_preview"></span></dd>
+                        <dd>Venue/Location:&nbsp;<span class="venue_preview"></span></dd>
+                        <dd>Address:&nbsp;<span class="map_preview"></span></dd>
+                        <dd>Event Categories:&nbsp;<span class="tags_preview"></span></dd>
+                        <dd>Cost:&nbsp;<span class="cost_preview">FREE</span></dd>
+                        <dd>Ticketing Link:&nbsp;<span class="ticket_preview"></span></dd>
+                        <dd>Event Website Link:&nbsp;<span class="website_preview"></span></dd>
+                        <dd>Event Contact:&nbsp;<span class="contact_preview"></span></dd>
+                        <dd>Event Phone:&nbsp;<span class="phone_preview"></span></dd>
+                        <dd class="description"se>Description:&nbsp;<span class="description_preview"></span></dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 ">
+                  <img class="imagePreview img-responsive" src="client/images/image-placeholder-bg.png">
+                </div>
+              </div>
+              
+              <div class="tab-pane fade" id="facebook">
+                <div class="facebook_container">
+                  
+                </div>
+              </div>
+              <div class="tab-pane fade" id="facebook-event">
+                <div class="facebook_event_container">
+                  
+                </div>
+              </div>
+              <div class="tab-pane fade" id="twitter">
+                <div class="twitter_container">
+                  
+                </div>
+              </div>
+            </div>   
+          </div>
         </div>
-        <div class="custom_venue" style="display:none">
-          <input type="text" class="form-control hostAddress" name="hostAddress" />
-          <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
-        </div>
-      </div>
-        
-      <div class="col-md-2">
-        <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
-        <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99." data-placement="right"></a></label>
-        <input type="text" name="cost" value="0" class="form-control" placeholder="0.00"/>
-      </div>
-      <div class="col-md-2">
-        <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
-        <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
-      </div>            
-    </div>
-    <div class="row">
-      <div class="col-md-5">
-        <div class="description-container">
-        <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
- <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;margin-bottom:0px;">
- 		<nav class="nav navbar-form"> 
-			<div class="btn-group pull-right">
-            <a class="btn btn-small btn-default" data-wysihtml5-command="bold" title="CTRL+B" title="Bold Text"><i class="glyphicon glyphicon-bold"></i></a> 
-            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="italic" title="CTRL+I" title="Italicize Text"><i class="glyphicon glyphicon-italic"></i></a>
-            <a class="btn btn-small btn-default" data-wysihtml5-command="insertUnorderedList" href="javascript:;" unselectable="on" title="Create a List"><i class="glyphicon glyphicon-list"></i></a>
-            <a class="btn btn-small btn-default" href="javascript:;" unselectable="on" data-wysihtml5-command="insertSpeech" title="Dictate your event description"><img class="microphone" src="/client/images/microphone_icon.png"></a>
-		</nav>
+        <div class="social-media-choices col-md-12">
+          <div class="facebook_box col-md-4"> <label class="form-label"><div class="channel-icon"></div><input type="checkbox" class="checkbox facebook-checkbox" />&nbsp;Publish a Facebook post&nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="When you publish your event, Hoopla.io automagically creates a Facebook post immediately or you may also schedule it for the future using your own, custom content. To ensure your event is well publicized to your social networks, we recommend scheduling additional Facebook posts from your event dashboard." data-placement="top" data-html='true'></a></label>
+          </div>
+          <div class="facebook_event_box col-md-4"> <label class="form-label"><div class="channel-icon"></div><input type="checkbox" class="checkbox facebook-event-box facebook-checkbox" />&nbsp;Publish a Facebook Event page&nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Hoopla.io automagically creates a basic Facebook Event page for your event." data-placement="top" data-html='true'></a></label>
           </div>
 
-          <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
-<div><label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label></div>
-        </div>     
-       
-      </div>
-      <div class="col-md-4" id="image-chooser-container">
-        <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
-		<div style="display:inline;;margin-bottom:0px!important;">
-		  <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
-		</div>
-        <div class="well">
-          {{#if imageUrl}}      
-            <img src="{{imageUrl}}" class="currentImage" />
-          {{/if}}
-          <div class="image-controls">
-            <div class="imageChooser"></div>
-  	         {{#if hasMedia}}
-            <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
-            {{/if}}
-          </div>
-			
-         </div>
-         <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
-        
+          <div class="twitter_box col-md-4"><label class="form-label"><div class="channel-icon"></div><input type="checkbox" class="checkbox twitter-checkbox" />&nbsp;Tweet this event &nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="When you publish your event, Hoopla.io automagically creates a tweet for this event for posting immediately or you may also schedule it for the future using your own, custom content. To ensure your event is well publicized to your social networks, we recommend scheduling additional tweets from the event dashboard." data-placement="top" data-html='true'></a></label>
 
-      </div>
-      <div class="col-md-3 controls">
-	 <div class="event-website">
-        	<label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-          <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
         </div>
-        <div class="event-contact">
-      		<label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-  	      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-      	</div>
-      	<div class="event-phone">
-  			  <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-  		    <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-    		</div>
-         <div>
-
-         {{#if isNew}}
-          <a type="submit" class="btn saveButton pull-right hidden-xs">Create</a>
-        {{else}}
-          <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
-        {{/if}}
-<a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
-         </div>
-</div>
-		<div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
-	         <div>
-	         {{#if isNew}}
-	          <a type="submit" class="btn btn-success btn-block">Create</a>
-	        {{else}}
-	          <a type="submit" class="btn btn-success btn-block">Update</a>
-	        {{/if}}
-	<a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
-	         </div>
+        <div class="connect-help" style="display:none;">
+          <div class="col-md-8"><span>To take advantage of the Social Media services you must first connect your Facebook and Twitter accounts to Hoopla.io. To do so visit <a href="/myBusinesses" onClick = "return confirm('Whoa, all your event data will be lost and will need to be rentered. Are you sure you want to do this?')" class="link-businesses" style="color:black;">My Businesses</a> , find the business you would like to authorize us to post for and click the bullhorn icon on the right hand side. After that you will be able to promote all of your events to these social media outlets with very little effort.</span>
+          </div>
+        </div>
       </div>
     </div>
-    </div>        
+    <div class="row controls">
+                <div class="right"><button type="submit" class="btn btn-success btn-lg saveButton submit">Publish Your Event</button></div>
+                <div class="left"><button type="button" class="btn btn-default cancel">Cancel</button></div>
+              </div>
+      </div>
+
+      </div>
+     
+        </div>
+      </div>
+    </div>
+  </div>        
   </form>
 </div>
 <div class="modal fade" id="media-library-popover-{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
