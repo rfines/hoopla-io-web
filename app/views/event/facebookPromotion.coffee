@@ -16,10 +16,12 @@ module.exports = class FacebookPromotion extends View
   facebookProfileName = undefined
   fbPromoTarget = undefined
   fbPages = []
+  dashboard = false
 
   initialize:(options) ->
     super(options)
     @event = options.data
+    @dashboard = options.edit if options.edit
     @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.get('promotionTargets'), (item) =>
       return item.accountType is 'FACEBOOK'
@@ -35,6 +37,7 @@ module.exports = class FacebookPromotion extends View
     
   getTemplateData: ->
     td = super()
+    td.showFormControls = @dashboard
     td.eventAddress = @location
     if @event.nextOccurrence()
       next = @event.nextOccurrence()
@@ -113,6 +116,8 @@ module.exports = class FacebookPromotion extends View
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
   saveFacebook:(cb) ->
+    if not cb
+      Chaplin.mediator.publish 'startWaiting'
     message = $('.message').val()
     successMessageAppend ="" 
     if $('#linkLr').is(':checked')
@@ -147,14 +152,19 @@ module.exports = class FacebookPromotion extends View
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbFinished = true
-          cb null, response
+          if cb
+            cb null, response
+          else
+            @publishEvent "facebook:postPublished","Your Facebook post will be published as soon as possible." 
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbFinished = false
           response.error = error
-          cb error, response
-        
+          if cb
+            cb error, response
+          else
+            @publishEvent "facebook:postPublished","An error occurred while saving your Facebook post." 
       }    
     else if time? > 0 
       d= moment(date).toDate().toISOString()
@@ -175,14 +185,20 @@ module.exports = class FacebookPromotion extends View
           Chaplin.mediator.publish 'stopWaiting'
           resp = {}
           resp.fbFinished = true
-          cb null, resp
+          if cb
+            cb null, resp
+          else
+            @publishEvent "facebook:postPublished","Your Facebook post will be published at the scheduled time."
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbPublished = false
           response.error = error
-          cb error, response
-      }
+          if cb
+            cb error, response
+          else
+            @publishEvent "facebook:postPublished","An error occurred while saving your Facebook post."
+      }   
     else 
       Chaplin.mediator.publish 'stopWaiting'
       @publishEvent 'notify:publish', {type:'error', message: "When do you want the Facebook magic to happen? Please tell us in the Facebook post tab."}
