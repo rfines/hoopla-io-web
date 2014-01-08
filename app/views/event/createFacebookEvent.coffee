@@ -30,7 +30,7 @@ module.exports = class CreateFacebookEventView extends View
     if @model.get('media')?.length > 0
       td.coverPhoto = @model.get('media')[0].url
     else
-      td.coverPhoto = "http://placehold.it/200x300"
+      td.coverPhoto = "client/images/image-placeholder-bg.png"
     td.profileName = @promotionTarget.profileName
     td.eventAddress = @model.get('location').address
     td.defaultLink = @model.get('website') ? @model.get('ticketUrl')
