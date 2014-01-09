@@ -61,8 +61,8 @@ module.exports = class CreatePromotionReqeust extends View
     "click .twitterPostBtn" : "saveTwitter"
     "click .cancelBtn":"cancel"
     "click .twitterTab" : "showTwitter"
-    "change .fb-immediate-box":"twitterImmediateClick"
-    "change .fb-scheduled-box":"scheduledClick"
+    "change .tw-immediate-box":"twitterImmediateClick"
+    "change .tw-scheduled-box":"scheduledClick"
     "keyup .tweetMessage":"updateTwitterPreivewText"
     "change .tw-image-box":"deductImageFromTotal"
     "click .showTweetFormBtn":"showTweetForm"
@@ -131,7 +131,8 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb null, resp
           else
-            @publishEvent "twitter:tweetPublished", "Your tweet will go out as soon as possible."
+            console.log doc
+            @publishEvent "twitter:tweetCreated", doc
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -140,7 +141,7 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb error, response
           else
-            @publishEvent "twitter:tweetPublished", "There was an error posting your tweet."
+            @publishEvent "twitter:tweetFailed", error
       }
     else if time? > 0 
       scheduled= new PromotionRequest
@@ -158,7 +159,9 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb null, resp
           else
-            @publishEvent "twitter:tweetPublished", "Your tweet will go out at the scheduled time."
+            console.log response
+            console.log doc
+            @publishEvent "twitter:tweetCreated", 
         error:(err)=>
           response = {}
           response.twFinished = false
@@ -166,7 +169,9 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb null, response
           else
-            @publishEvent "twitter:tweetPublished", "An error occurred while posting your tweet."
+            console.log response
+            console.log doc
+            @publishEvent "twitter:tweetFailed", err
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'

@@ -18,6 +18,11 @@
     </div>
 	<div class="buttons">
         <button type="button" class="btn btn-success showTweetFormBtn">Customize this Tweet</button>
+        {{#if showFormControls}}
+        <div class="row controls">
+          <button class="btn btn-success btn-success-sm twitterPostBtn" type="submit">Submit</button>
+        </div>
+      {{/if}}
       </div>
 </div>
 <div class="col-md-6">

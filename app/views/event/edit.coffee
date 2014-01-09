@@ -26,11 +26,6 @@ module.exports = class EventEditView extends View
 
   getTemplateData: =>
     td = super()
-    #_.each @fbPosts, (item, index, list)=>
-    #  item.promotionTime = moment(item.promotionTime).format("MM-DD-YYYY hh:mm a")
-    #_.each @tweets, (item, index, list)=>
-    #  item.promotionTime = moment(item.promotionTime).format("MM-DD-YYYY hh:mm a")
-    #@fbEvent.promotionTime = moment(@fbEvent.promotionTime).format("MM-DD-YYYY hh:mm a")
     td.businesses = Chaplin.datastore.business.models
     td.venues = Chaplin.datastore.venue.models
     td.eventTags = Chaplin.datastore.eventTag.models
@@ -53,53 +48,106 @@ module.exports = class EventEditView extends View
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
     @initSchedule()
-    if @model.get("promotionRequests")?.length >0
-      collection = new PromotionCollection()
-      collection.eventId = @model.id
-      console.log collection
-      collection.fetch
-        success:=>
-          @promotionRequests = collection
-          @subview 'facebookScheduledPosts', new PromotionRequestsView({
-            container:"#scheduled"
-            template: require 'templates/event/promotionRequests'
-            type: "facebookPost"
-            collection: @promotionRequests
-            past:false
-          })
-          @subview 'facebookPostsHistory', new PromotionRequestsView({
-            container:"#history"
-            template: require 'templates/event/promotionRequests'
-            type: "facebookPost"
-            collection: @promotionRequests
-            past:true
-          })
-          @subview 'twitterScheduledTweets', new PromotionRequestsView({
-            container:"#tweet-scheduled"
-            template: require 'templates/event/promotionRequests'
-            type: "facebookPost"
-            collection: @promotionRequests
-            past:true
-          })
-          @subview 'twitterScheduledTweets', new PromotionRequestsView({
-            container:"#tweet-history"
-            template: require 'templates/event/promotionRequests'
-            type: "facebookPost"
-            collection: @promotionRequests
-            past:true
-          })
-        error:(err)=>
-          console.log err
+    @initPostViews()
     $('.host').trigger("chosen:updated")
 
-    $(".nav-pills a[data-toggle=tab]").on "click", (e) ->
+    $(".main-pills a[data-toggle=tab]").on "click", (e) ->
       if $(this).hasClass("disabled")
         e.preventDefault()
         false
       else
         e.preventDefault()
         $(this).tab "show"
+    $(".posts-pills a[data-toggle=tab]").on "click", (e) ->
+      console.log "handling posts tabs"
+      if $(this).hasClass("disabled")
+        e.preventDefault()
+        false
+      else
+        e.preventDefault()
+        $(this).tab "show"
+    $(".tweets-pills a[data-toggle=tab]").on "click", (e) ->
+      console.log "handling posts tabs"
+      if $(this).hasClass("disabled")
+        e.preventDefault()
+        false
+      else
+        e.preventDefault()
+        $(this).tab "show"
+  initPostViews:()=>
+    if @model.get("promotionRequests")?.length >0
+      collection = new PromotionCollection()
+      collection.eventId = @model.id
+      collection.fetch
+        success:=>
+          @promotionRequests = collection
+          coll = @promotionRequests.byType('FACEBOOK-POST').future(moment())
+          console.log coll.length
+          @$el.find('.scheduled-posts-badge')[0].innerText = coll.length
+          if coll.models.length >0
+            @subview 'facebookScheduledPosts', new PromotionRequestsView({
+              container:"#scheduled-posts"
+              template: require 'templates/event/promotionRequests'
+              postType: "Facebook Posts"
+              pushType:"FACEBOOK-POST"
+              collection: @promotionRequests.byType('FACEBOOK-POST').future(moment())
+            })
+            @$el.find('.schedule-posts-empty-state').hide()
+          else
+            @$el.find('.schedule-posts-empty-state').show()
 
+          coll = @promotionRequests.byType('FACEBOOK-POST').past(moment())
+          console.log @$el.find('.past-posts-badge')[0].innerText
+          @$el.find('.past-posts-badge')[0].innerText = coll.length
+          if coll.models.length >0
+            @subview 'facebookPostsHistory', new PromotionRequestsView({
+              container:"#history-posts"
+              template: require 'templates/event/promotionRequests'
+              postType: "Past Facebook Post"
+              pushType:"FACEBOOK-POST"
+              collection: @promotionRequests.byType('FACEBOOK-POST').past(moment())
+            })
+            @$el.find('.past-posts-empty-state').hide()
+          else
+            @$el.find('.past-posts-empty-state').show()
+
+          coll = @promotionRequests.byType('TWITTER-POST').future(moment())
+          @$el.find('.scheduled-tweets-badge')[0].innerText = coll.length
+          if coll.models.length >0
+            @subview 'twitterScheduledTweets', new PromotionRequestsView({
+              container:"#tweet-scheduled"
+              template: require 'templates/event/promotionRequests'
+              postType: "Tweets"
+              pushType:"TWITTER-POST"
+              collection: @promotionRequests.byType('TWITTER-POST').future(moment())
+            })
+            @$el.find('.schedule-tweets-empty-state').hide()
+          else
+            @$el.find('.schedule-tweets-empty-state').show()
+
+          coll = @promotionRequests.byType('TWITTER-POST').past(moment())
+          @$el.find('.past-tweets-badge')[0].innerText = coll.length
+          if coll.models.length >0
+            @subview 'twitterScheduledTweets', new PromotionRequestsView({
+              container:"#tweet-history"
+              template: require 'templates/event/promotionRequests'
+              postType: "Past Tweets"
+              pushType:"TWITTER-POST"
+              collection:@promotionRequests.byType('TWITTER-POST').past(moment())
+            })
+            @$el.find('.past-tweets-empty-state').hide()
+          else
+            @$el.find('.past-tweets-empty-state').show()
+
+          @subview "facebookEventPost", new PromotionRequestsView({
+            container:".facebook-event-status"
+            template: require 'templates/event/promotionRequests'
+            postType: "Facebook Event"
+            pushType: "FACEBOOK-EVENT"
+            collection:@promotionRequests.byType("FACEBOOK-EVENT")
+          })
+        error:(err)=>
+          console.log err
   initSocialMediaPromotions:()=>
     @business = Chaplin.datastore.business.get(@model.get('business'))
     if @business and @business.get('promotionTargets')?.length >0
@@ -115,28 +163,22 @@ module.exports = class EventEditView extends View
         template: require('templates/event/createFacebookPromotionRequest')
         data:@model
         edit:true
+      })    
+    
+      data={
+        event:@model
+        promotionTarget:@fbPromoTarget
+        business:Chaplin.datastore.business.get(@model.get('business'))
+        edit:true
+      }
+      @subview 'facebookEventPromo', new FbEventPromo({
+        container:$('.facebook_event_container')
+        template: require('templates/event/createFacebookEvent')
+        options:data
       })
-      #@fbEvent = _.find @promotionRequests, (item, index)=>
-      #  return item.pushType is 'FACEBOOK-EVENT'
-      if @fbEvent
-        @$el.find('.event_published')[0].show()
-      else
-        data={
-          event:@model
-          promotionTarget:@fbPromoTarget
-          business:Chaplin.datastore.business.get(@model.get('business'))
-          edit:true
-        }
-        @subview 'facebookEventPromo', new FbEventPromo({
-          container:$('.facebook_event_container')
-          template: require('templates/event/createFacebookEvent')
-          options:data
-        })
     else
       $('.facebook_tab, .fb_tab_a, .fbEvent_tab_a, .facebook-event-tab').addClass('disabled')
-    if @twPromoTarget
-      #@tweets = _.filter @promotionRequests, (item)=>
-      #  return item.pushType is "TWITTER-POST"
+    if @twPromoTarget     
       @subview 'twitterPromo', new TwitterPromo({
         container : @$el.find('.twitter_container')
         template: require('templates/event/createTwitterPromotionRequest')

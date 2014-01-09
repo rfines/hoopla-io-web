@@ -6,7 +6,7 @@
         <div class="web-preview">
           <div class="thumbnail">
             <!-- Nav tabs -->
-            <ul class="nav nav-pills nav-justified">
+            <ul class="nav nav-pills nav-justified main-pills">
               <li class="web_tab active"><a href="#web" data-toggle="tab">Web Preview</a></li>
               <li class="facebook_tab"><a href="#facebook" data-toggle="tab" class="fb_tab_a" >Facebook Preview</a></li>
               <li class="facebook_event_tab"><a href="#facebook-event" class="fbEvent_tab_a"  data-toggle="tab">Facebook Event Preview</a></li>
@@ -171,42 +171,19 @@
                       <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
                     </div>
                       <div>
+                        <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success pull-right hidden-xs">View on LocalRuckus.com</a>
                         <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
                         <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
                       </div>
                     </div>
                     <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
                       <div>
+                        <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success btn-block">View on LocalRuckus.com</a>
                         <a type="submit" class="btn btn-success btn-block">Update</a>
                         <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
                       </div>
                     </div>
                   </div>
-                
-              
-                <h3 class="previewName">Event name</h3>
-                <p class="date_preview"></p>
-                <div class="col-md-6 col-sm-6">
-                  <div class=""> 
-                    <div class="caption">
-                      <dl>
-                        <dd>Start:&nbsp;<span class="start_time_preview"></span>&nbsp;&nbsp;End:&nbsp;<span class="end_time_preview"></span></dd>
-                        <dd>Venue/Location:&nbsp;<span class="venue_preview"></span></dd>
-                        <dd>Address:&nbsp;<span class="map_preview"></span></dd>
-                        <dd>Event Categories:&nbsp;<span class="tags_preview"></span></dd>
-                        <dd>Cost:&nbsp;<span class="cost_preview">FREE</span></dd>
-                        <dd>Ticketing Link:&nbsp;<span class="ticket_preview"></span></dd>
-                        <dd>Event Website Link:&nbsp;<span class="website_preview"></span></dd>
-                        <dd>Event Contact:&nbsp;<span class="contact_preview"></span></dd>
-                        <dd>Event Phone:&nbsp;<span class="phone_preview"></span></dd>
-                        <dd class="description"se>Description:&nbsp;<span class="description_preview"></span></dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 ">
-                  <img class="imagePreview img-responsive" src="client/images/image-placeholder-bg.png">
-                </div>
               </div>
               
               <div class="tab-pane fade" id="facebook">
@@ -215,55 +192,38 @@
                 </div>
                 <div class=" row scheduled_facebook_posts">
                   <!-- Nav tabs -->
-                  <ul class="nav nav-pills">
-                    <li><a href="#scheduled" data-toggle="tab">Scheduled Posts</a></li>
-                    <li><a href="#history" data-toggle="tab">Post History</a></li>
+                  <ul class="nav nav-pills posts-pills">
+                    <li class="active"><a href="#scheduled-posts" data-toggle="tab">Scheduled Posts <span class="badge scheduled-posts-badge pull-right"></span></a></li>
+                    <li><a href="#history-posts" data-toggle="tab">Post History <span class="badge past-posts-badge pull-right"></span></a></li>
                   </ul>
 
                   <!-- Tab panes -->
                   <div class="tab-content">
-                    <div class="tab-pane active" id="scheduled"></div>
-                    <div class="tab-pane" id="history"></div>
+                    <div class="tab-pane active fade in" id="scheduled-posts"><div class="schedule-posts-empty-state" style="display:none"><p>You have not scheduled any posts about this event.</p></div></div>
+                    <div class="tab-pane" id="history-posts"><div class="past-posts-empty-state" style="display:none"><p>You have not scheduled any posts about this event.</p></div></div>
                   </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="facebook-event">
-                <div class=" row event_published" style="display:none">
-                  <div class="col-md-8 alert alert-success">
-                    <p>This event has already been posted to Facebook.</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                      <img data-src="{{imageUrl}}" src="{{imageUrl}}" alt="Event image">
-                      <div class="caption">
-                        <h3>{{name}}</h3>
-                        <p>{{fbEvent.status.code}}</p>
-                        <p>{{eventPostDate}}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="facebook_event_container">
-                  
                 </div>
-                
               </div>
               <div class="tab-pane fade" id="twitter">
                 <div class="twitter_container">
                   
                 </div>
                 <div class="scheduled-tweets-container">
-                  <ul class="nav nav-pills">
-                    <li><a href="#tweet-scheduled" data-toggle="tab">Scheduled Tweets</a></li>
-                    <li><a href="#tweet-history" data-toggle="tab">Tweet History</a></li>
+                  <ul class="nav nav-pills tweets-pills">
+                    <li class="active"><a href="#tweet-scheduled" class="active" data-toggle="tab">Scheduled Tweets <span class="badge scheduled-tweets-badge pull-right"></span></a></li>
+                    <li class=""><a href="#tweet-history" data-toggle="tab">Tweet History <span class="badge past-tweets-badge pull-right"></span></a></li>
                   </ul>
 
                   <!-- Tab panes -->
                   <div class="tab-content">
-                    <div class="tab-pane active" id="scheduled"></div>
-                    <div class="tab-pane" id="history"></div>
+                    <div class="tab-pane active fade in" id="tweet-scheduled">
+                      <div class="schedule-tweets-empty-state" style="display:none"><p>You have not scheduled any tweets about this event.</p></div>
+                    </div>
+                    <div class="tab-pane" id="tweet-history"><div class="past-tweets-empty-state" style="display:none"><p>You have not tweeted about this event in the past.</p></div></div>
                   </div>
                 </div>
               </div>
