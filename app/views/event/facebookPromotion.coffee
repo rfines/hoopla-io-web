@@ -138,7 +138,7 @@ module.exports = class FacebookPromotion extends View
       pr = new PromotionRequest
         message: message
         link:link
-        caption:@event.get('description')
+        caption:@stripHtml(@event.get('description'))
         title: @event.get('name')
         pageId: page
         pageAccessToken:@pageAccessToken
@@ -171,7 +171,7 @@ module.exports = class FacebookPromotion extends View
       scheduled= new PromotionRequest
         message: message
         link:link
-        caption:@event.get('description')
+        caption:@stripHtml(@event.get('description'))
         title: @event.get('name')
         media: @event.get('media[0]')?._id
         promotionTarget: @fbPromoTarget._id
@@ -297,3 +297,7 @@ module.exports = class FacebookPromotion extends View
   hideLinkBox:(e)=>
     e.preventDefault() if e
     @$el.find(".inputLink").slideUp()
+  stripHtml:(text)=>
+    regex = /(<([^>]+)>)/ig
+    text.replace(regex, "")
+    text

@@ -210,43 +210,74 @@
               </div>
               
               <div class="tab-pane fade" id="facebook">
-                <div class="facebook_container">
+                <div class="row facebook_container">
                   
+                </div>
+                <div class=" row scheduled_facebook_posts">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-pills">
+                    <li><a href="#scheduled" data-toggle="tab">Scheduled Posts</a></li>
+                    <li><a href="#history" data-toggle="tab">Post History</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="scheduled"></div>
+                    <div class="tab-pane" id="history"></div>
+                  </div>
                 </div>
               </div>
               <div class="tab-pane fade" id="facebook-event">
+                <div class=" row event_published" style="display:none">
+                  <div class="col-md-8 alert alert-success">
+                    <p>This event has already been posted to Facebook.</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                      <img data-src="{{imageUrl}}" src="{{imageUrl}}" alt="Event image">
+                      <div class="caption">
+                        <h3>{{name}}</h3>
+                        <p>{{fbEvent.status.code}}</p>
+                        <p>{{eventPostDate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="facebook_event_container">
                   
                 </div>
+                
               </div>
               <div class="tab-pane fade" id="twitter">
                 <div class="twitter_container">
                   
                 </div>
+                <div class="scheduled-tweets-container">
+                  <ul class="nav nav-pills">
+                    <li><a href="#tweet-scheduled" data-toggle="tab">Scheduled Tweets</a></li>
+                    <li><a href="#tweet-history" data-toggle="tab">Tweet History</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="scheduled"></div>
+                    <div class="tab-pane" id="history"></div>
+                  </div>
+                </div>
               </div>
             </div>   
           </div>
         </div>
-        <div class="social-media-choices col-md-12">
-          <div class="facebook_box col-md-4"> <label class="form-label"><div class="channel-icon"></div><input type="checkbox" class="checkbox facebook-checkbox" />&nbsp;Publish a Facebook post&nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="When you publish your event, Hoopla.io automagically creates a Facebook post immediately or you may also schedule it for the future using your own, custom content. To ensure your event is well publicized to your social networks, we recommend scheduling additional Facebook posts from your event dashboard." data-placement="top" data-html='true'></a></label>
-          </div>
-          <div class="facebook_event_box col-md-4"> <label class="form-label"><div class="channel-icon"></div><input type="checkbox" class="checkbox facebook-event-box facebook-checkbox" />&nbsp;Publish a Facebook Event page&nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Hoopla.io automagically creates a basic Facebook Event page for your event." data-placement="top" data-html='true'></a></label>
-          </div>
-
-          <div class="twitter_box col-md-4"><label class="form-label"><div class="channel-icon"></div><input type="checkbox" class="checkbox twitter-checkbox" />&nbsp;Tweet this event &nbsp;<a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="When you publish your event, Hoopla.io automagically creates a tweet for this event for posting immediately or you may also schedule it for the future using your own, custom content. To ensure your event is well publicized to your social networks, we recommend scheduling additional tweets from the event dashboard." data-placement="top" data-html='true'></a></label>
-
-        </div>
+       
         <div class="connect-help" style="display:none;">
           <div class="col-md-8"><span>To take advantage of the Social Media services you must first connect your Facebook and Twitter accounts to Hoopla.io. To do so visit <a href="/myBusinesses" onClick = "return confirm('Whoa, all your event data will be lost and will need to be rentered. Are you sure you want to do this?')" class="link-businesses" style="color:black;">My Businesses</a> , find the business you would like to authorize us to post for and click the bullhorn icon on the right hand side. After that you will be able to promote all of your events to these social media outlets with very little effort.</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="row controls">
-                <div class="right"><button type="submit" class="btn btn-success btn-lg saveButton submit">Publish Your Event</button></div>
-                <div class="left"><button type="button" class="btn btn-default cancel">Cancel</button></div>
-              </div>
-      </div>
+  
 
       </div>
      

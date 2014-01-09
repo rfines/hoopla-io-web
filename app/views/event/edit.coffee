@@ -6,6 +6,9 @@ MediaMixin = require 'views/mixins/mediaMixin'
 FbPromo = require 'views/event/facebookPromotion'
 FbEventPromo = require 'views/event/createFacebookEvent'
 TwitterPromo = require 'views/event/twitterPromotion'
+PromotionCollection = require 'models/promotionRequests'
+PromotionRequestsView = require 'views/event/promotionRequests'
+
 
 module.exports = class EventEditView extends View
   className: 'event-edit'
@@ -15,23 +18,30 @@ module.exports = class EventEditView extends View
   twPromoTarget = undefined
   fbPromoTarget = undefined
   business = undefined
-  promotionRequests = []
+  promotionRequests= []
 
   initialize: ->
-    @extend @, new MediaMixin()
+    @extend @, new MediaMixin()        
     super()
 
   getTemplateData: =>
     td = super()
+    #_.each @fbPosts, (item, index, list)=>
+    #  item.promotionTime = moment(item.promotionTime).format("MM-DD-YYYY hh:mm a")
+    #_.each @tweets, (item, index, list)=>
+    #  item.promotionTime = moment(item.promotionTime).format("MM-DD-YYYY hh:mm a")
+    #@fbEvent.promotionTime = moment(@fbEvent.promotionTime).format("MM-DD-YYYY hh:mm a")
     td.businesses = Chaplin.datastore.business.models
     td.venues = Chaplin.datastore.venue.models
     td.eventTags = Chaplin.datastore.eventTag.models
     td        
 
   attach: =>
+    console.log "attach"
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
     @initSocialMediaPromotion()
+    @initSocialMediaPromotions()
     @initTimePickers()
     @initDatePickers()
     @initLocation()
@@ -43,8 +53,43 @@ module.exports = class EventEditView extends View
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
     @initSchedule()
-    if @model.get('promotionRequests')?.length >0
-      @getPromotionRequests()
+    if @model.get("promotionRequests")?.length >0
+      collection = new PromotionCollection()
+      collection.eventId = @model.id
+      console.log collection
+      collection.fetch
+        success:=>
+          @promotionRequests = collection
+          @subview 'facebookScheduledPosts', new PromotionRequestsView({
+            container:"#scheduled"
+            template: require 'templates/event/promotionRequests'
+            type: "facebookPost"
+            collection: @promotionRequests
+            past:false
+          })
+          @subview 'facebookPostsHistory', new PromotionRequestsView({
+            container:"#history"
+            template: require 'templates/event/promotionRequests'
+            type: "facebookPost"
+            collection: @promotionRequests
+            past:true
+          })
+          @subview 'twitterScheduledTweets', new PromotionRequestsView({
+            container:"#tweet-scheduled"
+            template: require 'templates/event/promotionRequests'
+            type: "facebookPost"
+            collection: @promotionRequests
+            past:true
+          })
+          @subview 'twitterScheduledTweets', new PromotionRequestsView({
+            container:"#tweet-history"
+            template: require 'templates/event/promotionRequests'
+            type: "facebookPost"
+            collection: @promotionRequests
+            past:true
+          })
+        error:(err)=>
+          console.log err
     $('.host').trigger("chosen:updated")
 
     $(".nav-pills a[data-toggle=tab]").on "click", (e) ->
@@ -64,27 +109,34 @@ module.exports = class EventEditView extends View
       @fbPromoTarget =_.find(@business.get("promotionTargets"), (item) =>
         return item.accountType is 'FACEBOOK'
       )
-    if @fbPromoTarget
+    if @fbPromoTarget        
       @subview 'facebookPromo', new FbPromo({
         container:@$el.find('.facebook_container')
         template: require('templates/event/createFacebookPromotionRequest')
         data:@model
         edit:true
       })
-      data={
-        event:@model
-        promotionTarget:@fbPromoTarget
-        business:Chaplin.datastore.business.get(@model.get('business'))
-        edit:true
-      }
-      @subview 'facebookEventPromo', new FbEventPromo({
-        container:$('.facebook_event_container')
-        template: require('templates/event/createFacebookEvent')
-        options:data
-      })
+      #@fbEvent = _.find @promotionRequests, (item, index)=>
+      #  return item.pushType is 'FACEBOOK-EVENT'
+      if @fbEvent
+        @$el.find('.event_published')[0].show()
+      else
+        data={
+          event:@model
+          promotionTarget:@fbPromoTarget
+          business:Chaplin.datastore.business.get(@model.get('business'))
+          edit:true
+        }
+        @subview 'facebookEventPromo', new FbEventPromo({
+          container:$('.facebook_event_container')
+          template: require('templates/event/createFacebookEvent')
+          options:data
+        })
     else
       $('.facebook_tab, .fb_tab_a, .fbEvent_tab_a, .facebook-event-tab').addClass('disabled')
     if @twPromoTarget
+      #@tweets = _.filter @promotionRequests, (item)=>
+      #  return item.pushType is "TWITTER-POST"
       @subview 'twitterPromo', new TwitterPromo({
         container : @$el.find('.twitter_container')
         template: require('templates/event/createTwitterPromotionRequest')
@@ -93,17 +145,7 @@ module.exports = class EventEditView extends View
         })
     else
       $('.twitter-tab, .twitter_tab_a').addClass('disabled')
-  getPromotionRequests:()=>
-    url = "http://localhost:3000/api/event/#{@model.id}/promotionRequests"
-    console.log url
-    $.ajax
-      type:'GET'
-      url:url
-      success: (response,xhr, body)=>
-        @promotionRequests = response
-        @initSocialMediaPromotions()
-      error:(error)=>
-        console.log error
+
   initSchedule: =>
     if @model.get('schedules')?.length > 0
       @$el.find('.repeats').attr('checked', true)
