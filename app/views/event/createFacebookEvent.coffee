@@ -184,5 +184,6 @@ module.exports = class CreateFacebookEventView extends View
     @saveFbEventNoForm page, data.callback
 
   stripHtml:(text)=>
-    result = text.replace(/(<([^>]+)>)/ig,"")
-    return result
+    regex = /(<([^>]+)>)/ig
+    text.replace(regex, "")
+    text

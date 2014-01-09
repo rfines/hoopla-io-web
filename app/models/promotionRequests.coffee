@@ -3,4 +3,6 @@ PromotionRequest = require('models/promotionRequest')
 
 module.exports = class PromotionRequests extends Collection
   model : PromotionRequest
-  url: "#{window.apiUrl}promotionRequest"
+  eventId:undefined
+  url: ()=>
+    "#{window.baseUrl}api/event/#{@eventId}/promotionRequests"

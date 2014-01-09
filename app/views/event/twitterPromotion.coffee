@@ -277,4 +277,7 @@ module.exports = class CreatePromotionReqeust extends View
   hideLinkBox:(e)=>
     e.preventDefault() if e
     @$el.find(".inputLink").slideUp()
-  
+  stripHtml:(text)=>
+    regex = /(<([^>]+)>)/ig
+    text.replace(regex, "")
+    text
