@@ -2,7 +2,7 @@
 <div class="col-md-12" id="facebookPanel">
   <div class="col-md-6">
     <div class="row pages">
-        </div>
+    </div>
     <div class="row facebook-preview">
       <div class="preview-content">
         <div class="media">
@@ -12,18 +12,18 @@
           <div class="media-body">
             <h4 class="media-heading">{{facebookProfileName}}</h4>
           </div>
-<div class="preview-message fb">{{previewText}}</div>
+          <div class="preview-message fb">{{previewText}}</div>
         </div>
         
       </div>
     </div>
-	<div class="buttons">
+	  <div class="buttons">
       <button type="button" class="btn btn-success editPostBtn">Customize this post</button>
+      {{#if showFormControls}}
+        <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
+      {{/if}}
     </div>
-  </div>
-  
-    
-  
+  </div>  
   <div class="form_container col-md-6" style="display:none">
     <form class="promoRequestFormFacebook">      
       <div class="row">
@@ -31,7 +31,21 @@
                <h4>Customize Post</h4>
       </div>
       <div class="row">
-        <div><label for="link-input">Event Link</label><input type="url" value="{{defaultLink}}" class="form-control link-input" /></div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="linkRadios" id="linkLR" value="lr" checked class="fb-lrLink-box">
+           Include link to Local Ruckus event page
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="linkRadios" id="linkCustom" value="custom" class="fb-cusLink-box">
+            Include my own link
+          </label>
+        </div>
+        <div class="inputLink" style="display:none">
+          <input type="url" class="form-control fbCustomLinkBox" name="linkBox" placeholder="http://www.somelink.com/" />
+        </div>
       </div>
       <div class="row">
         <div>
@@ -42,27 +56,31 @@
         </div> 
       </div>
       <div class="row">
-        <div>
-          <p class="checkbox">
-            <label for="immediate">Post Immediately
-              <input type="checkbox" class="immediate-box" value="fbImmediate"> 
-            </label>
-          </p>
-        </div>
+        <div class="radio">
+        <label>
+          <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="fb-immediate-box">
+          Post Immediately
+        </label>
       </div>
-      <div class="row">
-        <div class="col-md-6 postDate">
+      <div class="radio">
+        <label>
+          <input type="radio" name="schedRadios" id="scheduled" value="sch" class="fb-scheduled-box">
+         Schedule the post for later.
+        </label>
+      </div>
+      <div class="row inputTimes" style="display:none">
+        <div class="col-md-3 postDate">
           <label for="start">When</label>
           <input type="text" class="form-control datePicker promoDate" name="date">
-          
         </div>
-        <div class="col-md-6 postStartTime">
-          <label for="startTime">Time</label>
+        <div class="col-md-3 postTime">
+          <label for="startTime">Start Time</label>
           <input type="text" class="form-control timepicker startTime" name="startTime">
         </div>
+      </div>
         {{#if showFormControls}}
       <div class="row controls">
-        <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Submit</button>
+        <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
       </div>
       {{/if}}
       </div>

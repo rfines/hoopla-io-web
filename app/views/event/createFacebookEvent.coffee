@@ -15,7 +15,6 @@ module.exports = class CreateFacebookEventView extends View
   dashboard = false
 
   events: 
-    "change .pageSelection": "setImage"
     "click .createFbEventBtn":"saveFbEvent"
     
 
@@ -106,7 +105,7 @@ module.exports = class CreateFacebookEventView extends View
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
-    at = @fbPromoTarget.accessToken
+    at = @promotionTarget.accessToken
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
@@ -123,7 +122,7 @@ module.exports = class CreateFacebookEventView extends View
       link:link
       caption:@stripHtml(@model.get('description'))
       title: name
-      startTime: moment(@event.nextOccurrence()).toDate().toISOString()
+      startTime: moment(@model.nextOccurrence()).toDate().toISOString()
       promotionTime: date
       location: @model.get('location').address
       pageId:page
@@ -134,8 +133,10 @@ module.exports = class CreateFacebookEventView extends View
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
+        @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
       error: (mod, xhr, options)->
+        @publishEvent "facebook:eventFailed", mod
         Chaplin.mediator.publish 'stopWaiting'
       }
   saveFbEventNoForm:(page, cb)=>

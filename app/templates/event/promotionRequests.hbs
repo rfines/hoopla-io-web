@@ -1,9 +1,20 @@
 <div class="row">
   {{#if posts}}
-    <div class="col-md-8 promotions-container"></div>
+    {{#if isEvent}}
+      <div class="col-md-10 event-container">
+        <div class=" row event_published">
+          <div class="col-md-8 alert alert-success">
+            <p>This event has already been posted to Facebook.</p>
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <div class="col-md-10 promotions-container"></div>
+    {{/if}}
   {{else}}
-    <div class="col-md-8 no-facebook-posts">
-      <p>You currently have no Facebook Posts scheduled.</p>
-    </div> 
+    <div class="col-md-10 well no-posts">
+      <p>{{emptyState}}</p>
+    </div>
   {{/if}}
+
 </div>

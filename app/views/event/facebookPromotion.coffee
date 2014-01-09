@@ -155,7 +155,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb null, response
           else
-            @publishEvent "facebook:postPublished","Your Facebook post will be published as soon as possible." 
+            @publishEvent "facebook:postCreated","Your Facebook post will be published as soon as possible." 
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -164,7 +164,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
-            @publishEvent "facebook:postPublished","An error occurred while saving your Facebook post." 
+            @publishEvent "facebook:postCreated","An error occurred while saving your Facebook post." 
       }    
     else if time? > 0 
       d= moment(date).toDate().toISOString()
@@ -188,7 +188,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb null, resp
           else
-            @publishEvent "facebook:postPublished","Your Facebook post will be published at the scheduled time."
+            @publishEvent "facebook:postCreated","Your Facebook post will be published at the scheduled time."
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -197,7 +197,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
-            @publishEvent "facebook:postPublished","An error occurred while saving your Facebook post."
+            @publishEvent "facebook:postCreated","An error occurred while saving your Facebook post."
       }   
     else 
       Chaplin.mediator.publish 'stopWaiting'
@@ -237,6 +237,8 @@ module.exports = class FacebookPromotion extends View
     element = $('.fb-immediate-box')
     if element.is(':checked')
       @hideFbDates()
+    else
+      @showFbDates()
     
   scheduledClick:(e)=>
     e.preventDefault() if e
@@ -248,9 +250,10 @@ module.exports = class FacebookPromotion extends View
       
   hideFbDates:()->
     @$el.find('.inputTimes').hide()
-
+    
   showFbDates:()->
     @$el.find('.inputTimes').show()
+    
 
   showCreatedMessage: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
