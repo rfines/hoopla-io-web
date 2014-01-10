@@ -1,0 +1,97 @@
+{{#if showFb}}
+<div class="col-md-12" id="facebookPanel">
+<div class="form_container col-md-6">
+    <form class="promoRequestFormFacebook">      
+      <div class="row">
+
+               <h4>Create a New Post</h4>
+			 <div class="row pages">
+			    </div>
+      </div>
+      <div class="row">
+        <div class="radio">
+          <label><input type="radio" name="linkRadios" id="linkLR" value="lr" checked class="fb-lrLink-box">
+		Include link to Local Ruckus event page
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="linkRadios" id="linkCustom" value="custom" class="fb-cusLink-box">
+            Include my own link
+          </label>
+        </div>
+        <div class="inputLink" style="display:none">
+          <input type="url" class="form-control fbCustomLinkBox" name="linkBox" placeholder="http://www.somelink.com/" />
+        </div>
+      </div>
+      <div class="row">
+        
+        <div>
+        </div> 
+      </div>
+      <div class="row">
+        <div class="radio col-md-6">
+    
+          <label> <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="fb-immediate-box">
+         Post Immediately</label>
+       
+      </div>
+      <div class="radio col-md-6">
+        <label>
+          <input type="radio" name="schedRadios" id="scheduled" value="sch" class="fb-scheduled-box">
+         Schedule the post for later.
+        </label>
+      </div>
+
+      <div class="row inputTimes" style="display:none">
+        <div class="col-md-6 postDate">
+          <label for="start">When</label><input type="text" class="form-control datePicker promoDate" name="date">
+        </div>
+        <div class="col-md-6 postTime">
+          <label for="startTime">Start Time</label><input type="text" class="form-control timepicker startTime" name="startTime">
+        </div>
+
+      </div>
+
+        
+
+      </div>
+   
+  </div>
+  <div class="col-md-6">
+   	<div>
+     <label for="description">Enter Status Message</label>
+     <textarea class="form-control span3 message" rows="5" name="message" placeholder="Status Message...">{{previewText}}</textarea>
+   </div>
+<hr>
+    <div class="row facebook-preview">
+<label>FaceBook Preview</label>
+      <div class="preview-content">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{{facebookProfileImageUrl}}" alt="facebook profile picture">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">{{facebookProfileName}}</h4>
+          </div>
+          <div class="preview-message fb">{{previewText}}</div>
+        </div>
+        
+      </div>
+<button class="btn btn-success btn-success-sm facebookPostBtn pull-right" type="submit">Post it!</button>
+    </div>
+	  
+  </div>  
+   </form>
+</div>
+{{else}}
+  <div class="col-xs-12 col-lg-8">
+    <div class="row">
+      <h3>Not Authenticated for Facebook</h3>
+      <p>You have not linked any Facebook accounts yet. You can do that by clicking the link below.</p>
+      <div class="promotionTargets col-sm-12 col-xs-12 authPanel">
+        <p class="social-connection fb-not-auth"><a class="facebook socialNotConnected" id="{{event_id}}" href="{{facebookConnectUrl}}"><img src="/client/images/fb_not_connected.png">Connect this channel</a></p>
+      </div>
+    </div>
+  </div>
+{{/if}}
