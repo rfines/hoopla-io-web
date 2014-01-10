@@ -17,11 +17,15 @@ module.exports = class FacebookPromotion extends View
   fbPromoTarget : undefined
   fbPages : []
   dashboard : false
+  defaultLink:""
+  edit : false
 
   initialize:(options) ->
     super(options)
     @event = options.data
-    @dashboard = options.edit if options.edit
+    if options.edit
+      @dashboard = options.edit
+      @edit = options.edit 
     @business = Chaplin.datastore.business.get(@event.get('business'))
     @fbPromoTarget = _.find(@business.get('promotionTargets'), (item) =>
       return item.accountType is 'FACEBOOK'
@@ -48,15 +52,17 @@ module.exports = class FacebookPromotion extends View
     td.startDate = moment(next).format("h:mm a")
     td.fbPages= @fbPages
     bName = Chaplin.datastore.business.get(@event.get('business'))
-    l = ""
+    if @event.id
+      @defaultLink = "http://localruckus.com/event/#{@event.id}"
     if @event.get('website')
-      l = @event.get("website")
+      @defaultLink = @event.get("website")
     else if @event.get("ticketUrl")
-      l = @event.get("ticketUrl")
-    td.previewText = "#{@event.get('name')}  hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}. "
-    if l.length > 0
-      td.previewText  = td.previewText + "Check out more details at #{l}."
-    td.defaultLink = l
+      @defaultLink = @event.get("ticketUrl")
+    if @edit is false
+      td.previewText = "#{@event.get('name')}  hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}. "
+      if @defaultLink.length > 0
+        td.previewText  = td.previewText + "Check out more details at #{@defaultLink}."
+    td.defaultLink = @defaultLink
 
     if not @fbPromoTarget
       td.showFb = false
@@ -73,6 +79,9 @@ module.exports = class FacebookPromotion extends View
   
   attach : ->
     super
+    if @edit is true
+      @$el.find('.create_buttons').hide()
+      @$el.find('.form_container').show()
     @subview('messageArea', new MessageArea({container: '.alert-container'}))
     @initDatePickers()
     @initTimePickers()
@@ -98,6 +107,7 @@ module.exports = class FacebookPromotion extends View
     "click .editPostBtn":"showPostForm"
     "change .fb-cusLink-box": "showLinkBox"
     'change .fb-lrLink-box':"hideLinkBox"
+    'blur .fbCustomLinkBox':"swapLinks"
 
   promoteFb:(data)=>
     @event = data.event
@@ -139,7 +149,7 @@ module.exports = class FacebookPromotion extends View
     if @$el.find('#linkLr').is(':checked')
       link = "http://www.localruckus.com/event/#{@event.id}"
     else if @$el.find('#linkCustom').is(':checked')
-      link = $('.customLinkBox').val()
+      link = $('.fbCustomLinkBox').val()
     immediate = $('.fb-immediate-box')
 
     date = @startDate.getMoment()
@@ -245,6 +255,24 @@ module.exports = class FacebookPromotion extends View
           @subview("facebookPages", new FacebookPagesView({model: @model, container : @$el.find('.pages')[0], options:options}))
         error:(err)=>
           return null
+  swapLinks:(e)=>
+    v = @$el.find('.fbCustomLinkBox').val()
+    if v is not @defaultLink
+      @defaultLink = v
+      @$el.find(".message").val(replaceLink(@$el.find('.message').val(), @defaultLink, v))
+ 
+
+  replaceLink:(text, old, newLink)=>
+    s = text.split(' ')
+    console.log s
+    index = s.indexOf(old)
+    console.log index
+    if index is -1
+      text = "#{text} #{newLink}"
+      return text
+    else
+      s[index] = newLink
+      return s.join(' ')
 
   addCharacter:(e)=>
     code = String.fromCharCode(((if e.keyCode then e.keyCode else e.which)))

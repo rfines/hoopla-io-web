@@ -57,7 +57,14 @@ module.exports = class CreateFacebookEventView extends View
     @getFacebookPages(@promotionTarget)
 
   getFacebookPages:(promoTarget)=>
-    if promoTarget.accessToken
+    if Chaplin.datastore.facebookPages.length > 0
+      @fbPages = Chaplin.datastore.facebookPages
+      options=
+        business : @business
+        event: @model
+        pages:@fbPages
+      @subview("facebookEventPages", new FacebookPagesView({model: @model, container : @$el.find('.event-pages'), options:options}))
+    else if promoTarget.accessToken
       pageUrl= "https://graph.facebook.com/#{promoTarget.profileId}/accounts?access_token=#{promoTarget.accessToken}"
       $.ajax
         url:pageUrl
@@ -71,7 +78,7 @@ module.exports = class CreateFacebookEventView extends View
          
           options=
             business : @business
-            event: @event
+            event: @model
             pages:@fbPages
           @subview("facebookEventPages", new FacebookPagesView({model: @model, container : @$el.find('.event-pages'), options:options}))
 
@@ -80,7 +87,7 @@ module.exports = class CreateFacebookEventView extends View
 
   setImage: (data) ->
     x = _.find @fbPages, (item) =>
-      item.id is @$el.find('.pageSelection option:selected').val()
+      item.id is @subview("facebookEventPages").getSelectedPage()
     if not x
       x = @fbPages?[0]
     $.ajax
@@ -88,11 +95,11 @@ module.exports = class CreateFacebookEventView extends View
       type: 'GET'
       success: (response, body) =>
         if response?.cover?.source
-          $('.facebook-cover-image').attr('src', response?.cover?.source)
+          @$el.find('.facebook-cover-image').attr('src', response?.cover?.source)
         else
-          $('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+          @$el.find('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
       error: =>
-        $('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+        @$el.find('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
 
   textCutter : (i, text) ->
     short = text.substr(0, i)
@@ -191,6 +198,7 @@ module.exports = class CreateFacebookEventView extends View
     regex = /(<([^>]+)>)/ig
     text.replace(regex, "")
     text
+
   initMap:()=>
     if !@subview 'event-address'
       setTimeout(()=>
