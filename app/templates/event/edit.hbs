@@ -14,33 +14,25 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane fade in active" id="web">
+                
                 <div class="row">
-                  <div class="col-8">
-                    <legend>Edit Event <span class="required text pull-right">*required</span></legend>
-                    <hr>
-                  </div>   
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <label for="name"><i class="glyphicon glyphicon-star"></i>Event Name<span class="required">*</span></label>
+                  <div class="col-md-12">
+                    <legend>
                     <input type="text" class="form-control name" name="name" placeholder="Event Name">
+					</legend>
+					<input type="text" class="form-control datePicker startDate" name="start"  placeholder="Event Date">
                   </div>
-                  <div class="col-md-2">
-                    <label for="start"><i class="glyphicon glyphicon-calendar"></i>When<span class="required">*</span></label>
-                    <input type="text" class="form-control datePicker startDate" name="start"  placeholder="Event Date">
-                  </div>
-                  <div class="col-md-2">
-                    <label for="startTime"><i class="glyphicon glyphicon-time"></i>Start Time<span class="required">*</span></label>
-                    <input type="text" class="form-control timepicker startTime" name="startTime"  placeholder="Start Time">
-                  </div>
-                  <div class="col-md-2">
-                    <label for="endTime"><i class="glyphicon glyphicon-time"></i>End Time</label>
-                    <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="End Time">
-                  </div>            
-                  <div class="col-md-2">
-                    <input type="checkbox" name="recurring" class="repeats"/> <label>Repeats</label>
-                  </div>
-                </div>
+</div>
+   <div class="row">
+                  <div class="col-md-6">
+
+                    <div class="col-md-12 col-sm-6"><label for="startTime">Start:</label>
+                    <input type="text" class="form-control timepicker startTime" name="startTime"  placeholder="Start Time"><label for="endTime">End:</label>
+                    <input type="text" class="form-control timepicker endTime" name="endTime"  placeholder="Click To Add">
+</div><div class="col-md-12 col-sm-6">
+                    <input type="checkbox" name="recurring" class="repeats"/> <label>Repeats</label></div>
+                   
+
 
                 <div class="row recurringScheduleDetails">
                   <div class="col-md-2">
@@ -78,10 +70,28 @@
                   </div>
                 </div>
 
-                <div class="row no-bottom-margin">
-                  <div class="col-md-4 gray-tags">
+                <div class="col-md-12 col-sm-6">
+				<label for="host">Venue:</label>  
+               <div class="choose_venue"> 
+                  <select type="text/input" name="host" class="form-control host select-chosen">
+                    {{#each businesses}}
+                      <option value="{{id}}">{{attributes.name}}</option>
+                    {{/each}}
+                    {{#each venues}}
+                      <option value="{{id}}">{{attributes.name}}</option>
+                    {{/each}}                
+                  </select>
+                  <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="right" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
+                </div>
+                <div class="custom_venue" style="display:none">
+                  <input type="text" class="form-control hostAddress" name="hostAddress" />
+                  <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
+                </div>
+				</div>
+                <div class="col-md-12 col-sm-6">
+                  <div class="gray-tags">
                     <div class="gray-tags">
-                      <label for="tags">Event Categories
+                      <label for="tags">Event Categories:
                         <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
                       </label>
                       <select class="form-control select-chosen" multiple="true" name="tags">
@@ -90,40 +100,34 @@
                         {{/each}}
                       </select>
                      </div>
-                  </div>
-                  <div class="col-md-4 address-finder">
-                    <label for="host"><i class="glyphicon glyphicon-map-marker"></i>Venue<span class="required">*</span></label>  
-                   <div class="choose_venue"> 
-                      <select type="text/input" name="host" class="form-control host select-chosen">
-                        {{#each businesses}}
-                          <option value="{{id}}">{{attributes.name}}</option>
-                        {{/each}}
-                        {{#each venues}}
-                          <option value="{{id}}">{{attributes.name}}</option>
-                        {{/each}}                
-                      </select>
-                      <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="right" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
-                    </div>
-                    <div class="custom_venue" style="display:none">
-                      <input type="text" class="form-control hostAddress" name="hostAddress" />
-                      <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
-                    </div>
-                  </div>
                     
-                  <div class="col-md-2">
-                    <label for="cost"><i class="glyphicon glyphicon-usd"></i>Cost
+                    
+      				</div>
+</div>
+                    <div class="col-md-12 col-sm-6">
+                    <label for="cost">Cost:</label>
                     <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99." data-placement="right"></a></label>
-                    <input type="text" name="cost" value="0" class="form-control" placeholder="0.00"/>
-                  </div>
-                  <div class="col-md-2">
-                    <label for="ticketUrl"><i class="glyphicon glyphicon-shopping-cart"></i>Ticket Link</label>
-                    <input type="text" name="ticketUrl" class="form-control" placeholder="Ticket Link"/>        
-                  </div>            
-                </div>
-                <div class="row">
-                  <div class="col-md-5">
+                    <input type="text" name="cost" value="0" class="form-control" placeholder="Click To Add"/>
+					</div>
+                    <div class="col-md-12 col-sm-6">
+                    <label for="ticketUrl">Ticket Link:</label>
+                    <input type="text" name="ticketUrl" class="form-control" placeholder="Click To Add"/>        
+                 	</div>
+					<div class="col-md-12">
+	                      <label for="website">Event Website:</label>
+	                      <input type="url" class="form-control" name="website"  placeholder="Click To Add"/>
+	    				</div>
+	                    <div class="col-md-12">
+	                      <label for="contact">Event Contact:</label>
+	                      <input type="text" class="form-control" name="contactName"  placeholder="Click To Add"/>
+							</div>
+		                    <div class="col-md-12">
+	                      <label for="phone">Event Phone:</label>
+	                      <input type="phone" class="form-control" name="contactPhone"  placeholder="Click To Add"/>
+	                    </div>
+                    <div class="col-md-12 col-sm-6">           
+            
                     <div class="description-container">
-                      <label for="description"><i class="glyphicon glyphicon-pencil"></i>Description<span class="required">*</span></label>
                       <div id="toolbar" class="btn-toolbar" href="javascript:;" unselectable="on" role="toolbar" style="display: none;margin-bottom:0px;">
                         <nav class="nav navbar-form"> 
                           <div class="btn-group pull-right">
@@ -135,57 +139,46 @@
                         </nav>
                       </div>
                       <textarea class="form-control description" name="description" placeholder="Description" id="description-textarea"></textarea>
-                      <div><label class="form-label"><input type="checkbox" class="checkbox promote-checkbox" />Post event to social media now</label></div>
+                     
                     </div>     
                    
                   </div>
-                  <div class="col-md-4" id="image-chooser-container">
-                    <label for="imageUrl"><i class="glyphicon glyphicon-picture"></i>Event Image</label>
-                    <div style="display:inline;;margin-bottom:0px!important;">
-                      <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
-                    </div>
-                    <div class="well">
-                      {{#if imageUrl}}      
-                        <img src="{{imageUrl}}" class="currentImage" />
+                  	</div>
+                  
+  
+              	<div class="col-md-6" id="image-chooser-container">
+                  <div style="display:inline;;margin-bottom:0px!important;">
+                    <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
+                  </div>
+                  <div class="well">
+                    {{#if imageUrl}}      
+                      <img src="{{imageUrl}}" class="currentImage" />
+                    {{/if}}
+                    <div class="image-controls">
+                      <div class="imageChooser"></div>
+                       {{#if hasMedia}}
+                      <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
                       {{/if}}
-                      <div class="image-controls">
-                        <div class="imageChooser"></div>
-                         {{#if hasMedia}}
-                        <a class="browseLibBtn pull-right" data-toggle="modal" data-target="#media-library-popover-{{id}}">Browse Library</a>
-                        {{/if}}
-                      </div>
                     </div>
-                    <div class="default-image-actions"><a href="#" class="btn btn-info btn-block change-image-btn">Change Image</a></div>
+<div class="default-image-actions pull-right"><a href="#" class="change-image-btn">Change Image</a></div>
                   </div>
-                  <div class="col-md-3 controls">
-                    <div class="event-website">
-                      <label for="website"><i class="glyphicon glyphicon-globe"></i>Event Website</label>
-                      <input type="url" class="form-control" name="website"  placeholder="Event Website"/>
+                  
+				
+					<div class-"col-md-12">
+                      <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success">View on LocalRuckus.com</a>
+					</div>
+					<div class-"col-md-12">
+                      <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
+                      <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
                     </div>
-                    <div class="event-contact">
-                      <label for="contact"><i class="glyphicon glyphicon-user"></i>Event Contact</label>
-                      <input type="text" class="form-control" name="contactName"  placeholder="Event Contact"/>
-                    </div>
-                    <div class="event-phone">
-                      <label for="phone"><i class="glyphicon glyphicon-phone"></i>Event Phone</label>
-                      <input type="phone" class="form-control" name="contactPhone"  placeholder="Event Phone"/>
-                    </div>
-                      <div>
-                        <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success pull-right hidden-xs">View on LocalRuckus.com</a>
-                        <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
-                        <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
-                      </div>
-                    </div>
-                    <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
-                      <div>
-                        <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success btn-block">View on LocalRuckus.com</a>
-                        <a type="submit" class="btn btn-success btn-block">Update</a>
-                        <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
-                      </div>
+                  <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
+                    <div>
+                      <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success btn-block">View on LocalRuckus.com</a>
+                      <a type="submit" class="btn btn-success btn-block">Update</a>
+                      <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
                     </div>
                   </div>
-              </div>
-              
+                </div></div>                </div>
               <div class="tab-pane fade" id="facebook">
                 <div class="row facebook_container">
                   

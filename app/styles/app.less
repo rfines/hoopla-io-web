@@ -139,8 +139,8 @@ border-radius:4px;
   height:210px;
   margin:10% auto 0px auto!important;
 }
-input.form-control:focus, textarea.form-control:focus {
-    box-shadow: 0px 0px 18px #12545A!important;
+input.form-control:focus, textarea.form-control:focus, .chosen-container-active {
+    box-shadow: 0px 0px 10px #555!important;
 }
 .newItem {margin-top:20px;}
 .modal-body img {}
@@ -301,6 +301,29 @@ form .has-error ul input{
   border: 0px dashed #ECB0B0!important;
   }
 form .has-error label {font-family:'quicksandbold';}
+form .has-error
+ {
+   .chosen-container-single .chosen-single span {color:#b94a48;font-family:'quicksandbold';}
+   ::-webkit-input-placeholder {
+    color: #b94a48;
+    font-family:'quicksandbold';
+ }
+
+ :-moz-placeholder { /* Firefox 18- */
+    color: #b94a48;  
+    font-family:'quicksandbold';
+ }
+
+ ::-moz-placeholder {  /* Firefox 19+ */
+    color: #b94a48; 
+    font-family:'quicksandbold'; 
+ }
+
+ :-ms-input-placeholder {  
+    color: #b94a48; 
+    font-family:'quicksandbold'; 
+ }
+ }
  i.deleteItem {
     color: @gray-light;
     font-size: 27px;
@@ -564,7 +587,7 @@ a {
 .event-edit form  #toolbar i:hover, .event-edit form  #toolbar a:hover {
   color:@gray-dark;
 }
-
+iframe body {font-family: 'quicksand'!important;}
 #toolbar .navbar-form {
     .btn {
       border-top:0px;border-bottom:0px;
@@ -594,6 +617,7 @@ iframe.wysihtml5-sandbox {
       border-top-right-radius: 0px!important;
        border-top-left-radius: 0px!important;
       border:1px solid rgb(204,204,204)!important;
+     
   }
 .event-edit form .row div#toolbar, .event-list .event-edit form .row div.btn-group{
   margin-bottom:0px!important;
@@ -601,6 +625,7 @@ iframe.wysihtml5-sandbox {
 .event-edit iframe {
 font-family:'quicksand';
 margin-bottom: 10px!important;
+width:100%!important;
 }
 .account-manage {
   margin-top: 25px;
@@ -641,14 +666,14 @@ font-family: 'museo';}
    font-size: 1.2em;}
    
   .event-edit form {
-    legend{margin-bottom: 40px;}
+    legend{}
     .recurringScheduleDetails {box-shadow: 0px -2px 13px #5d5f5f inset; padding: 20px 0px;margin-bottom:10px;}
     .edit-actions{position:relative;top:90px;left:0px;}
-   textarea.description {height: 154px;margin-bottom:20px!important;}
+   textarea.description {height: 154px;margin-bottom:20px!important; font-family:'quicksand';}
     margin-left:0px!important;
     padding:15px;
     .row div {
-        margin-bottom: 10px!important;
+        margin-bottom: 4px!important;
     }
     .row {position:relative;}
     }
@@ -882,7 +907,6 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         i {
             margin-right: 10px;
             opacity: 0.5;
-            color:#fff;
         }
         input.hostAddress {width:90%!important;}
         i.glyphicon-plus, i.glyphicon-minus {
@@ -953,6 +977,43 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         }
        
         .edit-actions{}
+    }
+        .chosen-container-multi, .chosen-container-single {width:auto!important;}
+        .choose_venue{display:inline!important;}
+    .form-control, .chosen-container-single .chosen-single, .chosen-container-multi .chosen-choices {
+      background:none;
+      border:0px solid #ccc;
+      -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.0);
+      box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.0);
+      width: initial;
+      font-family:'quicksandbold';
+      color:#000;
+       ::-webkit-input-placeholder {
+        color: #fff;
+     }
+
+     :-moz-placeholder { /* Firefox 18- */
+        color: #b94a48;  
+
+     }
+
+     ::-moz-placeholder {  /* Firefox 19+ */
+        color: #b94a48; 
+  
+     }
+
+     :-ms-input-placeholder {  
+        color: #b94a48; 
+
+     }
+      
+    }
+    legend {margin:0px;}
+    input.name {font-size: 24px;
+      font-family: 'museo';
+      color: #000;
+      width: 100%;
+      text-align: center;
     }
 }
  .no-bottom-margin div {margin-bottom:8px!important;}
