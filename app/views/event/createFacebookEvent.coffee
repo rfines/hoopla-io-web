@@ -8,11 +8,11 @@ FacebookPagesView = require 'views/event/facebookPages'
 module.exports = class CreateFacebookEventView extends View
   template: require 'templates/event/createFacebookEvent'
   className: 'create-facebook-event'
-  business = {}
-  promotionTarget = {}
-  promotionRequest = {}
-  fbPages = []
-  dashboard = false
+  business : {}
+  promotionTarget : {}
+  promotionRequest :{}
+  fbPages :[]
+  dashboard :false
 
   events: 
     "click .createFbEventBtn":"saveFbEvent"
@@ -22,9 +22,13 @@ module.exports = class CreateFacebookEventView extends View
     super(options)
     if options and options.options
       @model = options.options.event
-      @dashboard = options.options.edit if options.options.edit
+      if options.options.edit is true 
+        @dashboard = true
+      else
+        @dashboard = false
       @business = options.options.business
       @promotionTarget = options.options.promotionTarget
+
     
   getTemplateData: ()->
     td = super()
@@ -68,6 +72,9 @@ module.exports = class CreateFacebookEventView extends View
             id:promoTarget.profileId
             name: promoTarget.profileName
           })
+          Chaplin.datastore.facebookPages = []
+          Chaplin.datastore.facebookPages = @fbPages
+          console.log @fbPages
           options=
             business : @business
             event: @event

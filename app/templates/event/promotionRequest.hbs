@@ -4,9 +4,11 @@
     <div class="row heading">{{#if past}}Date Posted{{else}}Scheduled Date{{/if}}</div>
     <div class="row"><p>{{formattedTime}}</p></div>
   </div>
+  {{#if imageUrl}}
   <div class=" col-md-3 pr-image-container">
     <img class="pr-image" src="{{imageUrl}}" alt="promotion image" />
   </div>
+  {{/if}}
   <div class="col-md-6 pr-message-container">
     <div class="row heading">Posted to {{handle}}</div>
     <div class="row"><p class="pr-message">{{message}}</p></div>
