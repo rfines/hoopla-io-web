@@ -35,7 +35,6 @@ module.exports = class EventEditView extends View
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
     @business = Chaplin.datastore.business.get(@model.get('business'))
-    console.log @business.get('promotionTargets')
     Chaplin.datastore.promotionTargets= @business.get('promotionTargets') if @business.get('promotionTargets')
     @initSocialMediaPromotion()
     @initSocialMediaPromotions()
@@ -49,8 +48,11 @@ module.exports = class EventEditView extends View
     @$el.find('.business').on 'change', @changeBusiness
     @$el.find('.host').on 'change', @changeHost     
     @subscribeEvent 'selectedMedia', @updateImage
+    @subscribeEvent 'facebook:pagesReady', @initPostViews
+    @subscribeEvent 'FACEBOOK-POST:false', @updateFutureFbTabs
+    @subscribeEvent 'FACEBOOK-POST:true', @updatePastFbTabs
+    @subscribeEvent 'FACEBOOK-EVENT:false', @updateFbEventView
     @initSchedule()
-    @initPostViews()
     $('.host').trigger("chosen:updated")
 
     $(".main-pills a[data-toggle=tab]").on "click", (e) ->
@@ -60,6 +62,8 @@ module.exports = class EventEditView extends View
       else
         e.preventDefault()
         $(this).tab "show"
+        if $(this).hasClass('fbEvent_tab_a')
+          Chaplin.mediator.publish "tab:visible"
     $(".posts-pills a[data-toggle=tab]").on "click", (e) ->
       if $(this).hasClass("disabled")
         e.preventDefault()
@@ -75,6 +79,19 @@ module.exports = class EventEditView extends View
         e.preventDefault()
         $(this).tab "show"
 
+  #Tab updaters
+  updateFbEventView:(fbEvent)=>
+    console.log fbEvent
+  updateTwTabs:(count)=>
+    @updateTabCounts('.scheduled-tweets-badge',count)
+  updatePastFbTabs:(count)=>
+    @updateTabCounts('.past-posts-badge', count)
+  updateFutureFbTabs:(count)=>
+    @updateTabCounts('.scheduled-posts-badge', count)
+  updateTabCounts:(selector,value)=>
+    if selector and value
+      $(selector).innerText = value
+  
   initPostViews:()=>
     if @model.get("promotionRequests")?.length >0
       collection = new PromotionCollection()
