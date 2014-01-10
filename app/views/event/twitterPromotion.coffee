@@ -72,7 +72,7 @@ module.exports = class CreatePromotionReqeust extends View
     
   sendTweet:(data)=>
     @event = data.event
-    @saveTwitter(data.callback)
+    @saveTwitter(null,data.callback)
 
 
   initDatePickers: =>
@@ -96,7 +96,8 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
-  saveTwitter: (cb)->
+  saveTwitter: (e,cb)->
+    e.preventDefault() if e
     if not cb
       Chaplin.mediator.publish 'startWaiting'
     successMessageAppend ="" 
@@ -131,8 +132,8 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb null, resp
           else
-            console.log doc
-            @publishEvent "twitter:tweetCreated", doc
+            console.log response
+            @publishEvent "twitter:tweetCreated", response
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -154,15 +155,15 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.eventId = @event.id
       scheduled.save {},{
         success:(response, doc) =>
+          Chaplin.mediator.publish 'stopWaiting'
           resp = {}
           resp.twFinished = true
           if cb
             cb null, resp
           else
-            console.log response
-            console.log doc
-            @publishEvent "twitter:tweetCreated", 
+            @publishEvent "twitter:tweetCreated", response
         error:(err)=>
+          Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.twFinished = false
           response.error = err

@@ -32,9 +32,11 @@ module.exports = class EventEditView extends View
     td        
 
   attach: =>
-    console.log "attach"
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
+    @business = Chaplin.datastore.business.get(@model.get('business'))
+    console.log @business.get('promotionTargets')
+    Chaplin.datastore.promotionTargets= @business.get('promotionTargets') if @business.get('promotionTargets')
     @initSocialMediaPromotion()
     @initSocialMediaPromotions()
     @initTimePickers()
@@ -59,7 +61,6 @@ module.exports = class EventEditView extends View
         e.preventDefault()
         $(this).tab "show"
     $(".posts-pills a[data-toggle=tab]").on "click", (e) ->
-      console.log "handling posts tabs"
       if $(this).hasClass("disabled")
         e.preventDefault()
         false
@@ -67,13 +68,13 @@ module.exports = class EventEditView extends View
         e.preventDefault()
         $(this).tab "show"
     $(".tweets-pills a[data-toggle=tab]").on "click", (e) ->
-      console.log "handling posts tabs"
       if $(this).hasClass("disabled")
         e.preventDefault()
         false
       else
         e.preventDefault()
         $(this).tab "show"
+
   initPostViews:()=>
     if @model.get("promotionRequests")?.length >0
       collection = new PromotionCollection()
@@ -82,13 +83,13 @@ module.exports = class EventEditView extends View
         success:=>
           @promotionRequests = collection
           coll = @promotionRequests.byType('FACEBOOK-POST').future(moment())
-          console.log coll.length
           @$el.find('.scheduled-posts-badge')[0].innerText = coll.length
           if coll.models.length >0
             @subview 'facebookScheduledPosts', new PromotionRequestsView({
               container:"#scheduled-posts"
               template: require 'templates/event/promotionRequests'
               postType: "Facebook Posts"
+              business:@business
               pushType:"FACEBOOK-POST"
               collection: @promotionRequests.byType('FACEBOOK-POST').future(moment())
             })
@@ -97,7 +98,6 @@ module.exports = class EventEditView extends View
             @$el.find('.schedule-posts-empty-state').show()
 
           coll = @promotionRequests.byType('FACEBOOK-POST').past(moment())
-          console.log @$el.find('.past-posts-badge')[0].innerText
           @$el.find('.past-posts-badge')[0].innerText = coll.length
           if coll.models.length >0
             @subview 'facebookPostsHistory', new PromotionRequestsView({
@@ -105,6 +105,8 @@ module.exports = class EventEditView extends View
               template: require 'templates/event/promotionRequests'
               postType: "Past Facebook Post"
               pushType:"FACEBOOK-POST"
+              business:@business
+              past:true
               collection: @promotionRequests.byType('FACEBOOK-POST').past(moment())
             })
             @$el.find('.past-posts-empty-state').hide()
@@ -118,6 +120,7 @@ module.exports = class EventEditView extends View
               container:"#tweet-scheduled"
               template: require 'templates/event/promotionRequests'
               postType: "Tweets"
+              business:@business
               pushType:"TWITTER-POST"
               collection: @promotionRequests.byType('TWITTER-POST').future(moment())
             })
@@ -133,6 +136,8 @@ module.exports = class EventEditView extends View
               template: require 'templates/event/promotionRequests'
               postType: "Past Tweets"
               pushType:"TWITTER-POST"
+              business:@business
+              past:true
               collection:@promotionRequests.byType('TWITTER-POST').past(moment())
             })
             @$el.find('.past-tweets-empty-state').hide()
@@ -144,6 +149,7 @@ module.exports = class EventEditView extends View
             template: require 'templates/event/promotionRequests'
             postType: "Facebook Event"
             pushType: "FACEBOOK-EVENT"
+            business:@business
             collection:@promotionRequests.byType("FACEBOOK-EVENT")
           })
         error:(err)=>
@@ -164,7 +170,6 @@ module.exports = class EventEditView extends View
         data:@model
         edit:true
       })    
-    
       data={
         event:@model
         promotionTarget:@fbPromoTarget

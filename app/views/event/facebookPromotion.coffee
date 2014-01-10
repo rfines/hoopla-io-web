@@ -89,7 +89,7 @@ module.exports = class FacebookPromotion extends View
 
   promoteFb:(data)=>
     @event = data.event
-    @saveFacebook data.callback
+    @saveFacebook undefined,data.callback
 
   updatePreview:(data)=>
     if data.selector and not data.html
@@ -115,7 +115,9 @@ module.exports = class FacebookPromotion extends View
       @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
       @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
 
-  saveFacebook:(cb) ->
+  saveFacebook:(e, cb) ->
+    if e
+      e.preventDefault()
     if not cb
       Chaplin.mediator.publish 'startWaiting'
     message = $('.message').val()
