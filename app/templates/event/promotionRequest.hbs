@@ -14,12 +14,12 @@
     <div class="row"><p class="pr-message">{{message}}</p></div>
   </div>
   <div class="col-md-2 controls">
-    <a class="btn btn-default" href="{{{postUrl}}}" target="_blank">View on Facebook</a>
+    <a class="btn btn-default" href="{{{postUrl}}}" target="_blank">{{buttonText}}</a>
     <a class="delete-pr" href="#"><i class="deleteButton glyphicon glyphicon-remove-circle"></i></a>
   </div>
 </div>
 {{else}}
   <div class="facebook-event-actions">
-    <a href="{{{postUrl}}}"class="btn btn-default" target="_blank">View on Facebook</a>
+    <a href="{{{postUrl}}}"class="btn btn-default" target="_blank">{{buttonText}}</a>
   </div>
 {{/if}}

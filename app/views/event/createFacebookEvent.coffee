@@ -52,11 +52,7 @@ module.exports = class CreateFacebookEventView extends View
 
   attach:()->
     super()
-    setTimeout(()=>
-      @subview('event-address', new AddressView({container : @$el.find('#map'), model : @model}))
-      $('input.address').remove()
-      $('label[for=address]').remove() 
-    ,100) 
+    @subscribeEvent "tab:visible", @initMap
     @subscribeEvent "facebook:publishEvent",@postEvent
     @getFacebookPages(@promotionTarget)
 
@@ -72,9 +68,7 @@ module.exports = class CreateFacebookEventView extends View
             id:promoTarget.profileId
             name: promoTarget.profileName
           })
-          Chaplin.datastore.facebookPages = []
-          Chaplin.datastore.facebookPages = @fbPages
-          console.log @fbPages
+         
           options=
             business : @business
             event: @event
@@ -108,7 +102,8 @@ module.exports = class CreateFacebookEventView extends View
   saveFbEvent:(e)=>
     e.preventDefault()
     Chaplin.mediator.publish 'startWaiting'
-    page=$('.event-pages>.facebook-pages>.pageSelection').val()
+    console.log @subview('facebookEventPages').getSelectedPage()
+    page= @subview('facebookEventPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
@@ -140,6 +135,7 @@ module.exports = class CreateFacebookEventView extends View
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
+        console.log mod
         @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
       error: (mod, xhr, options)->
@@ -195,3 +191,10 @@ module.exports = class CreateFacebookEventView extends View
     regex = /(<([^>]+)>)/ig
     text.replace(regex, "")
     text
+  initMap:()=>
+    if !@subview 'event-address'
+      setTimeout(()=>
+        @subview('event-address', new AddressView({container : @$el.find('#map'), model : @model}))
+        $('input.address').remove()
+        $('label[for=address]').remove() 
+      , 500)

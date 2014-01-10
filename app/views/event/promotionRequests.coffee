@@ -16,7 +16,6 @@ module.exports = class PromotionRequestList extends ListView
   past : false
   initialize:(options)=>
     super(options)
-    console.log options
     if options.postType
       @postType=options.postType
     if options.past
@@ -24,8 +23,8 @@ module.exports = class PromotionRequestList extends ListView
     if options.pushType
       @pushType = options.pushType
 
-    @collection.on('add', @render(), @)
-    @collection.on('reset', @render(), @)
+    @collection.on('add', @render, this)
+    @collection.on('reset', @render, this)
   attach:()=>
     @subscribeEvent "twitter:tweetCreated", @addModel
     @subscribeEvent "facebook:eventCreated", @addModel
@@ -33,9 +32,6 @@ module.exports = class PromotionRequestList extends ListView
     super
   getTemplateData:()=>
     td = super()
-    console.log @pushType
-    console.log @past
-    console.log @postType
     if @collection?.length > 0
       td.posts = true
     else
@@ -43,10 +39,12 @@ module.exports = class PromotionRequestList extends ListView
       td.emptyState = "You do not have any #{@postType} to show at this time."
     if @collection.length >0 and @pushType is "FACEBOOK-EVENT"
       td.isEvent = true
+      $('.createFbEventBtn').attr('disabled', true)
     
     td
   addModel:(mod)=>
-    console.log mod
+    console.log mod.get('pushType') , @pushType , @past
     if mod and mod.get('pushType') is @pushType
       if moment(mod.get('promotionTime')).isBefore(moment()) is @past
         @collection.add mod
+        @publishEvent "#{mod.get('pushType')}:#{@past}", @collection.models.length

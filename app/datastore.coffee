@@ -17,6 +17,8 @@ module.exports = exports = class DataStore
   user: undefined
   eventTag: new EventTags()
   venue : new Businesses()
+  facebookPages : []
+  promotionTargets : []
 
   constructor: (@name) ->
     @event.model = Event

@@ -12,11 +12,11 @@ module.exports = class FacebookPromotion extends View
   business: {}
   location:{}
   noun: 'promotion'
-  facebookImgUrl= undefined
-  facebookProfileName = undefined
-  fbPromoTarget = undefined
-  fbPages = []
-  dashboard = false
+  facebookImgUrl: undefined
+  facebookProfileName : undefined
+  fbPromoTarget : undefined
+  fbPages : []
+  dashboard : false
 
   initialize:(options) ->
     super(options)
@@ -33,6 +33,7 @@ module.exports = class FacebookPromotion extends View
     @facebookImgUrl = @fbPromoTarget?.profileImageUrl
     @facebookProfileName = @fbPromoTarget?.profileName
     @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
+    
     @model = new PromotionRequest()
     
   getTemplateData: ->
@@ -52,8 +53,11 @@ module.exports = class FacebookPromotion extends View
       l = @event.get("website")
     else if @event.get("ticketUrl")
       l = @event.get("ticketUrl")
-    td.previewText = "#{@event.get('name')}  hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}. Check out more details at #{l}"
+    td.previewText = "#{@event.get('name')}  hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}. "
+    if l.length > 0
+      td.previewText  = td.previewText + "Check out more details at #{l}."
     td.defaultLink = l
+
     if not @fbPromoTarget
       td.showFb = false
       callbackUrl = "#{window.baseUrl}callbacks/facebook?businessId=#{@model.business}"
@@ -75,6 +79,14 @@ module.exports = class FacebookPromotion extends View
     @getFacebookPages(@fbPromoTarget) if @fbPromoTarget
     @subscribeEvent "updateFacebookPreview",@updatePreview
     @subscribeEvent "event:promoteFacebook", @promoteFb
+    l = ""
+    if @event.get('website')
+      l = @event.get("website")
+    else if @event.get("ticketUrl")
+      l = @event.get("ticketUrl")
+    if l.length >0
+      $('#linkCustom').attr('checked', true)
+      @showLinkBox()
    
   events: 
     "submit .promoRequestFormFacebook": "saveFacebook"
@@ -104,33 +116,38 @@ module.exports = class FacebookPromotion extends View
       field: @$el.find('.promoDate')[0]
       minDate: moment().toDate()
       format: 'M-DD-YYYY'
+      defaultDate: @event.getStartDate().toDate()
+      setDefaultDate:true
     if not @model.isNew()
-      startDate.setMoment @model.date
-      $('.promoDate').val(@model.date.format('M-DD-YYYY'))
+      startDate.setMoment @event.date
+     
   initTimePickers: =>
-    @$el.find('.timepicker').timepicker
+    @$el.find('.startTime').timepicker
       scrollDefaultTime : moment().format("hh:mm a")
       step : 15
     if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
+      @$el.find('.startTime').timepicker('setTime', @event.getStartDate().toDate());
+      @$el.find('.promoDate').timepicker('setTime', @event.getEndDate().toDate());
 
   saveFacebook:(e, cb) ->
     if e
       e.preventDefault()
     if not cb
       Chaplin.mediator.publish 'startWaiting'
-    message = $('.message').val()
+    message = @$el.find('.message').val()
     successMessageAppend ="" 
-    if $('#linkLr').is(':checked')
+    if @$el.find('#linkLr').is(':checked')
       link = "http://www.localruckus.com/event/#{@event.id}"
-    else if $('#linkCustom').is(':checked')
+    else if @$el.find('#linkCustom').is(':checked')
       link = $('.customLinkBox').val()
     immediate = $('.fb-immediate-box')
+
     date = @startDate.getMoment()
-    time = $('.startTime').timepicker('getSecondsFromMidnight')
-    date = date.add('seconds', time)
+    time = moment(@$el.find('.startTime').timepicker('getTime')).format("hh:mm a")
+    console.log "#{date.format("MM-DD-YYYY")} #{time}"
+    date = moment("#{date.format("MM-DD-YYYY")} #{time}")
     now = moment().format('X')
+
     page = @subview('facebookPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
@@ -157,7 +174,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb null, response
           else
-            @publishEvent "facebook:postCreated","Your Facebook post will be published as soon as possible." 
+            @publishEvent "facebook:postCreated", pr
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -166,10 +183,11 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
-            @publishEvent "facebook:postCreated","An error occurred while saving your Facebook post." 
+            @publishEvent "facebook:postError","An error occurred while saving your Facebook post." 
       }    
     else if time? > 0 
       d= moment(date).toDate().toISOString()
+      console.log d
       scheduled= new PromotionRequest
         message: message
         link:link
@@ -190,7 +208,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb null, resp
           else
-            @publishEvent "facebook:postCreated","Your Facebook post will be published at the scheduled time."
+            @publishEvent "facebook:postCreated", scheduled
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -199,7 +217,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
-            @publishEvent "facebook:postCreated","An error occurred while saving your Facebook post."
+            @publishEvent "facebook:postError","An error occurred while saving your Facebook post."
       }   
     else 
       Chaplin.mediator.publish 'stopWaiting'
@@ -217,6 +235,9 @@ module.exports = class FacebookPromotion extends View
             id:promoTarget.profileId
             name: promoTarget.profileName
           })
+          Chaplin.datastore.facebookPages = []
+          Chaplin.datastore.facebookPages = @fbPages
+          @publishEvent "facebook:pagesReady"
           options=
             business : @business
             event: @event

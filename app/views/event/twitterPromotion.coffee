@@ -76,44 +76,42 @@ module.exports = class CreatePromotionReqeust extends View
 
 
   initDatePickers: =>
-    @startDate = new Pikaday
-      field: @$el.find('.promoDate')[0]
-      minDate: moment().toDate()
-      format: 'M-DD-YYYY'
-    if not @model.isNew()
-      startDate.setMoment @model.date
-      $('.promoDate').val(@model.date.format('M-DD-YYYY'))
     @twStartDate = new Pikaday
       field: @$el.find('.twPromoDate')[0]
-      format: 'M-DD-YYYY'
       minDate: moment().toDate()
+      format: 'M-DD-YYYY'
+      defaultDate :  @event.getEndDate().toDate()
+      setDefaultDate : true
+    if not @model.isNew()
+      @twStartDate.setMoment @event.date
+      @twStartDate.setDate(@event.getStartDate().toDate())
 
   initTimePickers: =>
-    @$el.find('.timepicker').timepicker
+    @$el.find('.twStartTime').timepicker
       scrollDefaultTime : moment().format('hh:mm a')
       step : 15
-    if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().toDate());
-      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().toDate());
+    @$el.find('.twStartTime').timepicker('setTime',moment().toDate())
+
 
   saveTwitter: (e,cb)->
     e.preventDefault() if e
     if not cb
       Chaplin.mediator.publish 'startWaiting'
     successMessageAppend ="" 
-    message = $('.tweetMessage').val()
-    immediate = $('.tw-immediate-box')
+    message = @$el.find('.tweetMessage').val()
+    immediate = @$el.find('.tw-immediate-box')
     date = @twStartDate.getMoment()
-    time = $('.twStartTime').timepicker('getSecondsFromMidnight')
+    time = moment(@$el.find('.twStartTime').timepicker('getTime')).format('hh:mm a')
     now = moment().format('X')
-    date = date.add('seconds', time)
+    date = moment("#{date.format("MM-DD-YYYY")} #{time}")
+    console.log date
     med = undefined
     link=""
-    if $('#linkLr').is(':checked')
+    if @$el.find('#linkLr').is(':checked')
       link = "http://www.localruckus.com/event/#{@event.id}"
-    else if $('#linkCustom').is(':checked')
-      link = $('.customLinkBox').val() 
-    if $('.tw-image-box').is(':checked')
+    else if @$el.find('#linkCustom').is(':checked')
+      link = @$el.find('.customLinkBox').val() 
+    if @$el.find('.tw-image-box').is(':checked')
       med = @event.get('media')?[0]?._id
     if immediate.is(':checked')
       pr = new PromotionRequest
@@ -133,7 +131,7 @@ module.exports = class CreatePromotionReqeust extends View
             cb null, resp
           else
             console.log response
-            @publishEvent "twitter:tweetCreated", response
+            @publishEvent "twitter:tweetCreated", pr
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
@@ -161,7 +159,7 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb null, resp
           else
-            @publishEvent "twitter:tweetCreated", response
+            @publishEvent "twitter:tweetCreated", scheduled
         error:(err)=>
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
