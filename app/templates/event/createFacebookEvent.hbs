@@ -1,12 +1,17 @@
- <div>
-  <div class="col-sm-6 col-lg-6 event-pages"></div>
-  </div>
+
+  <div class="col-sm-12 col-lg-12 event-pages"></div>
+
 <div class="row event-page-preview">
-  <img src="{{coverPhoto}}" class="facebook-cover-image" alt="facebook cover image" />
-  <h4>{{eventTitle}}</h4>
+
+  <div class="col-md-12 col-sm-12"><h4>{{eventTitle}}</h4></div>
+ <div class="col-md-3 col-sm-3 col-xs-3 img-container">
+ <img src="{{coverPhoto}}" class="facebook-cover-image img-responsive" alt="facebook cover image" />
+</div>
+<div class="col-md-9 col-xs-9 col-sm-9 post-container">
   <div class="event-times"><span class="event-day"><i class="glyphicon glyphicon-calendar"></i>{{dayOfWeek}}</span><span class="event-time"><i class="glyphicon glyphicon-time"></i>{{startDate}}</span></div>
   <div class="event-description"><span><i class="icon-align-left"></i>{{description}}</span></div>
   <div class="event-map google-maps" id="map"></div>
+</div>
 </div>
 {{#if showFormControls}}
 <div class="actions pull-right">
