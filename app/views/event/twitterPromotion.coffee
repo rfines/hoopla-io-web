@@ -8,15 +8,17 @@ module.exports = class CreatePromotionReqeust extends View
   event: {}
   business: {}
   noun: 'promotion'
-  twitterImgUrl=undefined
-  twitterHandle = undefined
-  twPromoTarget = undefined
-  dashboard = false
-
+  twitterImgUrl:undefined
+  twitterHandle : undefined
+  twPromoTarget : undefined
+  dashboard : false
+  edit :false
   initialize:(options) ->
     super(options)  
     @event = options.data
-    @dashboard = options.edit if options.edit
+    if options.edit
+      @dashboard = options.edit 
+      @edit = options.edit
     @business = Chaplin.datastore.business.get(@event.get('business')) 
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
@@ -33,7 +35,8 @@ module.exports = class CreatePromotionReqeust extends View
   getTemplateData: ->
     td = super()
     td.showFormControls = @dashboard
-    td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}."
+    if @edit is false
+      td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}."
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
     td.twitterHandle = @twitterHandle
@@ -45,6 +48,10 @@ module.exports = class CreatePromotionReqeust extends View
   
   attach : ->
     super
+    if @edit is true
+      @$el.find('.tw_create_buttons').hide()
+      @$el.find('.tw_form_container').show()
+      @$el.find('.promoRequestFormTwitter').show()
     @subview('messageArea', new MessageArea({container: '.alert-container'}))
     @$el.find('.tweetMessage').simplyCountable({
       maxCount: 140

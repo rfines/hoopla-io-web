@@ -17,7 +17,7 @@
         
       </div>
     </div>
-	  <div class="buttons">
+	  <div class="buttons create_buttons">
       <button type="button" class="btn btn-success editPostBtn">Customize this post</button>
       {{#if showFormControls}}
         <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
@@ -44,7 +44,7 @@
           </label>
         </div>
         <div class="inputLink" style="display:none">
-          <input type="url" class="form-control fbCustomLinkBox" name="linkBox" placeholder="http://www.somelink.com/" />
+          <input type="url" class="form-control fbCustomLinkBox" value="{{defaultLink}}" name="linkBox" placeholder="http://www.somelink.com/" />
         </div>
       </div>
       <div class="row">

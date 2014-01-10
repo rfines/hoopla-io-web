@@ -7,13 +7,14 @@ module.exports = class FacebookPagesView extends View
   className: 'facebook-pages'
   event: {}
   business: {}
-  facebookImgUrl= undefined
-  facebookProfileName = undefined
-  fbPromoTarget = {}
-  fbPages = []
+  facebookImgUrl: undefined
+  facebookProfileName : undefined
+  fbPromoTarget : {}
+  fbPages : []
 
   initialize:(options) ->
     super(options)
+    console.log options
     @fbPages = options.options.pages
     @pageId = _.first(@fbPages).id
   attach : ->

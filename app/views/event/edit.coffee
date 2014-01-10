@@ -52,6 +52,8 @@ module.exports = class EventEditView extends View
     @subscribeEvent 'FACEBOOK-POST:false', @updateFutureFbTabs
     @subscribeEvent 'FACEBOOK-POST:true', @updatePastFbTabs
     @subscribeEvent 'FACEBOOK-EVENT:false', @updateFbEventView
+    @subscribeEvent 'TWITTER-POST:true', @updateFutureTwTabs
+    @subscribeEvent 'TWITTER-POST:false', @updatePastTwTabs
     @initSchedule()
     $('.host').trigger("chosen:updated")
 
@@ -82,15 +84,17 @@ module.exports = class EventEditView extends View
   #Tab updaters
   updateFbEventView:(fbEvent)=>
     console.log fbEvent
-  updateTwTabs:(count)=>
+  updateFutureTwTabs:(count)=>
     @updateTabCounts('.scheduled-tweets-badge',count)
+  updatePastTwTabs:(count)=>
+    @updateTabCounts('.past-tweets-badge',count)
   updatePastFbTabs:(count)=>
     @updateTabCounts('.past-posts-badge', count)
   updateFutureFbTabs:(count)=>
     @updateTabCounts('.scheduled-posts-badge', count)
   updateTabCounts:(selector,value)=>
     if selector and value
-      $(selector).innerText = value
+      @$el.find("#{selector}")[0].innerText = value
   
   initPostViews:()=>
     if @model.get("promotionRequests")?.length >0
