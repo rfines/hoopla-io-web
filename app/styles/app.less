@@ -305,7 +305,7 @@ form .has-error
  {
    .chosen-container-single .chosen-single span {color:#b94a48;font-family:'quicksandbold';}
    ::-webkit-input-placeholder {
-    color: #b94a48;
+    color: #000;
     font-family:'quicksandbold';
  }
 
@@ -590,7 +590,7 @@ a {
 iframe body {font-family: 'quicksand'!important;}
 #toolbar .navbar-form {
     .btn {
-      border-top:0px;border-bottom:0px;
+      border-top:1px solid #ccc;border-bottom:0px;
       padding: 5px 12px 3px 12px;
     }
     .btn:first-child {
@@ -666,6 +666,7 @@ font-family: 'museo';}
    font-size: 1.2em;}
    
   .event-edit form {
+    .radio input[type="radio"]{width:20px!important;}
     legend{}
     .recurringScheduleDetails {box-shadow: 0px -2px 13px #5d5f5f inset; padding: 20px 0px;margin-bottom:10px;}
     .edit-actions{position:relative;top:90px;left:0px;}
@@ -683,6 +684,7 @@ font-family: 'museo';}
         font-family: 'museo';
         color: @gray-dark;
     }
+   
     .date {text-align: center;}
     .event-title a {
         font-family: 'museo';
@@ -885,6 +887,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
 }
 
 .event-edit {
+   .choose_venue .chosen-single {line-height: 2.1em;}
     h2 {
         font-family: 'museo';
         color: @gray-dark;
@@ -941,6 +944,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
             left: 151px;
             line-height: 202px;
             background: url('/client/images/publish_update_howie.png') 0px -145px no-repeat transparent;
+            color: #000;
         }
         .saveButton:hover {
             width: 94px;
@@ -977,8 +981,27 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         }
        
         .edit-actions{}
+          ::-webkit-input-placeholder {
+            font-family:'quicksand';
+         }
+
+         :-moz-placeholder { /* Firefox 18- */
+            color: #b94a48;  
+
+         }
+
+         ::-moz-placeholder {  /* Firefox 19+ */
+            color: #b94a48; 
+
+         }
+
+         :-ms-input-placeholder {  
+            color: #b94a48; 
+
+         }
+         .chosen-container-single .chosen-single span {color:#000;}
     }
-        .chosen-container-multi, .chosen-container-single {width:auto!important;}
+        .chosen-container-multi, .chosen-container-single {width:65%!important;}
         .choose_venue{display:inline!important;}
     .form-control, .chosen-container-single .chosen-single, .chosen-container-multi .chosen-choices {
       background:none;
@@ -988,33 +1011,21 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
       width: initial;
       font-family:'quicksandbold';
       color:#000;
-       ::-webkit-input-placeholder {
-        color: #fff;
-     }
-
-     :-moz-placeholder { /* Firefox 18- */
-        color: #b94a48;  
-
-     }
-
-     ::-moz-placeholder {  /* Firefox 19+ */
-        color: #b94a48; 
-  
-     }
-
-     :-ms-input-placeholder {  
-        color: #b94a48; 
-
-     }
+      vertical-align: initial;
+       padding: 6px 12px 6px 5px;
       
     }
-    legend {margin:0px;}
+    legend {margin:5px 0px;}
     input.name {font-size: 24px;
       font-family: 'museo';
       color: #000;
       width: 100%;
       text-align: center;
     }
+    input.datePicker {width: 150px;
+    margin: 0px auto;
+    position: relative;
+    display: inherit;text-align:center;font-size:1.2em;}
 }
  .no-bottom-margin div {margin-bottom:8px!important;}
 #drop-target p span {font-size:1.3em;font-family:'museoLight'; color:@brand-primary;}
@@ -1121,7 +1132,7 @@ a {
       h4, span {color:@brand-success;}
     }
 }
-#facebookPanel input, #facebookPanel select, #facebookPanel textArea,#twitterPanel input, #twitterPanel select, #twitterPanel textArea{border:1px solid #CCC7C7;}
+#facebookPanel input, #facebookPanel select, #facebookPanel textArea,#twitterPanel input, #twitterPanel select, #twitterPanel textArea{border:1px solid #CCC7C7;width: 100%;}
 .facebook-preview, .twitter-preview  {
   font-family:'lucida grande', tahoma, verdana, arial, sans-serif;
   padding-bottom: 20px;
@@ -1354,6 +1365,7 @@ bottom: 47px;
 
 
 
+
 @media (max-width:979px){
   .messaging {
 margin-left:0px;
@@ -1493,6 +1505,7 @@ img.sign-in {
         position: relative;
         top: 0px;
         width: auto;
+        color: #000;
     }
     .event-list .event-edit form .edit-actions {
         left: 0;
@@ -1556,6 +1569,7 @@ img.sign-in {
   }
   .event-edit form .saveButton {
       left: 0px;
+      color: #000;
     }
   .btn-success.createButton, .createButton.btn-success
   {width:100%;}
@@ -1569,6 +1583,7 @@ img.sign-in {
       position: relative;
       top: 0px;
       width: auto;
+      color: #000;
   }
   .event-list .event-edit form .edit-actions {
       left: 0;

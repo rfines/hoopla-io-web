@@ -36,7 +36,7 @@
 
                 <div class="row recurringScheduleDetails">
                   <div class="col-md-2">
-                    <label for="recurrenceInterval"><i class="glyphicon glyphicon-repeat"></i>Repeats</label>
+                    <label for="recurrenceInterval">Repeats</label>
                     <select name="recurrenceInterval" class="form-control">
                       <option value="DAILY">Every Day</option>
                       <option value="WEEKLY">Weekly</option>
@@ -105,8 +105,7 @@
       				</div>
 </div>
                     <div class="col-md-12 col-sm-6">
-                    <label for="cost">Cost:</label>
-                    <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Your cost should be a number, e.g. 9.99." data-placement="right"></a></label>
+                    <label for="cost">Cost:&nbsp;$</label>
                     <input type="text" name="cost" value="0" class="form-control" placeholder="Click To Add"/>
 					</div>
                     <div class="col-md-12 col-sm-6">
@@ -147,6 +146,9 @@
                   
   
               	<div class="col-md-6" id="image-chooser-container">
+					<div class-"col-md-12">
+                      <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-info btn-block">View this event on LocalRuckus.com</a>
+					</div>
                   <div style="display:inline;;margin-bottom:0px!important;">
                     <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
                   </div>
@@ -164,16 +166,14 @@
                   </div>
                   
 				
-					<div class-"col-md-12">
-                      <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success">View on LocalRuckus.com</a>
-					</div>
+				
 					<div class-"col-md-12">
                       <a type="submit" class="btn saveButton pull-right hidden-xs">Update</a>
                       <a type="cancel" class="btn btn-default cancel pull-right hidden-xs">Cancel</a>&nbsp;
                     </div>
                   <div class="col-md-3 hidden-md hidden-sm hidden-lg mobile controls">
                     <div>
-                      <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-success btn-block">View on LocalRuckus.com</a>
+                      <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-info btn-block">View on LocalRuckus.com</a>
                       <a type="submit" class="btn btn-success btn-block">Update</a>
                       <a type="cancel" class="btn btn-default btn-block cancel">Cancel</a>&nbsp;
                     </div>
