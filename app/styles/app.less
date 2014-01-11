@@ -328,7 +328,6 @@ form .has-error
     color: @gray-light;
     font-size: 27px;
     position: absolute;
-        top: 74px;
 }
 i.deleteItem.mediaLibrary {
 left: 13%;
@@ -344,7 +343,7 @@ top: 79%;
 a.duplicateButton {  
   position: absolute;
      text-decoration: none;
-     top: 36px;
+   right: 62px;
   }
 i.deleteItem:hover {color: @red;}
   img.duplicateEvent, i.glyphicon-cloud-upload { -webkit-transition-duration: 0.8s;
@@ -666,6 +665,14 @@ font-family: 'museo';}
    font-size: 1.2em;}
    
   .event-edit form {
+    pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus,.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #ffffff;
+    background-color: #00aec1;
+    }
+    .nav > li.disabled > a {
+    color: #C9C5C5;
+    }
+   
     .radio input[type="radio"]{width:20px!important;}
     legend{}
     .recurringScheduleDetails {box-shadow: 0px -2px 13px #5d5f5f inset; padding: 20px 0px;margin-bottom:10px;}
@@ -885,8 +892,9 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
         color: #999;
     }
 }
-
+.panel-default > .panel-heading.expanded {box-shadow:0px 0px 0px #A1A2A5 inset!important;}
 .event-edit {
+  
    .choose_venue .chosen-single {line-height: 2.1em;}
     h2 {
         font-family: 'museo';
@@ -898,6 +906,8 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
     }
    
     form {
+      background-color: #f5f5f5!important;
+      
       .promotion-selection label {font-family:'quicksand';font-weight:normal;}
        input.promote-checkbox {margin-right: 8px;
        position: relative;
@@ -1015,6 +1025,30 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
        padding: 6px 12px 6px 5px;
       
     }
+    input.timepicker {width: 20%!important;}
+    form .recurringScheduleDetails {
+      clear: both;
+    box-shadow: 0px 0px 0px #5d5f5f inset!important;
+    background-color: #f5f5f5;
+   border: 1px dashed #BEBDBD;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    padding: 10px 0px!important;
+    margin-bottom: 10px;
+    input.datePicker {
+    width: 150px;
+    margin: 0px auto;
+    position: relative;
+    display: inherit;
+    text-align: left;
+    font-size: 1em;
+    bottom: 7px;
+    left: -5px;
+    }
+   
+    }
+     .thumbnail {background:none!important;border:0px solid #333;}
     legend {margin:5px 0px;}
     input.name {font-size: 24px;
       font-family: 'museo';
