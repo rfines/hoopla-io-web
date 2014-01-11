@@ -187,7 +187,7 @@ module.exports = class EventEditView extends View
     if @fbPromoTarget        
       @subview 'facebookPromo', new FbPromo({
         container:@$el.find('.facebook_container')
-        template: require('templates/event/createFacebookPromotionRequest')
+        template: require('templates/event/editFacebookPromotionRequest')
         data:@model
         edit:true
       })    
