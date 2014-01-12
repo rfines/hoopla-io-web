@@ -4,9 +4,7 @@ FacebookPagesView = require 'views/event/facebookPages'
 CreateFacebookEventView = require 'views/event/createFacebookEvent'
 AddressView = require 'views/address'
 MessageArea = require 'views/messageArea'
-template = require 'templates/event/createFacebookPromotionRequest'
 module.exports = class FacebookPromotion extends View
-  template: template
   className: 'create-promotion-requests'
   event: {}
   business: {}
