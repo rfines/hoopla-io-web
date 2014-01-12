@@ -34,9 +34,11 @@ module.exports = class CreatePromotionReqeust extends View
     
   getTemplateData: ->
     td = super()
-    td.showFormControls = @dashboard
     if @edit is false
+      td.showPostButtons = false
       td.previewText = "Make sure to check out this cool event! #{@event.get('name')} hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}."
+    else
+      td.showPostButtons = true
     td.localruckus = "http://www.localruckus.com/event/#{@event.id}"
     td.twitterProfileImageUrl = @twitterImgUrl
     td.twitterHandle = @twitterHandle
@@ -83,11 +85,15 @@ module.exports = class CreatePromotionReqeust extends View
 
 
   initDatePickers: =>
+    if @event.getStartDate()
+      defaultDate = @event.getStartDate().toDate() 
+    else
+      defaultDate  =moment().toDate()
     @twStartDate = new Pikaday
       field: @$el.find('.twPromoDate')[0]
       minDate: moment().toDate()
       format: 'M-DD-YYYY'
-      defaultDate :  @event.getEndDate().toDate()
+      defaultDate :  defaultDate
       setDefaultDate : true
     if not @model.isNew()
       @twStartDate.setMoment @event.date

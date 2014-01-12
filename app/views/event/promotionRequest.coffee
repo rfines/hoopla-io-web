@@ -32,6 +32,8 @@ module.exports = class PromotionRequestListItem extends ListItemView
       td.postUrl = "https://www.facebook.com/events/#{postId}"
     else
       if@model.get('pushType') is 'TWITTER-POST'
+        td.isPost = true
+        console.log "Twitter-post"
         td.buttonText = "View on Twitter"
         td.postUrl = "https://twitter.com/#{td.handle}"
         twitterTarget = _.filter @model.get('promotionTarget'), (item)=>

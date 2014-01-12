@@ -138,7 +138,7 @@ module.exports = class EventEditView extends View
           @$el.find('.scheduled-tweets-badge')[0].innerText = coll.length
           if coll.models.length >0
             @subview 'twitterScheduledTweets', new PromotionRequestsView({
-              container:"#tweet-scheduled"
+              container:".scheduled-tweets-list-container"
               template: require 'templates/event/promotionRequests'
               postType: "Tweets"
               business:@business
@@ -203,7 +203,7 @@ module.exports = class EventEditView extends View
         options:data
       })
     else
-      $('.facebook_tab, .fb_tab_a, .fbEvent_tab_a, .facebook-event-tab').addClass('disabled')
+      $('.facebook_tab, .fb_tab_a, .fbEvent_tab_a, .facebook_event_tab').addClass('disabled')
     if @twPromoTarget     
       @subview 'twitterPromo', new TwitterPromo({
         container : @$el.find('.twitter_container')
@@ -212,7 +212,7 @@ module.exports = class EventEditView extends View
         edit:true
         })
     else
-      $('.twitter-tab, .twitter_tab_a').addClass('disabled')
+      $('.twitter_tab, .twitter_tab_a').addClass('disabled')
 
   initSchedule: =>
     if @model.get('schedules')?.length > 0
@@ -455,7 +455,6 @@ module.exports = class EventEditView extends View
       $('.promotion-selection').hide()
 
   address:()=>
-    console.log @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
       @model.set
         location: @subview('addressPopover').location
