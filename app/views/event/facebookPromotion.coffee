@@ -9,6 +9,7 @@ module.exports = class FacebookPromotion extends View
   event: {}
   business: {}
   location:{}
+  template:undefined
   noun: 'promotion'
   facebookImgUrl: undefined
   facebookProfileName : undefined
@@ -20,6 +21,10 @@ module.exports = class FacebookPromotion extends View
 
   initialize:(options) ->
     super(options)
+    if options.template
+      @template = options.template
+    else
+      @template = require('/templates/event/createFacebookPromotionRequest')
     @event = options.data
     if options.edit
       @dashboard = options.edit
@@ -40,7 +45,6 @@ module.exports = class FacebookPromotion extends View
     
   getTemplateData: ->
     td = super()
-    td.showFormControls = @dashboard
     td.eventAddress = @location
     if @event.nextOccurrence()
       next = @event.nextOccurrence()
@@ -57,6 +61,7 @@ module.exports = class FacebookPromotion extends View
     else if @event.get("ticketUrl")
       @defaultLink = @event.get("ticketUrl")
     if @edit is false
+      td.showPostButtons = false
       td.previewText = "#{@event.get('name')}  hosted by #{Chaplin.datastore.business.get(@event.get('host'))?.get('name')}. "
       if @defaultLink.length > 0
         td.previewText  = td.previewText + "Check out more details at #{@defaultLink}."
@@ -120,22 +125,30 @@ module.exports = class FacebookPromotion extends View
       @event[data.key] = data.value
 
   initDatePickers: =>
+    if @event.getStartDate()
+      defaultDate = @event.getStartDate().toDate() 
+    else
+      defaultDate  =moment().toDate()
     @startDate = new Pikaday
       field: @$el.find('.promoDate')[0]
       minDate: moment().toDate()
       format: 'M-DD-YYYY'
-      defaultDate: @event.getStartDate().toDate()
+      defaultDate: defaultDate
       setDefaultDate:true
     if not @model.isNew()
       startDate.setMoment @event.date
      
   initTimePickers: =>
+    if @event.getStartDate()
+      defaultDate = @event.getStartDate().toDate() 
+    else
+      defaultDate  =moment().toDate()
     @$el.find('.startTime').timepicker
       scrollDefaultTime : moment().format("hh:mm a")
       step : 15
     if not @model.isNew()
-      @$el.find('.startTime').timepicker('setTime', @event.getStartDate().toDate());
-      @$el.find('.promoDate').timepicker('setTime', @event.getEndDate().toDate());
+      @$el.find('.startTime').timepicker('setTime', defaultDate.toDate());
+      @$el.find('.promoDate').timepicker('setTime', defaultDate.toDate());
 
   saveFacebook:(e, cb) ->
     if e
@@ -152,7 +165,6 @@ module.exports = class FacebookPromotion extends View
 
     date = @startDate.getMoment()
     time = moment(@$el.find('.startTime').timepicker('getTime')).format("hh:mm a")
-    console.log "#{date.format("MM-DD-YYYY")} #{time}"
     date = moment("#{date.format("MM-DD-YYYY")} #{time}")
     now = moment().format('X')
 
@@ -195,13 +207,12 @@ module.exports = class FacebookPromotion extends View
       }    
     else if time? > 0 
       d= moment(date).toDate().toISOString()
-      console.log d
       scheduled= new PromotionRequest
         message: message
         link:link
         caption:@stripHtml(@event.get('description'))
         title: @event.get('name')
-        media: @event.get('media[0]')?._id
+        media: @event.get('media')?[0]?._id
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
         pageId:page
@@ -250,7 +261,7 @@ module.exports = class FacebookPromotion extends View
             business : @business
             event: @event
             pages:@fbPages
-          @subview("facebookPages", new FacebookPagesView({model: @model, container : @$el.find('.pages')[0], options:options}))
+          @subview("facebookPages", new FacebookPagesView({model: @model, container : @$el.find('.pages'), options:options}))
         error:(err)=>
           return null
   swapLinks:(e)=>
@@ -262,9 +273,7 @@ module.exports = class FacebookPromotion extends View
 
   replaceLink:(text, old, newLink)=>
     s = text.split(' ')
-    console.log s
     index = s.indexOf(old)
-    console.log index
     if index is -1
       text = "#{text} #{newLink}"
       return text

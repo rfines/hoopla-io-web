@@ -19,9 +19,9 @@
     </div>
 	  <div class="buttons create_buttons">
       <button type="button" class="btn btn-success editPostBtn">Customize this post</button>
-      {{#if showFormControls}}
+        {{#if showPostButtons}}
         <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
-      {{/if}}
+        {{/if}}
     </div>
   </div>  
   <div class="form_container col-md-6" style="display:none">
@@ -78,7 +78,7 @@
           <input type="text" class="form-control timepicker startTime" name="startTime">
         </div>
       </div>
-        {{#if showFormControls}}
+      {{#if showPostButtons}}
       <div class="row controls">
         <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
       </div>
