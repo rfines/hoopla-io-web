@@ -1,25 +1,24 @@
 {{#if isPost}}
-<div class="row pr-list-item">
-  <div class="col-md-3 pr-date">
+<tr class="">
+  <td class="col-md-3 pr-date">
     <div class="row heading">{{#if past}}Date Posted{{else}}Scheduled Date{{/if}}</div>
-    <div class="row"><p>{{formattedTime}}</p></div>
-  </div>
+    <div class="row"><p>{{formattedTime}}</p></td>
   {{#if imageUrl}}
-  <div class=" col-md-3 pr-image-container">
+  <td class="col-md-1 pr-image-container">
     <img class="pr-image" src="{{imageUrl}}" alt="promotion image" />
-  </div>
+  </td>
   {{/if}}
-  <div class="col-md-6 pr-message-container">
+  <td class="col-md-6  pr-message-container">
     <div class="row heading">Posted to {{handle}}</div>
     <div class="row"><p class="pr-message">{{message}}</p></div>
-  </div>
-  <div class="col-md-2 controls">
+  </td>
+  <td class="controls col-md-2">
     <a class="btn btn-default" href="{{{postUrl}}}" target="_blank">{{buttonText}}</a>
     <a class="delete-pr" href="#"><i class="deleteButton glyphicon glyphicon-remove-circle"></i></a>
-  </div>
-</div>
+  </td>
+</tr>
 {{else}}
-  <div class="facebook-event-actions">
+  <td class="col-md-1 facebook-event-actions">
     <a href="{{{postUrl}}}"class="btn btn-default" target="_blank">{{buttonText}}</a>
-  </div>
+  </td></tr>
 {{/if}}
