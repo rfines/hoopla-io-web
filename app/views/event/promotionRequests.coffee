@@ -23,9 +23,8 @@ module.exports = class PromotionRequestList extends ListView
       @past = options.past
     if options.pushType
       @pushType = options.pushType
-    console.log @past
-    console.log @pushType
-    console.log @container
+    console.log @past if @past is true
+    console.log @pushType if @pushType is "TWITTER-POST"
     @collection.on('add', @render, this)
     @collection.on('reset', @render, this)
   attach:()=>

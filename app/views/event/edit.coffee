@@ -137,6 +137,7 @@ module.exports = class EventEditView extends View
           coll = @promotionRequests.byType('TWITTER-POST').future(moment())
           @$el.find('.scheduled-tweets-badge')[0].innerText = coll.length
           if coll.models.length >0
+            console.log @$el.find('.scheduled-tweets-list-container')
             @subview 'twitterScheduledTweets', new PromotionRequestsView({
               container:".scheduled-tweets-list-container"
               template: require 'templates/event/promotionRequests'
@@ -145,6 +146,7 @@ module.exports = class EventEditView extends View
               pushType:"TWITTER-POST"
               collection: @promotionRequests.byType('TWITTER-POST').future(moment())
             })
+            console.log @subview 'twitterScheduledTweets'
             @$el.find('.schedule-tweets-empty-state').hide()
           else
             @$el.find('.schedule-tweets-empty-state').show()
@@ -187,7 +189,7 @@ module.exports = class EventEditView extends View
     if @fbPromoTarget        
       @subview 'facebookPromo', new FbPromo({
         container:@$el.find('.facebook_container')
-        template: require('templates/event/editFacebookPromotionRequest')
+        template: require("templates/event/editFacebookPromotionRequest")
         data:@model
         edit:true
       })    

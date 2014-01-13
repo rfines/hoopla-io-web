@@ -73,39 +73,58 @@ module.exports = class EventCreateView extends View
     @initSchedule()
     @editor.on('change', @storeDescription)
   
-    $('.host').trigger("chosen:updated")
-    $('.stepOnePanel').show()
-    $(".nav-pills a[data-toggle=tab]").on "click", (e) ->
-      if $(this).hasClass("disabled")
+    
+    @$el.find('.stepOnePanel').show()
+    @$el.find(".nav-pills a[data-toggle=tab]").on "click", (e) ->
+      if @$el.find(this).hasClass("disabled")
         e.preventDefault()
         false
       else
         e.preventDefault()
-        $(this).tab "show"
-      
-    if Chaplin.datastore.business.length is 1
+        @$el.find(this).tab "show"
+    
+    b = Chaplin.datastore.business.models[0]
+    if Chaplin.datastore.business.models.length is 1
       @model.set
         business : Chaplin.datastore.business.models[0]
-      b = Chaplin.datastore.business.models[0]
-      @twPromoTarget =_.find(b.get('promotionTargets'), (item) =>
-        return item.accountType is 'TWITTER'
-      )
-      @fbPromoTarget =_.find(b.get("promotionTargets"), (item) =>
-        return item.accountType is 'FACEBOOK'
-      )
-      if not @twPromoTarget
-        $('.twitter_box').hide()
+      @$el.find('.host').trigger("chosen:updated")
+    @twPromoTarget =_.find(b.get('promotionTargets'), (item) =>
+      return item.accountType is 'TWITTER'
+    )
+    @fbPromoTarget =_.find(b.get("promotionTargets"), (item) =>
+      return item.accountType is 'FACEBOOK'
+    )
+    if not @twPromoTarget
+      @$el.find('.twitter_box').hide()
+    else
+      @$el.find('.twitter_box').show()
+    if not @fbPromoTarget
+      @$el.find('.facebook_box').hide()
+      @$el.find('.facebook_event_box').hide()
+    else
+      @$el.find('.facebook_box').show()
+      @$el.find('.facebook_event_box').show()
+    @setBusinessPreview(b.get('name'), b.get('location')?.address)
+
+  setBusinessPreview:(name, address)=>
+    if name and name.length >0
+      el =@$el.find('.venue_preview')
+      if el.length >1
+        _.each el, (item, index, list)=>
+            item.innerText = "#{name}"
       else
-        $('.twitter_box').show()
-      if not @fbPromoTarget
-        $('.facebook_box').hide()
-        $('.facebook_event_box').hide()
+        if name.length >0
+          el.innerText = "#{name}"
+    if not @model.has('host')
+      mel = @$el.find(".map_preview")     
+      if mel.length > 1
+        _.each mel, (item, index, list)=>
+          item.innerText = "#{address}"
       else
-        $('.facebook_box').show()
-        $('.facebook_event_box').hide()
-  
+        mel.innerText = "#{address}"
+      @$el.find('.host').trigger("chosen:updated")
   updateImagePreviews:(image)=>
-    iEl = $('.imagePreview')
+    iEl = @$el.find('.imagePreview')
     if iEl.length >1
       _.each iEl, (item, index, list)=>
         item.src =  image.get('url')
@@ -114,8 +133,9 @@ module.exports = class EventCreateView extends View
   changeBusiness: (evt, params) =>
     b = Chaplin.datastore.business.get(params.selected)
     @model.set 'business', params.selected
-    el =$('.venue_preview')
     name = b?.get('name')
+    ad = b.get('location').address
+    @setBusinessPreview(name, ad.toString())
     @twPromoTarget =_.find(b?.get('promotionTargets'), (item) =>
       return item.accountType is 'TWITTER'
     )
@@ -123,47 +143,34 @@ module.exports = class EventCreateView extends View
       return item.accountType is 'FACEBOOK'
     )
     if not @twPromoTarget
-      $('.twitter_box').hide()
+      @$el.find('.twitter_box').hide()
     else
-      $('.twitter_box').show()
+      @$el.find('.twitter_box').show()
     if not @fbPromoTarget
-      $('.facebook_box').hide()
-      $('.facebook_event_box').hide()
+      @$el.find('.facebook_box').hide()
+      @$el.find('.facebook_event_box').hide()
     else
-      $('.facebook_box').show()
-      $('.facebook_event_box').show()
+      @$el.find('.facebook_box').show()
+      @$el.find('.facebook_event_box').show()
     if not @twPromoTarget and not @fbPromoTarget
-      $('.connect-help').show()
+      @$el.find('.connect-help').show()
     else
-      $('.connect-help').hide()
-    if el.length >1
-      _.each el, (item, index, list)=>
-          item.innerText = "#{name}"
-    else
-      if name.length >0
-        el.innerText = "#{name}"
+      @$el.find('.connect-help').hide()
     if not @model.has('host')
-      el = $(".map_preview")
       @model.set 
         'host': params.selected
         'location' : b?.get('location')
-      if el.length > 1
-        _.each el, (item, index, list)=>
-          item.innerText = "#{b?.get('location')?.address}"
-      else
-        el.innerText = "#{b?.get('location')?.address}"
-      $('.host').trigger("chosen:updated")
+    @$el.find('.host').trigger("chosen:updated")
     @showPromote(b.get('promotionTargets')?.length > 0)
   changeHost:  (evt, params) =>
-    el =$('.venue_preview')
+    el =@$el.find('.venue_preview')
     b = Chaplin.datastore.venue.get(params.selected)
-    name = b?.get('name')
     if el.length >1
       _.each el, (item, index, list)=>
-          item.innerText = "#{name}"
+          item.innerText = "#{b.get('name')}"
     else
-      if name.length >0
-        el.innerText = "#{name}"
+      if b.get('name').length >0
+        el.innerText = "#{b.get('name')}"
     el = $('.map_preview')
     if el.length > 1
       _.each el, (item, index, list)=>
@@ -174,18 +181,18 @@ module.exports = class EventCreateView extends View
       'host' : params.selected
       'location' : Chaplin.datastore.venue.get(params.selected).get('location')  
   storeDescription:()=>
-    @description = $('.description').val()
+    @description = @$el.find('.description').val()
     @updateDescriptionPreviews()
 
   toggleTwTab:(e)=>
     e.preventDefault() if e
-    if $('.twitter-checkbox').is(':checked')
-      $('.twitter_tab_a, .twitter_tab').removeClass('disabled')
+    if @$el.find('.twitter-checkbox').is(':checked')
+      @$el.find('.twitter_tab_a, .twitter_tab').removeClass('disabled')
       @initTwitterPromotion()
     else
-      $('.twitter_tab_a, .twitter_tab').addClass('disabled')
-      if $('.twitter-preview').is(':visible')
-        $('.nav-pills a[href="#web"]').tab('show')
+      @$el.find('.twitter_tab_a, .twitter_tab').addClass('disabled')
+      if @$el.find('.twitter-preview').is(':visible')
+        @$el.find('.nav-pills a[href="#web"]').tab('show')
   
   initTwitterPromotion : =>
     @subview 'twitterPromo', new TwitterPromo({
@@ -214,13 +221,13 @@ module.exports = class EventCreateView extends View
       data:@model
     })
   toggleFbEventTab:(e)=>
-    if $('.facebook-event-box').is(':checked')
-      $('.fbEvent_tab_a, .facebook_event_tab').removeClass('disabled')
+    if @$el.find('.facebook-event-box').is(':checked')
+      @$el.find('.fbEvent_tab_a, .facebook_event_tab').removeClass('disabled')
       @initFacebookEventPromotion()
     else
-      $('.fbEvent_tab_a, .facebook_event_tab').addClass('disabled')
-      if $('.event-page-preview').is(':visible')
-        $('.nav-pills a[href="#web"]').tab('show')
+      @$el.find('.fbEvent_tab_a, .facebook_event_tab').addClass('disabled')
+      if @$el.find('.event-page-preview').is(':visible')
+        @$el.find('.nav-pills a[href="#web"]').tab('show')
 
   initFacebookEventPromotion :()=>
     @model.set
@@ -309,14 +316,14 @@ module.exports = class EventCreateView extends View
         @$el.find('.hostAddress').val('')
       
   positionPopover:()=>
-    $('.popover.bottom').css('top', '60px')  
+    @$el.find('.popover.bottom').css('top', '60px')  
 
   showMediaLibrary: (e) =>
     e.stopPropagation()
     if @model.isNew()
-      $("#media-library-popover-").modal()
+      @$el.find("#media-library-popover-").modal()
     else
-      $("#media-library-popover-#{@model.id}").modal()
+      @$el.find("#media-library-popover-#{@model.id}").modal()
 
   initSocialMediaPromotion: =>
     shouldShow = @model.get('business') and Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets')?.length > 0
@@ -328,6 +335,9 @@ module.exports = class EventCreateView extends View
       format: 'M-DD-YYYY'
       minDate: moment().toDate()
       onSelect: @updateCalendarDateText
+    if not @model.isNew()
+      @startDate.setMoment @model.getStartDate()
+      $('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
     @endDate = new Pikaday
       field: @$el.find('.endDate')[0]
       format: 'M-DD-YYYY'
@@ -335,11 +345,15 @@ module.exports = class EventCreateView extends View
     if @model.get('schedules')?[0]?.end
       ed = moment(@model.get('schedules')?[0]?.end)
       @endDate.setMoment ed
-      $('.endDate').val(ed.format('M-DD-YYYY'))      
+      @$el.find('.endDate').val(ed.format('M-DD-YYYY'))      
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : moment().format("hh:mm a")
       step : 15
+    if not @model.isNew()
+      @$el.find('.startTime').timepicker('setTime', @model.getStartDate().add('minutes', @model.get('tzOffset')).toDate()) if @model.getStartDate()
+      @$el.find('.endTime').timepicker('setTime', @model.getEndDate().add('minutes', @model.get('tzOffset')).toDate()) if @model.getEndDate()
+
     @$el.find('.startTime').on 'changeTime', @predictEndTime
     @$el.find('.endTime').on 'changeTime', @updateTimePreviewText
 
@@ -551,9 +565,7 @@ module.exports = class EventCreateView extends View
       @updateProgress('step2')
       @closeAll(e)
       @updateModel()
-      console.log @model.get('schedules')
       if @model.get('schedules')?.length >0
-        console.log "getting schedule text"
         @scheduleText()
       $('.stepTwoPanel').show()
   showStepThree:(e)=>
