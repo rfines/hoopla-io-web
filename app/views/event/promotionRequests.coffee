@@ -41,7 +41,7 @@ module.exports = class PromotionRequestList extends ListView
       td.posts = true
     else
       td.posts = false
-      td.emptyState = "You do not have any #{@postType} to show at this time."
+      td.emptyState = "You do not have a #{@postType} to show at this time. Create Facebook Event Page now"
     if @collection.length >0 and @pushType is "FACEBOOK-EVENT"
       td.isEvent = true
       $('.createFbEventBtn').attr('disabled', true)

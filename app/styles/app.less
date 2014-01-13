@@ -663,11 +663,17 @@ font-family: 'museo';}
    color: #fff;
    text-align: center;
    font-size: 1.2em;}
-   
+    .nav-tabs.nav-justified > .active > a, .nav-tabs > .active > a {font-family:'quicksandbold';color: #4F5050;background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */border-bottom-color:#f5f5f5;}
   .event-edit form {
     td.pr-message-container {width: 54%;}
     hr {border-top:1px dashed #C9C7C7;}
-    .promoRequestFormFacebook,.promoRequestFormTwitter {
+    .promoRequestFormFacebook,.promoRequestFormTwitter{
       padding:0px;
       input.timepicker {
     width: 100%!important;
@@ -676,10 +682,10 @@ font-family: 'museo';}
     h4 {color:#00aec1;}
    
     } 
-     .scheduled_facebook_posts {
+     .scheduled_facebook_posts, .scheduled-tweets-container {
        min-height: 200px;
        h4 {color:#00aec1;}
-       .tab-content {background-color: #fff;padding:5px;
+       .tab-content {
        }
        }
      #scheduled-posts, #history-posts{
@@ -692,7 +698,10 @@ font-family: 'museo';}
       td p {margin:0px!important;}
       }
   }
-   
+  #twitterPanel, .facebook_event_container, .facebook_container, #web, .preview .tab-pane {border-right: 1px solid #ddd; border-left:1PX SOLID #ddd;border-bottom:1px solid #ddd;}
+   .facebook_event_container div.title h4:first-child {color:#00aec1;}
+   .create-promotion-requests, .facebook_event_container h4, #twitterPanel {padding-top:20px;}
+  
     ul.nav-pills {margin-bottom:40px;}
     pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus,.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
     color: #ffffff;
