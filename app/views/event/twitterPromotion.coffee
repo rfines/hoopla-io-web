@@ -19,6 +19,8 @@ module.exports = class CreatePromotionReqeust extends View
     if options.edit
       @dashboard = options.edit 
       @edit = options.edit
+    if options.template
+      @template = options.template
     @business = Chaplin.datastore.business.get(@event.get('business')) 
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
@@ -117,7 +119,6 @@ module.exports = class CreatePromotionReqeust extends View
     time = moment(@$el.find('.twStartTime').timepicker('getTime')).format('hh:mm a')
     now = moment().format('X')
     date = moment("#{date.format("MM-DD-YYYY")} #{time}")
-    console.log date
     med = undefined
     link=""
     if @$el.find('#linkLr').is(':checked')
@@ -142,8 +143,7 @@ module.exports = class CreatePromotionReqeust extends View
           resp.twPublished = true
           if cb
             cb null, resp
-          else
-            console.log response
+          else 
             @publishEvent "twitter:tweetCreated", pr
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
@@ -181,8 +181,6 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb null, response
           else
-            console.log response
-            console.log doc
             @publishEvent "twitter:tweetFailed", err
       }
     else 

@@ -25,8 +25,6 @@ module.exports = class PromotionRequestList extends ListView
       @pushType = options.pushType
     if options.event
       @event = options.event
-    console.log @past if @past is true
-    console.log @pushType if @pushType is "TWITTER-POST"
     @collection.on('add', @render, this)
     @collection.on('reset', @render, this)
     @collection.on('delete', @render, this)
@@ -34,11 +32,11 @@ module.exports = class PromotionRequestList extends ListView
     @subscribeEvent "twitter:tweetCreated", @addModel
     @subscribeEvent "facebook:eventCreated", @addModel
     @subscribeEvent "facebook:postCreated", @addModel
+    @subscribeEvent "getSelectedEvent", @sendEvent
     super
   
   getTemplateData:()=>
     td = super()
-    console.log @collection.length
     if @collection?.length > 0
       td.posts = true
     else
@@ -49,7 +47,9 @@ module.exports = class PromotionRequestList extends ListView
       $('.createFbEventBtn').attr('disabled', true)
     td.eventId = @event.id
     td
-  
+  sendEvent:(cb)=>
+    if @event
+      cb @event
   addModel:(mod)=>
     console.log mod.get('pushType') , @pushType , @past
     if mod and mod.get('pushType') is @pushType
