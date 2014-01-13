@@ -1,7 +1,8 @@
 {{#if isPost}}
+<tbody>
 <tr>
-  <td class="col-md-2 pr-date">
-    <div class="row heading">{{#if past}}Date Posted{{else}}{{/if}}</div>
+  <td class="col-md-3 pr-date">
+    <div class="row heading">{{#if past}}{{else}}{{/if}}</div>
     <div class="row"><p>{{formattedTime}}</p></td>
   {{#if imageUrl}}
   <td class="col-md-2 pr-image-container">
@@ -17,8 +18,9 @@
     {{#if future}}<a class="delete-pr" href="#"><i class="deletePostButton glyphicon glyphicon-remove-circle"></i></a>{{/if}}
   </td>
 </tr>
+</tbody>
 {{else}}
   <td class="col-md-1 facebook-event-actions">
-    <a href="{{{postUrl}}}"class="btn btn-default" target="_blank">{{buttonText}}</a>
-  </td></tr>
+    <a href="{{{postUrl}}}"class="btn btn-default btn-sm" target="_blank">{{buttonText}}</a>
+  </td></tr></tbody>
 {{/if}}
