@@ -1,14 +1,14 @@
 {{#if isPost}}
-<tr class="">
-  <td class="col-md-3 pr-date">
-    <div class="row heading">{{#if past}}Date Posted{{else}}Scheduled Date{{/if}}</div>
+<tr>
+  <td class="col-md-2 pr-date">
+    <div class="row heading">{{#if past}}Date Posted{{else}}{{/if}}</div>
     <div class="row"><p>{{formattedTime}}</p></td>
   {{#if imageUrl}}
-  <td class="col-md-1 pr-image-container">
+  <td class="col-md-2 pr-image-container">
     <img class="pr-image" src="{{imageUrl}}" alt="promotion image" />
   </td>
   {{/if}}
-  <td class="col-md-6  pr-message-container">
+  <td class="col-md-5  pr-message-container">
     <div class="row heading">Posted to {{handle}}</div>
     <div class="row"><p class="pr-message">{{message}}</p></div>
   </td>
