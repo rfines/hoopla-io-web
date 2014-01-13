@@ -8,7 +8,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-pills nav-justified main-pills">
               <li class="web_tab active"><a href="#web" data-toggle="tab">Edit Event</a></li>
-              <li class="facebook_tab"><a href="#facebook" data-toggle="tab" class="fb_tab_a" >Facebook</a></li>
+              <li class="facebook_tab"><a href="#facebook" data-toggle="tab" class="fb_tab_a" >Facebook Posts</a></li>
               <li class="facebook_event_tab"><a href="#facebook-event" class="fbEvent_tab_a"  data-toggle="tab">Facebook Event Page</a></li>
               <li class="twitter_tab"><a href="#twitter" class="twitter_tab_a" data-toggle="tab">Twitter</a></li>
             </ul>
@@ -92,7 +92,7 @@
                   <div class="gray-tags">
                     <div class="gray-tags">
                       <label for="tags">Event Categories:
-                        <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
+                  
                       </label>
                       <select class="form-control select-chosen" multiple="true" name="tags">
                         {{#each eventTags}}
@@ -149,9 +149,7 @@
 					<div class-"col-md-12">
                       <a href="http://localruckus.com/event/{{_id}}" target="_blank" class="btn btn-info btn-block">View this event on LocalRuckus.com</a>
 					</div>
-                  <div style="display:inline;;margin-bottom:0px!important;">
-                    <a class="helpTip" data-toggle="tooltip" title="<ul><li>Your image should be in .jpg, .png, or .gif format.</li><li>Choose a high resolution image. Hoopla.io will automatically scale your image.</li><li>For best results across our media partners, we recommend a size of 1024px wide and 576px high.</li></ul>" data-placement="bottom" data-html='true'><span class="glyphicon glyphicon-question-sign"></span></a>    
-                  </div>
+                  
                   <div class="well">
                     {{#if imageUrl}}      
                       <img src="{{imageUrl}}" class="currentImage" />
@@ -185,7 +183,7 @@
                 </div>
                 <div class=" row scheduled_facebook_posts">
                   <!-- Nav tabs -->
-                  <ul class="nav nav-pills posts-pills">
+                  <ul class="nav nav-tabs posts-pills">
                     <li class="active"><a href="#scheduled-posts" style="width:250px;" data-toggle="tab">Scheduled Posts <span class="badge scheduled-posts-badge pull-right"></span></a></li>
                     <li><a href="#history-posts" data-toggle="tab" style="width:250px;">Post History <span class="badge past-posts-badge pull-right"></span></a></li>
                   </ul>

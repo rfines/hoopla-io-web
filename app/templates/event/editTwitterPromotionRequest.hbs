@@ -1,0 +1,105 @@
+{{#if showTwitter}}
+<div class="col-xs-12 col-lg-12" id="twitterPanel">
+    
+<div class="tw_form_container col-md-6">
+   <form class="promoRequestFormTwitter" style="display:none">
+	 <div class="row">
+
+              <h4>Create a new Tweet</h4>
+     </div>
+    <div class="row">
+      <h5>Add content to your tweet:</h5>
+      <textarea class="form-control span3 tweetMessage description_preview" name="message" placeholder="Tweet">{{previewText}}</textarea>
+      <p class="help-block"><span class="counter"></span> characters remaining.</p>
+    </div>
+  <div class="row">	
+
+      <h5>Add a Web link to your tweet:</h5>
+      <div class="radio">
+
+        <label>
+          <input type="radio" name="linkRadios" id="linkLR" value="lr" checked class="tw-lrLink-box">
+         Include link to Local Ruckus event page
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="linkRadios" id="linkCustom" value="custom" class="tw-cusLink-box">
+          Include my own link
+        </label>
+      </div>
+      <div class="inputLink" style="display:none">
+        <input type="url" class="form-control customLinkBox" name="linkBox" placeholder="http://www.somelink.com/" />
+      </div>
+
+  </div>
+  <div class="row" style="margin-bottom:50px;">
+<h5>Schedule your tweet:</h5>
+      <div class="radio col-md-6">
+        <label>
+          <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="tw-immediate-box">
+          Post Immediately
+        </label>
+      </div>
+      <div class="radio col-md-6">
+        <label>
+          <input type="radio" name="schedRadios" id="scheduled" value="sch" class="tw-scheduled-box">
+         Schedule the post for later.
+        </label>
+     
+      <div class="row inputTimes" style="display:none">
+        <div class="col-md-6 twPostDate">
+          <label for="start">Date
+          <input type="text" class="form-control datePicker twPromoDate" name="date"></label>
+        </div>
+        <div class="col-md-6 twPostTime">
+          <label for="startTime">Time
+          <input type="text" class="form-control timepicker twStartTime" name="startTime"></label>
+        </div>
+ </div>
+      </div>
+     
+  </div>
+  </form>
+</div>
+<div class="col-md-6">
+<div class="twitter-preview">
+<h5>Preview your tweet:</h5>
+  <div class="preview-content">
+    <div class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object" src={{twitterProfileImageUrl}} alt="twitter profile picture">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">{{twitterHandle}}</h4>
+        <div class="preview-message tw">{{previewText}}</div>
+      </div>
+      <p class="help-block"><span class="counter safe"></span> characters remaining.</p>
+    </div>    
+  </div>
+	 {{#if showPostButtons}}
+    <div class="row controls">
+      <button class="btn btn-success btn-success-sm twitterPostBtn" type="submit">Schedule this Tweet</button>
+      <button type="button" class="btn btn-default cancelBtn">Cancel</button>
+    </div>
+    {{/if}}
+</div>
+<div class="buttons tw_create_buttons">
+    <button type="button" class="btn btn-success showTweetFormBtn">Schedule this Tweet</button>
+    {{#if showPostButtons}}
+    <div class="row controls">
+      <button class="btn btn-success btn-success-sm twitterPostBtn" type="submit">Submit</button>
+    </div>
+    {{/if}}
+  </div>
+</div>
+</div>
+{{else}}
+  <div class="col-xs-12 col-lg-8" id="twitterAuthPanel">
+    <div class="row">
+      <h3>No Twitter account linked</h3>
+      <p>This business does not have any Twitter accounts linked to it yet. To promote to Twitter, please click the link below and authorize us to use your Twitter account</p>
+      <p class="social-connection tw-not-auth"><a class="twitter socialNotConnected" id="{{_id}}" href="#"><img  src="/client/images/twitter-not-connected.png">Connect Twitter account</a></p>
+    </div>
+  </div>
+{{/if}}
