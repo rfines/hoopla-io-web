@@ -5,10 +5,8 @@ module.exports = class PromotionRequestListItem extends ListItemView
   template: require 'templates/event/promotionRequest'
   noun : "promotionRequest"
   model: PromotionRequest
- 
   initialize:(options)=>
     super(options)
-
   getTemplateData:()=>
     td = super()
     td.buttonText = "View on Facebook"
@@ -55,6 +53,21 @@ module.exports = class PromotionRequestListItem extends ListItemView
       td.formattedTime = moment(@model.get('promotionTime')).calendar()
       td.past = false
       td.future = true
+    console.log td
     td
   attach:()=>
     super()
+  events:
+    "click .deletePostButton": "destroy"
+  destroy: (e) =>
+    destroyConfirm = confirm("Delete this Social Media Post")
+    console.log @event
+    if destroyConfirm
+      m = @model
+      if @event and @noun is 'promotionRequest'
+        m.set
+          eventId : @event.id
+      console.log m
+      @collection.remove(@model)
+      m.destroy()
+      @dispose()   

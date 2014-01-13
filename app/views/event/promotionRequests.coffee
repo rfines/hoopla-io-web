@@ -8,7 +8,6 @@ module.exports = class PromotionRequestList extends ListView
   className: 'promotion-request-list'
   template: template
   itemView: ListItem
-  renderItems:true
   noun : 'promotionRequest'
   listSelector : '.promotions-container'
   business : undefined
@@ -30,7 +29,7 @@ module.exports = class PromotionRequestList extends ListView
     console.log @pushType if @pushType is "TWITTER-POST"
     @collection.on('add', @render, this)
     @collection.on('reset', @render, this)
-
+    @collection.on('delete', @render, this)
   attach:()=>
     @subscribeEvent "twitter:tweetCreated", @addModel
     @subscribeEvent "facebook:eventCreated", @addModel
