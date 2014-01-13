@@ -1,12 +1,14 @@
 ListItemView = require 'views/base/listItem'
 RecurrenceList = require 'views/event/recurrenceList'
 EditView = require 'views/event/edit'
+CreateView = require 'views/event/create'
 ImageUtils = require 'utils/imageUtils'
 
 module.exports = class ListItem extends ListItemView
   template: require 'templates/event/listItem'
   noun : "event"  
   EditView : EditView
+  CreateView : CreateView
   collapsedId = undefined
 
   getTemplateData: =>

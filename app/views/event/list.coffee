@@ -63,6 +63,6 @@ module.exports = class List extends ListView
 
   duplicate: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    EventEdit = require 'views/event/edit'
+    CreateView = require 'views/event/create'
     newEvent = data.clone()
-    @subview('newItem', new EventEdit({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))  
+    @subview('newItem', new CreateView({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))  
