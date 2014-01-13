@@ -19,8 +19,12 @@ module.exports = class ListItem extends View
 
   destroy: (e) =>
     destroyConfirm = confirm("Delete this #{@noun}?")
+    console.log @event
     if destroyConfirm
       m = @model
+      if @event and @noun is 'promotionRequest'
+        m.eventId = @event.id
+      console.log m
       @collection.remove(@model)
       m.destroy()
       @dispose()   

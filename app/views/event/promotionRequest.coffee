@@ -50,10 +50,11 @@ module.exports = class PromotionRequestListItem extends ListItemView
     if @model.get('promotionTime') and moment(@model.get('promotionTime')).isBefore(moment())
       td.formattedTime = moment(@model.get('status').completedDate).calendar()
       td.past = true
+      td.future = false
     else
       td.formattedTime = moment(@model.get('promotionTime')).calendar()
-
+      td.past = false
+      td.future = true
     td
   attach:()=>
     super()
- 
