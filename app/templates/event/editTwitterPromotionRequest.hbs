@@ -7,14 +7,10 @@
 
               <h4>Create a new Tweet</h4>
      </div>
-    <div class="row">
-      <h5>Add content to your tweet:</h5>
-      <textarea class="form-control span3 tweetMessage description_preview" name="message" placeholder="Tweet">{{previewText}}</textarea>
-      <p class="help-block"><span class="counter"></span> characters remaining.</p>
-    </div>
+    
   <div class="row">	
 
-      <h5>Add a Web link to your tweet:</h5>
+      <h5>Add a Web link to your tweet</h5>
       <div class="radio">
 
         <label>
@@ -34,27 +30,25 @@
 
   </div>
   <div class="row" style="margin-bottom:50px;">
-<h5>Schedule your tweet:</h5>
-      <div class="radio col-md-6">
+<h5>Schedule your tweet</h5>
+      <div class="radio col-md-5">
         <label>
           <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="tw-immediate-box">
           Post Immediately
         </label>
       </div>
-      <div class="radio col-md-6">
+      <div class="radio col-md-7">
         <label>
           <input type="radio" name="schedRadios" id="scheduled" value="sch" class="tw-scheduled-box">
          Schedule the post for later.
         </label>
      
       <div class="row inputTimes" style="display:none">
-        <div class="col-md-6 twPostDate">
-          <label for="start">Date
-          <input type="text" class="form-control datePicker twPromoDate" name="date"></label>
+        <div class="col-md-12 twPostDate">
+          <label for="start">Date<input type="text" class="form-control datePicker twPromoDate" name="date"></label>
         </div>
-        <div class="col-md-6 twPostTime">
-          <label for="startTime">Time
-          <input type="text" class="form-control timepicker twStartTime" name="startTime"></label>
+        <div class="col-md-12 twPostTime">
+          <label for="startTime">Time<input type="text" class="form-control timepicker twStartTime" name="startTime"></label>
         </div>
  </div>
       </div>
@@ -63,8 +57,13 @@
   </form>
 </div>
 <div class="col-md-6">
+<div class="row">
+  <h5>Add content to your tweet</h5>
+  <textarea class="form-control span3 tweetMessage description_preview" name="message" placeholder="Tweet">{{previewText}}</textarea>
+  <p class="help-block"><span class="counter"></span> characters remaining.</p>
+</div>
 <div class="twitter-preview">
-<h5>Preview your tweet:</h5>
+<h5>Preview your tweet</h5>
   <div class="preview-content">
     <div class="media">
       <a class="pull-left" href="#">
@@ -74,13 +73,14 @@
         <h4 class="media-heading">{{twitterHandle}}</h4>
         <div class="preview-message tw">{{previewText}}</div>
       </div>
-      <p class="help-block"><span class="counter safe"></span> characters remaining.</p>
+      
     </div>    
   </div>
 	 {{#if showPostButtons}}
-    <div class="row controls">
+    <div class="row controls pull-right">
+<button type="button" class="btn btn-default cancelBtn">Cancel</button>
       <button class="btn btn-success btn-success-sm twitterPostBtn" type="submit">Schedule this Tweet</button>
-      <button type="button" class="btn btn-default cancelBtn">Cancel</button>
+      
     </div>
     {{/if}}
 </div>

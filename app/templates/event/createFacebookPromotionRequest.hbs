@@ -56,28 +56,29 @@
         </div> 
       </div>
       <div class="row">
-        <div class="radio">
+        <div class="radio col-md-5">
         <label>
           <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="fb-immediate-box">
           Post Immediately
         </label>
       </div>
-      <div class="radio">
+      <div class="radio col-md-7">
         <label>
           <input type="radio" name="schedRadios" id="scheduled" value="sch" class="fb-scheduled-box">
          Schedule the post for later.
         </label>
-      </div>
+      
       <div class="row inputTimes" style="display:none">
-        <div class="col-md-3 postDate">
-          <label for="start">When</label>
+        <div class="col-md-12 postDate">
+          <label for="start">Date</label>
           <input type="text" class="form-control datePicker promoDate" name="date">
         </div>
-        <div class="col-md-3 postTime">
-          <label for="startTime">Start Time</label>
+        <div class="col-md-12 postTime">
+          <label for="startTime">Time</label>
           <input type="text" class="form-control timepicker startTime" name="startTime">
         </div>
       </div>
+</div>
       {{#if showPostButtons}}
       <div class="row controls">
         <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
