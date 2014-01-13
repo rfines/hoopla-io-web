@@ -6,6 +6,7 @@ AddressView = require 'views/address'
 MessageArea = require 'views/messageArea'
 module.exports = class FacebookPromotion extends View
   className: 'create-promotion-requests'
+  model:PromotionRequest
   event: {}
   business: {}
   location:{}

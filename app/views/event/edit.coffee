@@ -112,6 +112,7 @@ module.exports = class EventEditView extends View
               postType: "Facebook Posts"
               business:@business
               pushType:"FACEBOOK-POST"
+              event: @model
               collection: @promotionRequests.byType('FACEBOOK-POST').future(moment())
             })
             @$el.find('.schedule-posts-empty-state').hide()
@@ -128,6 +129,7 @@ module.exports = class EventEditView extends View
               pushType:"FACEBOOK-POST"
               business:@business
               past:true
+              event: @model
               collection: @promotionRequests.byType('FACEBOOK-POST').past(moment())
             })
             @$el.find('.past-posts-empty-state').hide()
@@ -144,6 +146,7 @@ module.exports = class EventEditView extends View
               postType: "Tweets"
               business:@business
               pushType:"TWITTER-POST"
+              event: @model
               collection: @promotionRequests.byType('TWITTER-POST').future(moment())
             })
             console.log @subview 'twitterScheduledTweets'
@@ -161,6 +164,7 @@ module.exports = class EventEditView extends View
               pushType:"TWITTER-POST"
               business:@business
               past:true
+              event: @model
               collection:@promotionRequests.byType('TWITTER-POST').past(moment())
             })
             @$el.find('.past-tweets-empty-state').hide()
@@ -173,6 +177,7 @@ module.exports = class EventEditView extends View
             postType: "Facebook Event"
             pushType: "FACEBOOK-EVENT"
             business:@business
+            event: @model
             collection:@promotionRequests.byType("FACEBOOK-EVENT")
           })
         error:(err)=>
