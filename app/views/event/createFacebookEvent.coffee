@@ -17,7 +17,6 @@ module.exports = class CreateFacebookEventView extends View
   events: 
     "click .createFbEventBtn":"saveFbEvent"
     
-
   initialize:(options)=>
     super(options)
     if options and options.options
@@ -142,7 +141,7 @@ module.exports = class CreateFacebookEventView extends View
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
-        console.log mod
+        @$el.find('.createFbEventButton').attr('disabled',true)
         @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
       error: (mod, xhr, options)->

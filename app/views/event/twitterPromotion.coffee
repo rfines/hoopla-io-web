@@ -136,6 +136,7 @@ module.exports = class CreatePromotionReqeust extends View
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       pr.eventId = @event.id
+      console.log "saving twitter post"
       pr.save {},{
         success:(response, doc)=>
           Chaplin.mediator.publish 'stopWaiting'
@@ -164,6 +165,7 @@ module.exports = class CreatePromotionReqeust extends View
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
       scheduled.eventId = @event.id
+      console.log "saving scheduled twitter post"
       scheduled.save {},{
         success:(response, doc) =>
           Chaplin.mediator.publish 'stopWaiting'

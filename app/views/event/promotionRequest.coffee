@@ -62,14 +62,13 @@ module.exports = class PromotionRequestListItem extends ListItemView
   destroy: (e) =>
     destroyConfirm = confirm("Delete this Social Media Post")
     if destroyConfirm
-      m = @model
       if @event
         console.log @event
-        m.set
+        @model.set
           eventId : @event.id
-      @collection.remove(m)
-      console.log m
-      m.destroy()
+      @collection.remove(@model)
+      console.log @model
+      @model.destroy()
       @dispose()
   getEvent:(r)=>
     if r 

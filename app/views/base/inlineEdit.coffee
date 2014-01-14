@@ -36,7 +36,7 @@ module.exports = class InlineEdit extends View
     @$el.find(".select-chosen").chosen({width:'100%'})  
     @$el.find(".select-chosen-nosearch").chosen({width:'100%', disable_search: true})  
     if @hasMedia
-      if @model.get('media')?.length > 0
+      if @model.get('media')?.length > 0 and @model.has('_id')
         @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:false,standAloneUpload:false}}))
       else
         @subview('imageChooser', new ImageChooser({container: @$el.find('.imageChooser'), data:{showControls:true,standAloneUpload:false}}))
