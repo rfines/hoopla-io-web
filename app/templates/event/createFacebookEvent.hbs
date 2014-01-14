@@ -1,5 +1,9 @@
 
-  <div class="col-sm-12 col-lg-12 event-pages"></div>
+  <div class="col-sm-12 col-lg-12 event-pages">{{#if showFormControls}}
+  <div class="actions pull-right">
+  <button type="button" class="btn btn-success-sm createFbEventBtn">Create a Facebook Event page</button>
+</div>
+{{/if}}</div>
 
 <div class="row event-page-preview">
 
@@ -12,11 +16,8 @@
   <div class="event-description"><span><i class="icon-align-left"></i>{{description}}</span></div>
   <div class="event-map google-maps" id="map"></div>
 </div>
+
 </div>
-{{#if showFormControls}}
-  <div class="actions pull-right">
-  <button type="button" class="btn btn-success-sm createFbEventBtn">Create it!</button>
-</div>
-{{/if}}
+
 </div>
 
