@@ -170,7 +170,7 @@ module.exports = class FacebookPromotion extends View
     date = moment("#{date.format("MM-DD-YYYY")} #{time}")
     now = moment().format('X')
 
-    page = @subview('facebookPages').getSelectedPage()
+    page = @subview('facebookPostPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
     )
@@ -265,7 +265,9 @@ module.exports = class FacebookPromotion extends View
             business : @business
             event: @event
             pages:@fbPages
-          @subview("facebookPages", new FacebookPagesView({model: @model, container : @$el.find('.pages'), options:options}))
+          container = @$el.find('.pages')
+          console.log container
+          @subview("facebookPostPages", new FacebookPagesView({model: @model, container : container, options:options}))
         error:(err)=>
           return null
   swapLinks:(e)=>

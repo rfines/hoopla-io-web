@@ -48,6 +48,7 @@ module.exports = class List extends CollectionView
     return new @itemView({model : model, collection: @collection})
 
   showCreatedMessage: (data) =>
+    console.log data
     if _.isObject data
       @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
     else if _.isString(data)

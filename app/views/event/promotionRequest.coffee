@@ -7,7 +7,6 @@ module.exports = class PromotionRequestListItem extends ListItemView
   event:undefined
   initialize:(options)=>
     super(options)
-    console.log @model
     @publishEvent 'getSelectedEvent', @getEvent
   getTemplateData:()=>
     td = super()

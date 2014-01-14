@@ -16,6 +16,8 @@ module.exports = class MessageArea extends View
   attach:()->
     super()
     @subscribeEvent "message:close", @closeMessage
+    @subscribeEvent "message:publish", @updateMessage
+
   updateMessage: (type, text) ->
     @$el.removeClass('alert-danger').removeClass('alert-success')
     if type is 'error'
