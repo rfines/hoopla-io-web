@@ -663,6 +663,12 @@ font-family: 'museo';}
    color: #fff;
    text-align: center;
    font-size: 1.2em;}
+   .nav-tabs.nav-justified > li > a {
+   border: 1px solid #dddddd;
+   border-radius: 4px 4px 0 0;
+   background-color: #FDFCFC;
+   margin-top:20px;
+   }
     .nav-tabs.nav-justified > .active > a, .nav-tabs > .active > a {font-family:'quicksandbold';color: #4F5050;background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
@@ -698,7 +704,8 @@ font-family: 'museo';}
       td p {margin:0px!important;}
       }
   }
-  #twitterPanel, .facebook_event_container, .facebook_container, #web, .preview .tab-pane {border-right: 1px solid #ddd; border-left:1PX SOLID #ddd;border-bottom:1px solid #ddd;}
+.preview .tab-pane {border-right: 1px solid #ddd; border-left:1PX SOLID #ddd;border-bottom:1px solid #ddd;}
+  
    .facebook_event_container div.title h4:first-child {color:#00aec1;}
    .create-promotion-requests, .facebook_event_container h4, #twitterPanel {padding-top:20px;}
   
@@ -1240,6 +1247,7 @@ a {
   min-height: 90px;
   margin-top:35px;
   margin-right: 50px!important;
+  clear:both;
 
   i {
     color:@gray-light!important;
@@ -1349,9 +1357,8 @@ padding: 9px;}
 }
 .social-media-choices {font-size: .9em;
 padding: 8px 0px 0px 0px;
-position: relative;
-bottom: 47px;
-  label {line-height: 24px;}
+  label {line-height: 28px;}
+  .helpTip {color:#999;}
   }
   .nav-justified > li > a {
   text-align: center;
@@ -1373,6 +1380,7 @@ bottom: 47px;
       .nav > li.disabled > a {
       color: #C9C5C5;
       }
+      .thumbnail {background-color:#F5F2F2;}
       .thumbnail .caption {
       padding: 0px 9px;}
       dl {margin:0px;}
@@ -1410,6 +1418,10 @@ bottom: 47px;
 .chosen-container-multi .chosen-choices li.search-field input.default {width:120%!important;}
  .event-list .form-inline .preview label {color:#000;}
 .stepFourPanel.steps .preview .thumbnail:first-child .imagePreview {width:auto;margin:0px auto;display:block;max-height: 250px;}
+.stepFourPanel.steps .controls {
+  position:relative;
+  bottom:12px;
+}
 .event-list .progress {margin-top:15px!important;}
 .progress.step1 {
   background: url('/client/images/steps-panel-sprite.gif') 0px 0px no-repeat transparent;
