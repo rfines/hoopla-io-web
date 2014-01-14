@@ -156,6 +156,7 @@ module.exports = class FacebookPromotion extends View
       e.preventDefault()
     if not cb
       Chaplin.mediator.publish 'startWaiting'
+
     message = @$el.find('.message').val()
     successMessageAppend ="" 
     if @$el.find('#linkLr').is(':checked')
@@ -187,6 +188,7 @@ module.exports = class FacebookPromotion extends View
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
       pr.eventId = @event.id
+      console.log "saving facebook post"
       pr.save {}, {
         success:(item)=>
           Chaplin.mediator.publish 'stopWaiting'
@@ -220,6 +222,7 @@ module.exports = class FacebookPromotion extends View
         pageAccessToken: @pageAccessToken
         promotionTime: d
       scheduled.eventId = @event.id
+      console.log "saving scheduled facebook post"
       scheduled.save {}, {
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'

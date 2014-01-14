@@ -13,14 +13,14 @@ module.exports = class EventCreateView extends View
   listRoute: 'myEvents'
   noun : 'event'
   model:Event
-  twPromoTarget =undefined
-  fbPromoTarget =undefined
-  start_date = undefined
-  addr_str = undefined
-  fbFinsihed = undefined
-  twFinished = undefined
-  fbEventCreated = undefined
-  ops = undefined
+  twPromoTarget :undefined
+  fbPromoTarget :undefined
+  start_date : undefined
+  addr_str :undefined
+  fbFinsihed : undefined
+  twFinished : undefined
+  fbEventCreated : undefined
+  ops : undefined
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -53,12 +53,13 @@ module.exports = class EventCreateView extends View
     td.businesses = Chaplin.datastore.business.models
     td.venues = Chaplin.datastore.venue.models
     td.eventTags = Chaplin.datastore.eventTag.models
+    if @model.get('media')>0
+      td.hasMedia = true
     td        
 
   attach: =>
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
-    @initSocialMediaPromotion()
     @initTimePickers()
     @initDatePickers()
     @initLocation()
@@ -72,16 +73,15 @@ module.exports = class EventCreateView extends View
     @subscribeEvent 'updateImagePreviews', @updateImagePreviews
     @initSchedule()
     @editor.on('change', @storeDescription)
-  
-    
-    @$el.find('.stepOnePanel').show()
+    @showStepOne()
+    @$el.find('.change-image-btn').show()
     @$el.find(".nav-pills a[data-toggle=tab]").on "click", (e) ->
-      if @$el.find(this).hasClass("disabled")
+      if $(this).hasClass("disabled")
         e.preventDefault()
         false
       else
         e.preventDefault()
-        @$el.find(this).tab "show"
+        $(this).tab "show"
     
     b = Chaplin.datastore.business.models[0]
     if Chaplin.datastore.business.models.length is 1
@@ -123,13 +123,20 @@ module.exports = class EventCreateView extends View
       else
         mel.innerText = "#{address}"
       @$el.find('.host').trigger("chosen:updated")
-  updateImagePreviews:(image)=>
+
+  updateImagePreviews:(image, url)=>
     iEl = @$el.find('.imagePreview')
     if iEl.length >1
       _.each iEl, (item, index, list)=>
-        item.src =  image.get('url')
+        if not image and url?.length > 0
+          item.src = url
+        else
+          item.src =  image.get('url')
     else
-      iEl.src= image.get('url')
+      if not image and url?.length > 0
+        iEl.src = url
+      else
+        iEl.src= image.get('url')
   changeBusiness: (evt, params) =>
     b = Chaplin.datastore.business.get(params.selected)
     @model.set 'business', params.selected
@@ -161,7 +168,7 @@ module.exports = class EventCreateView extends View
         'host': params.selected
         'location' : b?.get('location')
     @$el.find('.host').trigger("chosen:updated")
-    @showPromote(b.get('promotionTargets')?.length > 0)
+
   changeHost:  (evt, params) =>
     el =@$el.find('.venue_preview')
     b = Chaplin.datastore.venue.get(params.selected)
@@ -171,7 +178,7 @@ module.exports = class EventCreateView extends View
     else
       if b.get('name').length >0
         el.innerText = "#{b.get('name')}"
-    el = $('.map_preview')
+    el = @$el.find('.map_preview')
     if el.length > 1
       _.each el, (item, index, list)=>
         item.innerText = "#{b?.get('location')?.address}"
@@ -179,7 +186,8 @@ module.exports = class EventCreateView extends View
       el.innerText = "#{b?.get('location')?.address}"
     @model.set 
       'host' : params.selected
-      'location' : Chaplin.datastore.venue.get(params.selected).get('location')  
+      'location' : Chaplin.datastore.venue.get(params.selected).get('location')
+
   storeDescription:()=>
     @description = @$el.find('.description').val()
     @updateDescriptionPreviews()
@@ -203,18 +211,18 @@ module.exports = class EventCreateView extends View
   
   toggleFbTab:(e)=>
     e.preventDefault() if e
-    if $('.facebook-checkbox').is(':checked')
-      $('.fb_tab_a, .facebook_tab').removeClass('disabled')
+    if @$el.find('.facebook-checkbox').is(':checked')
+      @$el.find('.fb_tab_a, .facebook_tab').removeClass('disabled')
       @initFacebookPromotion()
     else
-      $('.fb_tab_a, .facebook_tab').addClass('disabled')
-      if $('.facebook-preview').is(':visible')
-        $('.nav-pills a[href="#web"]').tab('show')
+      @$el.find('.fb_tab_a, .facebook_tab').addClass('disabled')
+      if @$el.find('.facebook-preview').is(':visible')
+        @$el.find('.nav-pills a[href="#web"]').tab('show')
 
 
   initFacebookPromotion :()=>
     @model.set
-      startDate : start_date 
+      startDate : @start_date 
     @subview 'facebookPromo', new FbPromo({
       container:@$el.find('.facebook_container')
       template: require('templates/event/createFacebookPromotionRequest')
@@ -231,14 +239,14 @@ module.exports = class EventCreateView extends View
 
   initFacebookEventPromotion :()=>
     @model.set
-      startDate : start_date 
+      startDate : @start_date 
     data={
       event:@model
       promotionTarget:@fbPromoTarget
       business:Chaplin.datastore.business.get(@model.get('business'))
     }
     @subview 'facebookEventPromo', new FbEventPromo({
-      container:$('.facebook_event_container')
+      container:@$el.find('.facebook_event_container')
       template: require('templates/event/createFacebookEvent')
       options:data
     })
@@ -325,10 +333,6 @@ module.exports = class EventCreateView extends View
     else
       @$el.find("#media-library-popover-#{@model.id}").modal()
 
-  initSocialMediaPromotion: =>
-    shouldShow = @model.get('business') and Chaplin.datastore.business.get(@model.get('business')).get('promotionTargets')?.length > 0
-    @showPromote(shouldShow)
-
   initDatePickers: =>
     @startDate = new Pikaday
       field: @$el.find('.startDate')[0]
@@ -337,7 +341,7 @@ module.exports = class EventCreateView extends View
       onSelect: @updateCalendarDateText
     if not @model.isNew()
       @startDate.setMoment @model.getStartDate()
-      $('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
+      @$el.find('.startDate').val(@model.getStartDate().format('M-DD-YYYY'))
     @endDate = new Pikaday
       field: @$el.find('.endDate')[0]
       format: 'M-DD-YYYY'
@@ -345,7 +349,8 @@ module.exports = class EventCreateView extends View
     if @model.get('schedules')?[0]?.end
       ed = moment(@model.get('schedules')?[0]?.end)
       @endDate.setMoment ed
-      @$el.find('.endDate').val(ed.format('M-DD-YYYY'))      
+      @$el.find('.endDate').val(ed.format('M-DD-YYYY')) 
+
   initTimePickers: =>
     @$el.find('.timepicker').timepicker
       scrollDefaultTime : moment().format("hh:mm a")
@@ -468,12 +473,12 @@ module.exports = class EventCreateView extends View
     @publishEvent '#{@noun}:created', @model
     @ops = {}
     if @fbPromoTarget
-      if $('.facebook-event-box').is(':checked')
+      if @$el.find('.facebook-event-box').is(':checked')
         @ops.fbEvent =  @callFacebookEventPromotion
-      if $('.facebook-checkbox').is(':checked')
+      if @$el.find('.facebook-checkbox').is(':checked')
         @ops.fbPost =  @callFacebookPromotion
     if @twPromoTarget
-      if $('.twitter-checkbox').is(':checked')
+      if @$el.find('.twitter-checkbox').is(':checked')
         @ops.twPost = @callTwitterPromotion
     if !_.isEmpty @ops
       async.parallel(@ops,@finalCallback)
@@ -490,42 +495,20 @@ module.exports = class EventCreateView extends View
     data.promotionTarget = @fbPromoTarget
     data.callback  = callback
     @publishEvent "event:promoteTwitter", data
-  promoteTwitterCallback:(result)=>
-    if result.err
-      console.log result.err
-      @twFinished = false
-      @publishEvent 'notify:publish', "There was a problem creating the twitter tweet."
-    else
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @twFinished=true
+  
   callFacebookPromotion:(callback)=>
     data={}
     data.event = @model 
     data.facebook = true
     data.callback  =callback
     @publishEvent "event:promoteFacebook", data
-  promoteFacebookCallback:(result)=>
-    if result.err
-      console.log result.err
-      @fbFinished = false
-      @publishEvent 'notify:publish', "There was a problem creating the facebook post."
-    else
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @fbFinished = true
+  
   callFacebookEventPromotion:(callback)=>
     data={}
     data.event = @model 
     data.callback =  callback
     @publishEvent "facebook:publishEvent", data 
-  promoteEventCallback:(result)=>
-    if result.err
-      console.log err
-      @fbEventCreated = false
-      @publishEvent 'notify:publish', "There was a problem creating the facebook event."
-    else
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      @fbEventCreated = true
-
+  
   finalCallback:(err, results)=>
     if err
       console.log err
@@ -549,11 +532,6 @@ module.exports = class EventCreateView extends View
         @twFinished = undefined
       @removeForm results
 
-  showPromote:(show)=>
-    if show
-      $('.promotion-selection').show()
-    else
-      $('.promotion-selection').hide()
   address:()=>
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
       @model.set
@@ -567,7 +545,9 @@ module.exports = class EventCreateView extends View
       @updateModel()
       if @model.get('schedules')?.length >0
         @scheduleText()
+      @updateStepTwoPreviews()
       $('.stepTwoPanel').show()
+
   showStepThree:(e)=>
     e.preventDefault() if e
     @model.set
@@ -575,6 +555,7 @@ module.exports = class EventCreateView extends View
     if @partialValidate() 
       @updateProgress('step3')
       @closeAll(e)
+      @updateStepThreePreviews(e)
       $('.stepThreePanel').show()
   showStepFour:(e)=>
     e.preventDefault() if e
@@ -590,6 +571,28 @@ module.exports = class EventCreateView extends View
     @updateProgress('step1')
     @closeAll(e)
     $('.stepOnePanel').show()
+    @updateStepOnePreviews(e)
+
+  updateStepOnePreviews:(e)=>
+    @updateNamePreviewText(e)
+    @updateCalendarDateText(e)
+    @updateTimePreviewText(e,undefined)
+    if @model.get('location')?.address
+      @updateAddressText(@model.get('location')?.address)
+    if @model.get('business')
+      @setBusinessPreview(Chaplin.datastore.business.get(@model.get('business')))
+    if @model.get('media')?[0]
+      @updateImagePreviews(undefined,@model.get('media')?[0].url)
+
+  updateStepTwoPreviews:(e)=>
+    @updateCostPreviewText(e)
+    @updateDescriptionPreviews(e)
+    @updateTicketPreviews(e)
+
+  updateStepThreePreviews:(e)=>
+    @updateWebsitePreviews(e)
+    @updateTagPreviews(e)
+    @updateContactPreviews(e)
   closeAll:(e)=>
     e.preventDefault() if e
     $('.stepOnePanel, .stepTwoPanel, .stepThreePanel, .stepFourPanel').hide()
@@ -639,7 +642,7 @@ module.exports = class EventCreateView extends View
     else
       startTime = moment(s).startOf('day').add('seconds',time)
     if startTime
-      start_date = startTime
+      @start_date = startTime
       el = $(".date_preview")
       if el.length >1
         _.each el, (item, index, list)=>
@@ -656,6 +659,7 @@ module.exports = class EventCreateView extends View
           el[0].innerText = text
         else
           el[0].innerText = moment().calendar()
+
   updateTimePreviewText:(e)=>
     s = @$el.find('.startDate').val()
     if not s
@@ -673,6 +677,7 @@ module.exports = class EventCreateView extends View
         endel[0].innerText =endTime.format('h:mm a')
       else
         endel[0].innerText = moment().format('h:mm a')
+
   updateCostPreviewText:(e)=>
     keyed = "$#{@$el.find('.cost').val()}"
     el = $(".cost_preview")
@@ -753,6 +758,7 @@ module.exports = class EventCreateView extends View
         item.innerText = keyed
     else
       dEl[0].innerText = keyed
+
   updateContactPreviews:(e)=>
     e.preventDefault() if e
     keyed = @$el.find('.contact').val()
@@ -762,6 +768,7 @@ module.exports = class EventCreateView extends View
         item.innerText = keyed
     else
       dEl[0].innerText = keyed
+
   updateAddressText:(addr)=>
     el = $('.map_preview')
     if el.length > 1
@@ -769,6 +776,7 @@ module.exports = class EventCreateView extends View
         item.innerText = "#{addr}"
     else
       el.innerText = "#{addr}"
+
   removeForm:(results)=>
     if _.size(@ops) == 3
       if @twFinished and @twFinished is true and @fbFinished and @fbFinished is true and @fbEventCreated and @fbEventCreated is true
