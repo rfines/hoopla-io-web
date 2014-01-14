@@ -86,7 +86,7 @@ module.exports = class EventCreateView extends View
     b = Chaplin.datastore.business.models[0]
     if Chaplin.datastore.business.models.length is 1
       @model.set
-        business : Chaplin.datastore.business.models[0]
+        business : b.id
       @$el.find('.host').trigger("chosen:updated")
     @twPromoTarget =_.find(b.get('promotionTargets'), (item) =>
       return item.accountType is 'TWITTER'
@@ -483,10 +483,11 @@ module.exports = class EventCreateView extends View
     if !_.isEmpty @ops
       async.parallel(@ops,@finalCallback)
     else
-      @twFinished = true
-      @fbEventCreated = true
-      @fbFinished = true
-      @removeForm 
+      @publishEvent 'Event:created', {id: @model.id, message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."} 
+      Chaplin.mediator.publish 'stopWaiting'
+      @publishEvent "closeOthers"
+      
+
     
   callTwitterPromotion:(callback)=>
     data={}
@@ -517,9 +518,9 @@ module.exports = class EventCreateView extends View
       @twFinished = false
       @publishEvent 'notify:publish', "There was a problem creating the social media promotions."
     else
+      @publishEvent 'Event:created', {id: @model.id, message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."} 
       Chaplin.mediator.publish 'stopWaiting'
       @publishEvent "closeOthers"
-      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
 
   address:()=>
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address

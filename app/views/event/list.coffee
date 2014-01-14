@@ -19,6 +19,7 @@ module.exports = class List extends ListView
 
   attach: ->
     super()
+    @subscribeEvent "Event:created", @showEventCreatedMessage if @showEventCreatedMessage
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
     @filter @filterer
@@ -29,11 +30,11 @@ module.exports = class List extends ListView
     else if @params?.success
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'success', @params.success 
+    @subview('messageArea', new MessageArea({container: '.alert-container'})) if not @subview 'messageArea'
     if @timeFilter is 'past' 
       @$el.find('.pastEvents').addClass('btn-info').removeClass('btn-default')
       @$el.find('.futureEvents').addClass('btn-default').removeClass('btn-info')
     else
-      console.log 'future'
       @$el.find('.futureEvents').addClass('btn-info').removeClass('btn-default')
       @$el.find('.pastEvents').addClass('btn-default').removeClass('btn-info')    
   
@@ -60,6 +61,18 @@ module.exports = class List extends ListView
         'host' : Chaplin.datastore.business.first().id
         'location' : Chaplin.datastore.business.first().get('location')          
     @subview('newItem', new EventCreate({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))
+
+  showEventCreatedMessage: (data) =>
+    console.log data
+    if _.isObject data
+      message = ""
+      if data.message
+        message = "#{data.message} You can find your event <a href='##{data.id}'>here</a>."
+      else
+        message = "Your #{@noun} was created. <a href='##{data.id}'>View it</a>"
+      @publishEvent 'message:publish', 'success', message
+    else if _.isString(data)
+      @publishEvent 'message:publish', 'success', "#{data}"
 
   duplicate: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
