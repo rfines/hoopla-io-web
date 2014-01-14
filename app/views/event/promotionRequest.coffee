@@ -4,10 +4,10 @@ PromotionRequest = require 'models/promotionRequest'
 module.exports = class PromotionRequestListItem extends ListItemView
   template: require 'templates/event/promotionRequest'
   noun : "promotionRequest"
-  model: PromotionRequest
   event:undefined
   initialize:(options)=>
     super(options)
+    console.log @model
     @publishEvent 'getSelectedEvent', @getEvent
   getTemplateData:()=>
     td = super()
@@ -35,13 +35,18 @@ module.exports = class PromotionRequestListItem extends ListItemView
         td.isPost = true
         td.buttonText = "View on Twitter"
         td.postUrl = "https://twitter.com/#{td.handle}"
-        twitterTarget = _.filter @model.get('promotionTarget'), (item)=>
-          return item.accountType is 'TWITTER'
+        twitterTarget = undefined
+        if _.isArray @model.get('promotionTarget')?
+          twitterTarget = _.filter @model.get('promotionTarget'), (item)=>
+            return item.accountType is 'TWITTER'
+        else if _.isObject @model.get('promotionTarget')
+          t = @model.get('promotionTarget')
+          if t.accountType is "TWITTER"
+            twitterTarget = t
         if twitterTarget and twitterTarget.profileImageUrl
           td.imageUrl = twitterTarget.profileImageUrl
         else
           td.imageUrl = undefined
-
       else
         pageId =@model.get('pageId') 
         td.postUrl = "https://www.facebook.com/#{pageId}"
@@ -62,13 +67,9 @@ module.exports = class PromotionRequestListItem extends ListItemView
   destroy: (e) =>
     destroyConfirm = confirm("Delete this Social Media Post")
     if destroyConfirm
-      if @event
-        console.log @event
-        @model.set
-          eventId : @event.id
+      m= @model
       @collection.remove(@model)
-      console.log @model
-      @model.destroy()
+      m.destroy()
       @dispose()
   getEvent:(r)=>
     if r 
@@ -76,5 +77,4 @@ module.exports = class PromotionRequestListItem extends ListItemView
       @model.set
         eventId: @event.id
       @model.eventId = @event.id
-      console.log "Model is " , @model
-      console.log "Event is ", @event
+     

@@ -140,7 +140,7 @@ module.exports = class EventEditView extends View
           @$el.find('.scheduled-tweets-badge')[0].innerText = coll.length
           if coll.models.length >0
             @subview 'twitterScheduledTweets', new PromotionRequestsView({
-              container:".scheduled-tweets-list-container"
+              container:"#tweets-scheduleds"
               template: require 'templates/event/promotionRequests'
               postType: "Tweets"
               business:@business
@@ -148,7 +148,6 @@ module.exports = class EventEditView extends View
               event: @model
               collection: @promotionRequests.byType('TWITTER-POST').future(moment())
             })
-            console.log @subview 'twitterScheduledTweets'
             @$el.find('.schedule-tweets-empty-state').hide()
           else
             @$el.find('.schedule-tweets-empty-state').show()
@@ -156,7 +155,7 @@ module.exports = class EventEditView extends View
           coll = @promotionRequests.byType('TWITTER-POST').past(moment())
           @$el.find('.past-tweets-badge')[0].innerText = coll.length
           if coll.models.length >0
-            @subview 'twitterScheduledTweets', new PromotionRequestsView({
+            @subview 'twitterPastTweets', new PromotionRequestsView({
               container:"#tweet-history"
               template: require 'templates/event/promotionRequests'
               postType: "Past Tweets"

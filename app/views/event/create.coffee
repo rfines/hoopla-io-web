@@ -518,19 +518,8 @@ module.exports = class EventCreateView extends View
       @publishEvent 'notify:publish', "There was a problem creating the social media promotions."
     else
       Chaplin.mediator.publish 'stopWaiting'
-      if results.fbEvent
-        @fbEventCreated = true
-      else
-        @fbEventCreated = undefined
-      if results.fbPost
-        @fbFinished = true
-      else
-        @fbFinished = undefined
-      if results.twPost
-        @twFinished = true
-      else
-        @twFinished = undefined
-      @removeForm results
+      @publishEvent "closeOthers"
+      @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
 
   address:()=>
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
@@ -776,52 +765,6 @@ module.exports = class EventCreateView extends View
         item.innerText = "#{addr}"
     else
       el.innerText = "#{addr}"
-
-  removeForm:(results)=>
-    if _.size(@ops) == 3
-      if @twFinished and @twFinished is true and @fbFinished and @fbFinished is true and @fbEventCreated and @fbEventCreated is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-    else if @ops.fbEvent and @ops.fbPost
-      if @fbEventCreated is true and @fbFinished is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-    else if @ops.fbEvent and @ops.twPost
-      if @twFinished is true and @fbEventCreated is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-    else if @ops.fbPost and @ops.twPost 
-      if @fbFinished is true and @twFinished is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-    else if @ops.fbPost
-      if @fbFinished is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-    else if @ops.twPost 
-      if @twFinished is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-    else if @ops.fbEvent 
-      if @fbEventCreated is true
-        @publishEvent "closeOthers"
-        @publishEvent 'notify:publish', "Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."
-      else
-        @publishEvent 'notify:publish', "There was some unexpected problems creating your social media posts. Please try again."
-           
-    @publishEvent 'stopWaiting'
 
   scheduleText: () =>
     out = ""
