@@ -47,11 +47,12 @@ module.exports = class PromotionRequestList extends ListView
       $('.createFbEventBtn').attr('disabled', true)
     td.eventId = @event.id
     td
+
   sendEvent:(cb)=>
     if @event
       cb @event
+
   addModel:(mod)=>
-    console.log mod.get('pushType') , @pushType , @past
     if mod and mod.get('pushType') is @pushType
       if moment(mod.get('promotionTime')).isBefore(moment()) is false and @past is false
         console.log "Adding to future collection for #{@pushType}"
