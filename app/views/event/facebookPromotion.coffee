@@ -156,7 +156,6 @@ module.exports = class FacebookPromotion extends View
       e.preventDefault()
     if not cb
       Chaplin.mediator.publish 'startWaiting'
-
     message = @$el.find('.message').val()
     successMessageAppend ="" 
     if @$el.find('#linkLr').is(':checked')
@@ -164,12 +163,6 @@ module.exports = class FacebookPromotion extends View
     else if @$el.find('#linkCustom').is(':checked')
       link = $('.fbCustomLinkBox').val()
     immediate = $('.fb-immediate-box')
-
-    date = @startDate.getMoment()
-    time = moment(@$el.find('.startTime').timepicker('getTime')).format("hh:mm a")
-    date = moment("#{date.format("MM-DD-YYYY")} #{time}")
-    now = moment().format('X')
-
     page = @subview('facebookPostPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
@@ -208,7 +201,14 @@ module.exports = class FacebookPromotion extends View
           else
             @publishEvent "facebook:postError","An error occurred while saving your Facebook post." 
       }    
-    else if time? > 0 
+    else if @$el.find('.startTime').timepicker('getTime') 
+      date = @startDate.getMoment()
+      t = moment()
+      if @$el.find('.startTime').timepicker('getTime')
+        t = @$el.find('.startTime').timepicker('getTime')
+      time = moment(t).format("hh:mm a")
+      date = moment("#{date.format("MM-DD-YYYY")} #{time}")
+      now = moment().format('X') 
       d= moment(date).toDate().toISOString()
       scheduled= new PromotionRequest
         message: message
