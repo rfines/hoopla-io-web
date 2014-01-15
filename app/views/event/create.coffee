@@ -593,14 +593,14 @@ module.exports = class EventCreateView extends View
         tzOffset : moment().zone()
         schedules: @getSchedules()
         fixedOccurrences :[]
-        description : @$el.find("textarea[name='description']").val()
+        description : @$el.find("textarea[name='description']").val().trim()
     else
       zone = moment(@getFixedOccurrences()?[0].start).zone()
       @model.set
         tzOffset : zone
         fixedOccurrences : @getFixedOccurrences()    
         schedules :[]
-        description : @$el.find("textarea[name='description']").val()
+        description : @$el.find("textarea[name='description']").val().trim()
 
   updateProgress:(newValue)=>
     if newValue
@@ -684,15 +684,16 @@ module.exports = class EventCreateView extends View
         el[0].innerText = "FREE"
   updateDescriptionPreviews:(e)=>
     keyed = @$el.find('.description').val();
+    keyed = "#{keyed}"
     dEl = $(".description_preview")
     if dEl.length > 1
       _.each dEl, (item, index, list)=>
-        item.innerText = keyed
+        item.innerText= keyed.trim().replace(/\u00a0/g, " ")
     else
-      dEl[0].innerText = keyed
+      dEl[0].innerText = keyed.trim().replace(/\u00a0/g, " ")
     data={
       selector:".message"
-      value:keyed
+      value:keyed.trim()
     }
 
     @publishEvent 'updateFacebookPreview', data
@@ -789,3 +790,4 @@ module.exports = class EventCreateView extends View
       else
         out = "#{out}"
     @updateCalendarDateText(undefined,out)
+
