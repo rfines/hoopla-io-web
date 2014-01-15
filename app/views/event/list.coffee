@@ -29,7 +29,8 @@ module.exports = class List extends ListView
       @publishEvent 'message:publish', 'error', @params.error
     else if @params?.success
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
-      @publishEvent 'message:publish', 'success', @params.success 
+      @publishEvent 'message:publish', 'success', @params.success
+    console.log @subview 'messageArea' 
     @subview('messageArea', new MessageArea({container: '.alert-container'})) if not @subview 'messageArea'
     if @timeFilter is 'past' 
       @$el.find('.pastEvents').addClass('btn-info').removeClass('btn-default')
