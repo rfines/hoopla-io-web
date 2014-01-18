@@ -1,20 +1,21 @@
 {{#if isPost}}
 <tbody>
 <tr>
-  <td class="col-md-3 pr-date">
+  <td class="col-md-4 pr-date">
     <div class="row heading">{{#if past}}{{else}}{{/if}}</div>
-    <div class="row"><p>{{formattedTime}}</p></td>
+ <div class="row heading"><strong>Profile:</strong> {{handle}}</div>
+    <div class="row"><strong>Date:</strong> {{formattedTime}}</td>
   {{#if imageUrl}}
   <td class="col-md-2 pr-image-container">
     <img class="pr-image" src="{{imageUrl}}" alt="promotion image" />
   </td>
   {{/if}}
-  <td class="col-md-5  pr-message-container">
-    <div class="row heading">Posted to {{handle}}</div>
+  <td class="col-md-4  pr-message-container">
+   
     <div class="row"><p class="pr-message">{{message}}</p></div>
   </td>
   <td class="controls col-md-2">
-    {{#if past}}<a class="btn btn-default" href="{{{postUrl}}}" target="_blank">{{buttonText}}</a>{{/if}}
+    {{#if past}}<a class="btn" href="{{{postUrl}}}" target="_blank">{{buttonText}}</a>{{/if}}
     {{#if future}}<a class="delete-pr" href="#"><i class="deletePostButton glyphicon glyphicon-remove-circle"></i></a>{{/if}}
   </td>
 </tr>
