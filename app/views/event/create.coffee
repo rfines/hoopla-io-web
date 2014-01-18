@@ -375,7 +375,6 @@ module.exports = class EventCreateView extends View
       else
         el.innerText = moment().calendar()
 
-
   chooseCustomVenue: =>
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       if @$el.find('#map-canvas').length <=0
@@ -463,12 +462,11 @@ module.exports = class EventCreateView extends View
     if !_.isEmpty @ops
       async.parallel(@ops,@finalCallback)
     else
+      @publishEvent "closeOthers"
       @publishEvent 'Event:created', {id: @model.id, message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."} 
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent "closeOthers"
       
-
-    
+      
   callTwitterPromotion:(callback)=>
     data={}
     data.event = @model 
