@@ -40,7 +40,7 @@ module.exports = class CreateFacebookEventView extends View
     td.profileName = @promotionTarget.profileName
     td.eventAddress = @model.get('location').address
     td.defaultLink = @model.get('website') ? @model.get('ticketUrl')
-    
+    console.log @model
     td.dayOfWeek = moment(@model.get("startDate")).format("dddd")
     td.startDate = moment(@model.get('startDate')).format("h:mm a")
     if @model.get('name').length >74

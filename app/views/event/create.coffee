@@ -21,6 +21,7 @@ module.exports = class EventCreateView extends View
   twFinished : undefined
   fbEventCreated : undefined
   ops : undefined
+  hostSelected:false
   initialize: ->
     $('.stepTwoPanel').hide()
     $('.stepThreePanel').hide()
@@ -37,7 +38,7 @@ module.exports = class EventCreateView extends View
     'click .stepFourBack':'showStepThree'
     'change .twitter-checkbox':'toggleTwTab'
     'change .facebook-event-box':'toggleFbEventTab'
-    'change .facebook-checkbox':'toggleFbTab'
+    'change .fb':'toggleFbTab'
     'change .tags':'updateTagPreviews'
     'keyup .website':'updateWebsitePreviews'
     'keyup .ticket':'updateTicketPreviews'
@@ -108,20 +109,9 @@ module.exports = class EventCreateView extends View
 
   setBusinessPreview:(name, address)=>
     if name and name.length >0
-      el =@$el.find('.venue_preview')
-      if el.length >1
-        _.each el, (item, index, list)=>
-            item.innerText = "#{name}"
-      else
-        if name.length >0
-          el.innerText = "#{name}"
-    if not @model.has('host')
-      mel = @$el.find(".map_preview")     
-      if mel.length > 1
-        _.each mel, (item, index, list)=>
-          item.innerText = "#{address}"
-      else
-        mel.innerText = "#{address}"
+      $('.venue_preview').text("#{name}")
+    if not @hostSelected
+      @updateAddressText("#{address}")
       @$el.find('.host').trigger("chosen:updated")
 
   updateImagePreviews:(image, url)=>
@@ -163,27 +153,17 @@ module.exports = class EventCreateView extends View
       @$el.find('.connect-help').show()
     else
       @$el.find('.connect-help').hide()
-    if not @model.has('host')
+    if not @hostSelected
       @model.set 
         'host': params.selected
         'location' : b?.get('location')
     @$el.find('.host').trigger("chosen:updated")
 
   changeHost:  (evt, params) =>
-    el =@$el.find('.venue_preview')
+    @hostSelected = true
     b = Chaplin.datastore.venue.get(params.selected)
-    if el.length >1
-      _.each el, (item, index, list)=>
-          item.innerText = "#{b.get('name')}"
-    else
-      if b.get('name').length >0
-        el.innerText = "#{b.get('name')}"
-    el = @$el.find('.map_preview')
-    if el.length > 1
-      _.each el, (item, index, list)=>
-        item.innerText = "#{b?.get('location')?.address}"
-    else
-      el.innerText = "#{b?.get('location')?.address}"
+    $('.venue_preview').text("#{b.get('name')}") 
+    @updateAddressText("#{b?.get('location')?.address}")
     @model.set 
       'host' : params.selected
       'location' : Chaplin.datastore.venue.get(params.selected).get('location')
@@ -211,7 +191,7 @@ module.exports = class EventCreateView extends View
   
   toggleFbTab:(e)=>
     e.preventDefault() if e
-    if @$el.find('.facebook-checkbox').is(':checked')
+    if @$el.find('.fb').is(':checked')
       @$el.find('.fb_tab_a, .facebook_tab').removeClass('disabled')
       @initFacebookPromotion()
     else
@@ -475,7 +455,7 @@ module.exports = class EventCreateView extends View
     if @fbPromoTarget
       if @$el.find('.facebook-event-box').is(':checked')
         @ops.fbEvent =  @callFacebookEventPromotion
-      if @$el.find('.facebook-checkbox').is(':checked')
+      if @$el.find('.fb').is(':checked')
         @ops.fbPost =  @callFacebookPromotion
     if @twPromoTarget
       if @$el.find('.twitter-checkbox').is(':checked')
@@ -518,9 +498,10 @@ module.exports = class EventCreateView extends View
       @twFinished = false
       @publishEvent 'notify:publish', "There was a problem creating the social media promotions."
     else
+      @publishEvent "closeOthers"
       @publishEvent 'Event:created', {id: @model.id, message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."} 
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent "closeOthers"
+      
 
   address:()=>
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
@@ -610,18 +591,8 @@ module.exports = class EventCreateView extends View
   
   updateNamePreviewText:(e)=>
     keyed = @$el.find('.name').val()
-    el = $(".previewName")
-    if el.length >1
-      _.each el, (item, index, list)=>
-        if(keyed.length >0)
-          item.innerText = keyed
-        else
-          item.innerText = "Event name"
-    else
-      if keyed.length >0
-        el[0].innerText = keyed
-      else
-        el[0].innerText = "Event name"
+    $(".previewName").text(keyed)
+    
   updateCalendarDateText:(e, text)=>
     s = @$el.find('.startDate').val()
     if not s
@@ -633,67 +604,38 @@ module.exports = class EventCreateView extends View
       startTime = moment(s).startOf('day').add('seconds',time)
     if startTime
       @start_date = startTime
-      el = $(".date_preview")
-      if el.length >1
-        _.each el, (item, index, list)=>
-          if startTime and not text
-            item.innerText = startTime.calendar()
-          else if text
-            item.innerText = text
-          else
-            item.innerText = moment().calendar()
+      if text
+        $(".date_preview").text(text)
+      else if startTime and not text
+        $('.date_preview').text(startTime.calendar())
       else
-        if startTime and not text
-          el[0].innerText = startTime.calendar()
-        else if text
-          el[0].innerText = text
-        else
-          el[0].innerText = moment().calendar()
+        $('.date_preview').text(moment().calendar())
+      
 
   updateTimePreviewText:(e)=>
     s = @$el.find('.startDate').val()
     if not s
       s = moment()
     endTime = moment(s).startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))    
-    endel = $(".end_time_preview")
-    if endel.length >1
-      _.each endel, (item, index, list)=>
-        if endTime
-          item.innerText = endTime.format('h:mm a')
-        else
-          item.innerText = moment().format('h:mm a')
+    if endTime
+      $(".end_time_preview").text(endTime.format('h:mm a'))
     else
-      if endTime
-        endel[0].innerText =endTime.format('h:mm a')
-      else
-        endel[0].innerText = moment().format('h:mm a')
+      $(".end_time_preview").text(moment().format('h:mm a'))
 
   updateCostPreviewText:(e)=>
     keyed = "$#{@$el.find('.cost').val()}"
-    el = $(".cost_preview")
-    if el.length >1
-      _.each el, (item, index, list)=>
-        if(keyed.length >0)
-          item.innerText = keyed
-        else
-          item.innerText = "FREE"
+    if(keyed.length >0 and keyed is not '$')
+      keyed = keyed
     else
-      if keyed.length >0
-        el[0].innerText = keyed
-      else
-        el[0].innerText = "FREE"
+      keyed = "FREE"
+    $(".cost_preview").text(keyed)
+        
   updateDescriptionPreviews:(e)=>
     keyed = @$el.find('.description').val();
-    keyed = "#{keyed}"
-    dEl = $(".description_preview")
-    if dEl.length > 1
-      _.each dEl, (item, index, list)=>
-        item.innerText= keyed.trim().replace(/\u00a0/g, " ")
-    else
-      dEl[0].innerText = keyed.trim().replace(/\u00a0/g, " ")
+    $(".description_preview").html(keyed)      
     data={
       selector:".message"
-      value:keyed.trim()
+      value:keyed
     }
 
     @publishEvent 'updateFacebookPreview', data
@@ -701,29 +643,28 @@ module.exports = class EventCreateView extends View
   updateWebsitePreviews:(e)=>
     e.preventDefault() if e
     keyed = $('.website').val()
-    dEl = $(".website_preview")
-    if dEl.length > 1
-      _.each dEl, (item, index, list)=>
-        item.innerText = keyed
-    else
-      dEl[0].innerText = keyed
-    data = {
-      selector:'.link-input'
-      value: keyed
+    if keyed.length >0
+      if keyed.length >= 4 and  keyed.indexOf('http') is -1
+        keyed = "http://#{keyed}"
+        $('.website').val(keyed)
+      $(".website_preview").text(keyed)
+      data = {
+        selector:'.link-input'
+        value: keyed
 
-    }
-    @publishEvent 'updateFacebookPreview', data
+      }
+      @publishEvent 'updateFacebookPreview', data
 
   updateTicketPreviews:(e)=>
     e.preventDefault() if e
     keyed = $('.ticket').val()
-    dEl = $(".ticket_preview")
-    if dEl.length > 1
-      _.each dEl, (item, index, list)=>
-        item.innerText = keyed
-    else
-      dEl[0].innerText = keyed
-
+    if keyed.length >0 
+      if keyed.length >=4 and  keyed.indexOf('http') is -1
+        keyed = "http://#{keyed}"
+        $('.ticket').val(keyed)
+      if keyed != 'http://'
+        $(".ticket_preview").text(keyed)
+    
   updateTagPreviews:(e)=>
     e.preventDefault() if e
     tagsText = []
@@ -733,41 +674,25 @@ module.exports = class EventCreateView extends View
         return item.get('slug') == ele
       if text
         tagsText.push text.get('text')
-    dEl = $(".tags_preview")
-    if dEl.length > 1
-      _.each dEl, (item, index, list)=>
-        item.innerText = tagsText.join(', ')
-    else
-      dEl[0].innerText = tagsText.join(', ')
+    $(".tags_preview").text(tagsText.join(', '))
+    
 
   updatePhonePreviews:(e)=>
     e.preventDefault() if e
     keyed = @$el.find('.phone').val()
-    dEl = $(".phone_preview")
-    if dEl.length > 1
-      _.each dEl, (item, index, list)=>
-        item.innerText = keyed
-    else
-      dEl[0].innerText = keyed
-
+    keyed = @formatPhoneNumber(keyed)
+    $(".phone_preview").text(keyed)
+    
   updateContactPreviews:(e)=>
     e.preventDefault() if e
     keyed = @$el.find('.contact').val()
-    dEl = $(".contact_preview")
-    if dEl.length > 1
-      _.each dEl, (item, index, list)=>
-        item.innerText = keyed
-    else
-      dEl[0].innerText = keyed
+    $(".contact_preview").text(keyed)
+  
 
   updateAddressText:(addr)=>
-    el = $('.map_preview')
-    if el.length > 1
-      _.each el, (item, index, list)=>
-        item.innerText = "#{addr}"
-    else
-      el.innerText = "#{addr}"
-
+    console.log addr
+    $('.map_preview').text(addr)
+  
   scheduleText: () =>
     out = ""
     dayOrder =  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -791,3 +716,8 @@ module.exports = class EventCreateView extends View
         out = "#{out}"
     @updateCalendarDateText(undefined,out)
 
+  formatPhoneNumber:(text)=>
+    if text.length is 10
+      return text.replace(/(\d{3})(\d{3})(\d{4})/, '($1)-$2-$3');
+    else if text.length is 11
+      return text.replace(/(\d)(\d{3})(\d{3})(\d{4})/, '$1-$2-$3-$4');
