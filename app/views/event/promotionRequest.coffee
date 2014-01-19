@@ -51,7 +51,10 @@ module.exports = class PromotionRequestListItem extends ListItemView
         td.postUrl = "https://www.facebook.com/#{pageId}"
       td.isPost = true
     if @model.get('promotionTime') and moment(@model.get('promotionTime')).isBefore(moment())
-      td.formattedTime = moment(@model.get('status').completedDate).calendar()
+      if @model.has('status') and @model.get('status')?.completedDate
+        td.formattedTime = moment(@model.get('status')?.completedDate).calendar()
+      else
+        td.formattedTime = moment(@model.get('promotionTime')).calendar()
       td.past = true
       td.future = false
     else
