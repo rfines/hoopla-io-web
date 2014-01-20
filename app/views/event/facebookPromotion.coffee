@@ -166,12 +166,14 @@ module.exports = class FacebookPromotion extends View
     link = "http://www.localruckus.com/event/#{@event.id}"
     if @$el.find('.fb-cusLink-box').is(':checked')
       link = $('.fbCustomLinkBox').val()
+      if link.indexOf('http') is -1
+        link = "http://#{link}"
     page = @subview('facebookPostPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
     )
     @pageAccessToken = @pageAccessToken.access_token
-    if $('.fb-immediate-box').is(':checked')
+    if @$el.find('.fb-immediate-box').is(':checked')
       console.log "Saving immediate facebook post."
       pr = new PromotionRequest
         message: message
@@ -207,7 +209,7 @@ module.exports = class FacebookPromotion extends View
           else
             @publishEvent "facebook:postError","An error occurred while saving your Facebook post." 
       }    
-    else if $('.fb-scheduled-box').is(':checked')
+    else if @$el.find('.fb-scheduled-box').is(':checked')
       console.log "Scheduling facebook post" 
       date = @startDate.getMoment()
       t = moment()

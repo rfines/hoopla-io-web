@@ -73,7 +73,8 @@
 
                 <div class="col-md-12 col-sm-6">
 				<label for="host">Venue:</label>  
-               <div class="choose_venue"> 
+              <div class="choose_venue">
+                <div class="address-finder">
                   <select type="text/input" name="host" class="form-control host select-chosen">
                     {{#each businesses}}
                       <option value="{{id}}">{{attributes.name}}</option>
@@ -82,7 +83,7 @@
                       <option value="{{id}}">{{attributes.name}}</option>
                     {{/each}}                
                   </select>
-
+                  </div>
                   <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="left" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
                 </div>
 
