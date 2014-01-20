@@ -19,7 +19,7 @@ module.exports = class FacebookPromotion extends View
   dashboard : false
   defaultLink:""
   edit : false
-
+  nextOccurrence:undefined
   initialize:(options) ->
     super(options)
     if options.template
@@ -40,8 +40,6 @@ module.exports = class FacebookPromotion extends View
       @location = Chaplin.datastore.business.get(@event.get('host')?)?.get('location')?.address
     @facebookImgUrl = @fbPromoTarget?.profileImageUrl
     @facebookProfileName = @fbPromoTarget?.profileName
-    @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
-    
     @model = new PromotionRequest()
     
   getTemplateData: ->
@@ -51,6 +49,7 @@ module.exports = class FacebookPromotion extends View
       next = @event.nextOccurrence()
     else
       next = @event.get('startDate')
+    @nextOccurrence = moment(next)
     td.dayOfWeek = moment(next).format("dddd")
     td.startDate = moment(next).format("h:mm a")
     td.fbPages= @fbPages
@@ -92,6 +91,8 @@ module.exports = class FacebookPromotion extends View
     @getFacebookPages(@fbPromoTarget) if @fbPromoTarget
     @subscribeEvent "updateFacebookPreview",@updatePreview
     @subscribeEvent "event:promoteFacebook", @promoteFb
+    @subscribeEvent "facebookPageChanged",@setImage
+    @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
     l = ""
     if @event.get('website')
       l = @event.get("website")
@@ -151,39 +152,44 @@ module.exports = class FacebookPromotion extends View
       @$el.find('.startTime').timepicker('setTime', defaultDate.toDate());
       @$el.find('.promoDate').timepicker('setTime', defaultDate.toDate());
 
-  saveFacebook:(e, cb) ->
+  saveFacebook:(e, cb) =>
     if e
       e.preventDefault()
     if not cb
       Chaplin.mediator.publish 'startWaiting'
     message = @$el.find('.message').val()
-    successMessageAppend ="" 
-    if @$el.find('#linkLr').is(':checked')
-      link = "http://www.localruckus.com/event/#{@event.id}"
-    else if @$el.find('#linkCustom').is(':checked')
+    div = $("<div></div>")
+    plainText = div.html(@event.get('description')).text()
+    caption = "Date: #{@nextOccurrence.format('MMM DD, YYYY')} \r\n Time: #{@nextOccurrence.format('h:mm A')} at #{@event.get('location').address}."
+    console.log plainText
+    med = @event.get('media')?[0]?._id if @event.has('media') 
+    link = "http://www.localruckus.com/event/#{@event.id}"
+    if @$el.find('.fb-cusLink-box').is(':checked')
       link = $('.fbCustomLinkBox').val()
-    immediate = $('.fb-immediate-box')
     page = @subview('facebookPostPages').getSelectedPage()
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
     )
     @pageAccessToken = @pageAccessToken.access_token
-    if immediate.is(':checked')
+    if $('.fb-immediate-box').is(':checked')
+      console.log "Saving immediate facebook post."
       pr = new PromotionRequest
         message: message
         link:link
-        caption:@stripHtml(@event.get('description'))
+        caption:caption
+        description:plainText
         title: @event.get('name')
         pageId: page
         pageAccessToken:@pageAccessToken
         promotionTime: moment().toDate().toISOString()
-        media: @event.get('media')?[0]?._id
+        media: med
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
       pr.eventId = @event.id
-      console.log "saving facebook post"
+      console.log pr
       pr.save {}, {
         success:(item)=>
+          @publishEvent "notify:publish","Well done! Your Facebook post will be live shortly."
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbFinished = true
@@ -201,7 +207,8 @@ module.exports = class FacebookPromotion extends View
           else
             @publishEvent "facebook:postError","An error occurred while saving your Facebook post." 
       }    
-    else if @$el.find('.startTime').timepicker('getTime') 
+    else if $('.fb-scheduled-box').is(':checked')
+      console.log "Scheduling facebook post" 
       date = @startDate.getMoment()
       t = moment()
       if @$el.find('.startTime').timepicker('getTime')
@@ -213,19 +220,21 @@ module.exports = class FacebookPromotion extends View
       scheduled= new PromotionRequest
         message: message
         link:link
-        caption:@stripHtml(@event.get('description'))
+        caption:caption
+        description:plainText
         title: @event.get('name')
-        media: @event.get('media')?[0]?._id
+        media: med
         promotionTarget: @fbPromoTarget._id
         pushType: 'FACEBOOK-POST'
         pageId:page
         pageAccessToken: @pageAccessToken
         promotionTime: d
       scheduled.eventId = @event.id
-      console.log "saving scheduled facebook post"
+      console.log scheduled
       scheduled.save {}, {
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent "notify:publish","Well done! Your Facebook post will go live at #{moment(date).calendar()}."
           resp = {}
           resp.fbFinished = true
           if cb
@@ -245,6 +254,30 @@ module.exports = class FacebookPromotion extends View
     else 
       Chaplin.mediator.publish 'stopWaiting'
       @publishEvent 'notify:publish', {type:'error', message: "When do you want the Facebook magic to happen? Please tell us in the Facebook post tab."}
+  setPreviews:(page)=>
+    if @$el.is(':visible')
+      @setImage({page:page})
+  setImage: (data) ->
+    x=undefined
+    if data and data.page
+      x= data.page
+    else
+      x = _.find @fbPages, (item) =>
+        item.id is @subview("facebookPostPages").getSelectedPage()
+    if not x
+      x = @fbPages?[0]
+    $.ajax
+      url: "https://graph.facebook.com/#{x.id}/?fields=cover"
+      type: 'GET'
+      success: (response, body) =>
+        if response?.cover?.source
+          @$el.find('.facebook-post-preview-img').attr('src', response?.cover?.source)
+        else
+          @$el.find('.facebook-post-preview-img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+        @$el.find('.facebook-post-preview-name').text(x.name)
+      error: =>
+        @$el.find('.facebook-post-preview-name').text(x.name)
+        @$el.find('.facebook-post-preview-img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
 
   getFacebookPages:(promoTarget)=>
     if promoTarget.accessToken
@@ -261,6 +294,7 @@ module.exports = class FacebookPromotion extends View
           Chaplin.datastore.facebookPages = []
           Chaplin.datastore.facebookPages = @fbPages
           @publishEvent "facebook:pagesReady"
+          @setImage({page:_.first(@fbPages)})
           options=
             business : @business
             event: @event

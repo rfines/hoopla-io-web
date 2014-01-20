@@ -120,18 +120,13 @@ module.exports = class CreatePromotionReqeust extends View
     now = moment().format('X')
     date = moment("#{date.format("MM-DD-YYYY")} #{time}")
     med = undefined
-    link=""
-    if @$el.find('#linkLr').is(':checked')
-      link = "http://www.localruckus.com/event/#{@event.id}"
-    else if @$el.find('#linkCustom').is(':checked')
+    link = "http://www.localruckus.com/event/#{@event.id}"
+    if @$el.find('.tw-cusLink-box').is(':checked')
       link = @$el.find('.customLinkBox').val() 
-    if @$el.find('.tw-image-box').is(':checked')
-      med = @event.get('media')?[0]?._id
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
         promotionTime: moment().toDate().toISOString()
-        media: med
         link:link
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'
@@ -156,11 +151,10 @@ module.exports = class CreatePromotionReqeust extends View
           else
             @publishEvent "twitter:tweetFailed", error
       }
-    else if time? > 0 
+    else if @$el.find('.tw-scheduled').is(':checked')
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
-        media: med
         link:link
         promotionTarget: @twPromoTarget._id
         pushType: 'TWITTER-POST'

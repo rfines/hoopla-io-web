@@ -359,22 +359,28 @@ module.exports = class EventEditView extends View
   chooseCustomVenue: =>
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       if @$el.find('#map-canvas').length <=0
+        @$el.find('#map-canvas').show()
         @$el.find('.popover-content').html("<div class='addressPopover'></div>")
+        console.log  @$el.find('.popover-content')
         @subview 'addressPopover', new AddressView
           container : @$el.find('.addressPopover')
           model : @model
           template: require('templates/addressPopover')
-    @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
+        console.log @subview 'addressPopover'
+        @subview('addressPopover').mapLocation(undefined)
+    @$el.find('.addressButton').popover({placement: 'right',selector:".choose_venue", content : "<div class='addressPopover'>Address Finder</div>", html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
       if @$el.find('.popover-content').is(':visible')
         @$el.find('.addressButton').popover('hide')
-        if @subview('addressPopover').location?.address and not @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()
+        if @subview('addressPopover').location?.address and @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()
           @$el.find('.choose_venue').hide()
           @$el.find('.custom_venue').show()
           @$el.find('.hostAddress').val(@subview('addressPopover').location?.address)
+          @model.set
+            location: @subview('addressPopover').location
         else
-          @$el.find('.custom_venue').hide()
+          @$el.find('.address_button').hide()
           @$el.find('.choose_venue').show()
     @delegate 'click', '.switch_venue', ->
       @$el.find('.custom_venue').hide()

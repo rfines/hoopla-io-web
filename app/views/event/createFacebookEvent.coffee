@@ -25,6 +25,7 @@ module.exports = class CreateFacebookEventView extends View
         @dashboard = true
       else
         @dashboard = false
+
       @business = options.options.business
       @promotionTarget = options.options.promotionTarget
 
@@ -32,7 +33,6 @@ module.exports = class CreateFacebookEventView extends View
   getTemplateData: ()->
     td = super()
     td.showFormControls = @dashboard
-    td.profileImgUrl = @promotionTarget.profileImageUrl
     if @model.get('media')?.length > 0
       td.coverPhoto = @model.get('media')[0].url
     else
@@ -41,8 +41,15 @@ module.exports = class CreateFacebookEventView extends View
     td.eventAddress = @model.get('location').address
     td.defaultLink = @model.get('website') ? @model.get('ticketUrl')
     console.log @model
-    td.dayOfWeek = moment(@model.get("startDate")).format("dddd")
-    td.startDate = moment(@model.get('startDate')).format("h:mm a")
+    if @model.has('nextOccurrence')
+      td.dayOfWeek = moment(@model.get('nextOccurrence').start).format('dddd')
+      td.time = moment(@model.get('nextOccurrence').start).format("h:mm a")
+    else if @model.getStartDate()
+      td.dayOfWeek  = moment(@model.getStartDate()).format('dddd')
+      td.time = moment(@model.getStartDate()).format("h:mm a")
+    else
+      td.dayOfWeek = moment(@model.get("startDate")).format("dddd")
+      td.time = moment(@model.get('startTime')).format("h:mm a")
     if @model.get('name').length >74
       td.eventTitle = @textCutter(70,@model.get('name'))
     else
@@ -54,7 +61,9 @@ module.exports = class CreateFacebookEventView extends View
     @subscribeEvent "tab:visible", @initMap
     @subscribeEvent "facebook:publishEvent",@postEvent
     @getFacebookPages(@promotionTarget)
-
+    @setDescription()
+  setDescription:()=>
+    $('.event-description').html(@model.get('description'))
   getFacebookPages:(promoTarget)=>
     if Chaplin.datastore.facebookPages.length > 0
       @fbPages = Chaplin.datastore.facebookPages
@@ -84,22 +93,6 @@ module.exports = class CreateFacebookEventView extends View
         error:(err)=>
           return null
 
-  setImage: (data) ->
-    x = _.find @fbPages, (item) =>
-      item.id is @subview("facebookEventPages").getSelectedPage()
-    if not x
-      x = @fbPages?[0]
-    $.ajax
-      url: "https://graph.facebook.com/#{x.id}/?fields=cover"
-      type: 'GET'
-      success: (response, body) =>
-        if response?.cover?.source
-          @$el.find('.facebook-cover-image').attr('src', response?.cover?.source)
-        else
-          @$el.find('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
-      error: =>
-        @$el.find('.facebook-cover-image').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
-
   textCutter : (i, text) ->
     short = text.substr(0, i)
     return short.replace(/\s+\S*$/, "")  if /^\S/.test(text.substr(i))
@@ -117,7 +110,7 @@ module.exports = class CreateFacebookEventView extends View
     if @pageAccessToken
       at = @pageAccessToken
     date = moment().toDate().toISOString()
-    link = undefined
+    link = "http://localruckus.com/events/#{@model.id}"
     if @model.get('website')?.length >0
       link = @model.get('website')
     else if @model.get('ticketUrl')?.length >0
@@ -144,6 +137,8 @@ module.exports = class CreateFacebookEventView extends View
         @$el.find('.createFbEventButton').attr('disabled',true)
         @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
+        @$el.find('.createFbEventBtn').addClass('disabled')
+        @$el.find('.createFbEventBtn').attr('disabled', true)
       error: (mod, xhr, options)->
         @publishEvent "facebook:eventFailed", mod
         Chaplin.mediator.publish 'stopWaiting'

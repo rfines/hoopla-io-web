@@ -11,10 +11,10 @@ module.exports = class FacebookPagesView extends View
   facebookProfileName : undefined
   fbPromoTarget : {}
   fbPages : []
+  pageId:undefined
 
   initialize:(options) ->
     super(options)
-    console.log options
     @fbPages = options.options.pages
     @pageId = _.first(@fbPages).id
   attach : ->
@@ -29,6 +29,9 @@ module.exports = class FacebookPagesView extends View
 
   setSelectedPage:(e)=>
     @pageId = $('.pageSelection').val()
+    p= _.find @fbPages, (item) =>
+      item.id is @pageId
+    @publishEvent "facebookPageChanged", p
 
   getSelectedPage:=>
     @pageId

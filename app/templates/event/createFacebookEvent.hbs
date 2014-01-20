@@ -1,7 +1,14 @@
 
   <div class="col-sm-12 col-lg-12">
+    <div class=" row event_published" style="display:none;">
+      <div class="col-md-12 alert alert-success">
+        <p>Customize the Facebook Event page using your Facebook admin account on <a href="http://www.facebook.com">Facebook.com</a></p>
+      </div>
+    </div
   <div class="actions pull-right">
+  {{#if showFormControls}}
   <button type="button" class="btn btn-success-sm createFbEventBtn">Create a Facebook Event page</button>
+  {{/if}}
 </div>
 </div>
 
@@ -13,7 +20,7 @@
  <img src="{{coverPhoto}}" class="facebook-cover-image img-responsive" alt="facebook cover image" />
 </div>
 <div class="col-md-9 col-xs-9 col-sm-9 post-container">
-  <div class="event-times"><span class="event-day"><i class="glyphicon glyphicon-calendar"></i>{{dayOfWeek}}</span><span class="event-time"><i class="glyphicon glyphicon-time"></i>{{startDate}}</span></div>
+  <div class="event-times"><span class="event-day"><i class="glyphicon glyphicon-calendar"></i>{{dayOfWeek}}</span><span class="event-time"><i class="glyphicon glyphicon-time"></i>{{time}}</span></div>
   <div class="event-description"><span><i class="icon-align-left"></i>{{description}}</span></div>
   <div class="event-map google-maps" id="map"></div>
 </div>

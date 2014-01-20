@@ -12,7 +12,9 @@ module.exports = class AddressView extends View
 
   attach: =>
     super()
+    console.log "attaching address subview"
     if @model.has 'location'
+      console.log "model has a location of course"
       @$el.find('.address').val(@model.get('location').address)
       @showGeo(@model.get('location'))
     else
@@ -32,7 +34,7 @@ module.exports = class AddressView extends View
             zoom: 16
             center: results[0].geometry.location
             mapTypeId: google.maps.MapTypeId.ROADMAP
-          map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);       
+          map = new google.maps.Map($('#map-canvas'), mapOptions);       
           marker = new google.maps.Marker(
             map: map
             position: results[0].geometry.location
@@ -46,23 +48,28 @@ module.exports = class AddressView extends View
           @location.neighborhood = n if n
 
   showGeo: (location) =>
+    console.log "showing geo"
     p = new google.maps.LatLng(location.geo.coordinates[1], location.geo.coordinates[0])
-    if not @$el.find('#map-canvas').is(':visible')
+    console.log @$el.find('#map-canvas')
+    if @$el.find('#map-canvas') and not @$el.find('#map-canvas').is(':visible')
       @$el.find('#map-canvas').show()
+    console.log "creating map options"
     mapOptions =
       zoom: 16
       center: p
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    console.log mapOptions
+    map = new google.maps.Map($('#map-canvas'), mapOptions);
+    console.log map
     map.setCenter(p)
     marker = new google.maps.Marker(
       map: map
       position: p
     )
+    console.log "resizing map"
     google.maps.event.trigger(map, 'resize')
-    @location = location
-
-
+    console.log "resized map"
+    @location = location  
 
   getNeighborhood: (results) ->
     ac = results[0].address_components

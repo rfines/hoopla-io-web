@@ -11,8 +11,10 @@ module.exports = class PromotionRequestListItem extends ListItemView
   getTemplateData:()=>
     td = super()
     td.buttonText = "View on Facebook"
-    if @model.get('media')?.length >0
+    if @model.get('media')?.length >0 and @model.get('media')?[0].url
       td.imageUrl = @model.get('media')[0].url
+    else if @model.get('media')?.length > 0  and _.isString(@model.get('media')[0])
+      td.imageUrl = Chaplin.datastore.media.get(@model.get('media')[0]).get('url')
     else
       td.imageUrl = "http://placehold.it/100x100"
     if @model.attributes.pageId is @model.get("promotionTarget")?.profileId
@@ -27,7 +29,7 @@ module.exports = class PromotionRequestListItem extends ListItemView
           td.handle = @model.get("promotionTarget")?.profileName
     if @model.get('pushType') is 'FACEBOOK-EVENT'
       td.isPost = false
-      postId = @model.get('status').postId 
+      postId = @model.get('status')?.postId 
       td.postUrl = "https://www.facebook.com/events/#{postId}"
     else
       if@model.get('pushType') is 'TWITTER-POST'
@@ -50,17 +52,30 @@ module.exports = class PromotionRequestListItem extends ListItemView
         pageId =@model.get('pageId') 
         td.postUrl = "https://www.facebook.com/#{pageId}"
       td.isPost = true
-    if @model.get('promotionTime') and moment(@model.get('promotionTime')).isBefore(moment())
-      if @model.has('status') and @model.get('status')?.completedDate
+    if @model.has('status')
+      if @model.get('status').code is 'COMPLETED'
         td.formattedTime = moment(@model.get('status')?.completedDate).calendar()
-      else
+      else if @model.get('status').code is 'FAILED'
         td.formattedTime = moment(@model.get('promotionTime')).calendar()
-      td.past = true
-      td.future = false
-    else
-      td.formattedTime = moment(@model.get('promotionTime')).calendar()
-      td.past = false
-      td.future = true
+        error = @model.get('status').lastError
+        if _.isString error
+          try
+            error = JSON.parse(error)
+            td.lastError = error.message
+          catch
+            td.lastError = error
+        else if _.isObject error
+          td.lastError = error.message
+
+      else if @model.get('status').code is 'WAITING'
+        if @model.get('promotionTime') and moment(@model.get('promotionTime')).isBefore(moment())
+          td.formattedTime = moment(@model.get('promotionTime')).calendar()
+          td.past = true
+          td.future = false
+        else
+          td.formattedTime = moment(@model.get('promotionTime')).calendar()
+          td.past = false
+          td.future = true
     td
   attach:()=>
     super()
