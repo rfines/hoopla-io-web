@@ -383,6 +383,7 @@ module.exports = class EventCreateView extends View
           container : @$el.find('.addressPopover')
           model : @model
           template: require('templates/addressPopover')
+    
     @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
@@ -622,7 +623,7 @@ module.exports = class EventCreateView extends View
 
   updateCostPreviewText:(e)=>
     keyed = "$#{@$el.find('.cost').val()}"
-    if(keyed.length >0 and keyed is not '$')
+    if(keyed.length >0 and keyed != '$')
       keyed = keyed
     else
       keyed = "FREE"
@@ -688,7 +689,6 @@ module.exports = class EventCreateView extends View
   
 
   updateAddressText:(addr)=>
-    console.log addr
     $('.map_preview').text(addr)
   
   scheduleText: () =>
