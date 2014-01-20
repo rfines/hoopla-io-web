@@ -53,6 +53,11 @@ module.exports = class PromotionRequestList extends ListView
       cb @event
 
   addModel:(mod)=>
+    console.log "trying to find correct collection"
+    console.log mod.get('pushType')
+    console.log @pushType
+    console.log moment(mod.get('promotionTime')).isBefore(moment())
+    console.log @past
     if mod and mod.get('pushType') is @pushType
       if moment(mod.get('promotionTime')).isBefore(moment()) is false and @past is false
         console.log "Adding to future collection for #{@pushType}"

@@ -52,8 +52,8 @@ module.exports = class EventEditView extends View
     @subscribeEvent 'FACEBOOK-POST:false', @updateFutureFbTabs
     @subscribeEvent 'FACEBOOK-POST:true', @updatePastFbTabs
     @subscribeEvent 'FACEBOOK-EVENT:false', @updateFbEventView
-    @subscribeEvent 'TWITTER-POST:true', @updateFutureTwTabs
-    @subscribeEvent 'TWITTER-POST:false', @updatePastTwTabs
+    @subscribeEvent 'TWITTER-POST:false', @updateFutureTwTabs
+    @subscribeEvent 'TWITTER-POST:true', @updatePastTwTabs
     @initSchedule()
     $('.host').trigger("chosen:updated")
 
@@ -368,24 +368,30 @@ module.exports = class EventEditView extends View
           template: require('templates/addressPopover')
         console.log @subview 'addressPopover'
         @subview('addressPopover').mapLocation(undefined)
-    @$el.find('.addressButton').popover({placement: 'right',selector:".choose_venue", content : "<div class='addressPopover'>Address Finder</div>", html: true}).popover('show')
+    @$el.find('.addressButton').popover({placement: 'right',selector:"div.choose_venue", content : "<div class='addressPopover'>Address Finder</div>", html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
       if @$el.find('.popover-content').is(':visible')
         @$el.find('.addressButton').popover('hide')
         if @subview('addressPopover').location?.address and @subview('addressPopover').location?.address.toString()!=@model.get('location')?.address.toString()
-          @$el.find('.choose_venue').hide()
+          $('.choose_venue').hide()
           @$el.find('.custom_venue').show()
+          @$el.find('.address-finder').hide()
           @$el.find('.hostAddress').val(@subview('addressPopover').location?.address)
           @model.set
             location: @subview('addressPopover').location
+          @$el.find('.addressButton').hide()
         else
-          @$el.find('.address_button').hide()
-          @$el.find('.choose_venue').show()
+          @$el.find('.address-finder').show()
+          @$el.find('.addressButton').hide()
+          @$el.find('.chosen-container').show()
+          $('.choose_venue').show()
     @delegate 'click', '.switch_venue', ->
       @$el.find('.custom_venue').hide()
+      @$el.find('.addressButton').show()
       @$el.find('.choose_venue').show()
       @$el.find('.hostAddress').val('')
+      @$el.find('.address-finder').show()
         
 
   updateModel: =>
@@ -450,7 +456,7 @@ module.exports = class EventEditView extends View
     @publishEvent 'stopWaiting'
     if $('.promote-checkbox').is(':checked')
       if @isNew
-        tracking = {"email" : Chaplin.datastore.user.get('email')}
+        traking = {"email" : Chaplin.datastore.user.get('email')}
         tracking["#{@noun}-name"] = @model.get('name')
         @publishEvent 'trackEvent', "create-#{@noun}", tracking      
         @collection.add @model

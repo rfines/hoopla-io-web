@@ -8,6 +8,7 @@ module.exports = class PromotionRequestListItem extends ListItemView
   initialize:(options)=>
     super(options)
     @publishEvent 'getSelectedEvent', @getEvent
+    
   getTemplateData:()=>
     td = super()
     td.buttonText = "View on Facebook"

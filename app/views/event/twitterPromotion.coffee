@@ -123,6 +123,8 @@ module.exports = class CreatePromotionReqeust extends View
     link = "http://www.localruckus.com/event/#{@event.id}"
     if @$el.find('.tw-cusLink-box').is(':checked')
       link = @$el.find('.customLinkBox').val() 
+      if link.indexOf('http') is -1
+        link = "http://#{link}"
     if immediate.is(':checked')
       pr = new PromotionRequest
         message: message
@@ -151,7 +153,7 @@ module.exports = class CreatePromotionReqeust extends View
           else
             @publishEvent "twitter:tweetFailed", error
       }
-    else if @$el.find('.tw-scheduled').is(':checked')
+    else if @$el.find('.tw-scheduled-box').is(':checked')
       scheduled= new PromotionRequest
         message: message
         promotionTime: moment(date).toDate().toISOString()
