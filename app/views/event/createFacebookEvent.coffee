@@ -42,14 +42,14 @@ module.exports = class CreateFacebookEventView extends View
     td.defaultLink = @model.get('website') ? @model.get('ticketUrl')
     console.log @model
     if @model.has('nextOccurrence')
-      td.dayOfWeek = moment(@model.get('nextOccurrence').start).format('dddd')
-      td.time = moment(@model.get('nextOccurrence').start).format("h:mm a")
+      td.dayOfWeek = moment(@model.get('nextOccurrence').start).utc().format('dddd')
+      td.time = moment(@model.get('nextOccurrence').start).utc().format("h:mm a")
     else if @model.getStartDate()
-      td.dayOfWeek  = moment(@model.getStartDate()).format('dddd')
-      td.time = moment(@model.getStartDate()).format("h:mm a")
+      td.dayOfWeek  = moment(@model.getStartDate()).utc().format('dddd')
+      td.time = moment(@model.getStartDate()).utc().format("h:mm a")
     else
-      td.dayOfWeek = moment(@model.get("startDate")).format("dddd")
-      td.time = moment(@model.get('startTime')).format("h:mm a")
+      td.dayOfWeek = moment(@model.get("startDate")).utc().format("dddd")
+      td.time = moment(@model.get('startTime')).utc().format("h:mm a")
     if @model.get('name').length >74
       td.eventTitle = @textCutter(70,@model.get('name'))
     else
