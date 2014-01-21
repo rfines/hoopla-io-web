@@ -1,6 +1,6 @@
 View = require 'views/base/view'
 PromotionRequest = require 'models/promotionRequest'
-MessageArea = require 'views/messageArea'
+
 
 module.exports = class CreatePromotionReqeust extends View
   template: require 'templates/event/createTwitterPromotionRequest'
@@ -25,7 +25,6 @@ module.exports = class CreatePromotionReqeust extends View
     @twPromoTarget =_.find(@business.attributes.promotionTargets, (item) =>
       return item.accountType is 'TWITTER'
       )
-    @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
     @subscribeEvent "event:promoteTwitter", @sendTweet
     @twitterImgUrl = @twPromoTarget?.profileImageUrl
     @twitterHandle =  @twPromoTarget?.profileName 
@@ -56,7 +55,6 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.tw_create_buttons').hide()
       @$el.find('.tw_form_container').show()
       @$el.find('.promoRequestFormTwitter').show()
-    @subview('messageArea', new MessageArea({container: '.alert-container'}))
     @$el.find('.tweetMessage').simplyCountable({
       maxCount: 140
       strictMax:true
@@ -80,6 +78,7 @@ module.exports = class CreatePromotionReqeust extends View
     "change .tw-cusLink-box": "showLinkBox"
     'change .tw-lrLink-box':"hideLinkBox"
     'keyup .customLinkBox':'checkLink'
+
   checkLink:(e)=>
     e.preventDefault() if e
     v = @$el.find('.customLinkBox').val()
@@ -144,7 +143,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent "notify:publish","Well done! Your tweet will go live as soon as possible."
+          @publishEvent "notify:postPublish","Well done! Your tweet will go live in 10 minutes or less."
           resp = {}
           resp.twPublished = true
           if cb
@@ -153,6 +152,7 @@ module.exports = class CreatePromotionReqeust extends View
             @publishEvent "twitter:tweetCreated", pr
         error:(error)=>
           Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent 'notify:postPublish', {type:'error', message: "A problem occurred when saving your Twitter promotion."}
           response = {}
           response.twPublished = false
           response.error = error
@@ -172,8 +172,8 @@ module.exports = class CreatePromotionReqeust extends View
       console.log "saving scheduled twitter post"
       scheduled.save {},{
         success:(response, doc) =>
-          @publishEvent "notify:publish","Well done! Your tweet will go live at #{moment(date).calendar()}."
           Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent "notify:postPublish","Well done! Your tweet will go live at #{moment(date).calendar()}."
           resp = {}
           resp.twFinished = true
           if cb
@@ -182,6 +182,7 @@ module.exports = class CreatePromotionReqeust extends View
             @publishEvent "twitter:tweetCreated", scheduled
         error:(err)=>
           Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent 'notify:postPublish', {type:'error', message: "A problem occurred when saving your Twitter promotion."}
           response = {}
           response.twFinished = false
           response.error = err
@@ -192,7 +193,7 @@ module.exports = class CreatePromotionReqeust extends View
       }
     else 
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent 'notify:publish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
+      @publishEvent 'notify:postPublish', {type:'error', message: "When do you want the magic to happen? Please tell us below."}
  
 
   showTwitter: (e)=>
@@ -235,28 +236,18 @@ module.exports = class CreatePromotionReqeust extends View
   showDates:()->
     @$el.find('.inputTimes').show()
 
-  showCreatedMessage: (data) =>
-    $("html, body").animate({ scrollTop: 0 }, "slow");
-    if _.isObject data
-      if data.type
-        @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
-      else
-        @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
-    else if _.isString(data)
-      @publishEvent 'message:publish', 'success', "#{data}"
-
   validate: (message, immediate, date, time)=>
     valid = true
     if not message or not message.length > 0
       @$el.find('input[type=textarea]').addClass('error')
       valid = false
-      @publishEvent 'notify:publish', {type:'error', message:"Magic requires words, please enter a message to post!"}
+      @publishEvent 'notify:postPublish', {type:'error', message:"Magic requires words, please enter a message to post!"}
     if not immediate.is(':checked') and time is null and not date._i
       valid = false
       @$el.find('input[type=checkbox]').addClass('error')
       @$el.find('.datePicker').addClass('error')
       @$el.find('.timepicker').addClass('error')
-      @publishEvent 'notify:publish', {type:'error', message:"When do you want this magic to happen?"}
+      @publishEvent 'notify:postPublish', {type:'error', message:"When do you want this magic to happen?"}
     if valid
       @$el.find('input[type=textarea]').removeClass('error')
       @$el.find('input[type=checkbox]').removeClass('error')

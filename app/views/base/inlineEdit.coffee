@@ -53,6 +53,7 @@ module.exports = class InlineEdit extends View
       setTimeout(()=>
         @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
       , 500)
+
     if @$el.find('#description-textarea').length >0
       wysihtml5ParserRules = tags:
         strong: { "rename_tag": "b" }
@@ -172,4 +173,5 @@ module.exports = class InlineEdit extends View
     e.preventDefault()
     @$el.find('.currentImage').hide()
     @$el.find('.image-controls').show()
-    @$el.find('.default-image-actions').hide()        
+    @$el.find('.default-image-actions').hide()
+  

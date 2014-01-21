@@ -22,7 +22,7 @@ module.exports = class List extends CollectionView
 
   attach: ->
     super()
-    @subview('messageArea', new MessageArea({container: '.alert-container'}))
+    @subview('messageArea', new MessageArea({container: '.list-alert'}))
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
@@ -50,7 +50,7 @@ module.exports = class List extends CollectionView
   showCreatedMessage: (data) =>
     console.log data
     if _.isObject data
-      @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href='##{data.id}'>View</a>"
+      @publishEvent 'message:publish', "#{data.type}, "#{data.message} <a href='##{data.id}'>View</a>"
     else if _.isString(data)
       @publishEvent 'message:publish', 'success', "#{data}"
   

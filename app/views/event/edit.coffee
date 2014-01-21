@@ -8,6 +8,7 @@ FbEventPromo = require 'views/event/createFacebookEvent'
 TwitterPromo = require 'views/event/twitterPromotion'
 PromotionCollection = require 'models/promotionRequests'
 PromotionRequestsView = require 'views/event/promotionRequests'
+MessageArea = require 'views/messageArea'
 
 
 module.exports = class EventEditView extends View
@@ -36,6 +37,7 @@ module.exports = class EventEditView extends View
     super
     @business = Chaplin.datastore.business.get(@model.get('business'))
     Chaplin.datastore.promotionTargets= @business.get('promotionTargets') if @business.get('promotionTargets')
+    @subview('editMessageArea', new MessageArea({container: '.edit-alert.alert-container'}))
     @initSocialMediaPromotion()
     @initSocialMediaPromotions()
     @initTimePickers()
@@ -54,6 +56,7 @@ module.exports = class EventEditView extends View
     @subscribeEvent 'FACEBOOK-EVENT:false', @updateFbEventView
     @subscribeEvent 'TWITTER-POST:false', @updateFutureTwTabs
     @subscribeEvent 'TWITTER-POST:true', @updatePastTwTabs
+    @subscribeEvent "notify:postPublish", @showCreatedMessage
     @initSchedule()
     $('.host').trigger("chosen:updated")
 
@@ -505,3 +508,10 @@ module.exports = class EventEditView extends View
       @model.set
         location: @subview('addressPopover').location
       @model.unset('host') if @model.has('host')
+  showCreatedMessage: (data) =>
+    if _.isObject(data) and data.type
+      @subview('editMessageArea').updateMessage("#{data.type}", "#{data.message}")
+    else if _.isString(data)
+      @subview('editMessageArea').updateMessage('success', "#{data}")
+    else
+      @subview('editMessageArea').updateMessage('success', "Your #{@noun} has been created.")

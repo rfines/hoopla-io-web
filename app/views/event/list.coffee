@@ -2,7 +2,7 @@ ListView = require 'views/base/list'
 template = require 'templates/event/list'
 ListItem = require 'views/event/listItem'
 Event = require 'models/event'
-
+MessageArea = require 'views/messageArea'
 
 module.exports = class List extends ListView
   className: 'event-list'
@@ -19,7 +19,8 @@ module.exports = class List extends ListView
 
   attach: ->
     super()
-    @subscribeEvent "Event:created", @showEventCreatedMessage if @showEventCreatedMessage
+    @subview('listMessageArea', new MessageArea({container: '.list-alert.alert-container'})) if not @subview 'listMessageArea'
+    @subscribeEvent "notify:publish", @showEventCreatedMessage if @showEventCreatedMessage
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
     @filter @filterer
@@ -30,8 +31,7 @@ module.exports = class List extends ListView
     else if @params?.success
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'success', @params.success
-    console.log @subview 'messageArea' 
-    @subview('messageArea', new MessageArea({container: '.alert-container'})) if not @subview 'messageArea'
+    
     if @timeFilter is 'past' 
       @$el.find('.pastEvents').addClass('btn-info').removeClass('btn-default')
       @$el.find('.futureEvents').addClass('btn-default').removeClass('btn-info')
@@ -65,15 +65,13 @@ module.exports = class List extends ListView
 
   showEventCreatedMessage: (data) =>
     console.log data
-    if _.isObject data
-      message = ""
-      if data.message
-        message = "#{data.message} You can find your event <a href='##{data.id}'>here</a>."
-      else
-        message = "Your #{@noun} was created. <a href='##{data.id}'>View it</a>"
-      @publishEvent 'message:publish', 'success', message
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    if _.isObject(data) and data.type
+      @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
     else if _.isString(data)
       @publishEvent 'message:publish', 'success', "#{data}"
+    else
+      @publishEvent 'message:publish', 'success', "Your #{@noun} has been created."
 
   duplicate: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");

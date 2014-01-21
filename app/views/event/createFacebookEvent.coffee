@@ -61,14 +61,9 @@ module.exports = class CreateFacebookEventView extends View
     super()
     @subscribeEvent "tab:visible", @initMap
     @subscribeEvent "facebook:publishEvent",@postEvent
-    @subscribeEvent "facebookPageChanged",@checkForPublishedEvent
     @getFacebookPages(@promotionTarget)
     @setDescription()
-  checkForPublishedEvent:(data)=>
-    if @subview('facebookEventPages').getSelectedPage() is data.id
-      if @promotionRequest?.pageId 
-        @$el.find('.createFbEventBtn').removeClass('disabled')
-        @$el.find('.createFbEventBtn').attr('disabled', false)
+  
   setDescription:()=>
     $('.event-description').html(@model.get('description'))
   getFacebookPages:(promoTarget)=>
@@ -145,7 +140,7 @@ module.exports = class CreateFacebookEventView extends View
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
-        @publishEvent "notify:publish","Well done! Your Facebook event will be posted to the selected page in the next 10 minutes."
+        @publishEvent "notify:postPublish","Well done! Your Facebook event will be posted to the selected page in the next 10 minutes."
         @$el.find('.createFbEventButton').attr('disabled',true)
         @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
