@@ -60,8 +60,16 @@ module.exports = class CreateFacebookEventView extends View
     super()
     @subscribeEvent "tab:visible", @initMap
     @subscribeEvent "facebook:publishEvent",@postEvent
+    @subscribeEvent "facebookPageChanged",@checkForPublishedEvent
     @getFacebookPages(@promotionTarget)
     @setDescription()
+  checkForPublishedEvent:(data)=>
+    console.log data
+    if @subview('facebookEventPages').getSelectedPage() is data.id
+      console.log "ids match"
+      if @promotionRequest?.pageId 
+        @$el.find('.createFbEventBtn').removeClass('disabled')
+        @$el.find('.createFbEventBtn').attr('disabled', false)
   setDescription:()=>
     $('.event-description').html(@model.get('description'))
   getFacebookPages:(promoTarget)=>

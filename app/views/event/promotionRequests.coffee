@@ -32,7 +32,7 @@ module.exports = class PromotionRequestList extends ListView
     @subscribeEvent "twitter:tweetCreated", @addModel
     @subscribeEvent "facebook:eventCreated", @addModel
     @subscribeEvent "facebook:postCreated", @addModel
-    @subscribeEvent "getSelectedEvent", @sendEvent
+    @subscribeEvent "getSelectedEvent", @sendEvent 
     super
   
   getTemplateData:()=>
