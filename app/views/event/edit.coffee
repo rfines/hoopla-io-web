@@ -413,6 +413,8 @@ module.exports = class EventEditView extends View
           @$el.find('.addressButton').show()
           @$el.find('.choose_venue').show()
           @$el.find('.address-finder').show()
+    @delegate 'click', '.cancelAddress', ->
+      @$el.find('.addressButton').popover('hide')
     @delegate 'click', '.switch_venue', ->
       @$el.find('.custom_venue').hide()
       @$el.find('.addressButton').show()
