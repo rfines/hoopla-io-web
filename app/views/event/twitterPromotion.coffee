@@ -79,7 +79,14 @@ module.exports = class CreatePromotionReqeust extends View
     "click .showTweetFormBtn":"showTweetForm"
     "change .tw-cusLink-box": "showLinkBox"
     'change .tw-lrLink-box':"hideLinkBox"
-  
+    'keyup .customLinkBox':'checkLink'
+  checkLink:(e)=>
+    e.preventDefault() if e
+    v = @$el.find('.customLinkBox').val()
+    if v and v.length >= 4
+      if v.indexOf('http') is -1
+        v = "http://#{v}"
+        @$el.find('.customLinkBox').val(v)
     
   sendTweet:(data)=>
     @event = data.event
@@ -137,6 +144,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
           Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent "notify:publish","Well done! Your tweet will go live as soon as possible."
           resp = {}
           resp.twPublished = true
           if cb
@@ -164,6 +172,7 @@ module.exports = class CreatePromotionReqeust extends View
       console.log "saving scheduled twitter post"
       scheduled.save {},{
         success:(response, doc) =>
+          @publishEvent "notify:publish","Well done! Your tweet will go live at #{moment(date).calendar()}."
           Chaplin.mediator.publish 'stopWaiting'
           resp = {}
           resp.twFinished = true
