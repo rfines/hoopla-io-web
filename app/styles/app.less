@@ -162,7 +162,7 @@ right: 55px;
 .register.container {margin-top:60px;}
 .register h5.lead{text-shadow:1px 1px 2px #000;}
 .steps {.preview .tab-content {border-right: 1px solid #ddd; border-left:1PX SOLID #ddd;border-bottom:1px solid #ddd;  background-color: #f5f5f5!important;
-margin:0px 2px;}}
+margin:0px 2px;min-height: 315px;}}
 .steps p.lead {
   font-size: 17px;
   i {color:@gray-dark;margin:0px 5px 0px 0px;float:left;text-shadow: 0px 0px 4px rgba(0,0,0,.0);}
@@ -640,6 +640,7 @@ vertical-align: middle;font-size: 1.3em;
 font-family: 'museo';}
 
 .event-list {
+  p.intro {padding:20px 0px 0px 0px;}
   .newItem {margin-top:10px;}
   .event-image {text-align:center;}
   #accordion {}
@@ -944,7 +945,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
 .panel-default > .panel-heading.expanded {box-shadow:0px 0px 0px #A1A2A5 inset!important;}
 .event-edit {
   
-   .choose_venue .chosen-single {line-height: 2.1em;}
+   .choose_venue .address-finder  .chosen-single {line-height: 2.1em;}
     h2 {
         font-family: 'museo';
         color: @gray-dark;
@@ -981,9 +982,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
            left: 6px; 
          }
           a.addressButton {
-            position: relative;
-            bottom: 0px;
-            left: 6px; 
+            display:block;
           }
         .well {
             border: 1px dashed #BEBDBD;
@@ -1032,8 +1031,6 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
             }
         }
         .addressButton {
-            color: #fff;
-            width: 9%;
             i {
               padding-top:5px;
               color:@brand-primary;
@@ -1061,8 +1058,8 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
          }
          .chosen-container-single .chosen-single span {color:#000;}
     }
-        .chosen-container-multi, .chosen-container-single {width:65%!important;}
-        .choose_venue{display:inline!important;}
+        .chosen-container-multi, .chosen-container-single {width:70%!important;}
+        .choose_venue, .address-finder {display:inline!important;}
     .form-control, .chosen-container-single .chosen-single, .chosen-container-multi .chosen-choices {
       background:none;
       border:0px solid #ccc;
@@ -1075,6 +1072,7 @@ border-bottom-right-radius: 10px;box-shadow: 0px 0px 10px rgba(0,0,0,0.4);}
        padding: 6px 12px 6px 5px;
       
     }
+    .popover .form-control { border:1px solid #ccc;width:100%;margin:10px 0px;}
     input.timepicker {width: 20%!important;}
     form .recurringScheduleDetails {
       clear: both;
@@ -1216,7 +1214,7 @@ a {
       h4, span {color:@brand-success;}
     }
 }
-#facebookPanel input, #facebookPanel select, #facebookPanel textArea,#twitterPanel input, #twitterPanel select, #twitterPanel textArea{border:1px solid #CCC7C7;width: 100%;}
+#facebookPanel input, #facebookPanel select, #facebookPanel textArea,#twitterPanel input, #twitterPanel select, #twitterPanel textArea{border:1px solid #CCC7C7;}
 .facebook-preview, .twitter-preview  {
   font-family:'lucida grande', tahoma, verdana, arial, sans-serif;
   padding-bottom: 20px;
@@ -1338,6 +1336,9 @@ padding: 9px;}
 /*Popovers */
 .popover {
   line-height: 1.5em;
+  min-width:400px;
+  color:#000;
+  label {color:#000!important;}
 }
 .list-options.hidden-xs {display:none;}
 .steps {
@@ -1355,6 +1356,7 @@ padding: 9px;}
 
   }
 .content-entry { .row {margin-top:15px;}
+.addressButton {color:#fff!important;margin-top:3px;display:block;}
 .panel label.form-label {color:#000!important;}
 }
 .social-media-choices {font-size: .9em;
@@ -1418,7 +1420,7 @@ padding: 8px 0px 0px 0px;
   .chosen-choices .search-field, .chosen-choices .search-field input {}
 }
 .chosen-container-multi .chosen-choices li.search-field input.default {width:120%!important;}
- .event-list .form-inline .preview label {color:#000;}
+ .event-list .form-inline .preview label {color:#000;display:inline;}
 .stepFourPanel.steps .preview .thumbnail:first-child .imagePreview {width:auto;margin:0px auto;display:block;max-height: 250px;}
 .stepFourPanel.steps .controls {
   position:relative;
@@ -1449,7 +1451,7 @@ padding: 8px 0px 0px 0px;
    height:50px;
     margin:0px auto 4px auto;
 }
-.choose_venue .addressButton {color:#fff; font-size:1.5em;}
+.choose_venue .address-finder  .address-finder .addressButton {color:#fff; font-size:1.5em;}
 
 
 table {
