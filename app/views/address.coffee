@@ -24,7 +24,12 @@ module.exports = class AddressView extends View
 
   events:
     'change input' : 'mapLocation'
-
+    'keydown input': 'stopEnterSubmit'
+  stopEnterSubmit:(e)=>
+    console.log e
+    if e.keyCode is 13 and e.target.tagName is "INPUT" and not /^(button|reset|submit)$/i.test(e.target.type)
+      e.preventDefault()
+      @$el.find('.address').trigger('blur')
   mapLocation: (e) =>
     address = @$el.find('.address').val()
     @$el.find('#map-canvas').show()
