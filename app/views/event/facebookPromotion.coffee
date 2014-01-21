@@ -112,8 +112,14 @@ module.exports = class FacebookPromotion extends View
     "click .editPostBtn":"showPostForm"
     "change .fb-cusLink-box": "showLinkBox"
     'change .fb-lrLink-box':"hideLinkBox"
-    'blur .fbCustomLinkBox':"swapLinks"
-
+    'keyup .fbCustomLinkBox':'checkLink'
+  checkLink:(e)=>
+    e.preventDefault() if e
+    v = @$el.find('.fbCustomLinkBox').val()
+    if v and v.length >= 4
+      if v.indexOf('http') is -1
+        v = "http://#{v}"
+        @$el.find('.fbCustomLinkBox').val(v)
   promoteFb:(data)=>
     @event = data.event
     @saveFacebook undefined,data.callback
@@ -191,7 +197,7 @@ module.exports = class FacebookPromotion extends View
       console.log pr
       pr.save {}, {
         success:(item)=>
-          @publishEvent "notify:publish","Well done! Your Facebook post will be live shortly."
+          @publishEvent "notify:publish","Well done! Your Facebook post will be live in 10 minutes or less."
           Chaplin.mediator.publish 'stopWaiting'
           response = {}
           response.fbFinished = true

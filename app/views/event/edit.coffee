@@ -168,18 +168,55 @@ module.exports = class EventEditView extends View
             @$el.find('.past-tweets-empty-state').hide()
           else
             @$el.find('.past-tweets-empty-state').show()
-
-          @subview "facebookEventPost", new PromotionRequestsView({
-            container:".facebook-event-status"
-            template: require 'templates/event/promotionRequests'
-            postType: "Facebook Event"
-            pushType: "FACEBOOK-EVENT"
-            business:@business
-            event: @model
-            collection:@promotionRequests.byType("FACEBOOK-EVENT")
-          })
+          console.log @promotionRequests.byType("FACEBOOK-EVENT").length
+          if @promotionRequests.byType("FACEBOOK-EVENT").length is 0
+            data={
+              event:@model
+              promotionTarget:@fbPromoTarget
+              business:Chaplin.datastore.business.get(@model.get('business'))
+              edit:true
+            }
+            @subview 'facebookEventPromo', new FbEventPromo({
+              container:$('.facebook_event_container')
+              template: require('templates/event/createFacebookEvent')
+              options:data
+            })
+            @subview "facebookEventPost", new PromotionRequestsView({
+              container:".facebook-event-status"
+              template: require 'templates/event/promotionRequests'
+              postType: "Facebook Event"
+              pushType: "FACEBOOK-EVENT"
+              business:@business
+              event: @model
+              collection:@promotionRequests.byType("FACEBOOK-EVENT")
+            })
+            @$el.find('.facebook-event-status-created').hide()
+          else
+            c = @promotionRequests.byType("FACEBOOK-EVENT")
+            f = _.first(c.models)
+            if f.has('status') and f.get('status').postId
+              url = "http://facebook.com/events/#{f.get('status').postId}"
+            else if f.has('pageId')
+              url = "http://facebook.com/events/#{f.get('pageId')}"
+            else
+              url = "http://facebook.com/me/events"
+            @$el.find('.createFbEventBtn').hide()
+            @$el.find('.facebookEventPreviewOnFacebook').attr('href', url)
+            @$el.find("#event-#{@model.id}").show()
         error:(err)=>
           console.log err
+    else
+      data={
+        event:@model
+        promotionTarget:@fbPromoTarget
+        business:Chaplin.datastore.business.get(@model.get('business'))
+        edit:true
+      }
+      @subview 'facebookEventPromo', new FbEventPromo({
+        container:$('.facebook_event_container')
+        template: require('templates/event/createFacebookEvent')
+        options:data
+      })
   initSocialMediaPromotions:()=>
     @business = Chaplin.datastore.business.get(@model.get('business'))
     if @business and @business.get('promotionTargets')?.length >0
@@ -196,17 +233,7 @@ module.exports = class EventEditView extends View
         data:@model
         edit:true
       })    
-      data={
-        event:@model
-        promotionTarget:@fbPromoTarget
-        business:Chaplin.datastore.business.get(@model.get('business'))
-        edit:true
-      }
-      @subview 'facebookEventPromo', new FbEventPromo({
-        container:$('.facebook_event_container')
-        template: require('templates/event/createFacebookEvent')
-        options:data
-      })
+      
     else
       $('.facebook_tab, .fb_tab_a, .fbEvent_tab_a, .facebook_event_tab').addClass('disabled')
     if @twPromoTarget     

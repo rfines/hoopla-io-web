@@ -40,16 +40,17 @@ module.exports = class CreateFacebookEventView extends View
     td.profileName = @promotionTarget.profileName
     td.eventAddress = @model.get('location').address
     td.defaultLink = @model.get('website') ? @model.get('ticketUrl')
-    console.log @model
     if @model.has('nextOccurrence')
       td.dayOfWeek = moment(@model.get('nextOccurrence').start).utc().format('dddd')
       td.time = moment(@model.get('nextOccurrence').start).utc().format("h:mm a")
+    else if @model.has('startDate') and @model.has('startTime')
+      s = "#{@model.get('startDate').utc().format('MM/DD/YYYY')} #{@model.get('startTime')}"
+      st = moment(s, "MM/DD/YYYY h:mm a")
+      td.dayOfWeek = @model.get("startDate").utc().format("dddd")
+      td.time = st.format("h:mm a")
     else if @model.getStartDate()
       td.dayOfWeek  = moment(@model.getStartDate()).utc().format('dddd')
       td.time = moment(@model.getStartDate()).utc().format("h:mm a")
-    else
-      td.dayOfWeek = moment(@model.get("startDate")).utc().format("dddd")
-      td.time = moment(@model.get('startTime')).utc().format("h:mm a")
     if @model.get('name').length >74
       td.eventTitle = @textCutter(70,@model.get('name'))
     else
@@ -64,9 +65,7 @@ module.exports = class CreateFacebookEventView extends View
     @getFacebookPages(@promotionTarget)
     @setDescription()
   checkForPublishedEvent:(data)=>
-    console.log data
     if @subview('facebookEventPages').getSelectedPage() is data.id
-      console.log "ids match"
       if @promotionRequest?.pageId 
         @$el.find('.createFbEventBtn').removeClass('disabled')
         @$el.find('.createFbEventBtn').attr('disabled', false)
@@ -119,10 +118,14 @@ module.exports = class CreateFacebookEventView extends View
       at = @pageAccessToken
     date = moment().toDate().toISOString()
     link = "http://localruckus.com/events/#{@model.id}"
+  
     if @model.get('website')?.length >0
       link = @model.get('website')
     else if @model.get('ticketUrl')?.length >0
       link = @model.get('ticketUrl')
+    if link.indexOf('http') is -1 and link.length >0
+      link ="http://#{link}"
+
     name =@model.get('name')
     if name.length >74
       name = @textCutter(65,name)
@@ -142,11 +145,14 @@ module.exports = class CreateFacebookEventView extends View
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
+        @publishEvent "notify:publish","Well done! Your Facebook event will be posted to the selected page in the next 10 minutes."
         @$el.find('.createFbEventButton').attr('disabled',true)
         @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
         @$el.find('.createFbEventBtn').addClass('disabled')
         @$el.find('.createFbEventBtn').attr('disabled', true)
+        $(".no-posts-#{@model.id}").hide()
+        $("#event-#{@model.id}").show()
       error: (mod, xhr, options)->
         @publishEvent "facebook:eventFailed", mod
         Chaplin.mediator.publish 'stopWaiting'
@@ -165,6 +171,8 @@ module.exports = class CreateFacebookEventView extends View
       link = @event.get('website')
     else if @event.get('ticketUrl')?.length >0
       link = @event.get('ticketUrl')
+    if link.indexOf('http') is -1 and link.length >0
+      link ="http://#{link}"
     name =@event.get('name')
     if name.length >74
       name = @textCutter(65,name)
