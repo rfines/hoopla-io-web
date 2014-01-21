@@ -384,7 +384,7 @@ module.exports = class EventCreateView extends View
           model : @model
           template: require('templates/addressPopover')
     
-    @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
+    @$el.find('.addressButton').popover({placement: 'bottom',selector:".choose-venue", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
       if @$el.find('.popover-content').is(':visible')

@@ -395,7 +395,7 @@ module.exports = class EventEditView extends View
           template: require('templates/addressPopover')
         console.log @subview 'addressPopover'
         @subview('addressPopover').mapLocation(undefined)
-    @$el.find('.addressButton').popover({placement: 'right',selector:"div.choose_venue", content : "<div class='addressPopover'>Address Finder</div>", html: true}).popover('show')
+    @$el.find('.addressButton').popover({placement: 'bottom',selector:".chosen-container", content : "<div class='addressPopover'>Address Finder</div>", container: 'div.address-finder', html: true}).popover('show')
     @positionPopover()
     @delegate 'click', '.closeAddress', ->
       if @$el.find('.popover-content').is(':visible')
