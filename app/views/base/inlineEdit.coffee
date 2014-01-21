@@ -52,7 +52,7 @@ module.exports = class InlineEdit extends View
     if @$el.find('.geoLocation').length >0
       setTimeout(()=>
         @subview("geoLocation", new AddressView({model: @model, container : @$el.find('.geoLocation')}))
-      , 100)
+      , 500)
     if @$el.find('#description-textarea').length >0
       wysihtml5ParserRules = tags:
         strong: { "rename_tag": "b" }

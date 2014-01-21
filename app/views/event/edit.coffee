@@ -382,10 +382,10 @@ module.exports = class EventEditView extends View
             location: @subview('addressPopover').location
           @$el.find('.addressButton').hide()
         else
+          @$el.find('.custom_venue').hide()
+          @$el.find('.addressButton').show()
+          @$el.find('.choose_venue').show()
           @$el.find('.address-finder').show()
-          @$el.find('.addressButton').hide()
-          @$el.find('.chosen-container').show()
-          $('.choose_venue').show()
     @delegate 'click', '.switch_venue', ->
       @$el.find('.custom_venue').hide()
       @$el.find('.addressButton').show()

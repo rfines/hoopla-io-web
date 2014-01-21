@@ -17,7 +17,7 @@ module.exports = class PromotionRequestListItem extends ListItemView
     else if @model.get('media')?.length > 0  and _.isString(@model.get('media')[0])
       td.imageUrl = Chaplin.datastore.media.get(@model.get('media')[0]).get('url')
     else
-      td.imageUrl = "http://placehold.it/100x100"
+      td.imageUrl = "https://placehold.it/100x100"
     if @model.attributes.pageId is @model.get("promotionTarget")?.profileId
       td.handle = @model.get("promotionTarget")?.profileName
     else
