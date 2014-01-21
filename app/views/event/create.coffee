@@ -399,6 +399,8 @@ module.exports = class EventCreateView extends View
         else
           @$el.find('.custom_venue').hide()
           @$el.find('.choose_venue').show()
+    @delegate 'click', '.cancelAddress', ->
+      @$el.find('.addressButton').popover('hide')
     @delegate 'click', '.switch_venue', ->
       @$el.find('.custom_venue').hide()
       @$el.find('.choose_venue').show()
