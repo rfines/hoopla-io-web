@@ -1,6 +1,8 @@
 {{#if showFb}}
 <div class="col-md-12" id="facebookPanel">
+<p class="intro">Hoopla.io has created a Facebook post for you. This post will go out as soon as you publish your event or if you'd prefer, you may customize the post and schedule it's delivery.</p>
   <div class="col-md-6">
+
     <div class="row pages">
     </div>
     <div class="row facebook-preview">
@@ -18,9 +20,9 @@
       </div>
     </div>
 	  <div class="buttons create_buttons">
-      <button type="button" class="btn btn-success editPostBtn pull-right">Customize this post</button>
+      <button type="button" class="btn btn-info editPostBtn pull-right">Customize this post</button>
         {{#if showPostButtons}}
-        <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
+        <button class="btn btn-info btn-info-sm facebookPostBtn" type="submit">Post it!</button>
         {{/if}}
     </div>
   </div>  
@@ -30,7 +32,7 @@
 
                <h4>Customize Post</h4>
       </div>
-      <div class="row">
+      <div class="row"><h5>Add a Web link to your post</h5>
         <div class="radio">
           <label>
             <input type="radio" name="linkRadios" id="linkLR" value="lr" checked class="fb-lrLink-box">
@@ -48,6 +50,7 @@
         </div>
       </div>
       <div class="row">
+<h5>Edit content for your post</h5>
         <div>
           <label for="description">Status Message</label>
           <textarea class="form-control span3 message" rows="5" name="message" placeholder="Status Message...">{{previewText}}</textarea>
@@ -56,6 +59,7 @@
         </div> 
       </div>
       <div class="row">
+<h5>Schedule your post</h5>
         <div class="radio col-md-5">
         <label>
           <input type="radio" name="schedRadios" id="immediate" value="imm" checked class="fb-immediate-box">
@@ -81,7 +85,7 @@
 </div>
       {{#if showPostButtons}}
       <div class="row controls">
-        <button class="btn btn-success btn-success-sm facebookPostBtn" type="submit">Post it!</button>
+        <button class="btn btn-info btn-success-sm facebookPostBtn" type="submit">Post it!</button>
       </div>
       {{/if}}
       </div>

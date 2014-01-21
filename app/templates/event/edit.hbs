@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="col-md-12 col-sm-6">
-				<label for="host">Venue:</label>  
+				<label for="host">Venue:</label> 
               <div class="choose_venue">
                 <div class="address-finder">
                   <select type="text/input" name="host" class="form-control host select-chosen">
@@ -84,13 +84,14 @@
                     {{/each}}                
                   </select>
                   </div>
-                  <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="left" data-html='true'><i class="glyphicon glyphicon-plus pull-right"></i></a> 
+                 
                 </div>
 
                 <div class="custom_venue" style="display:none">
                   <input type="text" class="form-control hostAddress" name="hostAddress" />
                   <a class="venueButton" data-toggle="tooltip" title="Click here to remove a custom address and choose another venue from a list or enter a new custom address." data-placement="right" data-html='true'><i class="glyphicon glyphicon-minus pull-right switch_venue"></i></a> 
                 </div>
+ <a class="addressButton" data-toggle="tooltip" title="Click here to add a custom address" data-placement="bottom" data-html='true'>+ Add Custom Address/Venue</a>  
 				</div>
                 <div class="col-md-12 col-sm-6">
                   <div class="gray-tags">
@@ -107,6 +108,7 @@
                     
                     
       				</div>
+
 </div>
                     <div class="col-md-12 col-sm-6">
                     <label for="cost">Cost:&nbsp;$</label>
