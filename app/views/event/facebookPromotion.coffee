@@ -85,14 +85,14 @@ module.exports = class FacebookPromotion extends View
     if @edit is true
       @$el.find('.create_buttons').hide()
       @$el.find('.form_container').show()
-    @subview('messageArea', new MessageArea({container: '.alert-container'}))
+    
     @initDatePickers()
     @initTimePickers()
     @getFacebookPages(@fbPromoTarget) if @fbPromoTarget
     @subscribeEvent "updateFacebookPreview",@updatePreview
     @subscribeEvent "event:promoteFacebook", @promoteFb
     @subscribeEvent "facebookPageChanged",@setImage
-    @subscribeEvent "notify:publish", @showCreatedMessage if @showCreatedMessage
+    
     l = ""
     if @event.get('website')
       l = @event.get("website")
@@ -166,7 +166,7 @@ module.exports = class FacebookPromotion extends View
     message = @$el.find('.message').val()
     div = $("<div></div>")
     plainText = div.html(@event.get('description')).text()
-    caption = "Date: #{@nextOccurrence.format('MMM DD, YYYY')} \r\n Time: #{@nextOccurrence.format('h:mm A')} at #{@event.get('location').address}."
+    caption = "Date: #{@nextOccurrence.format('MMM DD, YYYY')}  Time: #{@nextOccurrence.format('h:mm A')} at #{@event.get('location').address}."
     console.log plainText
     med = @event.get('media')?[0]?._id if @event.has('media') 
     link = "http://www.localruckus.com/event/#{@event.id}"
@@ -197,8 +197,8 @@ module.exports = class FacebookPromotion extends View
       console.log pr
       pr.save {}, {
         success:(item)=>
-          @publishEvent "notify:publish","Well done! Your Facebook post will be live in 10 minutes or less."
           Chaplin.mediator.publish 'stopWaiting'
+          @publishEvent "notify:postPublish","Well done! Your Facebook post will be live in 10 minutes or less."
           response = {}
           response.fbFinished = true
           if cb
@@ -213,6 +213,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
+
             @publishEvent "facebook:postError","An error occurred while saving your Facebook post." 
       }    
     else if @$el.find('.fb-scheduled-box').is(':checked')
@@ -242,7 +243,7 @@ module.exports = class FacebookPromotion extends View
       scheduled.save {}, {
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent "notify:publish","Well done! Your Facebook post will go live at #{moment(date).calendar()}."
+          @publishEvent "notify:postPublish","Well done! Your Facebook post will go live at #{moment(date).calendar()}."
           resp = {}
           resp.fbFinished = true
           if cb
@@ -261,7 +262,7 @@ module.exports = class FacebookPromotion extends View
       }   
     else 
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent 'notify:publish', {type:'error', message: "When do you want the Facebook magic to happen? Please tell us in the Facebook post tab."}
+      @publishEvent 'notify:postPublish', {type:'error', message: "When do you want the Facebook magic to happen? Please tell us in the Facebook post tab."}
   setPreviews:(page)=>
     if @$el.is(':visible')
       @setImage({page:page})
@@ -360,16 +361,6 @@ module.exports = class FacebookPromotion extends View
   showFbDates:()->
     @$el.find('.inputTimes').show()
     
-
-  showCreatedMessage: (data) =>
-    $("html, body").animate({ scrollTop: 0 }, "slow");
-    if _.isObject(data) and data.type
-      @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
-    else
-      @publishEvent 'message:publish', 'success', "Your #{@noun} has been created. <a href="##{data.id}">View</a>"
-    if _.isString(data)
-      @publishEvent 'message:publish', 'success', "#{data}"
-
   validate: (message, immediate, date, time)=>
     valid = true
     if not message or not message.length > 0
