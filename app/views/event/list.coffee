@@ -64,7 +64,6 @@ module.exports = class List extends ListView
     @subview('newItem', new EventCreate({container: @$el.find('.newItem'), collection : Chaplin.datastore.event, model : newEvent}))
 
   showEventCreatedMessage: (data) =>
-    console.log data
     $("html, body").animate({ scrollTop: 0 }, "slow");
     if _.isObject(data) and data.type
       @subview('listMessageArea').updateMessage("#{data.type}", "#{data.message}")

@@ -103,8 +103,9 @@ module.exports = class CreateFacebookEventView extends View
   saveFbEvent:(e)=>
     e.preventDefault()
     Chaplin.mediator.publish 'startWaiting'
-    console.log @subview('facebookEventPages').getSelectedPage()
+    
     page= @subview('facebookEventPages').getSelectedPage()
+
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
@@ -140,7 +141,7 @@ module.exports = class CreateFacebookEventView extends View
     pr.eventId = @model.id
     pr.save {},{
       success: (mod, response, options)=>
-        @publishEvent "notify:postPublish","Well done! Your Facebook event will be posted to the selected page in the next 10 minutes."
+        @publishEvent "notify:postPublish","Well done! Your Facebook event will be posted to the selected page within 10 minutes."
         @$el.find('.createFbEventButton').attr('disabled',true)
         @publishEvent "facebook:eventCreated", mod
         Chaplin.mediator.publish 'stopWaiting'
@@ -153,7 +154,12 @@ module.exports = class CreateFacebookEventView extends View
         Chaplin.mediator.publish 'stopWaiting'
       }
   saveFbEventNoForm:(page, cb)=>
-    page=page
+    console.log @subview('facebookEventPages').getSelectedPage()
+    p={}
+    if !page
+      p = @subview('facebookEventPages').getSelectedPage()
+    else
+      p = page
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
@@ -179,7 +185,7 @@ module.exports = class CreateFacebookEventView extends View
       startTime: moment(@event.get("startDate")).toDate().toISOString()
       promotionTime: date
       location: @event.get('location').address
-      pageId:page
+      pageId:p
       ticket_uri: @event.get('ticketUrl')
       pageAccessToken: @pageAccessToken
       promotionTarget: @promotionTarget._id

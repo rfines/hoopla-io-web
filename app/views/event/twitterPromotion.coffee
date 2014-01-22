@@ -143,7 +143,7 @@ module.exports = class CreatePromotionReqeust extends View
       pr.save {},{
         success:(response, doc)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent "notify:postPublish","Well done! Your tweet will go live in 10 minutes or less."
+          @publishEvent "notify:postPublish","Excellent! Your tweet will go live within 10 minutes."
           resp = {}
           resp.twPublished = true
           if cb
@@ -159,7 +159,7 @@ module.exports = class CreatePromotionReqeust extends View
           if cb
             cb error, response
           else
-            @publishEvent "twitter:tweetFailed", error
+            @publishEvent "notify:postPublish", {type:"error", message:"An error occurred while saving your Twitter promotion."}
       }
     else if @$el.find('.tw-scheduled-box').is(':checked')
       scheduled= new PromotionRequest
@@ -173,7 +173,7 @@ module.exports = class CreatePromotionReqeust extends View
       scheduled.save {},{
         success:(response, doc) =>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent "notify:postPublish","Well done! Your tweet will go live at #{moment(date).calendar()}."
+          @publishEvent "notify:postPublish","Nice! Your tweet will be posted #{moment(date).calendar()}."
           resp = {}
           resp.twFinished = true
           if cb
@@ -187,7 +187,7 @@ module.exports = class CreatePromotionReqeust extends View
           response.twFinished = false
           response.error = err
           if cb
-            cb null, response
+            cb err, response
           else
             @publishEvent "twitter:tweetFailed", err
       }

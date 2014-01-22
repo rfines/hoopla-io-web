@@ -198,7 +198,7 @@ module.exports = class FacebookPromotion extends View
       pr.save {}, {
         success:(item)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent "notify:postPublish","Well done! Your Facebook post will be live in 10 minutes or less."
+          @publishEvent "notify:postPublish","Success! Your Facebook post will go live within 10 minutes."
           response = {}
           response.fbFinished = true
           if cb
@@ -214,7 +214,7 @@ module.exports = class FacebookPromotion extends View
             cb error, response
           else
 
-            @publishEvent "facebook:postError","An error occurred while saving your Facebook post." 
+            @publishEvent "notify:postPublish",{id:@event.id, type:"error",message:"An error occurred while saving your Facebook post." }
       }    
     else if @$el.find('.fb-scheduled-box').is(':checked')
       console.log "Scheduling facebook post" 
@@ -223,8 +223,7 @@ module.exports = class FacebookPromotion extends View
       if @$el.find('.startTime').timepicker('getTime')
         t = @$el.find('.startTime').timepicker('getTime')
       time = moment(t).format("hh:mm a")
-      date = moment("#{date.format("MM-DD-YYYY")} #{time}")
-      now = moment().format('X') 
+      date = moment("#{date.format("MM-DD-YYYY")} #{time}", "MM-DD-YYYY hh:mm a")
       d= moment(date).toDate().toISOString()
       scheduled= new PromotionRequest
         message: message
@@ -243,7 +242,7 @@ module.exports = class FacebookPromotion extends View
       scheduled.save {}, {
         success:(response,body)=>
           Chaplin.mediator.publish 'stopWaiting'
-          @publishEvent "notify:postPublish","Well done! Your Facebook post will go live at #{moment(date).calendar()}."
+          @publishEvent "notify:postPublish","Bingo! Your Facebook post will be posted #{moment(date).calendar()}."
           resp = {}
           resp.fbFinished = true
           if cb
@@ -258,7 +257,7 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
-            @publishEvent "facebook:postError","An error occurred while saving your Facebook post."
+            @publishEvent "notify:postPublish",{id:@event.id, type:"error",message:"An error occurred while saving your Facebook post." }
       }   
     else 
       Chaplin.mediator.publish 'stopWaiting'
@@ -366,13 +365,13 @@ module.exports = class FacebookPromotion extends View
     if not message or not message.length > 0
       @$el.find('input[type=textarea]').addClass('error')
       valid = false
-      @publishEvent 'notify:publish', {type:'error', message:"Magic requires words, please enter a message to post!"}
+      @publishEvent 'notify:postPublish', {type:'error', message:"Magic requires words, please enter a message to post!"}
     if not immediate.is(':checked') and time is null and not date._i
       valid = false
       @$el.find('input[type=checkbox]').addClass('error')
       @$el.find('.datePicker').addClass('error')
       @$el.find('.timepicker').addClass('error')
-      @publishEvent 'notify:publish', {type:'error', message:"When do you want this magic to happen?"}
+      @publishEvent 'notify:postPublish', {type:'error', message:"When do you want this magic to happen?"}
     if valid
       @$el.find('input[type=textarea]').removeClass('error')
       @$el.find('input[type=checkbox]').removeClass('error')
