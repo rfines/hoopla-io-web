@@ -19,8 +19,8 @@ module.exports = class List extends ListView
 
   attach: ->
     super()
-    @subview('listMessageArea', new MessageArea({container: '.list-alert.alert-container'})) if not @subview 'listMessageArea'
-    @subscribeEvent "notify:publish", @showEventCreatedMessage if @showEventCreatedMessage
+    @subview('listMessageArea', new MessageArea({container: '.list-alert'}))
+    @subscribeEvent "notify:eventPublish", @showEventCreatedMessage if @showEventCreatedMessage
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
     @filter @filterer
@@ -67,11 +67,11 @@ module.exports = class List extends ListView
     console.log data
     $("html, body").animate({ scrollTop: 0 }, "slow");
     if _.isObject(data) and data.type
-      @publishEvent 'message:publish', "#{data.type}", "#{data.message}"
+      @subview('listMessageArea').updateMessage("#{data.type}", "#{data.message}")
     else if _.isString(data)
-      @publishEvent 'message:publish', 'success', "#{data}"
+      @subview('listMessageArea').updateMessage('success', "#{data}")
     else
-      @publishEvent 'message:publish', 'success', "Your #{@noun} has been created."
+      @subview('listMessageArea').updateMessage('success', "Your #{@noun} has been created.")
 
   duplicate: (data) =>
     $("html, body").animate({ scrollTop: 0 }, "slow");
