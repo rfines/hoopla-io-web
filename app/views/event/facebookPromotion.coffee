@@ -273,19 +273,9 @@ module.exports = class FacebookPromotion extends View
         item.id is @subview("facebookPostPages").getSelectedPage()
     if not x
       x = @fbPages?[0]
-    $.ajax
-      url: "https://graph.facebook.com/#{x.id}/?fields=cover"
-      type: 'GET'
-      success: (response, body) =>
-        if response?.cover?.source
-          @$el.find('.facebook-post-preview-img').attr('src', response?.cover?.source)
-        else
-          @$el.find('.facebook-post-preview-img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
-        @$el.find('.facebook-post-preview-name').text(x.name)
-      error: =>
-        @$el.find('.facebook-post-preview-name').text(x.name)
-        @$el.find('.facebook-post-preview-img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
-
+    @$el.find('.facebook-post-preview-img').attr('src', "https://graph.facebook.com/#{x.id}/picture?type=normal")
+    @$el.find('.facebook-post-preview-name').text(x.name)
+    
   getFacebookPages:(promoTarget)=>
     if promoTarget.accessToken
       pageUrl= "https://graph.facebook.com/#{promoTarget.profileId}/accounts?access_token=#{promoTarget.accessToken}"
