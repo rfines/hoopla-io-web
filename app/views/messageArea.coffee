@@ -15,6 +15,7 @@ module.exports = class MessageArea extends View
     @subscribeEvent "message:publish", @updateMessage
 
   updateMessage: (type, text) =>
+    console.log @$el
     console.log type
     console.log text
     @$el.removeClass('alert-danger').removeClass('alert-success')
@@ -23,8 +24,12 @@ module.exports = class MessageArea extends View
     else
       @$el.addClass('alert-success')
     @$el.html(text)
-    @$el.show()
-      
+    console.log @$el.html()
+    @$el.parent().show()
+    console.log @$el.is(":visible")
+
+    console.log @$el.parent().is(":visible")
+    
   closeMessage: ()=>
     if @$el.is(':visible')
       @$el.slideUp()

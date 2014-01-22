@@ -17,12 +17,10 @@ module.exports = class List extends CollectionView
     super(options)
     @params = options.params
     @publishEvent 'activateNav', @listRoute
-    @subscribeEvent "#{@noun}:created", @showCreatedMessage if @showCreatedMessage
     @subscribeEvent("#{@noun}:duplicate", @duplicate) if @duplicate
 
   attach: ->
     super()
-    @subview('messageArea', new MessageArea({container: '.list-alert'}))
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")

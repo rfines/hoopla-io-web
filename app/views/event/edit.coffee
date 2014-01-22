@@ -31,7 +31,23 @@ module.exports = class EventEditView extends View
     td.venues = Chaplin.datastore.venue.models
     td.eventTags = Chaplin.datastore.eventTag.models
     td        
-
+  events:
+    'keyup input[name=website]':'checkWebsiteLink'
+    'keyup input[name=ticketUrl]':'checkTicketLink'
+  checkWebsiteLink:(e)=>
+    e.preventDefault() if e
+    v = @$el.find('input[name=website]').val()
+    if v and v.length >= 4
+      if v.indexOf('http') is -1
+        v = "http://#{v}"
+        @$el.find('input[name=website]').val(v)
+  checkTicketLink:(e)=>
+    e.preventDefault() if e
+    v = @$el.find('input[name=ticketUrl]').val()
+    if v and v.length >= 4
+      if v.indexOf('http') is -1
+        v = "http://#{v}"
+        @$el.find('input[name=ticketUrl]').val(v)
   attach: =>
     @$el.find(".select-chosen.host").chosen({width:'90%'})
     super
@@ -493,8 +509,10 @@ module.exports = class EventEditView extends View
         @publishEvent 'trackEvent', "create-#{@noun}", tracking      
         @collection.add @model
         @publishEvent '#{@noun}:created', @model
+      @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! You have successfully updated your event. You may click on the event to edit details further, schedule future social media posts and analyze previous posts. You can find this event <a href=##{@model.id}>Here</a>."}
       Chaplin.helpers.redirectTo {url: "/event/#{@model.id}/promote"}
     else
+      @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! You have successfully updated your event. You may click on the event to edit details further, schedule future social media posts and analyze previous posts. You can find this event <a href=##{@model.id}>Here</a>."}
       super()
 
   showPromote:(show)=>

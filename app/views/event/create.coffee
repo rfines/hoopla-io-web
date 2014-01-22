@@ -467,7 +467,7 @@ module.exports = class EventCreateView extends View
     else
       console.log 
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent 'notify:publish', {id:@model.id, type:'success',message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."}
+      @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."}
       @publishEvent "closeOthers"
       
       
@@ -500,11 +500,11 @@ module.exports = class EventCreateView extends View
       @fbEventCreated = false
       @fbFinished = false
       @twFinished = false
-      @publishEvent 'notify:publish', "There was a problem creating the social media promotions."
+      @publishEvent 'notify:eventPublish', "There was a problem creating the social media promotions."
     else
       @publishEvent "closeOthers"
       Chaplin.mediator.publish 'stopWaiting'
-      @publishEvent 'notify:publish', {id:@model.id, type:'success',message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."}
+      @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."}
       
   address:()=>
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
