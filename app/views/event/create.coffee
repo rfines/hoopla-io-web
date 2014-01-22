@@ -467,20 +467,8 @@ module.exports = class EventCreateView extends View
     else
       console.log 
       Chaplin.mediator.publish 'stopWaiting'
-<<<<<<< HEAD
       @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! Your event was successfully created. Click on the event title to make edits and schedule social media posts. Navigate to the event by clicking <a href=##{@model.id}>HERE</a>"}
-=======
-      @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."}
->>>>>>> 5ceefc0f0ca0a8189bb388f853dac855dec4446e
       @publishEvent "closeOthers"
-      
-      
-      
-      
-<<<<<<< HEAD
-      
-=======
->>>>>>> 5ceefc0f0ca0a8189bb388f853dac855dec4446e
   callTwitterPromotion:(callback)=>
     data={}
     data.event = @model 
@@ -512,11 +500,7 @@ module.exports = class EventCreateView extends View
     else
       @publishEvent "closeOthers"
       Chaplin.mediator.publish 'stopWaiting'
-<<<<<<< HEAD
       @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! Your event was successfully created. Click on the event title to make edits and schedule social media posts. Navigate to the event by clicking <a href=##{@model.id}>HERE</a>"}
-=======
-      @publishEvent 'notify:eventPublish', {id:@model.id, type:'success',message:"Well done! You have successfully created and promoted your event. You may click on the event to edit details, schedule future social media posts and analyze previous posts."}
->>>>>>> 5ceefc0f0ca0a8189bb388f853dac855dec4446e
       
   address:()=>
     if @subview('addressPopover')?.location?.address and not @subview('addressPopover')?.location?.address!=@model.get('location')?.address
