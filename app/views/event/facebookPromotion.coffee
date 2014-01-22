@@ -213,7 +213,6 @@ module.exports = class FacebookPromotion extends View
           if cb
             cb error, response
           else
-
             @publishEvent "notify:postPublish",{id:@event.id, type:"error",message:"An error occurred while saving your Facebook post." }
       }    
     else if @$el.find('.fb-scheduled-box').is(':checked')

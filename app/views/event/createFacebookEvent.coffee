@@ -102,10 +102,8 @@ module.exports = class CreateFacebookEventView extends View
 
   saveFbEvent:(e)=>
     e.preventDefault()
-    Chaplin.mediator.publish 'startWaiting'
-    
+    Chaplin.mediator.publish 'startWaiting'    
     page= @subview('facebookEventPages').getSelectedPage()
-
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
@@ -154,7 +152,6 @@ module.exports = class CreateFacebookEventView extends View
         Chaplin.mediator.publish 'stopWaiting'
       }
   saveFbEventNoForm:(page, cb)=>
-    console.log @subview('facebookEventPages').getSelectedPage()
     p={}
     if !page
       p = @subview('facebookEventPages').getSelectedPage()
