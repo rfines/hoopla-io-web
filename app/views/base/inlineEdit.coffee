@@ -87,6 +87,7 @@ module.exports = class InlineEdit extends View
       return false
     else
       return true 
+
   partialValidate:() ->
     @$el.find('.has-error').removeClass('has-error')
     isValid = true
@@ -108,7 +109,7 @@ module.exports = class InlineEdit extends View
         if not v or v.length is 0
           $('.startDate').parent().addClass('has-error')
           isValid = false
-        else if not moment(v).isValid()
+        else if not moment(v, "MM-DD-YYYY").isValid()
           $('.startDate').parent().addClass('has-error')
           isValid=false
       if $('.startTime').is(':visible')

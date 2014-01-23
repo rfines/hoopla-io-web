@@ -157,6 +157,7 @@ module.exports = class CreateFacebookEventView extends View
       p = @subview('facebookEventPages').getSelectedPage()
     else
       p = page
+    console.log p
     @pageAccessToken = _.find(@fbPages, (item)=>
       return item.id is page
       )?.access_token
@@ -197,6 +198,7 @@ module.exports = class CreateFacebookEventView extends View
         cb xhr, mod
       }
   postEvent:(data)=>
+    console.log data
     page = data.pageId
     @event = data.event
     @model = @event

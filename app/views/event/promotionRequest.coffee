@@ -11,6 +11,8 @@ module.exports = class PromotionRequestListItem extends ListItemView
     
   getTemplateData:()=>
     td = super()
+    console.log "Promotion Request gtd"
+    console.log @model
     td.buttonText = "View on Facebook"
     if @model.get('media')?.length >0 and @model.get('media')?[0].url
       td.imageUrl = @model.get('media')[0].url

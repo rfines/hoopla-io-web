@@ -349,32 +349,17 @@ module.exports = class EventCreateView extends View
       s = moment()
     if not @$el.find('.endTime').val()
       @$el.find('.endTime').timepicker('setTime', st+(60*60))
-    startTime = moment(s).startOf('day').add('seconds', st)
+    startTime = moment(s, "MM-DD-YYYY").startOf('day').add('seconds', st)
     startDate = startTime.calendar()
-    startel = $(".start_time_preview")
-    el = $('.date_preview')
-    if startel.length >1
-      _.each startel, (item, index, list)=>
-        if startTime
-          item.innerText = startTime.format('h:mm a')
-        else
-          item.innerText = moment().format('h:mm a')
-      if startDate
-        _.each el, (item, index, list)=>
-          if startDate
-            item.innerText = startDate
-          else
-            item.innerText = moment().calendar()
+    if startTime
+      $(".start_time_preview").text(startTime.format('h:mm a'))
     else
-      if startTime
-        startel.innerText = startTime.format('h:mm a')
-      else
-        startel.innerText = moment().format('h:mm a') 
-      if startDate
-        el.innerText = startDate
-      else
-        el.innerText = moment().calendar()
-
+      $(".start_time_preview").text(moment().format('h:mm a'))
+    if startDate
+      $('.date_preview').text(startDate)
+    else
+      $('.date_preview').text(moment().calendar())
+    
   chooseCustomVenue: =>
     @$el.find('.addressButton').on 'shown.bs.popover', =>
       if @$el.find('#map-canvas').length <=0
@@ -598,9 +583,9 @@ module.exports = class EventCreateView extends View
       s = moment()
     time = $("input[name='startTime']").timepicker('getSecondsFromMidnight')
     if not time
-      startTime = moment(s)
+      startTime = moment(s, "MM-DD-YYYY")
     else
-      startTime = moment(s).startOf('day').add('seconds',time)
+      startTime = moment(s, "MM-DD-YYYY").startOf('day').add('seconds',time)
     if startTime
       @start_date = startTime
       if text
@@ -615,7 +600,7 @@ module.exports = class EventCreateView extends View
     s = @$el.find('.startDate').val()
     if not s
       s = moment()
-    endTime = moment(s).startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))    
+    endTime = moment(s, "hh:mm a").startOf('day').add('seconds', @$el.find("input[name='endTime']").timepicker('getSecondsFromMidnight'))    
     if endTime
       $(".end_time_preview").text(endTime.format('h:mm a'))
     else
