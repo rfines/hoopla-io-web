@@ -15,10 +15,11 @@ module.exports = class Login extends View
   initialize: (@options)->
     super(@options)
     @model = new User()
+    
 
   attach: ->
     super
-    @$el.find('.password').focus()
+    @$el.find('.username').focus()
     @publishEvent 'showForgotPassword' if @options.showForgotPassword
     @publishEvent 'showResetPassword' if @options.showResetPassword     
 
