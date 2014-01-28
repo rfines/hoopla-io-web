@@ -22,5 +22,6 @@ module.exports = (match) ->
   match 'widget/:id', 'widget#edit'
   match 'account', 'account#manage'
   match 'event/:id/promote', 'event#promote'
+  match 'media', 'media#index'
   #404
   match '*anything', 'home#error'
