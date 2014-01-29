@@ -235,9 +235,82 @@
                 <a class="glyphicon glyphicon-question-sign helpTip" data-toggle="tooltip" title="Categories help customers discover your event - Try <em>Historical</em> or <em>Rockabilly</em>" data-placement="right" data-html='true'></a>
                 </label>
                 <select class="form-control select-chosen tags" multiple="true" name="tags">
-                  {{#each eventTags}}
-                  <option value="{{attributes.slug}}">{{attributes.text}}</option>
-                  {{/each}}
+                  <optgroup label="Arts &amp; Culture">
+                    <option value="ARTSCULTURE">Arts &amp; Culture</option>
+                    <option value="COMEDY">Comedy</option>
+                    <option value="EXPOS">Exhibits &amp; Expos</option>
+                    <option value="FILM">Film</option>
+                    <option value="FINEARTS">Fine Arts</option>
+                    <option value="HISTORICAL">Historical</option>
+                    <option value="LITERARY">Literary</option>
+                    <option value="PERFORMINGARTS">Performing Arts</option>
+                    <option value="VISUAL">Visual Arts</option>
+                  </optgroup>
+                  <optgroup label="Community &amp; Neighborhood">
+                    <option value="BUSINESS">Business / Professional</option>
+                    <option value="CHARITY">Charity / Fundraising</option>
+                    <option value="NEIGHBORHOOD">Community &amp; Neighborhood</option>
+                    <option value="ENTREPRENEUR">Entrepreneurship</option>
+                    <option value="FAITH">Faith-Based</option>
+                    <option value="FAIRS">Festivals &amp; Fairs</option>
+                    <option value="HOLIDAY">Holiday / Seasonal</option>
+                    <option value="POLITICAL">Political</option>
+                    <option value="SCHOOL">School & Educational</option>
+                  </optgroup>
+                  <optgroup label="Family">
+                    <option value="TEENS">Children &amp; Teens</option>
+                    <option value="FAMILY">Family</option>
+                    <option value="PETS">Pets &amp; Animals</option>
+                  </optgroup>
+                  <optgroup label="Food &amp; Drink">
+                    <option value="BARGAMES">Bar Games</option>
+                    <option value="BEER">Beer</option>
+                    <option value="COCKTAILS">Cocktails</option>
+                    <option value="FOOD">Food</option>
+                    <option value="DRINK">Food &amp; Drink</option>
+                    <option value="WINE">Wine</option>
+                  </optgroup>
+                  <optgroup label="Live Music &amp; Concerts">
+                    <option value="ACOUSTIC">Acoustic</option>
+                    <option value="ALTERNATIVE">Alternative / Indie</option>
+                    <option value="BLUES">Blues</option>
+                    <option value="CHRISTIAN">Christian / Gospel</option>
+                    <option value="CLASSICAL">Classical</option>
+                    <option value="COUNTRY">Country</option>
+                    <option value="ELECTRONICA">Electronica / Dance</option>
+                    <option value="FOLK">Folk</option>
+                    <option value="RAP">Hip Hop / Rap</option>
+                    <option value="JAZZ">Jazz</option>
+                    <option value="LATIN">Latin</option>
+                    <option value="CONCERTS">Live Music &amp; Concerts</option>
+                    <option value="METAL">Metal</option>
+                    <option value="POP">Pop </option>
+                    <option value="PUNK">Punk</option>
+                    <option value="SOUL">R&amp;B / Soul</option>
+                    <option value="REGGAE">Reggae</option>
+                    <option value="ROCK">Rock</option>
+                    <option value="TRIBUTE">Tribute / Cover</option>
+                    <option value="WORLD">World</option>
+                   
+                  </optgroup>
+                  <optgroup label="Other">
+                    <option value="CAMPUS-ONLY">Campus Only</option>
+                    <option value="LGBT">LGBT</option>
+                    <option value="NIGHTLIFE">Nightlife</option>
+                    <option value="OTHER">Other</option>
+                    <option value="SCIENCE">Science &amp; Technology</option>
+                    <option value="SHOPPING">Shopping </option>
+                    <option value="TECHNOLOGY">Technology</option>
+                    <option value="EXPERIENCE">Unique Experience</option>
+                    
+                  </optgroup>
+                  <optgroup label="Sports">
+                    <option value="AUTO-RACING">Auto Racing</option>
+                    <option value="COLLEGE-SPORTS">College Sports</option>
+                    <option value="FITNESS">Fitness</option>
+                    <option value="WELLNESS">Health &amp; Wellness</option>
+                    <option value="SPORTS">Sports</option>
+                  </optgroup>
                 </select>
 
               </div>
