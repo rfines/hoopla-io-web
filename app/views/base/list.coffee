@@ -31,7 +31,12 @@ module.exports = class List extends CollectionView
     if @collection?.length is 0    
       @$el.find('.hideInitial').hide();  
     @subscribeEvent 'closeOthers',=>
-      @removeSubview('newItem') if @subview('newItem')      
+      @removeSubview('newItem') if @subview('newItem') 
+    @collection.on('add', (model)=>
+      if @filterer
+        @filter @filterer
+      @render
+    )     
 
   hideInitialStage: (e) =>
     @$el.find('.initial-state').hide()
