@@ -56,7 +56,7 @@ module.exports = class CreatePromotionReqeust extends View
       @$el.find('.tw_form_container').show()
       @$el.find('.promoRequestFormTwitter').show()
     @$el.find('.tweetMessage').simplyCountable({
-      maxCount: 140
+      maxCount: 118
       strictMax:true
       overClass:'alert alert-error'
       countDirection: 'down'
