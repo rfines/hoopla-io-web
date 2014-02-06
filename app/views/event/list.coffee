@@ -23,7 +23,6 @@ module.exports = class List extends ListView
     @subscribeEvent "notify:eventPublish", @showEventCreatedMessage if @showEventCreatedMessage
     @subscribeEvent 'closeOthers',=>
       @removeSubview 'newItem' if @subview 'newItem'
-    @filter @filterer
     baseUrl = window.location.href.split('?')[0].replace "#{window.baseUrl}", ""
     if @params?.error
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
