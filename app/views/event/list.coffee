@@ -32,13 +32,6 @@ module.exports = class List extends ListView
       Chaplin.mediator.execute('router:changeURL', "#{baseUrl}")
       @publishEvent 'message:publish', 'success', @params.success
     
-    if @timeFilter is 'past' 
-      @$el.find('.pastEvents').addClass('btn-info').removeClass('btn-default')
-      @$el.find('.futureEvents').addClass('btn-default').removeClass('btn-info')
-    else
-      @$el.find('.futureEvents').addClass('btn-info').removeClass('btn-default')
-      @$el.find('.pastEvents').addClass('btn-default').removeClass('btn-info')    
-  
   getTemplateData:->
     td = super()
     if Chaplin.datastore.business.length > 0
