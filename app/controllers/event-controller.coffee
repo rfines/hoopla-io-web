@@ -10,11 +10,8 @@ module.exports = class EventController extends Controller
           @view = new EventList
             region: 'main'
             collection : Chaplin.datastore.event
-            filterer: (item, index) ->
-              item.nextOccurrence() and item.nextOccurrence().isAfter(moment())
             params:params
             timeFilter: 'future'                
-
 
   past: ->
     EventList = require 'views/event/list'
