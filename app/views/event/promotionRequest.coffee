@@ -38,7 +38,7 @@ module.exports = class PromotionRequestListItem extends ListItemView
       if@model.get('pushType') is 'TWITTER-POST'
         td.isPost = true
         td.buttonText = "View on Twitter"
-        td.postUrl = "https://twitter.com/#{td.handle}"
+        td.postUrl = "https://twitter.com/#{td.handle}/status/#{@model.get('status')?.postId}"
         twitterTarget = undefined
         if _.isArray @model.get('promotionTarget')?
           twitterTarget = _.filter @model.get('promotionTarget'), (item)=>
